@@ -1,3 +1,4 @@
+import logging
 class Settings():
 
 
@@ -58,26 +59,30 @@ class Settings():
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
 
     def get_properties(self):
-        settings_file_name_f=open("settingsFileName.txt")
+        logging.basicConfig(level=logging.NOTSET)
+        settings_file_name_f=open("settingsFiles/settingsFileName.txt")
         settingsFileName_line:str=settings_file_name_f.readline()
         _,settingsFileName=self.get_property_pair(settingsFileName_line)
-        file_with_properties=open(settingsFileName)
+        file_with_properties=open("settingsFiles/"+settingsFileName)
         setting_dict={}
         for record in file_with_properties.readlines():
             if(len(record)!=0):
                 property_name,property_value=self.get_property_pair(record)
                 self.check_property(property_name,property_value)
-        self.back_distance = 2 * self.intuder_size
-        self.minimal_hand_move_time = 0.05
-        self.folder_to_save_visualization = "./visualsation"
-        self.vis_counter=0
-        self.minimal_points=0
-        self.map_size = self.tier1_distance_from_intruder * 1.3
-        self.dimension = int((self.map_size - (-self.map_size)) / self.map_resolution)
-        self.simple_resolution=2
-        self.simple_map_size = self.tier1_distance_from_intruder * 1.3
-        self.simple_dimension = int((self.map_size - (-self.map_size)) / self.simple_resolution)
 
+
+        # self.back_distance = 2 * self.intuder_size
+        # self.minimal_hand_move_time = 0.05
+        # self.folder_to_save_visualization = "./visualsation"
+        # self.vis_counter=0
+        # self.minimal_points=0
+        # self.map_size = self.tier1_distance_from_intruder * 1.3
+        # self.dimension = int((self.map_size - (-self.map_size)) / self.map_resolution)
+        # self.simple_resolution=2
+        # self.simple_map_size = self.tier1_distance_from_intruder * 1.3
+        # self.simple_dimension = int((self.map_size - (-self.map_size)) / self.simple_resolution)
+
+        logging.info("properties correct")
         return setting_dict
 
     def check_property(self,property_name,property_value):
@@ -159,8 +164,8 @@ class Settings():
         elif (property_name=="r_of_LR"):
 
             self.r_of_LR=self.check_float(property_value,property_name,0,1,True)
-            if self.r_of_LR<self.intuder_size+self.uav_size:
-                raise Exception("r_of_LR musi być większe niż intuder_size i uav_size")
+            # if self.r_of_LR<self.intuder_size+self.uav_size:
+            #     raise Exception("r_of_LR musi być większe niż intuder_size i uav_size")
 
 
         elif (property_name=="minimal_hand_move_time"):
