@@ -70,13 +70,15 @@ class Settings():
                 property_name,property_value=self.get_property_pair(record)
                 self.check_property(property_name,property_value)
 
+        self.map_size = self.tier1_distance_from_intruder * 1.3
+
 
         # self.back_distance = 2 * self.intuder_size
         # self.minimal_hand_move_time = 0.05
         # self.folder_to_save_visualization = "./visualsation"
         # self.vis_counter=0
         # self.minimal_points=0
-        # self.map_size = self.tier1_distance_from_intruder * 1.3
+        #
         # self.dimension = int((self.map_size - (-self.map_size)) / self.map_resolution)
         # self.simple_resolution=2
         # self.simple_map_size = self.tier1_distance_from_intruder * 1.3
