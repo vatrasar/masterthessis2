@@ -1,4 +1,4 @@
-from Events.Game.GameObjects.enumStatus import Sides
+from Events.Game.GameObjects.enum.enumStatus import Sides
 from Events.Game.GameObjects.movableObject import MovableObject
 from Events.Game.GameObjects.point import Point
 

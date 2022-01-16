@@ -3,7 +3,7 @@ import typing
 
 
 
-from Events.Game.GameObjects.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.GameObjects.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.GameObjects.hand import Hand
 from Events.Game.GameObjects.uav import Uav
 
