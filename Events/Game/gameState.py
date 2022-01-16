@@ -3,9 +3,9 @@ import typing
 
 
 
-from GameObjects.enumStatus import UavStatus, Sides, HandStatus
-from GameObjects.hand import Hand
-from GameObjects.uav import Uav
+from Events.Game.GameObjects.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.GameObjects.hand import Hand
+from Events.Game.GameObjects.uav import Uav
 
 
 class GameState():

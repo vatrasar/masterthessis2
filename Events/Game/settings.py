@@ -60,7 +60,7 @@ class Settings():
 
     def get_properties(self):
         logging.basicConfig(level=logging.NOTSET)
-        settings_file_name_f=open("settingsFiles/settingsFileName.txt")
+        settings_file_name_f=open("../../settingsFiles/settingsFileName.txt")
         settingsFileName_line:str=settings_file_name_f.readline()
         _,settingsFileName=self.get_property_pair(settingsFileName_line)
         file_with_properties=open("settingsFiles/"+settingsFileName)
@@ -104,7 +104,7 @@ class Settings():
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2 "%(property_name))
         elif (property_name=="visualization"):
-            self.is_visualisation=self.check_int(property_value,property_name,-1,3,False)
+            self.visualisation=self.check_int(property_value, property_name, -1, 3, False)
         elif (property_name=="T"):
             self.T=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="beat_the_score"):

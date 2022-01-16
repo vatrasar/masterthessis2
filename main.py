@@ -1,9 +1,6 @@
 import random
-
-from GameObjects.gameState import GameState
-from settings import Settings
-import logging
-
+from runner import Runner
+from Events.Game.settings import Settings
 
 
 def main():
@@ -16,7 +13,11 @@ def main():
 
     #init state
     rand = random.Random(settings.seed)  # 800
-    game_state=GameState(settings.uav_number,settings.v_of_uav,settings.velocity_hand,settings.map_size,settings.hands_number)
+
+    runner=Runner(settings,rand)
+    runner.run()
+
+
 
 
 if __name__ == '__main__':
