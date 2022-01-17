@@ -58,12 +58,9 @@ class Settings():
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
 
-    def get_properties(self):
+    def get_properties(self,file_with_properties):
         logging.basicConfig(level=logging.NOTSET)
-        settings_file_name_f=open("../../settingsFiles/settingsFileName.txt")
-        settingsFileName_line:str=settings_file_name_f.readline()
-        _,settingsFileName=self.get_property_pair(settingsFileName_line)
-        file_with_properties=open("settingsFiles/"+settingsFileName)
+
         setting_dict={}
         for record in file_with_properties.readlines():
             if(len(record)!=0):

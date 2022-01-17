@@ -1,7 +1,8 @@
-from event import Event
+
 import typing
 
 from Events.Game.GameObjects.movableObject import MovableObject
+from Events.event import Event
 
 
 class Event_list:
@@ -22,7 +23,7 @@ class Event_list:
     def delete_event(self, event_to_delete):
         self.event_list.remove(event_to_delete)
 
-    def append_event(self, new_event,owner:MovableObject,current_owner_status):
+    def append_event(self, new_event:Event,current_owner_status):
         self.event_list.append(new_event)
-        owner.set_status(current_owner_status)
-        owner.set_next_event(new_event)
+        new_event.event_owner.set_status(current_owner_status)
+        new_event.event_owner.set_next_event(new_event)
