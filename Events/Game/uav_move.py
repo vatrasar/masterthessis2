@@ -1,10 +1,9 @@
 import math
 from random import Random
 
-from Events.Game.GameObjects.enum.enumStatus import Sides
-from Events.Game.GameObjects.point import Point
-from Events.Game.move_tools import get_2d_distance
-from Events.Game.settings import Settings
+from Events.Game.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.GameObjects.tools.move_tools import get_distance_on_tier1
+from Events.Game.GameObjects.tools.point import Point
 
 
 def decide_whether_uav_attack(mode,prob_of_attack,rand:Random):
@@ -40,7 +39,10 @@ def get_d_t_arrive_poison(is_arrive_deterministic,lambda1):
 
 
 def get_random_position_on_tier1(rand:Random,map_width,tier1_distance):
-    return Point(map_width*rand.random(),tier1_distance)
+    x=(map_width/2.0)*rand.random()
+    if rand.randint(0,1)==1:
+        x=-x
+    return Point(x,tier1_distance)
 
 
 def choose_travel_direction():
@@ -48,22 +50,28 @@ def choose_travel_direction():
 
 
 
-def get_travel_time_on_tier1(target_postion:Point,direction,current_position:Point,drone_velocity,map_size):
+def get_travel_time_on_tier1(target_postion:Point,current_position:Point,drone_velocity):
+
+
+    distance=get_distance_on_tier1(current_position,target_postion)
+    time=distance/drone_velocity
+
+
     distance=0
-    if direction==Sides.RIGHT:
-        if target_postion.x<current_position.x:
-            distance=map_size-current_position.x+target_postion.x
-        else:
-            distance=target_postion.x-current_position.x
-
-
-    else:
-        if target_postion.x>current_position.x:
-            distance=map_size-target_postion.x+current_position.x
-        else:
-            distance=current_position.x-target_postion.x
-
-    time=distance/float(drone_velocity)
+    # if direction==Sides.RIGHT:
+    #     if target_postion.x<current_position.x:
+    #         distance=map_size-current_position.x+target_postion.x
+    #     else:
+    #         distance=target_postion.x-current_position.x
+    #
+    #
+    # else:
+    #     if target_postion.x>current_position.x:
+    #         distance=map_size-target_postion.x+current_position.x
+    #     else:
+    #         distance=current_position.x-target_postion.x
+    #
+    # time=distance/float(drone_velocity)
     return time
 
 
