@@ -6,10 +6,7 @@ from Events.Game.GameObjects.tools.point import Point
 from Events.Game.gameState import GameState
 from Events.Game.settings import Settings
 from Events.event import Event
-from Events.Game.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format
-
-
-
+from Events.Game.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer
 
 
 class Visualisation_event(Event):
@@ -41,8 +38,12 @@ class Visualisation_event(Event):
 
 
     def draw_all_elements(self,uav_size,map_size):
-        for uav in self.game_state.uav_list:
+
+        for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
                 transfered_position=transfer_point_to_gui_format(uav.position,map_size)
                 create_circle(transfered_position.x, transfered_position.y,uav_size,self.canvas)
+                create_squer(0,map_size,map_size, map_size*0.8,self.canvas)
+
+
 
