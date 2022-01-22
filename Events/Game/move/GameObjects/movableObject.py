@@ -1,4 +1,4 @@
-from Events.Game.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.point import Point
 
 
 class MovableObject():

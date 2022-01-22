@@ -80,7 +80,8 @@ class Settings():
         # self.simple_resolution=2
         # self.simple_map_size = self.tier1_distance_from_intruder * 1.3
         # self.simple_dimension = int((self.map_size - (-self.map_size)) / self.simple_resolution)
-
+        self.dodge_radius=self.uav_size*4
+        self.save_distance=self.dodge_radius*2
         logging.info("properties correct")
         return setting_dict
 

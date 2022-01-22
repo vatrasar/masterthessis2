@@ -1,6 +1,6 @@
 import random
 from runner import Runner
-from Events.Game.settings import Settings
+from Events.Game.move.GameObjects.tools.settings import Settings
 
 
 def main():

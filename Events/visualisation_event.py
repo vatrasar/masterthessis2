@@ -1,12 +1,11 @@
 from random import Random
 from tkinter import Tk, Canvas
 
-from Events.Game.GameObjects.tools.enum.enumStatus import UavStatus
-from Events.Game.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.gameState import GameState
-from Events.Game.settings import Settings
+from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.event import Event
-from Events.Game.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer
+from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer
 
 
 class Visualisation_event(Event):
@@ -14,7 +13,7 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master)
 
         self.canvas=canvas
-
+        self.visualisation_delay=40
         self.game_state:GameState=game_state
 
 
@@ -31,9 +30,8 @@ class Visualisation_event(Event):
 
 
         self.canvas.update()
-        print("ok")
-        if settings.visualisation==1:
-            self.tk_master.after(100,iteration_function)
+
+
 
 
 

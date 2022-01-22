@@ -13,6 +13,9 @@ class UavStatus(Enum):
     ON_TEMP_BACK=8
     DEAD=9
     VISUALISE=10
+    DODGE=11
+    BACK_FROM_DODGE=12
+    PLANED_DODGE=13
 
 
     def to_string(self):

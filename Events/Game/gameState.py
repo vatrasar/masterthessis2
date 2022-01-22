@@ -3,10 +3,11 @@ import typing
 
 
 
-from Events.Game.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
-from Events.Game.GameObjects.hand import Hand
-from Events.Game.GameObjects.tools.move_tools import get_point_on_tier1
-from Events.Game.GameObjects.uav import Uav
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.move.GameObjects.hand import Hand
+
+from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.get_position import get_point_on_tier1, get_point
 
 
 class GameState():
@@ -39,8 +40,10 @@ class GameState():
                 if uav.status!=UavStatus.TIER_2 or uav.status!=UavStatus.DEAD:
                     delta_time=current_time-uav.last_postion_update_time
                     distance=delta_time*uav_velocity #distance which was taken during delta
-                    if uav.next_status == UavStatus.TIER_1 and uav.status == UavStatus.TIER_1:  # move on circle
+                    if (uav.next_status == UavStatus.TIER_1 and uav.status == UavStatus.TIER_1) or (uav.next_status == UavStatus.DODGE and uav.status == UavStatus.PLANED_DODGE):  # move on circle
                         uav.set_new_position(get_point_on_tier1(uav.position,distance,uav.target_position),current_time)
+                    else:
+                        uav.set_new_position(get_point(uav.position,distance,uav.target_position),current_time)
 
 
 

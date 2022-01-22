@@ -1,5 +1,5 @@
-from Events.Game.GameObjects.tools.enum.enumStatus import Sides
-from Events.Game.GameObjects.movableObject import MovableObject
+from Events.Game.move.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.move.GameObjects.movableObject import MovableObject
 
 
 class Uav(MovableObject):

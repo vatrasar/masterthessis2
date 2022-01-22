@@ -1,7 +1,9 @@
+import math
+from random import Random
+
 import numpy as np
 
-from Events.Game.GameObjects.tools.enum.enumStatus import Sides
-from Events.Game.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.point import Point
 
 
 def get_2d_distance(source, position):
@@ -19,20 +21,11 @@ def get_2d_distance(source, position):
 
 	return dist
 
+
 def get_distance_on_tier1(current_postion:Point,target_postion:Point):
 	if current_postion.x-target_postion.x<0:
 		return target_postion.x-current_postion.x
 	else:
 		return current_postion.x-target_postion.x
-
-def get_point_on_tier1(current_position:Point,distance,target_position:Point):
-	new_point=Point(0,current_position.y)
-	if current_position.x-target_position.x<0:
-		new_point.x=current_position.x+distance
-	else:
-		new_point.x=current_position.x-distance
-
-	return new_point
-
 
 

@@ -1,7 +1,6 @@
 
 import typing
 
-from Events.Game.GameObjects.movableObject import MovableObject
 from Events.event import Event
 
 
