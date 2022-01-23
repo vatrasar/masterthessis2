@@ -17,9 +17,8 @@ def get_point_on_tier1(current_position:Point,distance,target_position:Point):
 
 def get_random_position_on_tier1(rand:Random,map_width,tier1_distance):
 
-    x=(map_width/2.0)*rand.random()
-    if rand.randint(0,1)==1:
-        x=-x
+    x=(map_width)*rand.random()
+
     return Point(x,tier1_distance)
 
 

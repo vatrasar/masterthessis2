@@ -26,7 +26,7 @@ class Visualisation_event(Event):
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
 
-        self.draw_all_elements(settings.uav_size,settings.map_size)
+        self.draw_all_elements(settings.uav_size,settings.map_size,settings.hand_size)
 
 
         self.canvas.update()
@@ -35,13 +35,21 @@ class Visualisation_event(Event):
 
 
 
-    def draw_all_elements(self,uav_size,map_size):
+    def draw_all_elements(self,uav_size,map_size,hand_size):
+
+        create_squer(0,0,map_size, map_size*0.2,self.canvas)#target
 
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
-                transfered_position=transfer_point_to_gui_format(uav.position,map_size)
-                create_circle(transfered_position.x, transfered_position.y,uav_size,self.canvas)
-                create_squer(0,map_size,map_size, map_size*0.8,self.canvas)
+
+                create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+
+
+        for hand in self.game_state.hands_list:#hands
+
+            create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,"red")
+
+
 
 
 

@@ -1,5 +1,5 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
-hands_number=1 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
+hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja, 2:wizualizacja zapisywana do folderu
 T=50 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 mode=RW-RA #tryby wyszukiwania trasy przez drona. RW-RA to tryb losowy. mozliwe wartości: RW-RA
@@ -11,7 +11,7 @@ tier1_distance_from_intruder=600 #Odległość tier1 od intruza. wartosci powyż
 v_of_uav=15 #Prędkośći v_of_uav. wartosci powyżej 0
 wiat_time=0.3 #Czas oczekiwania dla zdarzenia wait. wartośc powyżej 0
 uav_size=10 #Rozmiar UAV. wartośc powyżej 0
-hand_size=1 #Rozmiar ręki. wartość powyżej 0
+hand_size=10 #Rozmiar ręki. wartość powyżej 0
 velocity_hand=7 #Prędkość ręki. wartość powyżej 0
 visualzation_update_interval=0.5 #co ile jednostek czasu ma być aktualizowana wizualizacja symulacji. Wartość powyżej 0
 r_of_LR=15 #Maksymalny zasięg ręki. wartość powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
