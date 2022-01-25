@@ -1,11 +1,13 @@
 from random import Random
 from tkinter import Tk, Canvas
 
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides
 from Events.Game.gameState import GameState
+from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.event import Event
-from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer
+from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer, \
+    create_line
 
 
 class Visualisation_event(Event):
@@ -26,7 +28,7 @@ class Visualisation_event(Event):
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
 
-        self.draw_all_elements(settings.uav_size,settings.map_size,settings.hand_size)
+        self.draw_all_elements(settings.uav_size,settings.map_size,settings.hand_size,settings.r_of_LR,settings.intuder_size)
 
 
         self.canvas.update()
@@ -35,9 +37,9 @@ class Visualisation_event(Event):
 
 
 
-    def draw_all_elements(self,uav_size,map_size,hand_size):
+    def draw_all_elements(self,uav_size,map_size,hand_size,hand_range,intruder_size):
 
-        create_squer(0,0,map_size, map_size*0.2,self.canvas)#target
+        create_squer(0,0,map_size, intruder_size,self.canvas)#target
 
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
@@ -47,7 +49,34 @@ class Visualisation_event(Event):
 
         for hand in self.game_state.hands_list:#hands
 
-            create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,"red")
+            create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,hand.color)
+
+
+            #ranges boxes
+            boxes=[]
+
+            if hand.side==Sides.LEFT:
+
+                up_start=Point(0,hand_range)
+                up_end=Point(map_size/2,hand_range)
+                boxes.append((up_start,up_end,hand.color))
+                right_start=Point(map_size/2,hand_range)
+                right_end=Point(map_size,intruder_size*1.3)
+                boxes.append((right_start,right_end,hand.color))
+            else:
+                up_start=Point(map_size/2,hand_range)
+                up_end=Point(map_size,hand_range)
+                boxes.append((up_start,up_end,hand.color))
+                left_start=Point(map_size/2,hand_range)
+                left_end=Point(0,max(hand_range/3,intruder_size*1.3))
+                boxes.append((left_start,left_end,hand.color))
+
+            for box in boxes:
+                create_line(box[0],box[1],self.canvas,box[2])
+
+
+
+
 
 
 
