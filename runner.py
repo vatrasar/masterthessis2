@@ -4,6 +4,7 @@ from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.settings import Settings
 import tkinter
 
+from Events.hand_control_event import plan_hand_control_event
 from Events.move_along import plan_enter_from_tier2
 from Events.events_list import Event_list
 from Events.visualisation_event import Visualisation_event
@@ -39,6 +40,7 @@ class Runner():
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state)
 
+            plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
             if self.settings.visualisation==1:#visualisation
                 self.master.mainloop()
 

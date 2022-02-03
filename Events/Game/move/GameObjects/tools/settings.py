@@ -82,6 +82,9 @@ class Settings():
         # self.simple_dimension = int((self.map_size - (-self.map_size)) / self.simple_resolution)
         self.dodge_radius=self.uav_size*4
         self.save_distance=self.dodge_radius*2
+        self.minimal_hand_range=self.intuder_size*1.3
+        self.intruder_time_of_reaction=1.0
+        self.minimal_travel_time=0.2
         logging.info("properties correct")
         return setting_dict
 

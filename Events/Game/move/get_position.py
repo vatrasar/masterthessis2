@@ -31,7 +31,14 @@ def get_vector_with_length_and_direction(distance,direction_vector:Point):
 
 	return result
 
-def get_point(current_position:Point,distance,target_position:Point):
+def get_point_based_on_time(current_position:Point,time,target_position:Point,velocity):
+	distance=time*velocity
+	transofrm_between_points=get_transform_between_points(current_position,target_position)
+	direction_vector=get_vector_with_length_and_direction(distance,transofrm_between_points)
+	new_postion=Point(current_position.x+direction_vector.x,current_position.y+direction_vector.y)
+	return new_postion
+
+def get_point_base_on_distance(current_position:Point, distance, target_position:Point):
 	transofrm_between_points=get_transform_between_points(current_position,target_position)
 	direction_vector=get_vector_with_length_and_direction(distance,transofrm_between_points)
 	new_postion=Point(current_position.x+direction_vector.x,current_position.y+direction_vector.y)

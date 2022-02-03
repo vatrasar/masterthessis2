@@ -1,3 +1,4 @@
+from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.enum.enumStatus import Sides
 from Events.Game.move.GameObjects.movableObject import MovableObject
 
@@ -8,5 +9,6 @@ class Uav(MovableObject):
         self.points=points
         self.last_path=[]
         self.index=index
-        self.action = -1
+        self.action =-1
         self.direction=Sides.RIGHT
+        self.chasing_hand:Hand=None

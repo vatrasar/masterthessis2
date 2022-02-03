@@ -23,7 +23,7 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,mast
 class Move_along(Event):
 
     def __init__(self, time_of_event, event_owner,tk_master,target_postion,next_status,state):
-        super().__init__(time_of_event, event_owner,tk_master)
+        super().__init__(time_of_event, event_owner,tk_master,state)
         self.event_owner.target_position=target_postion
         self.event_owner.next_status=next_status
         self.state:GameState=state
@@ -32,7 +32,7 @@ class Move_along(Event):
 
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
         super().handle_event(event_list,settings,rand,iteration_function)
-        self.state.update_postions(self.time_of_event,settings.v_of_uav,self.event_owner)
+        self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner)
 
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand) and False:
             pass

@@ -12,23 +12,23 @@ from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer
 
 class Visualisation_event(Event):
     def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state):
-        super().__init__(time_of_event, event_owner, tk_master)
+        super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
         self.visualisation_delay=40
-        self.game_state:GameState=game_state
+
 
 
 
     def handle_event(self, event_list, settings: Settings, rand: Random,iteration_function):
         super().handle_event(event_list, settings, rand,iteration_function)
         self.canvas.delete("all")
-        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,self.event_owner)
+        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner)
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
 
-        self.draw_all_elements(settings.uav_size,settings.map_size,settings.hand_size,settings.r_of_LR,settings.intuder_size)
+        self.draw_all_elements(settings.uav_size,settings.map_size,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range)
 
 
         self.canvas.update()
@@ -37,10 +37,10 @@ class Visualisation_event(Event):
 
 
 
-    def draw_all_elements(self,uav_size,map_size,hand_size,hand_range,intruder_size):
+    def draw_all_elements(self,uav_size,map_size,hand_size,hand_range,intruder_size,minimal_hand_range):
 
         create_squer(0,0,map_size, intruder_size,self.canvas)#target
-
+        # create_circle(476,354,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 
@@ -58,17 +58,17 @@ class Visualisation_event(Event):
             if hand.side==Sides.LEFT:
 
                 up_start=Point(0,hand_range)
-                up_end=Point(map_size/2,hand_range)
+                up_end=Point(map_size/2.0,hand_range)
                 boxes.append((up_start,up_end,hand.color))
-                right_start=Point(map_size/2,hand_range)
-                right_end=Point(map_size,intruder_size*1.3)
+                right_start=Point(map_size/2.0,hand_range)
+                right_end=Point(map_size,minimal_hand_range)
                 boxes.append((right_start,right_end,hand.color))
             else:
-                up_start=Point(map_size/2,hand_range)
+                up_start=Point(map_size/2.0,hand_range)
                 up_end=Point(map_size,hand_range)
                 boxes.append((up_start,up_end,hand.color))
-                left_start=Point(map_size/2,hand_range)
-                left_end=Point(0,max(hand_range/3,intruder_size*1.3))
+                left_start=Point(map_size/2.0,hand_range)
+                left_end=Point(0,minimal_hand_range)
                 boxes.append((left_start,left_end,hand.color))
 
             for box in boxes:

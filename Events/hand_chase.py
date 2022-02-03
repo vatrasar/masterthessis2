@@ -1,0 +1,107 @@
+from random import random, Random
+
+from Events.Game.move.GameObjects.hand import Hand
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus, Sides
+from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.distance import get_2d_distance
+from Events.Game.move.get_position import get_point_based_on_time, get_point_base_on_distance
+from Events.Game.move.time import get_travel_time_to_point
+from Events.event import Event
+from Events.events_list import Event_list
+
+
+def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size,x):
+
+
+    if hand_side==Sides.LEFT:
+        if x>map_size/2.0:
+
+            a=(maximum_hand_range-minimal_hand_range)/(map_size/2.0-map_size)
+            b=maximum_hand_range-a*map_size/2.0
+
+
+
+            return x*a+b
+        else:
+            return  maximum_hand_range
+
+    else:
+        if x>map_size/2.0:
+            return  maximum_hand_range
+        else:
+
+            a=(minimal_hand_range-maximum_hand_range)/(0-map_size/2.0)
+            b=minimal_hand_range
+            return x*a+b
+
+
+
+def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_time,tk_master,game_state):
+    if event_owner.target_uav.status==UavStatus.TIER_2 or event_owner.target_uav.status==UavStatus.DEAD:
+        event_owner.set_status(HandStatus.TIER_0)
+        event_owner.stop_chasing()
+        return
+    target_uav_pos=event_owner.target_uav.position
+    max_y_hand=get_max_hand_range_in_x(event_owner.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size,target_uav_pos.x)
+    target_y_for_hand=min(max_y_hand,target_uav_pos.y)
+    last_point_on_path=Point(target_uav_pos.x,target_y_for_hand)
+
+    if get_2d_distance(event_owner.position,last_point_on_path)<settings.velocity_hand*settings.intruder_time_of_reaction:#check if hand reach tearget in time shorter then reaction intereval
+        target_point=last_point_on_path
+        trevel_time=get_travel_time_to_point(event_owner.position,target_point,settings.velocity_hand)
+        if trevel_time<settings.minimal_travel_time:
+            new_event=Hand_chase(current_time+settings.intruder_time_of_reaction,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
+            event_list.append_event(new_event,HandStatus.WAIT)
+        else:
+
+            time_of_event=trevel_time+current_time
+            new_event=Hand_chase(time_of_event,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
+            event_list.append_event(new_event,HandStatus.CHASING)
+    else:
+        target_point=get_point_based_on_time(event_owner.position,settings.intruder_time_of_reaction,last_point_on_path,settings.velocity_hand)
+        time_of_event=settings.intruder_time_of_reaction+current_time
+        new_event=Hand_chase(time_of_event,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
+        event_list.append_event(new_event,HandStatus.CHASING)
+
+class Hand_chase(Event):
+
+    def __init__(self, time_of_event, event_owner:Hand, tk_master,target_uav:Uav,next_status:HandStatus,target_postion:Point,game_state):
+        super().__init__(time_of_event, event_owner, tk_master,game_state)
+        self.event_owner:Hand=event_owner
+        self.event_owner.target_uav=target_uav
+        self.event_owner.next_status=next_status
+        self.event_owner.target_position=target_postion
+
+    def handle_event(self, event_list:Event_list, settings: Settings, rand: Random, iteration_function):
+        super().handle_event(event_list, settings, rand, iteration_function)
+        plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+        # if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD:
+        #     self.event_owner.set_status(HandStatus.BACK)
+        # target_uav_pos=self.event_owner.target_uav.position
+        # max_y_hand=get_max_hand_range_in_x(settings.minimal_hand_range,settings.minimal_hand_range,settings.map_size,target_uav_pos.x)
+        # target_y_for_hand=min(max_y_hand,target_uav_pos.y)
+        # last_point_on_path=Point(self.event_owner.target_uav.position.x,target_y_for_hand)
+        #
+        # if get_2d_distance(self.event_owner.position,last_point_on_path)<settings.velocity_hand*settings.intruder_time_of_reaction:#check if hand reach tearget in time shorter then reaction intereval
+        #     target_point=last_point_on_path
+        #     trevel_time=get_travel_time_to_point(self.event_owner.position,target_point,settings.velocity_hand)
+        #     if trevel_time<settings.minimal_travel_time:
+        #         new_event=Hand_chase(self.time_of_event+settings.intruder_time_of_reaction,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.CHASING,target_point)
+        #         event_list.append_event(new_event,HandStatus.WAIT)
+        #
+        #     time_of_event=trevel_time+self.time_of_event
+        #     new_event=Hand_chase(time_of_event,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.CHASING,target_point)
+        #     event_list.append_event(new_event,HandStatus.CHASING)
+        # else:
+        #     target_point=get_point_based_on_time(self.event_owner.position,settings.intruder_time_of_reaction,last_point_on_path,settings.velocity_hand)
+        #     time_of_event=settings.intruder_time_of_reaction+self.time_of_event
+        #     new_event=Hand_chase(time_of_event,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.CHASING,target_point)
+        #     event_list.append_event(new_event,HandStatus.CHASING)
+
+
+
+
+
+

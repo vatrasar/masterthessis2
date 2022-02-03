@@ -12,10 +12,10 @@ from Events.events_list import Event_list
 
 class Make_dodge(Event):
     def __init__(self, time_of_event, event_owner,tk_master,target_postion,next_status,old_target,new_target,game_state):
-        super().__init__(time_of_event, event_owner,tk_master)
+        super().__init__(time_of_event, event_owner,tk_master,game_state)
         self.event_owner.target_position=target_postion
         self.event_owner.next_status=next_status
-        self.game_state=game_state
+
 
         self.old_target=old_target
         self.new_target=new_target

@@ -37,9 +37,11 @@ class UavStatus(Enum):
             return "Status nieznany"
 
 class HandStatus(Enum):
+    CHASING=0
     TIER_0=1
-    DEFENCE=0
+    DEFENCE=3
     BACK=2
+    WAIT=4
 
 
 class Sides(Enum):
