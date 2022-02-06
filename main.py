@@ -7,10 +7,14 @@ def main():
     settings:Settings=Settings()
     try:
         settings_file_name_f=open("settingsFiles/settingsFileName.txt")
-        settingsFileName_line:str=settings_file_name_f.readline()
+        settingsFileName_line:str=settings_file_name_f.readline()[0:-1]
+        rewardsFileName_line:str=settings_file_name_f.readline()
+
         _,settingsFileName=settings.get_property_pair(settingsFileName_line)
+        _,rewardsFileName=settings.get_property_pair(rewardsFileName_line)
         file_with_properties=open("settingsFiles/"+settingsFileName)
-        settings.get_properties(file_with_properties)
+        file_with_rewards=open("settingsFiles/"+rewardsFileName)
+        settings.get_properties(file_with_properties,file_with_rewards)
     except Exception as exp:
         print(str(exp))
         return

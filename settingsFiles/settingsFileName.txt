@@ -1,1 +1,2 @@
 nazwa pliku konfiguracyjnego(wraz z rozszerzeniem)=konf.txt
+nazwa pliku z punktami=rewards.txt

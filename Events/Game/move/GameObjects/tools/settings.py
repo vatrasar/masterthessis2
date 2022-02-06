@@ -1,4 +1,9 @@
 import logging
+import typing
+
+from Events.Game.move.GameObjects.tools.points_cell import PointsCell
+
+
 class Settings():
 
 
@@ -58,7 +63,7 @@ class Settings():
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
 
-    def get_properties(self,file_with_properties):
+    def get_properties(self,file_with_properties,file_with_rewards):
         logging.basicConfig(level=logging.NOTSET)
 
         setting_dict={}
@@ -68,6 +73,9 @@ class Settings():
                 self.check_property(property_name,property_value)
 
         self.map_size = self.tier1_distance_from_intruder * 1.3
+
+        self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
+
 
 
         # self.back_distance = 2 * self.intuder_size
@@ -189,3 +197,13 @@ class Settings():
 
         else:
             raise Exception("Błąd pliku konfiguracyjnego, nieznana nazwa właściwości:" +property_name)
+
+    def get_list_of_points(self, file_with_rewards):
+        list_of_cell_points:typing.List[PointsCell]=[]
+        for record in file_with_rewards.readlines():
+
+            fields_list=record.split(" ")
+            list_of_cell_points.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
+        return list_of_cell_points
+
+
