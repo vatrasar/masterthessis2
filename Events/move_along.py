@@ -16,7 +16,7 @@ from Events.make_dodge import Make_dodge
 
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state):
     time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1)+current_time
-    target_position=get_random_position_on_tier1(rand,settings.map_size,settings.tier1_distance_from_intruder)
+    target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state)
     event_list.append_event(event,UavStatus.TIER_2)
 
@@ -48,7 +48,7 @@ class Move_along(Event):
                     if counter>10:
                         plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.state)
                         return
-                    target_postion=get_random_position_on_tier1(rand,settings.map_size,settings.tier1_distance_from_intruder)
+                    target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
                     if check_distance_between_uav(self.state.uav_list,settings.save_distance)==False and check_if_same_move_direction(self.event_owner,self.state.uav_list,target_postion):
                         continue
                     else:

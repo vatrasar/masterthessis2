@@ -18,7 +18,7 @@ class Runner():
         self.master=None
 
     def run(self):
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size,self.settings.hands_number)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number)
             self.events_list=Event_list()
             #init uavs events
 
@@ -27,7 +27,7 @@ class Runner():
 
                 self.master=tkinter.Tk()
                 self.master.title("nazwa okna")
-                canvas=tkinter.Canvas(self.master,width=self.settings.map_size,height=self.settings.map_size)
+                canvas=tkinter.Canvas(self.master,width=self.settings.map_size_x,height=self.settings.map_size_y)
                 canvas.pack()
                 event_time=self.current_time+self.settings.visualzation_update_interval
                 self.game_state.visualisation_owner=MovableObject(0,0,UavStatus.VISUALISE,0,0,0,None,None)

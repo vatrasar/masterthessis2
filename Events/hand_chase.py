@@ -12,14 +12,14 @@ from Events.event import Event
 from Events.events_list import Event_list
 
 
-def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size,x):
+def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size_x,x):
 
 
     if hand_side==Sides.LEFT:
-        if x>map_size/2.0:
+        if x>map_size_x/2.0:
 
-            a=(maximum_hand_range-minimal_hand_range)/(map_size/2.0-map_size)
-            b=maximum_hand_range-a*map_size/2.0
+            a=(maximum_hand_range-minimal_hand_range)/(map_size_x/2.0-map_size_x)
+            b=maximum_hand_range-a*map_size_x/2.0
 
 
 
@@ -28,11 +28,11 @@ def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_rang
             return  maximum_hand_range
 
     else:
-        if x>map_size/2.0:
+        if x>map_size_x/2.0:
             return  maximum_hand_range
         else:
 
-            a=(minimal_hand_range-maximum_hand_range)/(0-map_size/2.0)
+            a=(minimal_hand_range-maximum_hand_range)/(0-map_size_x/2.0)
             b=minimal_hand_range
             return x*a+b
 
@@ -44,7 +44,7 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
         event_owner.stop_chasing()
         return
     target_uav_pos=event_owner.target_uav.position
-    max_y_hand=get_max_hand_range_in_x(event_owner.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size,target_uav_pos.x)
+    max_y_hand=get_max_hand_range_in_x(event_owner.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_uav_pos.x)
     target_y_for_hand=min(max_y_hand,target_uav_pos.y)
     last_point_on_path=Point(target_uav_pos.x,target_y_for_hand)
 

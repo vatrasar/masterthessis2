@@ -72,7 +72,10 @@ class Settings():
                 property_name,property_value=self.get_property_pair(record)
                 self.check_property(property_name,property_value)
 
-        self.map_size = self.tier1_distance_from_intruder * 1.3
+
+        self.map_size_y=int(self.tier1_distance_from_intruder * 1.3)
+        self.map_size_x =self.map_size_y*2
+
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
 

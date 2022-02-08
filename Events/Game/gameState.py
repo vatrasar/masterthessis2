@@ -11,7 +11,7 @@ from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_
 import typing
 
 class GameState():
-    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size,hands_number):
+    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number):
 
         self.visualize_first=True
 
@@ -25,10 +25,10 @@ class GameState():
         #init hands
         self.hands_list:typing.List[Hand] = []
         if(hands_number==1):
-            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size,map_size,0,HandStatus.TIER_0,None))
+            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
         else:
-            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.RIGHT,map_size,map_size,0,HandStatus.TIER_0,None))
-            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size,map_size,0,HandStatus.TIER_0,None))
+            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.RIGHT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
+            self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
 
         self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,))
         logging.info("state initiated")
