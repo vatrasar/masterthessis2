@@ -20,6 +20,17 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,mast
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state)
     event_list.append_event(event,UavStatus.TIER_2)
 
+def plan_move_along(event_list, event_owner, target_postion, current_time, game_state, settings, tk_master):
+    is_colision,start_dodge_postion,dodge_position=check_colisions(event_owner,game_state.uav_list,target_postion,settings.dodge_radius,settings.save_distance)
+    if is_colision:
+        event_time= get_travel_time_on_tier1(start_dodge_postion,event_owner.position,settings.v_of_uav) + current_time
+        event=Make_dodge(event_time, event_owner, tk_master, start_dodge_postion, UavStatus.PLANED_DODGE,target_postion,dodge_position,game_state)
+        event_list.append_event(event,UavStatus.PLANED_DODGE)
+    else:
+        event_time= get_travel_time_on_tier1(target_postion,event_owner.position,settings.v_of_uav) + current_time
+        event=Move_along(event_time, event_owner, tk_master, target_postion, UavStatus.TIER_1,game_state)
+        event_list.append_event(event,UavStatus.TIER_1)
+
 class Move_along(Event):
 
     def __init__(self, time_of_event, event_owner,tk_master,target_postion,next_status,state):
@@ -54,18 +65,4 @@ class Move_along(Event):
                     else:
                         break
 
-
-                is_colision,start_dodge_postion,dodge_position=check_colisions(self.event_owner,self.state.uav_list,target_postion,settings.dodge_radius,settings.save_distance)
-                if is_colision:
-                    event_time=get_travel_time_on_tier1(start_dodge_postion,self.event_owner.position,settings.v_of_uav)+self.time_of_event
-                    event=Make_dodge(event_time, self.event_owner, self.tk_master, start_dodge_postion, UavStatus.PLANED_DODGE,target_postion,dodge_position,self.state)
-                    event_list.append_event(event,UavStatus.PLANED_DODGE)
-                else:
-                    event_time=get_travel_time_on_tier1(target_postion,self.event_owner.position,settings.v_of_uav)+self.time_of_event
-                    event=Move_along(event_time, self.event_owner, self.tk_master, target_postion, UavStatus.TIER_1,self.state)
-                    event_list.append_event(event,UavStatus.TIER_1)
-
-
-
-
-
+                plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master)
