@@ -1,6 +1,7 @@
 import logging
 import typing
 
+
 from Events.Game.move.GameObjects.intruder import Intruder
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.move.GameObjects.hand import Hand
@@ -11,13 +12,15 @@ from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_
 import typing
 
 class GameState():
-    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number):
+    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size):
 
         self.visualize_first=True
 
         #init UAv
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
+        from Events.Game.Game_Map import GameMap
+        self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size)
 
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None))
@@ -36,6 +39,8 @@ class GameState():
 
 
     def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner):
+
+        self.game_map.update_map(self,None)
         for uav in self.uav_list: #uavs to update
             if event_owner!=uav:
                 if uav.status!=UavStatus.TIER_2 or uav.status!=UavStatus.DEAD:

@@ -17,8 +17,10 @@ class Runner():
         self.current_time=0
         self.master=None
 
+
     def run(self):
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size)
+            self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
             #init uavs events
 
@@ -50,6 +52,7 @@ class Runner():
     def single_iteration(self):
 
         closest_event:Event=self.events_list.get_closest_event()
+
         self.current_time=closest_event.time_of_event
         if self.current_time>42:
              print("ok")
