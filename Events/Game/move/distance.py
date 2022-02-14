@@ -22,7 +22,7 @@ def get_2d_distance(source, position):
 	return dist
 
 
-def get_distance_on_tier1(current_postion:Point,target_postion:Point):
+def get_horizontal_distance(current_postion:Point, target_postion:Point):
 	if current_postion.x-target_postion.x<0:
 		return target_postion.x-current_postion.x
 	else:

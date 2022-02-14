@@ -96,6 +96,7 @@ class Settings():
         self.minimal_hand_range=self.intuder_size*1.3
         self.intruder_time_of_reaction=1.0
         self.minimal_travel_time=0.2
+        self.safe_margin=40
         logging.info("properties correct")
         return setting_dict
 

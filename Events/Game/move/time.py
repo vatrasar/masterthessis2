@@ -1,13 +1,13 @@
 import math
 
 from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.distance import get_distance_on_tier1, get_2d_distance
+from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
 
 
 def get_travel_time_on_tier1(target_postion:Point,current_position:Point,drone_velocity):
 
 
-    distance=get_distance_on_tier1(current_position,target_postion)
+    distance=get_horizontal_distance(current_position, target_postion)
     time=distance/drone_velocity
 
 

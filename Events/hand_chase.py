@@ -42,6 +42,7 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
     if event_owner.target_uav.status==UavStatus.TIER_2 or event_owner.target_uav.status==UavStatus.DEAD:
         event_owner.set_status(HandStatus.TIER_0)
         event_owner.stop_chasing()
+        event_owner.next_event=None
         return
     target_uav_pos=event_owner.target_uav.position
     max_y_hand=get_max_hand_range_in_x(event_owner.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_uav_pos.x)
@@ -64,6 +65,7 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
         time_of_event=settings.intruder_time_of_reaction+current_time
         new_event=Hand_chase(time_of_event,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
         event_list.append_event(new_event,HandStatus.CHASING)
+        event_owner.last_postion_update_time=current_time
 
 class Hand_chase(Event):
 

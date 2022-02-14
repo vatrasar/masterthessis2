@@ -20,7 +20,7 @@ def main():
         return
 
     #init state
-    rand = random.Random(300)  # 800
+    rand = random.Random(239)  # 800
 
     runner=Runner(settings,rand)
     runner.run()

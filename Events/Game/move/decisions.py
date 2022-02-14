@@ -3,7 +3,7 @@ import typing
 
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.uav import Uav
-from Events.Game.move.distance import get_distance_on_tier1
+from Events.Game.move.distance import get_horizontal_distance
 
 
 def decide_whether_uav_attack(mode,prob_of_attack,rand:Random):

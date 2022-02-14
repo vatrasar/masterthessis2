@@ -23,13 +23,17 @@ def get_random_position_on_tier1(rand:Random,map_width,tier1_distance):
 
 
 def get_vector_with_length_and_direction(distance,direction_vector:Point):
-	sum_of_squares=direction_vector.x**2+direction_vector.y**2
-	scale_factor=distance/math.sqrt(sum_of_squares)
-	result=Point(direction_vector.x,direction_vector.y)
-	result.x=result.x*scale_factor
-	result.y=result.y*scale_factor
+	try:
+		sum_of_squares=direction_vector.x**2+direction_vector.y**2
 
-	return result
+		scale_factor=distance/math.sqrt(sum_of_squares)
+		result=Point(direction_vector.x,direction_vector.y)
+		result.x=result.x*scale_factor
+		result.y=result.y*scale_factor
+
+		return result
+	except ZeroDivisionError:
+		print("Bląąąąąąąąąąd")
 
 def get_point_based_on_time(current_position:Point,time,target_position:Point,velocity):
 	distance=time*velocity
