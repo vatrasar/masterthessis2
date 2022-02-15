@@ -46,6 +46,7 @@ from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.check import check_if_cell_is_on_map
 from Events.Game.move.distance import get_2d_distance
 
 
@@ -102,8 +103,9 @@ class GameMap():
         # drones_candidates.append(Point(x_i, y_i))
         cells_to_color=self.get_all_cells_to_color(object.position,object_size)
         for cell in cells_to_color:
-            self.map_memmory[cell.y][cell.x] = object_id
-            self.fluid_memory[cell.y][cell.x] = object_id
+            if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
+                self.map_memmory[cell.y][cell.x] = object_id
+                self.fluid_memory[cell.y][cell.x] = object_id
 
 
 #         while (len(drones_candidates) != 0): #set all cells in range

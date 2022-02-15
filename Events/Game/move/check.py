@@ -2,6 +2,7 @@ import typing
 
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_horizontal_distance
 
@@ -48,4 +49,13 @@ def chekc_if_uav_goes_to_trash(event_owner, potential_crash_point, target_postio
 
 
 def check_if_in_safe_distance(uav,hands_list,safe_margin):
-    pass
+    for hand in hands_list:
+        if get_horizontal_distance(uav.position,hand.position)<safe_margin:
+            return False
+    return True
+
+def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
+    if cell.x<max_index_x and cell.x>=0 and cell.y<max_index_y and cell.y>=0:
+        return True
+    else:
+        return False
