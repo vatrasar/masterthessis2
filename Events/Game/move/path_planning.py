@@ -59,6 +59,14 @@ def floading_algo(game_map, uav, v_of_uav, uav_status):
     old_cell.uav_arrive_time = 0
     floadin_queue.append(old_cell)
 
+
+    #debug
+    # tick=0
+    # min_x=len(game_map.fluid_map[0])
+    # max_x=0
+    # min_y=len(game_map.fluid_map)
+    # max_y=0
+
     # fluid marks
     while (len(floadin_queue) > 0):
 
@@ -75,6 +83,8 @@ def floading_algo(game_map, uav, v_of_uav, uav_status):
             is_parrent=True
             neighbour.set_visited(True)
             game_map.points_to_reset.append(neighbour)
+            # tick=tick+1
+
 
 
 
@@ -85,25 +95,37 @@ def floading_algo(game_map, uav, v_of_uav, uav_status):
             else:
                 is_parrent=False
                 new_parrent = neighbour.parrent
-            distance = get_2d_distance(neighbour.position, new_parrent.position)
-            arrive_time = new_parrent.uav_arrive_time + distance / v_of_uav
-            is_point_avaiable = True
-            # check hand arrive_time
-            # is_point_avaiable = game_state.is_point_save(arrive_time, game_state,  neighbour, settings)
 
-            if is_point_avaiable and is_parrent and neighbour.is_queue==False:
-                if neighbour.points==0:
-                    parents_list.append(neighbour)
-                else:
-                    cells_with_points.append(neighbour)
-                neighbour.set_uav_arrive_time(arrive_time)
-                neighbour.set_parrent(new_parrent)
-                neighbour.is_queue=True
+            if  is_parrent and neighbour.is_queue==False:
+
+                distance = get_2d_distance(neighbour.position, new_parrent.position)
+                arrive_time = new_parrent.uav_arrive_time + distance / v_of_uav
+                is_point_avaiable = True
+                # check hand arrive_time
+                # is_point_avaiable = game_state.is_point_save(arrive_time, game_state,  neighbour, settings)
+
+                if is_point_avaiable:
+                    if neighbour.points==0:
+                        parents_list.append(neighbour)
+                    else:
+                        cells_with_points.append(neighbour)
+                    neighbour.set_uav_arrive_time(arrive_time)
+                    neighbour.set_parrent(new_parrent)
+                    neighbour.is_queue=True
 
 
-
+        #debug
+        # for parent in parents_list:
+        #     if min_x>parent.index.x:
+        #         min_x=parent.index.x
+        #     if max_x<parent.index.x:
+        #         max_x=parent.index.x
+        #     if max_y<parent.index.y:
+        #         max_y=parent.index.y
+        #     if min_y>parent.index.y:
+        #         min_y=parent.index.y
         floadin_queue.extend(parents_list)
-
+    # print(tick)
     return cells_with_points
 
 
@@ -142,6 +164,8 @@ def search_attack_patch(uav, game_map:GameMap,uav_velocity):
 def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder):
     floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK)
     target_point=game_map.get_floading_point(Point(uav.position.x,tier1_distance_from_intruder-1))
+    if not(target_point.is_visited):
+        target_point=game_map.fluid_map[target_point.index.y-1][target_point.index.x]
     path=create_path(target_point)
     return path
 

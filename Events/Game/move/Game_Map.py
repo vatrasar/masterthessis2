@@ -121,7 +121,7 @@ class GameMap():
                     self.map_memmory[cell.y][cell.x] = object_id
                     self.fluid_memory[cell.y][cell.x] = object_id
         except Exception:
-            print("error")
+            print("error in Game map, method set object on map")
 
 
 #         while (len(drones_candidates) != 0): #set all cells in range
@@ -144,7 +144,7 @@ class GameMap():
     def update_map(self, game_state:GameState,uav:Uav):
 
         self.map_memmory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
-
+        self.fluid_memory=np.zeros((self.dimension_y, self.dimension_x), np.int32)
 
 
 

@@ -15,7 +15,7 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=20
+        self.visualisation_delay=10
 
 
 
