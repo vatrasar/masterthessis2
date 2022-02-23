@@ -1,6 +1,4 @@
 import logging
-import typing
-
 
 from Events.Game.move.GameObjects.intruder import Intruder
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
@@ -12,15 +10,15 @@ from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_
 import typing
 
 class GameState():
-    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size):
+    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points):
 
         self.visualize_first=True
 
         #init UAv
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
-        from Events.Game.Game_Map import GameMap
-        self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size)
+        from Events.Game.move.Game_Map import GameMap
+        self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points)
 
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None))

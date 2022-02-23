@@ -95,6 +95,7 @@ class Settings():
         self.save_distance=self.dodge_radius*2
         self.minimal_hand_range=self.intuder_size*1.3
         self.intruder_time_of_reaction=1.0
+        self.uav_wait_time=1.0
         self.minimal_travel_time=0.2
         self.safe_margin=40
         logging.info("properties correct")

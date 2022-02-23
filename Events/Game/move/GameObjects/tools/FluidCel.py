@@ -12,6 +12,7 @@ class FluidCell():
         self.index=Point(i_x,i_y)
         self.is_queue=False
 
+
     def set_parrent(self, cell):
         self.parrent=cell
 

@@ -59,3 +59,4 @@ def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
         return True
     else:
         return False
+

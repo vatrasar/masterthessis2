@@ -51,32 +51,45 @@ from Events.Game.move.distance import get_2d_distance
 
 
 class GameMap():
-    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size):
+    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points):
         self.map_size_x=map_size_x
         self.map_size_y=map_size_y
         self.dimension_x = round(map_size_x/map_resolution)
         self.dimension_y = round(map_size_y/map_resolution)
-
+        self.list_of_cells_with_points=list_of_cells_with_points
         self.map_memmory = np.zeros((self.dimension_y,self.dimension_x ), np.int32)
         self.fluid_map:typing.List[typing.List[FluidCell]]=[]
+        self.points_to_reset:typing.List[FluidCell]=[]
         self.fluid_memory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
         self.map_resolution=map_resolution
         self.uav_size=uav_size
         self.hand_size=hand_size
 
-        for i in range(0,self.dimension_y): #build fluid_map
+        self.build_fluid_map()
+
+    def build_fluid_map(self):
+        for i in range(0, self.dimension_y):  # build fluid_map
             self.fluid_map.append([])
             for p in range(0, self.dimension_x):
-
-
                 point = self.convert_index_to_point(p, i)
                 point = Point(point[0], point[1])
                 new_cell = FluidCell(0, point, p, i)
                 self.fluid_map[i].append(new_cell)
 
+        for cell in self.list_of_cells_with_points:
+            point_on_map=self.get_point_on_map_index(cell.x, cell.y)
+            self.fluid_map[point_on_map.y][point_on_map.x].points=cell.points
 
+    def reset_fluid_map(self):
 
+        for cell in self.points_to_reset:
+            cell.is_queue=False
+            cell.is_visited=False
+            cell.is_safe=False
+            cell.uav_arrive_time=0
+            cell.parrent=None
 
+        self.points_to_reset=[]
 
 
 
@@ -97,15 +110,18 @@ class GameMap():
 
 
     def set_object_on_map(self,object:MovableObject,object_size,object_id):
-        drones_candidates: typing.List[Point] = []
+        try:
+            drones_candidates: typing.List[Point] = []
 
-        # x_i, y_i = self.get_point_on_map_index(object.position.x, object.position.y)
-        # drones_candidates.append(Point(x_i, y_i))
-        cells_to_color=self.get_all_cells_to_color(object.position,object_size)
-        for cell in cells_to_color:
-            if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
-                self.map_memmory[cell.y][cell.x] = object_id
-                self.fluid_memory[cell.y][cell.x] = object_id
+            # x_i, y_i = self.get_point_on_map_index(object.position.x, object.position.y)
+            # drones_candidates.append(Point(x_i, y_i))
+            cells_to_color=self.get_all_cells_to_color(object.position,object_size)
+            for cell in cells_to_color:
+                if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
+                    self.map_memmory[cell.y][cell.x] = object_id
+                    self.fluid_memory[cell.y][cell.x] = object_id
+        except Exception:
+            print("error")
 
 
 #         while (len(drones_candidates) != 0): #set all cells in range
@@ -149,8 +165,8 @@ class GameMap():
 
 
     def get_floading_point(self, position)->FluidCell:
-        x_i,y_i=self.get_point_on_map_index(position.x,position.y)
-        cell=self.fluid_map[y_i][x_i]
+        index=self.get_point_on_map_index(position.x,position.y)
+        cell=self.fluid_map[index.y][index.x]
         return cell
 
     # def get_avaiable_neighbours(self, parrent_cell:FluidCell,uav,game_state:GameState,settings:Settings,first_cell):
@@ -222,19 +238,10 @@ class GameMap():
     #             return arange[2]
     #     return 0
 
-    def check_is_index_proply(self, indeex_position:Point):
-        return self.check_is_demision_proply(indeex_position.x) and self.check_is_demision_proply(indeex_position.y)
 
     # def check_is_demision_proply(self, demision):
     #     return demision<self.dimension and demision>0
 
-    def has_points_on_path(self):
-        for row in self.fluid_map:
-            for cell in row:
-                if cell.points>0:
-                    return True
-
-        return False
 
 
 
@@ -329,6 +336,14 @@ class GameMap():
 
 
         return list_of_cells
+
+    def show_path(self, path:typing.List[FluidCell]):
+        i=50
+
+        for element in path:
+            self.fluid_memory[element.index.y][element.index.x]=i
+            i=i+1
+
 
 
 
