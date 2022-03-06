@@ -1,10 +1,12 @@
 import typing
 
+from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_horizontal_distance
+
 
 
 def check_distance_between_uav(uav_list:typing.List[Uav],save_distance):
@@ -60,3 +62,10 @@ def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
     else:
         return False
 
+def check_if_uav_is_in_range(uav:Uav,hand:Hand,settings):
+    from Events.hand_chase import get_max_hand_range_in_x
+    max_y_range=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,uav.position.x)
+    if max_y_range>uav.position.y:
+        return True
+    else:
+        return False

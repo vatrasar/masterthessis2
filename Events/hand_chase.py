@@ -5,11 +5,13 @@ from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandSt
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.check import check_if_uav_is_in_range
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time, get_point_base_on_distance
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
+from Events.jump_event import plan_jump_event, init_jump
 
 
 def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size_x,x):
@@ -39,11 +41,7 @@ def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_rang
 
 
 def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_time,tk_master,game_state):
-    if event_owner.target_uav.status==UavStatus.TIER_2 or event_owner.target_uav.status==UavStatus.DEAD:
-        event_owner.set_status(HandStatus.TIER_0)
-        event_owner.stop_chasing()
-        event_owner.next_event=None
-        return
+
     target_uav_pos=event_owner.target_uav.position
     max_y_hand=get_max_hand_range_in_x(event_owner.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_uav_pos.x)
     target_y_for_hand=min(max_y_hand,target_uav_pos.y)
@@ -67,6 +65,10 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
         event_list.append_event(new_event,HandStatus.CHASING)
         event_owner.last_postion_update_time=current_time
 
+
+
+
+
 class Hand_chase(Event):
 
     def __init__(self, time_of_event, event_owner:Hand, tk_master,target_uav:Uav,next_status:HandStatus,target_postion:Point,game_state):
@@ -78,7 +80,17 @@ class Hand_chase(Event):
 
     def handle_event(self, event_list:Event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
-        plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+        if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD:
+            self.event_owner.set_status(HandStatus.TIER_0)
+            self.event_owner.stop_chasing()
+            self.event_owner.next_event=None
+            return
+
+        else:
+            if (self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.ON_BACK) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
+                init_jump(self.event_owner.target_uav.next_event.old_path,self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
+            else:
+                plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
         # if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD:
         #     self.event_owner.set_status(HandStatus.BACK)
         # target_uav_pos=self.event_owner.target_uav.position

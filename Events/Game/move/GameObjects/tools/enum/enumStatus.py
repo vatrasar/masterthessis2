@@ -42,6 +42,7 @@ class HandStatus(Enum):
     DEFENCE=3
     BACK=2
     WAIT=4
+    JUMP=5
 
 
 class Sides(Enum):
