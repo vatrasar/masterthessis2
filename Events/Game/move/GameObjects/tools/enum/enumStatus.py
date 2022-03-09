@@ -43,6 +43,7 @@ class HandStatus(Enum):
     BACK=2
     WAIT=4
     JUMP=5
+    WAIT_AFTER_JUMP=6
 
 
 class Sides(Enum):

@@ -40,3 +40,5 @@ class Hand(MovableObject):
     def stop_chasing(self):
         self.target_uav.chasing_hand=None
         self.target_uav=None
+
+

@@ -87,7 +87,7 @@ class Hand_chase(Event):
             return
 
         else:
-            if (self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.ON_BACK) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
+            if (self.event_owner.target_uav.status==UavStatus.ON_ATTACK or self.event_owner.target_uav.status==UavStatus.ON_BACK) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
                 init_jump(self.event_owner.target_uav.next_event.old_path,self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
             else:
                 plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)

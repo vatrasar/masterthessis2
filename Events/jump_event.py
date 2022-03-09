@@ -18,8 +18,12 @@ from Events.events_list import Event_list
 
 
 def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list):
-    target_point=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity)
-    plan_jump_event(target_point.position, hand,  settings, current_time, tk_master, game_state, event_list)
+    target_point=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
+    if target_point==None:
+        from Events.hand_chase import plan_chase_event
+        plan_chase_event(hand,settings,event_list,current_time,tk_master,game_state)
+    else:
+        plan_jump_event(target_point, hand,  settings, current_time, tk_master, game_state, event_list)
 
 
 def plan_jump_event(target_point, hand, settings:Settings, current_time, tk_master, game_state, event_list):
@@ -31,8 +35,14 @@ def plan_jump_event(target_point, hand, settings:Settings, current_time, tk_mast
 
         trevel_time=get_travel_time_to_point(hand.position,target_point,jump_velocity)
         if trevel_time<settings.minimal_travel_time:
-            new_event=Jump_event(current_time+settings.intruder_time_of_reaction,hand,tk_master,hand.target_uav,HandStatus.WAIT,target_point,game_state,old_target)
-            event_list.append_event(new_event,HandStatus.WAIT)
+            if hand.status==HandStatus.WAIT_AFTER_JUMP:
+                hand.delete_current_event(event_list)
+                hand.stop_chasing()
+                hand.status=HandStatus.WAIT
+            else:
+                new_event=Jump_event(current_time+settings.time_to_wait_after_jump,hand,tk_master,hand.target_uav,HandStatus.WAIT_AFTER_JUMP,target_point,game_state,old_target)
+                event_list.append_event(new_event,HandStatus.WAIT_AFTER_JUMP)
+
         else:
 
             time_of_event=trevel_time+current_time
@@ -66,7 +76,7 @@ class Jump_event(Event):
             return
 
         else:
-            if (self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.ON_BACK) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
+            if (self.event_owner.target_uav.status==UavStatus.ON_ATTACK or self.event_owner.target_uav.status==UavStatus.ON_BACK) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
                 plan_jump_event(self.old_target,self.event_owner,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
             else:
                 from Events.hand_chase import plan_chase_event

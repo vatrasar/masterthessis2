@@ -50,7 +50,7 @@ class Move_along(Event):
 
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
         super().handle_event(event_list,settings,rand,iteration_function)
-        self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner)
+        self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio)
 
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav)

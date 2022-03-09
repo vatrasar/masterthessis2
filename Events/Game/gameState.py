@@ -36,7 +36,7 @@ class GameState():
 
 
 
-    def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner):
+    def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner,jump_ratio):
 
         self.game_map.update_map(self,None)
         for uav in self.uav_list: #uavs to update
@@ -53,9 +53,13 @@ class GameState():
 
         for hand in self.hands_list:
             if event_owner!=hand:
-                if hand.status!=HandStatus.WAIT and hand.status!=HandStatus.TIER_0:
+                if hand.status not in [HandStatus.WAIT,HandStatus.TIER_0,HandStatus.WAIT_AFTER_JUMP]:
                     delta_time=current_time-hand.last_postion_update_time
-                    distance=delta_time*hand_velocity
+                    distance=0
+                    if hand.status==HandStatus.JUMP:
+                        distance=delta_time*hand_velocity*jump_ratio
+                    else:
+                        distance=delta_time*hand_velocity
                     hand.set_new_position(get_point_base_on_distance(hand.position, distance, hand.target_position), current_time)
 
 

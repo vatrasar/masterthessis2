@@ -23,5 +23,11 @@ class MovableObject():
         self.position=target_position
         self.last_postion_update_time=time
 
+    def delete_current_event(self,event_list):
+        if self.next_event!=None:
+            event_list.delete_event(self.next_event)
+        self.next_event=None
+
+
 
 

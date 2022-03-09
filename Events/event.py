@@ -15,7 +15,8 @@ class Event():
         self.tk_master=tk_master
 
     def handle_event(self,event_list,settings:Settings,rand:Random,iteration_function):
-        event_list.delete_event(self)
+        self.event_owner.delete_current_event(event_list)
+
         self.event_owner.set_status(self.event_owner.next_status)
         self.event_owner.set_new_position(self.event_owner.target_position,self.time_of_event)
         if settings.visualisation==1:

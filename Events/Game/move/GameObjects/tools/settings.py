@@ -97,6 +97,7 @@ class Settings():
         self.intruder_time_of_reaction=1.0
         self.uav_wait_time=1.0
         self.jump_ratio=3
+        self.time_to_wait_after_jump=10
         self.minimal_travel_time=0.2
         self.safe_margin=40
 

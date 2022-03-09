@@ -15,7 +15,7 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=10
+        self.visualisation_delay=60
 
 
 
@@ -23,7 +23,7 @@ class Visualisation_event(Event):
     def handle_event(self, event_list, settings: Settings, rand: Random,iteration_function):
         super().handle_event(event_list, settings, rand,iteration_function)
         self.canvas.delete("all")
-        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner)
+        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio)
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
@@ -40,11 +40,15 @@ class Visualisation_event(Event):
     def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range):
 
         create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
-        # create_circle(476,354,hand_size,self.canvas,"black") #marker
+        # create_circle(111,141,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 
                 create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+
+
+
+
 
 
         for hand in self.game_state.hands_list:#hands

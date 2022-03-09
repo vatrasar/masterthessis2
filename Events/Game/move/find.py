@@ -1,15 +1,30 @@
 import typing
 
+from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.time import get_travel_time_to_point
 
 
-def find_target_for_jump(path:typing.List[FluidCell],uav_postion:Point,hand_position:Point,uav_velocity,hand_jump_velocity):
+
+def find_target_for_jump(path:typing.List[FluidCell],uav_postion:Point,hand_position:Point,uav_velocity,hand_jump_velocity,settings:Settings,hand:Hand):
+    target_cell=None
+    time=0
+    last_position=uav_postion
     for cell in path:
-        uav_time=get_travel_time_to_point(uav_postion,cell.position,uav_velocity)
+        uav_time=time+get_travel_time_to_point(last_position,cell.position,uav_velocity)
         hand_time=get_travel_time_to_point(hand_position,cell.position,hand_jump_velocity)
         if uav_time>hand_time:
-            return cell
-
-    return path[-1]
+            target_cell=cell
+            break
+        time=uav_time
+        last_position=cell.position
+    if target_cell==None:
+        return target_cell
+    from Events.hand_chase import get_max_hand_range_in_x
+    max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_cell.position.x)
+    target_position=target_cell.position
+    if target_position.y>max_hand_y:
+        target_position=Point(target_cell.position.x,max_hand_y)
+    return target_position
