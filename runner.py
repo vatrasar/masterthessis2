@@ -54,7 +54,7 @@ class Runner():
         closest_event:Event=self.events_list.get_closest_event()
 
         self.current_time=closest_event.time_of_event
-        if self.current_time>169.5:
+        if self.current_time>58.5:
              print("ok")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
 

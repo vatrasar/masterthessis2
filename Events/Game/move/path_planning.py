@@ -1,11 +1,11 @@
 import typing
 
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
 from Events.Game.move.Game_Map import GameMap
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.uav import Uav
-from Events.Game.move.check import check_if_cell_is_on_map
+from Events.Game.move.check import check_if_cell_is_on_map, check_if_point_safe
 from Events.Game.move.distance import get_2d_distance
 
 
@@ -44,7 +44,9 @@ def get_fluid_neighbours(cell:FluidCell, game_map:GameMap,direction):
 
 
 
-def floading_algo(game_map, uav, v_of_uav, uav_status):
+
+
+def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings):
     """
     returns cells with points which are on path
     :param
@@ -102,7 +104,8 @@ def floading_algo(game_map, uav, v_of_uav, uav_status):
                 arrive_time = new_parrent.uav_arrive_time + distance / v_of_uav
                 is_point_avaiable = True
                 # check hand arrive_time
-                # is_point_avaiable = game_state.is_point_save(arrive_time, game_state,  neighbour, settings)
+                if uav.chasing_hand!=None and uav.chasing_hand.status==HandStatus.JUMP:
+                    is_point_avaiable = check_if_point_safe(arrive_time, uav.chasing_hand,  neighbour, settings)
 
                 if is_point_avaiable:
                     if neighbour.points==0:
@@ -142,9 +145,9 @@ def create_path(best_cell:FluidCell):
     return path
 
 
-def search_attack_patch(uav, game_map:GameMap,uav_velocity):
+def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings):
 
-    cells_with_points=floading_algo(game_map, uav, uav_velocity,UavStatus.ON_ATTACK)
+    cells_with_points=floading_algo(game_map, uav, uav_velocity,UavStatus.ON_ATTACK,settings)
     if(len(cells_with_points)>0):
         best_cell=cells_with_points[0]
 
@@ -161,12 +164,14 @@ def search_attack_patch(uav, game_map:GameMap,uav_velocity):
     # game_map.show_path(path)
     return path
 
-def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder):
-    floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK)
+def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder,settings):
+    floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK,settings)
     target_point=game_map.get_floading_point(Point(uav.position.x,tier1_distance_from_intruder-1))
     if not(target_point.is_visited):
         target_point=game_map.fluid_map[target_point.index.y-1][target_point.index.x]
     path=create_path(target_point)
+    if len(path)==1:
+        return None
     return path
 
 

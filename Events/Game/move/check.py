@@ -2,11 +2,13 @@ import typing
 
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
 from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
-from Events.Game.move.distance import get_horizontal_distance
-
+from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
+from Events.Game.move.get_position import get_point_based_on_time
+from Events.Game.move.time import get_travel_time_to_point
 
 
 def check_distance_between_uav(uav_list:typing.List[Uav],save_distance):
@@ -69,3 +71,28 @@ def check_if_uav_is_in_range(uav:Uav,hand:Hand,settings):
         return True
     else:
         return False
+
+def check_if_path_save(path, uav:Uav, hand:Hand, settings:Settings):
+    jump_velocity=settings.jump_ratio*settings.velocity_hand
+    if hand==None:
+        return True
+    if hand.status!=HandStatus.JUMP:
+        return True
+
+    travel_time=0
+    last_postion=uav.position
+    for cell in path:
+        travel_time=travel_time+get_travel_time_to_point(last_postion,cell.position,settings.v_of_uav)
+        target_point=get_point_based_on_time(hand.position, travel_time, hand.target_position, jump_velocity)
+        if get_2d_distance(hand.position,target_point)<settings.uav_size*2:
+            return False
+
+    return False
+
+def check_if_point_safe(arrive_time, hand, cell, settings):
+    jump_velocity=settings.jump_ratio*settings.velocity_hand
+    target_point=get_point_based_on_time(hand.position, arrive_time, hand.target_position, jump_velocity)
+    if get_2d_distance(cell.position,target_point)<settings.uav_size*2:
+        return False
+    else:
+        return True

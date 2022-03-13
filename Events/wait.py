@@ -17,7 +17,7 @@ def plan_wait(current_time,uav_wait_time, event_owner,tk_master,game_state,event
 
     event_time=current_time+uav_wait_time
     new_event=Wait(event_time,event_owner,tk_master,target_position,UavStatus.WAIT,game_state,safe_margin,uav_wait_time)
-    event_list.append_event(new_event,UavStatus.ON_BACK)
+    event_list.append_event(new_event,UavStatus.WAIT)
 
 class Wait(Event):
 
@@ -36,7 +36,7 @@ class Wait(Event):
         super().handle_event(event_list,settings,rand,iteration_function)
 
         #plan to back
-        path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder)
+        path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder,settings)
         if path!=None:
             from Events.attack import plan_attack
             plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin)

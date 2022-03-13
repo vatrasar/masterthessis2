@@ -41,7 +41,7 @@ class GameState():
         self.game_map.update_map(self,None)
         for uav in self.uav_list: #uavs to update
             if event_owner!=uav:
-                if uav.status!=UavStatus.TIER_2 or uav.status!=UavStatus.DEAD:
+                if uav.status!=UavStatus.TIER_2 and uav.status!=UavStatus.DEAD and uav.status!=UavStatus.WAIT:
                     delta_time=current_time-uav.last_postion_update_time
                     distance=delta_time*uav_velocity #distance which was taken during delta
                     if (uav.next_status == UavStatus.TIER_1 and uav.status == UavStatus.TIER_1) or (uav.next_status == UavStatus.DODGE and uav.status == UavStatus.PLANED_DODGE):  # move on circle
