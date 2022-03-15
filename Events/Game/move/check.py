@@ -84,15 +84,21 @@ def check_if_path_save(path, uav:Uav, hand:Hand, settings:Settings):
     for cell in path:
         travel_time=travel_time+get_travel_time_to_point(last_postion,cell.position,settings.v_of_uav)
         target_point=get_point_based_on_time(hand.position, travel_time, hand.target_position, jump_velocity)
-        if get_2d_distance(hand.position,target_point)<settings.uav_size*2:
+
+        if get_2d_distance(cell.position,target_point)<settings.uav_size*2:
             return False
 
-    return False
+    return True
 
-def check_if_point_safe(arrive_time, hand, cell, settings):
+def check_if_point_safe(arrive_time, chasing_hand, cell, settings,hands_list:typing.List[Hand]):
+
     jump_velocity=settings.jump_ratio*settings.velocity_hand
-    target_point=get_point_based_on_time(hand.position, arrive_time, hand.target_position, jump_velocity)
-    if get_2d_distance(cell.position,target_point)<settings.uav_size*2:
+    safe_distance=(settings.uav_size*2/settings.v_of_uav)*jump_velocity*2
+    target_point=get_point_based_on_time(chasing_hand.position, arrive_time, chasing_hand.target_position, jump_velocity)
+    if get_2d_distance(cell.position,target_point)<safe_distance:
         return False
-    else:
-        return True
+    for hand_ in hands_list:
+        if get_2d_distance(cell.position,hand_.position)<safe_distance:
+            return False
+
+    return True

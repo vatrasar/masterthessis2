@@ -46,7 +46,7 @@ def get_fluid_neighbours(cell:FluidCell, game_map:GameMap,direction):
 
 
 
-def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings):
+def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings,hands_list):
     """
     returns cells with points which are on path
     :param
@@ -105,7 +105,7 @@ def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings):
                 is_point_avaiable = True
                 # check hand arrive_time
                 if uav.chasing_hand!=None and uav.chasing_hand.status==HandStatus.JUMP:
-                    is_point_avaiable = check_if_point_safe(arrive_time, uav.chasing_hand,  neighbour, settings)
+                    is_point_avaiable = check_if_point_safe(arrive_time, uav.chasing_hand,  neighbour, settings,hands_list)
 
                 if is_point_avaiable:
                     if neighbour.points==0:
@@ -145,9 +145,9 @@ def create_path(best_cell:FluidCell):
     return path
 
 
-def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings):
+def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings,hands_list):
 
-    cells_with_points=floading_algo(game_map, uav, uav_velocity,UavStatus.ON_ATTACK,settings)
+    cells_with_points=floading_algo(game_map, uav, uav_velocity,UavStatus.ON_ATTACK,settings,hands_list)
     if(len(cells_with_points)>0):
         best_cell=cells_with_points[0]
 
@@ -164,8 +164,8 @@ def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings):
     # game_map.show_path(path)
     return path
 
-def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder,settings):
-    floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK,settings)
+def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder,settings,hands_list):
+    floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK,settings,hands_list)
     target_point=game_map.get_floading_point(Point(uav.position.x,tier1_distance_from_intruder-1))
     if not(target_point.is_visited):
         target_point=game_map.fluid_map[target_point.index.y-1][target_point.index.x]
