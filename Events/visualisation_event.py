@@ -28,7 +28,7 @@ class Visualisation_event(Event):
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
 
-        self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range)
+        self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
 
 
         self.canvas.update()
@@ -37,14 +37,16 @@ class Visualisation_event(Event):
 
 
 
-    def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range):
+    def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range,settings:Settings):
 
         create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
         # create_circle(111,141,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 
+                # create_circle(uav.position.x, uav.position.y,settings.safe_margin,self.canvas,"black")
                 create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+
 
 
 
