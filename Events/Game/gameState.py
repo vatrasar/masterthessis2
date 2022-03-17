@@ -6,6 +6,7 @@ from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.point import Point
 
 from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_distance
 import typing
 
@@ -36,7 +37,7 @@ class GameState():
 
 
 
-    def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner,jump_ratio):
+    def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner,jump_ratio,settings,event_list):
 
         self.game_map.update_map(self,None)
         for uav in self.uav_list: #uavs to update
@@ -61,6 +62,28 @@ class GameState():
                     else:
                         distance=delta_time*hand_velocity
                     hand.set_new_position(get_point_base_on_distance(hand.position, distance, hand.target_position), current_time)
+        self.check_collisions(settings,event_list)
+
+    def check_collisions(self,settings,event_list):
+        uav_list_to_delete=[]
+        for uav in self.uav_list:
+            for hand in self.hands_list:
+                if get_2d_distance(uav.position,hand.position)<settings.hand_size+settings.uav_size:
+                    uav_list_to_delete.append(uav)
+
+        for uav_to_delete in uav_list_to_delete:
+            print("colision!")
+
+            self.remove_drone(event_list, uav_to_delete)
+
+    def remove_drone(self, event_list, uav_to_delete):
+        event_list.delete_event(uav_to_delete.next_event)
+        for hand in self.hands_list:
+            if hand.target_uav == uav_to_delete:
+                hand.set_chasing_drone(None)
+        self.list_of_dead_uavs.append(uav_to_delete)
+        uav_to_delete.set_status(UavStatus.DEAD)
+        self.uav_list.remove(uav_to_delete)
 
 
 

@@ -41,4 +41,7 @@ class Hand(MovableObject):
         self.target_uav.chasing_hand=None
         self.target_uav=None
 
+    def set_chasing_drone(self,drone_to_chase):
+        self.chasing_drone=drone_to_chase
+
 

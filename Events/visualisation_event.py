@@ -11,11 +11,13 @@ from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer
 
 
 class Visualisation_event(Event):
-    def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state):
+    def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state:GameState):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=30
+        self.visualisation_delay=1
+        if time_of_event>224:
+            self.visualisation_delay=200
 
 
 
@@ -23,7 +25,7 @@ class Visualisation_event(Event):
     def handle_event(self, event_list, settings: Settings, rand: Random,iteration_function):
         super().handle_event(event_list, settings, rand,iteration_function)
         self.canvas.delete("all")
-        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio)
+        self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)

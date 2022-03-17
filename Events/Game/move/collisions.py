@@ -8,6 +8,8 @@ from Events.Game.move.get_position import get_point_on_tier1
 
 
 def check_colisions(event_owner:MovableObject,uavs_list,target_postion:Point,dodge_radius,save_distance):
+    if len(uavs_list)<2:
+        return (False,None,None)
     secound_uav:Uav=None
 
     for uav in uavs_list:#find another uav
