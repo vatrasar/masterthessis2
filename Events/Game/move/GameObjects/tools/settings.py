@@ -97,7 +97,7 @@ class Settings():
         self.intruder_time_of_reaction=1.0
         self.uav_wait_time=3.0
         self.jump_ratio=2
-        self.time_to_wait_after_jump=10
+        self.time_to_wait_after_jump=20
         self.minimal_travel_time=0.2
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 

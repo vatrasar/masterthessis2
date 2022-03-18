@@ -25,10 +25,8 @@ class Hand_control_event(Event):
                     for hand in self.game_state.hands_list:
                         if hand.target_uav==None:
                             hand.start_chasing(uav)
-                            if uav.status in [UavStatus.ON_ATTACK,UavStatus.ON_BACK]:
-                                init_jump(uav.next_event.old_path,uav.position,settings.v_of_uav,hand,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
-                            else:
-                                plan_chase_event(hand,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+
+                            plan_chase_event(hand,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                             break
 
                     if uav.chasing_hand==None and (uav.status in [UavStatus.ON_ATTACK,UavStatus.ON_BACK] ):#there was no free hand but this uav is attacking
@@ -38,7 +36,7 @@ class Hand_control_event(Event):
                                 hand.stop_chasing()
                                 hand.start_chasing(uav)
 
-                                init_jump(uav.next_event.old_path,uav.position,settings.v_of_uav,hand,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
+                                plan_chase_event(hand,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                                 break
 
 

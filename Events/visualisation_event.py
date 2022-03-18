@@ -1,7 +1,7 @@
 from random import Random
 from tkinter import Tk, Canvas
 
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
@@ -15,9 +15,9 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=1
-        if time_of_event>224:
-            self.visualisation_delay=200
+        self.visualisation_delay=30
+        # if time_of_event>200:
+        #     self.visualisation_delay=200
 
 
 
@@ -56,8 +56,10 @@ class Visualisation_event(Event):
 
 
         for hand in self.game_state.hands_list:#hands
-
-            create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,hand.color)
+            if hand.status==HandStatus.JUMP:
+                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,hand.color)
+            else:
+                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,"blue")
 
 
             #ranges boxes

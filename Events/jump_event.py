@@ -76,11 +76,16 @@ class Jump_event(Event):
             return
 
         else:
-            if (self.event_owner.target_uav.status in [UavStatus.WAIT,UavStatus.ON_BACK,UavStatus.ON_ATTACK]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
+            if (self.event_owner.target_uav.status in [UavStatus.WAIT,UavStatus.ON_BACK,UavStatus.ON_ATTACK]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings) and self.event_owner.status!=HandStatus.WAIT_AFTER_JUMP:
                 plan_jump_event(self.old_target,self.event_owner,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
             else:
-                from Events.hand_chase import plan_chase_event
-                plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+                if self.event_owner.status==HandStatus.WAIT_AFTER_JUMP:
+                    from Events.hand_chase import plan_chase_event
+                    plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+                else:
+                    new_event=Jump_event(self.time_of_event+settings.time_to_wait_after_jump,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.WAIT_AFTER_JUMP,self.event_owner.position,self.game_state,self.event_owner.position)
+                    event_list.append_event(new_event,HandStatus.WAIT_AFTER_JUMP)
+
 
 
 
