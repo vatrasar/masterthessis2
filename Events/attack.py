@@ -108,19 +108,26 @@ class Attack(Event):
                 uav:Uav=self.event_owner
                 uav.asign_points(self.old_path[0].points)
 
-                self.start_backing(event_list, settings)
+                self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
-                self.start_backing(event_list, settings)
+                self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
-                target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
-                from Events.move_along import plan_move_along
-                plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin)
+                self.start_to_move_on_tier1(event_list, rand, settings)
 
-    def start_backing(self, event_list, settings):
+    def start_to_move_on_tier1(self, event_list, rand, settings):
+        target_postion = get_random_position_on_tier1(rand, settings.map_size_x, settings.tier1_distance_from_intruder)
+        from Events.move_along import plan_move_along
+        plan_move_along(event_list, self.event_owner, target_postion, self.time_of_event, self.game_state, settings,
+                        self.tk_master, self.safe_margin)
+
+    def start_backing(self, event_list, settings,rand):
         # plan to back
         path = search_back_path(self.event_owner, self.game_state.game_map, settings.v_of_uav,
                                 settings.tier1_distance_from_intruder, settings, self.game_state.hands_list)
-        if path != None:
+
+        if abs(settings.tier1_distance_from_intruder-self.event_owner.position.y)<settings.uav_size:
+            self.start_to_move_on_tier1(event_list, rand, settings)
+        elif path != None:
             plan_attack(self.time_of_event, self.event_owner, self.tk_master, path, settings.v_of_uav, self.state,
                         event_list, UavStatus.ON_BACK, settings.safe_margin)
         else:

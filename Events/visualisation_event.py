@@ -33,7 +33,7 @@ class Visualisation_event(Event):
         self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
 
 
-        self.canvas.update()
+        # self.canvas.update()
 
 
 
