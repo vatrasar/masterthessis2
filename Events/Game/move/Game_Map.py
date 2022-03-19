@@ -111,7 +111,7 @@ class GameMap():
 
     def set_object_on_map(self,object:MovableObject,object_size,object_id):
         try:
-            drones_candidates: typing.List[Point] = []
+
 
             # x_i, y_i = self.get_point_on_map_index(object.position.x, object.position.y)
             # drones_candidates.append(Point(x_i, y_i))

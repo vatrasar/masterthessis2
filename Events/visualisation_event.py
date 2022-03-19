@@ -15,8 +15,8 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=30
-        # if time_of_event>200:
+        self.visualisation_delay=1
+        # if time_of_event>100:
         #     self.visualisation_delay=200
 
 
@@ -42,7 +42,7 @@ class Visualisation_event(Event):
     def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range,settings:Settings):
 
         create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
-        # create_circle(111,141,hand_size,self.canvas,"black") #marker
+        # create_circle(122,267,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 

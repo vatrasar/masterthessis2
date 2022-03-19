@@ -16,6 +16,7 @@ class UavStatus(Enum):
     DODGE=11
     BACK_FROM_DODGE=12
     PLANED_DODGE=13
+    ATTACK_DODGE_MOVE=14
 
 
     def to_string(self):

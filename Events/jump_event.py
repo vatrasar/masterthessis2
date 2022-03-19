@@ -76,7 +76,7 @@ class Jump_event(Event):
             return
 
         else:
-            if (self.event_owner.target_uav.status in [UavStatus.WAIT,UavStatus.ON_BACK,UavStatus.ON_ATTACK]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings) and self.event_owner.status!=HandStatus.WAIT_AFTER_JUMP:
+            if (self.event_owner.target_uav.status in [UavStatus.WAIT,UavStatus.ON_BACK,UavStatus.ON_ATTACK,UavStatus.ATTACK_DODGE_MOVE]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings) and self.event_owner.status!=HandStatus.WAIT_AFTER_JUMP:
                 plan_jump_event(self.old_target,self.event_owner,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
             else:
                 if self.event_owner.status==HandStatus.WAIT_AFTER_JUMP:
