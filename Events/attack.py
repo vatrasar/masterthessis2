@@ -1,6 +1,6 @@
 from random import Random
 
-import self as self
+
 
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus

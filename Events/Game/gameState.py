@@ -14,7 +14,7 @@ class GameState():
     def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points):
 
         self.visualize_first=True
-
+        self.t_curr=0
         #init UAv
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
@@ -34,7 +34,6 @@ class GameState():
 
         self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,))
         logging.info("state initiated")
-
 
 
     def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner,jump_ratio,settings,event_list):

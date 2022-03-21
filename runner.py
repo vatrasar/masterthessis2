@@ -1,3 +1,4 @@
+from Events.Game.Statistics import Statistics
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
@@ -11,11 +12,13 @@ from Events.visualisation_event import Visualisation_event
 from Events.event import Event
 
 class Runner():
-    def __init__(self,settings:Settings,rand):
+    def __init__(self,settings:Settings,rand,statistics:Statistics):
         self.settings=settings
         self.rand=rand
         self.current_time=0
         self.master=None
+        self.statistics=statistics
+
 
 
     def run(self):
@@ -52,13 +55,22 @@ class Runner():
     def single_iteration(self):
 
         closest_event:Event=self.events_list.get_closest_event()
-
+        update_stac_step=1
         self.current_time=closest_event.time_of_event
+        self.game_state.t_curr=self.current_time
         if self.current_time>58.5:
              print("ok")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
-
+        if self.current_time-update_stac_step>0:
+            update_stac_step=update_stac_step+1
+            self.statistics.update_stac(self.game_state,self.settings)
         print(self.current_time)
+
+        if self.current_time==1000:
+            self.master.quit()
+            self.statistics.save()
+
+
 
 
 
