@@ -94,11 +94,12 @@ class Settings():
         self.dodge_radius=self.uav_size*4
         self.save_distance=self.dodge_radius*2 #minimal distance form secound uav
         self.minimal_hand_range=self.intuder_size*1.3
-        self.intruder_time_of_reaction=1.0
+        self.intruder_time_of_reaction=5.0
         self.uav_wait_time=3.0
         self.jump_ratio=2
         self.time_to_wait_after_jump=20
         self.minimal_travel_time=0.2
+        self.blind_angle=20
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
         logging.info("properties correct")

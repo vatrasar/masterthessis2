@@ -2,6 +2,8 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.GameObjects.tools.geometry import get_angle_between_points
+from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.event import Event
 from Events.events_list import Event_list
@@ -16,9 +18,14 @@ class Hand_control_event(Event):
 
     def handle_event(self, event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
+        list_of_uav=[]
+        if len(self.game_state.uav_list)>1 and get_angle_between_points(self.game_state.uav_list[0].position,self.game_state.uav_list[1].position,Point(settings.map_size_x/2,0))>settings.blind_angle:
+            uav_to_check=self.game_state.uav_list[rand.randint(0,1)]
+            list_of_uav.append(uav_to_check)
+        else:
+            list_of_uav.extend(self.game_state.uav_list)
 
-
-        for uav in self.game_state.uav_list:
+        for uav in list_of_uav:
             if not(uav.status in [UavStatus.TIER_2 or UavStatus.DEAD]):
                 if uav.chasing_hand==None:
 

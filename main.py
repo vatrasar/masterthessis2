@@ -8,6 +8,7 @@ from Events.Game.move.GameObjects.tools.settings import Settings
 def main():
     settings:Settings=Settings()
     statistics=Statistics()
+
     try:
         settings_file_name_f=open("settingsFiles/settingsFileName.txt")
         settingsFileName_line:str=settings_file_name_f.readline()[0:-1]

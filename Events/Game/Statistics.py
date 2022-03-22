@@ -1,3 +1,4 @@
+import logging
 import typing
 
 from Events.Game.gameState import GameState
@@ -27,7 +28,11 @@ class Statistics():
 
 
     def save(self):
-        save_directory = create_folder("./charts")
+        # logger = logging.getLogger('matplotlib')
+        # logger2 = logging.getLogger('PIL')
+        # logger.setLevel(level=logging.WARNING)
+        # save_directory = create_folder("./charts")
+        # logger2.setLevel(level=logging.WARNING)
 
         # distance between uav
         x=[]

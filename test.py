@@ -1,23 +1,11 @@
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Fixing random state for reproducibility
-np.random.seed(19680801)
+print(2**3)
+import math
 
 
-plt.rcdefaults()
-fig, ax = plt.subplots()
+c=85.75
+b=401.57
+a=402.14
 
-# Example data
-people = ('Tom', 'Dick', 'Harry', 'Slim', 'Jim')
-y_pos = np.arange(len(people))
-performance = 3 + 10 * np.random.rand(len(people))
-error = np.random.rand(len(people))
-
-ax.barh(y_pos, performance, xerr=error, align='center')
-ax.set_yticks(y_pos, labels=people)
-ax.invert_yaxis()  # labels read top-to-bottom
-ax.set_xlabel('Performance')
-ax.set_title('How fast do you want to go today?')
-
-plt.show()
+cos_alpha=(a**2+b**2-c**2)/(2.0*a*b)
+alpha=math.acos(cos_alpha)
+print(math.degrees(alpha))

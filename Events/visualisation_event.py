@@ -1,3 +1,4 @@
+import logging
 from random import Random
 from tkinter import Tk, Canvas
 
@@ -15,7 +16,7 @@ class Visualisation_event(Event):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
         self.canvas=canvas
-        self.visualisation_delay=1
+        self.visualisation_delay=40
         # if time_of_event>100:
         #     self.visualisation_delay=200
 
