@@ -28,11 +28,11 @@ class Statistics():
 
 
     def save(self):
-        # logger = logging.getLogger('matplotlib')
-        # logger2 = logging.getLogger('PIL')
-        # logger.setLevel(level=logging.WARNING)
-        # save_directory = create_folder("./charts")
-        # logger2.setLevel(level=logging.WARNING)
+        logger = logging.getLogger('matplotlib')
+        logger2 = logging.getLogger('PIL')
+        logger.setLevel(level=logging.WARNING)
+        save_directory = create_folder("./charts")
+        logger2.setLevel(level=logging.WARNING)
 
         # distance between uav
         x=[]

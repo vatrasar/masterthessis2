@@ -4,6 +4,7 @@ from random import Random
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.map_ranges_tools import put_point_in_range_of_map, get_max_hand_range_in_x
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
@@ -17,12 +18,24 @@ from Events.events_list import Event_list
 
 
 
-def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list):
+def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list,rand:Random):
     target_point=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
+
+
     if target_point==None:
         from Events.hand_chase import plan_chase_event
         plan_chase_event(hand,settings,event_list,current_time,tk_master,game_state)
     else:
+        if settings.is_hand_deviation:
+            x_deviation=rand.random()*settings.hand_max_deviation
+            y_deviation=rand.random()*settings.hand_max_deviation
+
+            target_point.x=target_point.x+x_deviation
+            target_point.y=target_point.y+y_deviation
+            max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_point.x)
+            put_point_in_range_of_map(target_point,settings.map_size_x,max_hand_y)
+
+
         plan_jump_event(target_point, hand,  settings, current_time, tk_master, game_state, event_list)
 
 

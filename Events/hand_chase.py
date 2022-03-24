@@ -8,35 +8,13 @@ from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_uav_is_in_range
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time, get_point_base_on_distance
+from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
 from Events.jump_event import plan_jump_event, init_jump
 
 
-def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size_x,x):
-
-
-    if hand_side==Sides.LEFT:
-        if x>map_size_x/2.0:
-
-            a=(maximum_hand_range-minimal_hand_range)/(map_size_x/2.0-map_size_x)
-            b=maximum_hand_range-a*map_size_x/2.0
-
-
-
-            return x*a+b
-        else:
-            return  maximum_hand_range
-
-    else:
-        if x>map_size_x/2.0:
-            return  maximum_hand_range
-        else:
-
-            a=(minimal_hand_range-maximum_hand_range)/(0-map_size_x/2.0)
-            b=minimal_hand_range
-            return x*a+b
 
 
 
@@ -88,7 +66,7 @@ class Hand_chase(Event):
 
         else:
             if (self.event_owner.target_uav.status in [UavStatus.ON_BACK,UavStatus.ON_ATTACK,UavStatus.ATTACK_DODGE_MOVE]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
-                init_jump(self.event_owner.target_uav.next_event.old_path,self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list)
+                init_jump(self.event_owner.target_uav.next_event.old_path,self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list,rand)
             else:
                 plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
         # if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD:

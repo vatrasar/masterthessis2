@@ -100,6 +100,8 @@ class Settings():
         self.time_to_wait_after_jump=20
         self.minimal_travel_time=0.2
         self.blind_angle=20
+        self.hand_max_deviation=self.uav_size*1.5
+        self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
         logging.info("properties correct")

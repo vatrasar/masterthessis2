@@ -16,3 +16,5 @@ def create_folder(folder_path):
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
     return save_directory
+
+
