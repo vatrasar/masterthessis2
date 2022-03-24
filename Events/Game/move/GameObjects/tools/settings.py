@@ -103,6 +103,7 @@ class Settings():
         self.hand_max_deviation=self.uav_size*1.5
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
+        self.max_number_of_iterations=1000
 
         logging.info("properties correct")
         return setting_dict

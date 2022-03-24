@@ -42,12 +42,18 @@ class Runner():
                 self.master.after(1,self.single_iteration)
 
 
+
+
+
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
             plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
             if self.settings.visualisation==1:#visualisation
                 self.master.mainloop()
+            else:
+                while self.current_time<=self.settings.max_number_of_iterations:
+                    self.single_iteration()
 
 
 
@@ -66,8 +72,9 @@ class Runner():
             self.statistics.update_stac(self.game_state,self.settings)
         print(self.current_time)
 
-        if self.current_time==1000:
-            self.master.quit()
+        if self.current_time>self.settings.max_number_of_iterations:
+            if self.settings.visualisation==1:
+                self.master.quit()
             self.statistics.save()
 
 
