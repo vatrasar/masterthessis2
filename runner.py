@@ -19,9 +19,7 @@ class Runner():
         self.master=None
         self.statistics=statistics
 
-
-
-    def run(self):
+    def run_debug_1(self):
             self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points)
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
@@ -30,33 +28,47 @@ class Runner():
 
             if self.settings.visualisation==1:#visualisation
 
-                self.master=tkinter.Tk()
-                self.master.title("nazwa okna")
-                canvas=tkinter.Canvas(self.master,width=self.settings.map_size_x,height=self.settings.map_size_y)
-                canvas.pack()
-                event_time=self.current_time+self.settings.visualzation_update_interval
-                self.game_state.visualisation_owner=MovableObject(0,0,UavStatus.VISUALISE,0,0,0,None,None)
-                visualisation_event=Visualisation_event(event_time,self.game_state.visualisation_owner,self.master,canvas,self.game_state)
-
-                self.events_list.append_event(visualisation_event,UavStatus.VISUALISE)
-                self.master.after(1,self.single_iteration)
+                self.setup_visualisation()
 
 
+            if self.settings.visualisation==1:#visualisation
+
+                self.master.mainloop()
 
 
+    def run_normal(self):
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points)
+            self.game_state.game_map.update_map(self.game_state,None)
+            self.events_list=Event_list()
+            #init uavs events
+
+
+            if self.settings.visualisation==1:#visualisation
+
+                self.setup_visualisation()
 
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
             plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
+
             if self.settings.visualisation==1:#visualisation
+                self.master.after(1, self.single_iteration)
                 self.master.mainloop()
             else:
                 while self.current_time<=self.settings.max_number_of_iterations:
                     self.single_iteration()
 
-
-
+    def setup_visualisation(self):
+        self.master = tkinter.Tk()
+        self.master.title("nazwa okna")
+        canvas = tkinter.Canvas(self.master, width=self.settings.map_size_x, height=self.settings.map_size_y)
+        canvas.pack()
+        event_time = self.current_time + self.settings.visualzation_update_interval
+        self.game_state.visualisation_owner = MovableObject(0, 0, UavStatus.VISUALISE, 0, 0, 0, None, None)
+        visualisation_event = Visualisation_event(event_time, self.game_state.visualisation_owner, self.master, canvas,
+                                                  self.game_state)
+        self.events_list.append_event(visualisation_event, UavStatus.VISUALISE)
 
     def single_iteration(self):
 

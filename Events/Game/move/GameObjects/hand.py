@@ -13,7 +13,7 @@ class Hand(MovableObject):
         self.tier_0_position=self.get_hand_tier0_position(side,map_x_size,map_y_size/2)
         self.position=self.tier_0_position
         if side==Sides.LEFT:
-            self.color="red"
+            self.color="blue"
         else:
             self.color="purple"
         from Events.Game.move.GameObjects.uav import Uav

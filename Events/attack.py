@@ -27,6 +27,8 @@ def plan_attack(current_time, event_owner,tk_master,path,v_of_uav,game_state,eve
     event_list.append_event(new_event,status)
 
 
+
+
 def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:GameState,settings:Settings,event_list:Event_list):
     target_position=None
 
@@ -84,6 +86,8 @@ class Attack(Event):
 
                 attack_path_found=False
                 if self.event_owner.status==UavStatus.ON_ATTACK and check_is_horizontal_distance_form_hands_safe(self.state.hands_list, self.event_owner, settings.safe_margin):
+                    path=None
+
                     path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
                     if path!=None:
                         attack_path_found=True

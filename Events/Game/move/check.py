@@ -101,6 +101,9 @@ def check_is_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_ma
 
 def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hands_list:typing.List[Hand]):
 
+    if settings.trybe==1:
+        return True
+
     jump_velocity=settings.jump_ratio*settings.velocity_hand
     cells_to_check=settings.v_of_uav*5.0/settings.map_resolution
     if (not check_is_horizontal_distance_form_hands_safe(hands_list, uav, settings.safe_margin)) and uav.status!=UavStatus.ON_BACK:

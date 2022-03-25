@@ -27,7 +27,7 @@ def main():
     rand = random.Random(975)  # 800
 
     runner=Runner(settings,rand, statistics)
-    runner.run()
+    runner.run_normal()
 
 
 

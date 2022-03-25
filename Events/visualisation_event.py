@@ -58,9 +58,9 @@ class Visualisation_event(Event):
 
         for hand in self.game_state.hands_list:#hands
             if hand.status==HandStatus.JUMP:
-                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,hand.color)
+                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,"red")
             else:
-                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,"blue")
+                create_circle(hand.position.x, hand.position.y,hand_size,self.canvas,hand.color)
 
 
             #ranges boxes
