@@ -5,11 +5,16 @@ from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.settings import Settings
 import tkinter
 
+from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
+from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x
+from Events.hand_chase import plan_chase_event
 from Events.hand_control_event import plan_hand_control_event
 from Events.move_along import plan_enter_from_tier2
 from Events.events_list import Event_list
 from Events.visualisation_event import Visualisation_event
 from Events.event import Event
+from Events.wait import plan_wait
+
 
 class Runner():
     def __init__(self,settings:Settings,rand,statistics:Statistics):
@@ -19,21 +24,7 @@ class Runner():
         self.master=None
         self.statistics=statistics
 
-    def run_debug_1(self):
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points)
-            self.game_state.game_map.update_map(self.game_state,None)
-            self.events_list=Event_list()
-            #init uavs events
 
-
-            if self.settings.visualisation==1:#visualisation
-
-                self.setup_visualisation()
-
-
-            if self.settings.visualisation==1:#visualisation
-
-                self.master.mainloop()
 
 
     def run_normal(self):
@@ -47,9 +38,13 @@ class Runner():
 
                 self.setup_visualisation()
 
+
+
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
+            if self.settings.trybe==2:
+                self.setup_debug2(self.events_list)
             plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
             if self.settings.visualisation==1:#visualisation
@@ -89,6 +84,18 @@ class Runner():
                 self.master.quit()
             self.statistics.save()
 
+    def setup_debug2(self,event_list):
+        for uav in self.game_state.uav_list:
+
+            uav.delete_current_event(self.events_list)
+            for hand in self.game_state.hands_list:
+                if hand.target_uav==None:
+                    hand.start_chasing(uav)
+                    break
+            rand_pos=get_random_position_on_tier1(self.rand,self.settings.map_size_x,self.settings.tier1_distance_from_intruder)
+            uav.position=get_random_position_between_tier1_and_0(self.settings.map_size_x,get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,rand_pos.x),self.settings.intuder_size,self.rand,rand_pos.x)
+            plan_wait(0,20000,uav, self.master,self.game_state,event_list,self.settings.safe_margin)
+            plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
 
 
 

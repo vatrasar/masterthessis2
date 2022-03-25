@@ -21,6 +21,10 @@ def get_random_position_on_tier1(rand:Random,map_width,tier1_distance):
 
     return Point(x,tier1_distance)
 
+def get_random_position_between_tier1_and_0(max_x,tier1_distance,size_of_intruder,rand:Random,x):
+
+	y=(tier1_distance-size_of_intruder)**rand.random()+size_of_intruder
+	return Point(x,y)
 
 def get_vector_with_length_and_direction(distance,direction_vector:Point):
 	try:
