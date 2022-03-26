@@ -45,7 +45,9 @@ class Runner():
 
             if self.settings.trybe==2:
                 self.setup_debug2(self.events_list)
-            plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
+
+            if self.settings.trybe!=3:
+                plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
             if self.settings.visualisation==1:#visualisation
                 self.master.after(1, self.single_iteration)
