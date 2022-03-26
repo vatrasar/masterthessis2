@@ -24,7 +24,7 @@ def main():
         return
 
     #init state
-    rand = random.Random(975)  # 800
+    rand = random.Random(settings.seed)  # 800
 
     runner=Runner(settings,rand, statistics)
     runner.run_normal()

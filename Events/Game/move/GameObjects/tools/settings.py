@@ -100,11 +100,11 @@ class Settings():
         self.time_to_wait_after_jump=20
         self.minimal_travel_time=0.2
         self.blind_angle=20
-        self.hand_max_deviation=self.uav_size*1.5
+        self.hand_max_deviation=self.uav_size*5
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
         self.max_number_of_iterations=1000
-        self.trybe=3 # 0 SA1, 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0
+        self.trybe=2 # 0 SA1, 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0
 
         logging.info("properties correct")
         return setting_dict

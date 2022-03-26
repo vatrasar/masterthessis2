@@ -2,6 +2,7 @@ from Events.Game.Statistics import Statistics
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
+from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 import tkinter
 
@@ -94,6 +95,11 @@ class Runner():
                 if hand.target_uav==None:
                     hand.start_chasing(uav)
                     break
+
+
+            # x=(self.settings.map_size_x)*self.rand.random()
+            # y=(get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,x)-self.settings.intuder_size)*self.rand.random()+self.settings.intuder_size
+            # uav.position=Point(x,y)
             rand_pos=get_random_position_on_tier1(self.rand,self.settings.map_size_x,self.settings.tier1_distance_from_intruder)
             uav.position=get_random_position_between_tier1_and_0(self.settings.map_size_x,get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,rand_pos.x),self.settings.intuder_size,self.rand,rand_pos.x)
             plan_wait(0,20000,uav, self.master,self.game_state,event_list,self.settings.safe_margin)
