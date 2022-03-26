@@ -8,7 +8,7 @@ from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.tools.other_tools import create_folder
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
-from matplotlib import pyplot as plt
+
 import csv
 
 class Statistics():
@@ -28,6 +28,7 @@ class Statistics():
 
 
     def save(self):
+        from matplotlib import pyplot as plt
         logger = logging.getLogger('matplotlib')
         logger2 = logging.getLogger('PIL')
         logger.setLevel(level=logging.WARNING)
