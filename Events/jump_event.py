@@ -21,7 +21,7 @@ from Events.events_list import Event_list
 def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list,rand:Random):
     target_point=None
     if len(path)==0:
-        target_point=uav_position
+        target_point=Point(uav_position.x,uav_position.y)
     else:
         target_point=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
 
