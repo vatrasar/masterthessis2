@@ -54,7 +54,7 @@ class Runner():
                 self.master.after(1, self.single_iteration)
                 self.master.mainloop()
             else:
-                while self.current_time<=self.settings.max_number_of_iterations:
+                while self.current_time<=self.settings.T:
                     self.single_iteration()
 
     def setup_visualisation(self):
@@ -74,15 +74,15 @@ class Runner():
         update_stac_step=1
         self.current_time=closest_event.time_of_event
         self.game_state.t_curr=self.current_time
-        if self.current_time>58.5:
-             print("ok")
+        # if self.current_time>58.5:
+        #      print("ok")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
         if self.current_time-update_stac_step>0:
             update_stac_step=update_stac_step+1
             self.statistics.update_stac(self.game_state,self.settings)
         print(self.current_time)
 
-        if self.current_time>self.settings.max_number_of_iterations:
+        if self.current_time>self.settings.T:
             if self.settings.visualisation==1:
                 self.master.quit()
             self.statistics.save()
