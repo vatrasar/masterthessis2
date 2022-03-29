@@ -104,8 +104,6 @@ class Settings():
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
-        self.trybe=0 # 0 SA1, 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0
-
         logging.info("properties correct")
         return setting_dict
 
@@ -125,6 +123,13 @@ class Settings():
                 self.hands_number=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2 "%(property_name))
+        elif (property_name=="mode_debug"):
+            property_value = int(str(property_value))
+            if (property_value >= 0 and property_value <= 3):
+                self.mode_debug=property_value
+            else:
+                raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2,3 "%(property_name))
+
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, -1, 3, False)
         elif (property_name=="T"):

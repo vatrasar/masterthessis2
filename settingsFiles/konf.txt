@@ -19,3 +19,4 @@ map_resolution=3 #Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukuj�
 search_angle=30 #kąt, który określa wielkość stożka poszukiwań. wartość miedzy 20 a 360
 seed=456 #ziarno generatora liczb losowych
 intuder_size=120
+mode_debug=0 #tryb debug w jakim działa program. 0 SA1(tryb normalny), 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0
