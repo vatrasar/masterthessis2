@@ -94,13 +94,13 @@ class Settings():
         self.dodge_radius=self.uav_size*4
         self.save_distance=self.dodge_radius*2 #minimal distance form secound uav
         self.minimal_hand_range=self.intuder_size*1.3
-        self.intruder_time_of_reaction=5.0
+
         self.uav_wait_time=3.0
-        self.jump_ratio=2
-        self.time_to_wait_after_jump=20
+
+
         self.minimal_travel_time=0.2
-        self.blind_angle=20
-        self.hand_max_deviation=self.uav_size*2
+
+
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
@@ -131,9 +131,15 @@ class Settings():
                 raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2,3 "%(property_name))
 
         elif (property_name=="visualization"):
-            self.visualisation=self.check_int(property_value, property_name, -1, 3, False)
+            self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
+        elif (property_name=="hand_max_deviation"):
+            self.hand_max_deviation=self.check_int(property_value, property_name, 0, 1, True)
         elif (property_name=="T"):
             self.T=self.check_float(property_value,property_name,0,1,True)
+        elif (property_name=="jump_ratio"):
+            self.jump_ratio=self.check_float(property_value,property_name,0,1,True)
+        elif (property_name=="time_to_wait_after_jump"):
+            self.time_to_wait_after_jump=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="beat_the_score"):
             self.beat_the_score=self.check_float(property_value,property_name,0,1,True)
 
@@ -201,6 +207,10 @@ class Settings():
 
             self.minimal_hand_move_time=self.check_float(property_value,property_name,0,1,True)
 
+        elif (property_name=="intruder_time_of_reaction"):
+
+            self.intruder_time_of_reaction=self.check_float(property_value,property_name,0,1,True)
+
         elif (property_name=="map_resolution"):
 
             self.map_resolution=self.check_float(property_value,property_name,0,1,True)
@@ -212,6 +222,10 @@ class Settings():
         elif (property_name=="seed"):
 
             self.seed=self.check_int(property_value,property_name,0,223,True)
+
+        elif (property_name=="blind_angle"):
+
+            self.blind_angle=self.check_int(property_value,property_name,0,223,True)
 
         else:
             raise Exception("Błąd pliku konfiguracyjnego, nieznana nazwa właściwości:" +property_name)
