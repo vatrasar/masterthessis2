@@ -1,5 +1,5 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
-hands_number=1 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
+hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja
 T=1000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 mode=RW-RA #tryby wyszukiwania trasy przez drona. RW-RA to tryb losowy. mozliwe wartości: RW-RA
@@ -17,7 +17,7 @@ visualzation_update_interval=0.5 #co ile jednostek czasu ma być aktualizowana w
 r_of_LR=300 #Maksymalny zasięg ręki. wartość powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
 map_resolution=3 #Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki. wartość powyżej 0
 search_angle=30 #kąt, który określa wielkość stożka poszukiwań. wartość miedzy 20 a 360
-seed=456 #ziarno generatora liczb losowych
+seed=800 #ziarno generatora liczb losowych
 intuder_size=120
 mode_debug=0 #tryb debug w jakim działa program. 0 SA1(tryb normalny), 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0
 time_to_wait_after_jump=20 #jak długo ręka musi czekać po wykonaniu skoku
