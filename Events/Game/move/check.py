@@ -143,7 +143,7 @@ def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hand
     return True
 
 def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands_list:typing.List[Hand],jump_velocity):
-    # jump_velocity=settings.jump_ratio*settings.velocity_hand
+    jump_velocity=settings.jump_ratio*settings.velocity_hand
     if cell.position.y>settings.r_of_LR:
         return True
     if chasing_hand!=None and chasing_hand.status==HandStatus.JUMP:# checking future targets
@@ -154,7 +154,10 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
             return False
 
     for hand in hands_list:# chacking for static targets
-        if get_2d_distance(cell.position,hand.position)<settings.uav_size*4:
+        save_distance=settings.velocity_hand*3
+        if hand.status==HandStatus.JUMP:
+            save_distance=settings.velocity_hand*settings.jump_ratio*3
+        if get_2d_distance(cell.position,hand.position)<save_distance:
             return False
 
 

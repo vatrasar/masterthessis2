@@ -17,7 +17,7 @@ class Visualisation_event(Event):
 
         self.canvas=canvas
         self.visualisation_delay=1
-        # if time_of_event>175:
+        # if time_of_event>310:
         #     self.visualisation_delay=200
 
 
