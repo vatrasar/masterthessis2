@@ -136,6 +136,8 @@ class Settings():
             self.hand_max_deviation=self.check_int(property_value, property_name, 0, 1, True)
         elif (property_name=="T"):
             self.T=self.check_float(property_value,property_name,0,1,True)
+        elif (property_name=="visualisation_speed"):
+            self.visualisation_speed=self.check_int(property_value,property_name,0,1,True)
         elif (property_name=="jump_ratio"):
             self.jump_ratio=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="time_to_wait_after_jump"):

@@ -65,7 +65,7 @@ class Runner():
         event_time = self.current_time + self.settings.visualzation_update_interval
         self.game_state.visualisation_owner = MovableObject(0, 0, UavStatus.VISUALISE, 0, 0, 0, None, None)
         visualisation_event = Visualisation_event(event_time, self.game_state.visualisation_owner, self.master, canvas,
-                                                  self.game_state)
+                                                  self.game_state,self.settings.visualisation_speed)
         self.events_list.append_event(visualisation_event, UavStatus.VISUALISE)
 
     def single_iteration(self):
