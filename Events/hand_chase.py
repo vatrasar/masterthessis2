@@ -12,6 +12,7 @@ from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
+from Events.hand_back import plan_hand_back_event
 from Events.jump_event import plan_jump_event, init_jump
 
 
@@ -29,8 +30,8 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
         target_point=last_point_on_path
         trevel_time=get_travel_time_to_point(event_owner.position,target_point,settings.velocity_hand)
         if trevel_time<settings.minimal_travel_time:
-            new_event=Hand_chase(current_time+settings.intruder_time_of_reaction,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
-            event_list.append_event(new_event,HandStatus.WAIT)
+
+            plan_hand_back_event(event_list,settings,event_owner,game_state,current_time,tk_master)
         else:
 
             time_of_event=trevel_time+current_time

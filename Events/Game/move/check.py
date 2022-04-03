@@ -170,3 +170,18 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
     #         return False
 
     return True
+
+def check_if_point_is_reached(object_velocity,minimal_time_of_travel,object_position,target_position):
+    trevel_time=get_travel_time_to_point(object_position,target_position,object_velocity)
+    if minimal_time_of_travel>=trevel_time:
+        return True
+    else:
+        return False
+
+
+def check_if_point_is_reached(object_velocity,minimal_time_of_travel,object_position,target_position):
+    trevel_time=get_travel_time_to_point(object_position,target_position,object_velocity)
+    if minimal_time_of_travel>=trevel_time:
+        return True
+    else:
+        return False

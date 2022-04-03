@@ -15,7 +15,7 @@ from Events.Game.move.get_position import get_point_based_on_time
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
-
+from Events.hand_back import plan_hand_back_event
 
 
 def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list,rand:Random):
@@ -56,6 +56,7 @@ def plan_jump_event(target_point, hand, settings:Settings, current_time, tk_mast
                 hand.delete_current_event(event_list)
                 hand.stop_chasing()
                 hand.status=HandStatus.WAIT
+
             else:
                 new_event=Jump_event(current_time+settings.time_to_wait_after_jump,hand,tk_master,hand.target_uav,HandStatus.WAIT_AFTER_JUMP,target_point,game_state,old_target)
                 event_list.append_event(new_event,HandStatus.WAIT_AFTER_JUMP)
@@ -90,6 +91,7 @@ class Jump_event(Event):
             self.event_owner.set_status(HandStatus.TIER_0)
             self.event_owner.stop_chasing()
             self.event_owner.next_event=None
+            plan_hand_back_event(event_list,settings,self.event_owner,self.game_state,self.time_of_event,self.tk_master)
             return
 
         else:
