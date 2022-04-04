@@ -68,19 +68,27 @@ class Visualisation_event(Event):
 
             if hand.side==Sides.LEFT:
 
-                up_start=Point(0,hand_range)
-                up_end=Point(map_size_x/2.0,hand_range)
-                boxes.append((up_start,up_end,hand.color))
-                right_start=Point(map_size_x/2.0,hand_range)
-                right_end=Point(map_size_x,minimal_hand_range)
-                boxes.append((right_start,right_end,hand.color))
+                up_start = Point(0, hand_range)
+                up_end = Point(map_size_x/2.0,hand_range)
+                boxes.append((up_start, up_end, hand.color))
+                left_start=Point(map_size_x/2.0,hand_range)
+                left_end=settings.left_box
+
+                down_start=settings.left_box
+                down_end=Point(settings.left_box.x,intruder_size)
+                boxes.append((left_start, left_end, hand.color))
+                boxes.append((down_start, down_end, hand.color))
             else:
                 up_start=Point(map_size_x/2.0,hand_range)
                 up_end=Point(map_size_x,hand_range)
                 boxes.append((up_start,up_end,hand.color))
-                left_start=Point(map_size_x/2.0,hand_range)
-                left_end=Point(0,minimal_hand_range)
-                boxes.append((left_start,left_end,hand.color))
+
+                right_start = Point(map_size_x/2.0,hand_range)
+                right_end = settings.right_box
+                boxes.append(( right_start,right_end,hand.color))
+                down_start=settings.right_box
+                down_end=Point(settings.right_box.x+1,intruder_size)
+                boxes.append((down_start, down_end, hand.color))
 
             for box in boxes:
                 create_line(box[0],box[1],self.canvas,box[2])

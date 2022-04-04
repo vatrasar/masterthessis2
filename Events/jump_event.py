@@ -36,7 +36,7 @@ def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, han
 
             target_point.x=target_point.x+x_deviation
             target_point.y=target_point.y+y_deviation
-            max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_point.x)
+            max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_point.x,settings)
             put_point_in_range_of_map(target_point,settings.map_size_x,max_hand_y)
 
 

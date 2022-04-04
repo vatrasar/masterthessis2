@@ -3,12 +3,13 @@ import typing
 
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus, Sides
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time
+from Events.Game.move.map_ranges_tools import get_max_x_in_range
 from Events.Game.move.time import get_travel_time_to_point
 
 
@@ -67,11 +68,34 @@ def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
 
 def check_if_uav_is_in_range(uav:Uav,hand:Hand,settings):
     from Events.hand_chase import get_max_hand_range_in_x
-    max_y_range=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,uav.position.x)
+    x=get_max_x_in_range(hand.side,settings,uav.position.x)
+    if hand.side==Sides.LEFT and x<uav.position.x:
+        return False
+    elif hand.side==Sides.RIGHT and x>uav.position.x:
+        return False
+
+    max_y_range=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,x,settings)
     if max_y_range>uav.position.y:
         return True
     else:
         return False
+
+
+def check_if_point_is_in_range(point:Point,hand:Hand,settings):
+    from Events.hand_chase import get_max_hand_range_in_x
+    x=get_max_x_in_range(hand.side,settings,point.x)
+    if hand.side==Sides.LEFT and x<point.x:
+        return False
+    elif hand.side==Sides.RIGHT and x>point.x:
+        return False
+
+    max_y_range=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,x,settings)
+    if max_y_range>point.y:
+        return True
+    else:
+        return False
+
+
 
 def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin,jump_velocity):
 
@@ -150,7 +174,7 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
 
         target_point=get_point_based_on_time(chasing_hand.position, arrive_time, chasing_hand.target_position, jump_velocity)
 
-        if get_2d_distance(cell.position,target_point)<settings.uav_size*4:
+        if get_2d_distance(cell.position,target_point)<(settings.uav_size+settings.hand_size)*2:
             return False
 
     for hand in hands_list:# chacking for static targets

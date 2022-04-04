@@ -4,6 +4,8 @@ from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.check import check_if_point_is_in_range
+from Events.Game.move.map_ranges_tools import get_max_x_in_range
 from Events.Game.move.time import get_travel_time_to_point
 
 
@@ -23,7 +25,9 @@ def find_target_for_jump(path:typing.List[FluidCell],uav_postion:Point,hand_posi
     if target_cell==None:
         return target_cell
     from Events.hand_chase import get_max_hand_range_in_x
-    max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_cell.position.x)
+    if not check_if_point_is_in_range(target_cell.position,hand,settings):
+        return None
+    max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_cell.position.x,settings)
     target_position=target_cell.position
     if target_position.y>max_hand_y:
         target_position=Point(target_cell.position.x,max_hand_y)

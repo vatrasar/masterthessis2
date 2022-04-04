@@ -245,9 +245,9 @@ class Settings():
     def get_boxes(self,file_with_boxes):
         record=file_with_boxes.readlines()
         field_list=record[0].split(" ")
-        self.right_box=Point(float(field_list[0]),float(field_list[1]))
-        field_list=record[1].split(" ")
         self.left_box=Point(float(field_list[0]),float(field_list[1]))
+        field_list=record[1].split(" ")
+        self.right_box=Point(float(field_list[0]),float(field_list[1]))
 
 
 
