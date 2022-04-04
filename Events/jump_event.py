@@ -53,6 +53,7 @@ def plan_jump_event(target_point, hand, settings:Settings, current_time, tk_mast
         trevel_time=get_travel_time_to_point(hand.position,target_point,jump_velocity)
         if trevel_time<settings.minimal_travel_time:
             if hand.status==HandStatus.WAIT_AFTER_JUMP:
+
                 hand.delete_current_event(event_list)
                 hand.stop_chasing()
                 hand.status=HandStatus.WAIT

@@ -48,9 +48,9 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
 
     if target_position.x<0 or target_position.x>settings.map_size_x:
         if event_owner.position.x<settings.map_size_x/2:
-            target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
+            target_position=Point(event_owner.position.x+settings.safe_margin/2+settings.hand_size,event_owner.position.y)
         else:
-            target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
+            target_position=Point(event_owner.position.x-settings.safe_margin/2-settings.hand_size,event_owner.position.y)
 
 
 
