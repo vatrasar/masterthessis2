@@ -1,6 +1,7 @@
 import logging
 import typing
 
+from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.points_cell import PointsCell
 
 
@@ -63,7 +64,7 @@ class Settings():
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
 
-    def get_properties(self,file_with_properties,file_with_rewards):
+    def get_properties(self,file_with_properties,file_with_rewards,file_with_boxes):
         logging.basicConfig(level=logging.NOTSET)
 
         setting_dict={}
@@ -78,6 +79,7 @@ class Settings():
 
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
+        self.get_boxes(file_with_boxes)
 
 
 
@@ -239,5 +241,13 @@ class Settings():
             fields_list=record.split(" ")
             list_of_cell_points.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
         return list_of_cell_points
+
+    def get_boxes(self,file_with_boxes):
+        record=file_with_boxes.readlines()
+        field_list=record[0].split(" ")
+        self.right_box=Point(float(field_list[0]),float(field_list[1]))
+        field_list=record[1].split(" ")
+        self.left_box=Point(float(field_list[0]),float(field_list[1]))
+
 
 
