@@ -18,7 +18,7 @@ from Events.make_dodge import Make_dodge
 
 
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
-    time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1)+current_time
+    time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1,rand)+current_time
     target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state,safe_margin)
     event_list.append_event(event,UavStatus.TIER_2)

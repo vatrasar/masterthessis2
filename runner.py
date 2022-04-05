@@ -8,6 +8,7 @@ import tkinter
 
 from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
 from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x
+from Events.Game.move.time import get_d_t_arrive_poison
 from Events.hand_chase import plan_chase_event
 from Events.hand_control_event import plan_hand_control_event
 from Events.move_along import plan_enter_from_tier2
@@ -48,7 +49,7 @@ class Runner():
                 self.setup_debug2(self.events_list)
 
             if self.settings.mode_debug!=3:
-                plan_hand_control_event(self.current_time,self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
+                plan_hand_control_event(self.current_time+get_d_t_arrive_poison(self.settings.arrive_deterministic,self.settings.lambda1,self.rand),self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
             if self.settings.visualisation==1:#visualisation
                 self.master.after(1, self.single_iteration)
@@ -71,10 +72,11 @@ class Runner():
     def single_iteration(self):
 
         closest_event:Event=self.events_list.get_closest_event()
+
         update_stac_step=1
         self.current_time=closest_event.time_of_event
         self.game_state.t_curr=self.current_time
-        # if self.current_time>58.5:
+        # if self.current_time>=5:
         #      print("ok")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
         if self.current_time-update_stac_step>0:
