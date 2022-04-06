@@ -17,8 +17,8 @@ class Visualisation_event(Event):
 
         self.canvas=canvas
         self.visualisation_delay=visualisation_delay
-        # if time_of_event>310:
-        #     self.visualisation_delay=200
+        if time_of_event>800:
+            self.visualisation_delay=30
 
 
 
@@ -42,6 +42,10 @@ class Visualisation_event(Event):
 
     def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range,settings:Settings):
 
+        for point in settings.lif_of_invisible:
+
+            create_circle(point.x,point.y,point.r,self.canvas,"grey")
+
         create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
         # create_circle(122,267,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
@@ -49,6 +53,7 @@ class Visualisation_event(Event):
 
                 # create_circle(uav.position.x, uav.position.y,settings.safe_margin,self.canvas,"black")
                 create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+
 
 
 

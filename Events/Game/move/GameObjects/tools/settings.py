@@ -64,7 +64,7 @@ class Settings():
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
 
-    def get_properties(self,file_with_properties,file_with_rewards,file_with_boxes):
+    def get_properties(self,file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible):
         logging.basicConfig(level=logging.NOTSET)
 
         setting_dict={}
@@ -79,6 +79,7 @@ class Settings():
 
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
+        self.lif_of_invisible=self.get_boxes_invisible(file_with_invisible)
         self.get_boxes(file_with_boxes)
 
 
@@ -248,6 +249,14 @@ class Settings():
         self.left_box=Point(float(field_list[0]),float(field_list[1]))
         field_list=record[1].split(" ")
         self.right_box=Point(float(field_list[0]),float(field_list[1]))
+
+    def get_boxes_invisible(self,file_with_invisible):
+        list_of_invisible:typing.List[PointsCell]=[]
+        for record in file_with_invisible.readlines():
+
+            fields_list=record.split(" ")
+            list_of_invisible.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
+        return list_of_invisible
 
 
 

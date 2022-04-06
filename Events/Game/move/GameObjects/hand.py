@@ -12,6 +12,7 @@ class Hand(MovableObject):
         self.side=side
         self.tier_0_position=self.get_hand_tier0_position(side,map_x_size,map_y_size/2)
         self.position=self.tier_0_position
+        self.next_event=None
         if side==Sides.LEFT:
             self.color="blue"
         else:

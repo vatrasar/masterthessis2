@@ -1,6 +1,7 @@
 import math
 import typing
 
+from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus, Sides
@@ -65,6 +66,15 @@ def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
         return True
     else:
         return False
+
+def check_if_uav_is_visible(uav:Uav,game_state:GameState):
+    index=game_state.game_map.get_point_on_map_index(uav.position.x,uav.position.y)
+    if game_state.game_map.memory_invisible[index.y][index.x]==1:
+        return False
+    else:
+        return True
+
+
 
 def check_if_uav_is_in_range(uav:Uav,hand:Hand,settings):
     from Events.hand_chase import get_max_hand_range_in_x

@@ -45,27 +45,37 @@ from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_cell_is_on_map
 from Events.Game.move.distance import get_2d_distance
 
 
 class GameMap():
-    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points):
+    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings:Settings):
         self.map_size_x=map_size_x
         self.map_size_y=map_size_y
         self.dimension_x = round(map_size_x/map_resolution)
         self.dimension_y = round(map_size_y/map_resolution)
         self.list_of_cells_with_points=list_of_cells_with_points
         self.map_memmory = np.zeros((self.dimension_y,self.dimension_x ), np.int32)
+        self.memory_invisible=np.zeros((self.dimension_y,self.dimension_x ), np.int32)
         self.fluid_map:typing.List[typing.List[FluidCell]]=[]
         self.points_to_reset:typing.List[FluidCell]=[]
         self.fluid_memory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
         self.map_resolution=map_resolution
         self.uav_size=uav_size
         self.hand_size=hand_size
-
+        self.settings=settings
         self.build_fluid_map()
+        self.build_invisible_map()
+
+    def build_invisible_map(self):
+        for invisible in self.settings.lif_of_invisible:
+            cells=self.get_all_cells_to_color(Point(invisible.x,invisible.y),invisible.r)
+            for cell in cells:
+                if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
+                    self.memory_invisible[cell.y][cell.x] = 1
 
     def build_fluid_map(self):
         for i in range(0, self.dimension_y):  # build fluid_map

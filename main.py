@@ -19,7 +19,8 @@ def main():
         file_with_properties=open("settingsFiles/"+settingsFileName)
         file_with_rewards=open("settingsFiles/"+rewardsFileName)
         file_with_boxes=open("settingsFiles/"+"boxes.txt")
-        settings.get_properties(file_with_properties,file_with_rewards,file_with_boxes)
+        file_with_invisible=open("settingsFiles/"+"invisible_boxes.txt")
+        settings.get_properties(file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible)
     except Exception as exp:
         print(str(exp))
         return

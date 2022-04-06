@@ -9,7 +9,7 @@ def create_circle(x,y, r, canvas, color): #center coordinates, radius
     y0 = y - r
     x1 = x + r
     y1 = y + r
-    return canvas.create_oval(x0, y0, x1, y1,fill=color)
+    return canvas.create_oval(x0, y0, x1, y1,fill=color,outline=color)
 
 def create_squer(x, y, x1, y1, canvas:Canvas):
     canvas.create_rectangle(x, y, x1, y1, fill="blue")
