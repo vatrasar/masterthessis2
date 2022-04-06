@@ -4,17 +4,18 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.tools.geometry import get_transform_between_points
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe
-from Events.Game.move.distance import get_2d_distance
+from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
 from Events.Game.move.get_position import get_random_position_on_tier1, get_point_base_on_distance
+from Events.Game.move.map_ranges_tools import put_point_in_range_of_map
 from Events.Game.move.path_planning import search_back_path, search_attack_patch
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
-from Events.wait import plan_wait
 
 
 def plan_attack(current_time, event_owner,tk_master,path,v_of_uav,game_state,event_list:Event_list,status,safe_margin):
@@ -31,32 +32,53 @@ def plan_attack(current_time, event_owner,tk_master,path,v_of_uav,game_state,eve
 
 def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:GameState,settings:Settings,event_list:Event_list):
     target_position=None
+    if len(game_state.hands_list)>1 and get_2d_distance(game_state.hands_list[0].position,game_state.hands_list[1].position)<settings.safe_margin:
+        vector1=get_transform_between_points(game_state.hands_list[0].position,event_owner.position)
+        vector2=get_transform_between_points(game_state.hands_list[1].position,event_owner.position)
+        result_vector=Point(vector2.x+vector1.x,vector2.y+vector1.y)
+        result_vector=get_vector_with_direction_and_length(result_vector,settings.safe_margin/2)
+        target_position=Point(event_owner.position.x+result_vector.x,event_owner.position.y+result_vector.y)
 
-    closest_hand=None
-    for hand in game_state.hands_list:
-        if closest_hand==None:
-            closest_hand=hand
 
-        if get_2d_distance(event_owner.position,hand.position)<get_2d_distance(event_owner.position,closest_hand.position):
-            closest_hand=hand
-
-    direction=event_owner.position.x-closest_hand.position.x
-    if direction<0:
-        target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
     else:
-        target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
 
-    if target_position.x<0 or target_position.x>settings.map_size_x:
-        if event_owner.position.x<settings.map_size_x/2:
-            target_position=Point(event_owner.position.x+settings.safe_margin/2+settings.hand_size,event_owner.position.y)
+        closest_hand=None
+        for hand in game_state.hands_list:
+            if closest_hand==None:
+                closest_hand=hand
+
+            if get_2d_distance(event_owner.position,hand.position)<get_2d_distance(event_owner.position,closest_hand.position):
+                closest_hand=hand
+
+        direction=event_owner.position.x-closest_hand.position.x
+
+
+        if direction<0:
+            target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
+            put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
+            if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
+                target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
         else:
-            target_position=Point(event_owner.position.x-settings.safe_margin/2-settings.hand_size,event_owner.position.y)
+            target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
+            put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
+            if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
+                target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
 
+
+
+    put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
+
+    # if target_position.x<0 or target_position.x>settings.map_size_x:
+    #     if event_owner.position.x<settings.map_size_x/2:
+    #         target_position=Point(event_owner.position.x+settings.safe_margin/2+settings.hand_size,event_owner.position.y)
+    #     else:
+    #         target_position=Point(event_owner.position.x-settings.safe_margin/2-settings.hand_size,event_owner.position.y)
+    #
 
 
     is_point_safe=True
     for hand in game_state.hands_list:#checking for safety
-        if get_2d_distance(hand.position,target_position)<settings.uav_size+settings.hand_size:
+        if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
             is_point_safe=False
 
     for secound_uav in game_state.uav_list:#checking for safety
@@ -66,12 +88,26 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
 
 
     if not is_point_safe:
+        is_point_safe=False
         target_position.y=target_position.y-(settings.uav_size+settings.hand_size)
+        put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
+        for hand in game_state.hands_list:#checking for safety
+            if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
+                is_point_safe=False
 
-    dt_arrive=get_travel_time_to_point(event_owner.position,target_position,settings.v_of_uav)
-    event_time=dt_arrive+current_time
-    new_event=Attack(event_time,event_owner,tk_master,target_position,UavStatus.ATTACK_DODGE_MOVE,game_state,[target_position],settings.safe_margin)
-    event_list.append_event(new_event,UavStatus.ATTACK_DODGE_MOVE)
+        for secound_uav in game_state.uav_list:#checking for safety
+            if secound_uav!=event_owner and get_2d_distance(secound_uav.position,target_position)<settings.uav_size*2:
+                is_point_safe=False
+        if not is_point_safe:
+            from Events.wait import plan_wait
+
+            plan_wait(current_time,settings.uav_wait_time,event_owner,tk_master,game_state,event_list,settings.safe_margin)
+
+    else:
+        dt_arrive=get_travel_time_to_point(event_owner.position,target_position,settings.v_of_uav)
+        event_time=dt_arrive+current_time
+        new_event=Attack(event_time,event_owner,tk_master,target_position,UavStatus.ATTACK_DODGE_MOVE,game_state,[target_position],settings.safe_margin)
+        event_list.append_event(new_event,UavStatus.ATTACK_DODGE_MOVE)
 
 
 

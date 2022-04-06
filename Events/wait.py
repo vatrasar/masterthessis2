@@ -6,6 +6,7 @@ from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 from Events.Game.move.path_planning import search_back_path
 from Events.Game.move.time import get_travel_time_to_point
+from Events.attack import plan_attck_dodge_move
 
 from Events.event import Event
 from Events.events_list import Event_list
@@ -47,4 +48,4 @@ class Wait(Event):
                 from Events.move_along import plan_move_along
                 plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin)
             else:
-                plan_wait(self.time_of_event,self.uav_wait_time,self.event_owner,self.tk_master,self.game_state,event_list,self.safe_margin)
+                plan_attck_dodge_move(self.time_of_event,self.event_owner,self.tk_master,self.game_state,settings,event_list)

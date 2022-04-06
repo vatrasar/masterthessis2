@@ -114,7 +114,7 @@ def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], u
         if hand.status==HandStatus.JUMP:
             actual_margin=safe_margin*2
         elif hand.status==HandStatus.CHASING and hand.target_uav==uav:
-            actual_margin=safe_margin
+            actual_margin=safe_margin*1.5
         elif hand.status==HandStatus.WAIT_AFTER_JUMP and uav.status!=UavStatus.ON_ATTACK:
             actual_margin=0
         else:
@@ -188,7 +188,7 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
             return False
 
     for hand in hands_list:# chacking for static targets
-        save_distance=settings.velocity_hand*3+settings.hand_size*2
+        save_distance=settings.velocity_hand*4+settings.hand_size*2
         if hand.status==HandStatus.JUMP:
             save_distance=settings.velocity_hand*settings.jump_ratio*3+settings.hand_size*2
         if get_2d_distance(cell.position,hand.position)<save_distance:

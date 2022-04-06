@@ -17,8 +17,8 @@ class Visualisation_event(Event):
 
         self.canvas=canvas
         self.visualisation_delay=visualisation_delay
-        if time_of_event>800:
-            self.visualisation_delay=30
+        # if time_of_event>760:
+        #     self.visualisation_delay=300
 
 
 
@@ -51,7 +51,7 @@ class Visualisation_event(Event):
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 
-                # create_circle(uav.position.x, uav.position.y,settings.safe_margin,self.canvas,"black")
+                # create_circle(uav.position.x, uav.position.y,settings.safe_margin*1.2,self.canvas,"black")
                 create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
 
 

@@ -6,16 +6,16 @@ from Events.Game.move.GameObjects.tools.settings import Settings
 def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y):
 
     if point.x<0:
-        point.x=0
+        point.x=2
 
     if point.x>max_range_of_map_x:
         point.x=max_range_of_map_x
 
     if point.y<0:
-        point.y=0
+        point.y=1
 
     if point.y>max_range_of_map_y:
-        point.y=max_range_of_map_y
+        point.y=max_range_of_map_y-2
 def get_max_x_in_range(hand_side:Sides,settings:Settings,x):
     if hand_side==Sides.LEFT:
         if x>settings.left_box.x:

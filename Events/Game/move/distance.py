@@ -29,3 +29,9 @@ def get_horizontal_distance(current_postion:Point, target_postion:Point):
 		return current_postion.x-target_postion.x
 
 
+def get_vector_with_direction_and_length(dircetion:Point,length):
+	power=math.sqrt(dircetion.x**2 +dircetion.y**2)
+	unit_vector=Point(dircetion.x/power,dircetion.y/power)
+	result_vcetor=Point(unit_vector.x*length,unit_vector.y)
+
+	return result_vcetor
