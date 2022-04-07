@@ -9,7 +9,6 @@ from Events.Game.move.check import check_if_uav_is_visible
 from Events.event import Event
 from Events.events_list import Event_list
 from Events.hand_chase import plan_chase_event
-from Events.jump_event import init_jump
 
 
 class Hand_control_event(Event):

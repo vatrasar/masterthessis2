@@ -1,6 +1,6 @@
 import typing
 
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.Game_Map import GameMap
 from Events.Game.move.GameObjects.tools.FluidCel import FluidCell

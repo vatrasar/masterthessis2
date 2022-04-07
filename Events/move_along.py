@@ -1,7 +1,6 @@
 from random import Random
 
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 

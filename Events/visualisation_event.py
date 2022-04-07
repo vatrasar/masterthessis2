@@ -1,4 +1,3 @@
-import logging
 from random import Random
 from tkinter import Tk, Canvas
 
@@ -7,7 +6,7 @@ from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.event import Event
-from Events.Game.move.GameObjects.tools.gui_tools import create_circle, transfer_point_to_gui_format, create_squer, \
+from Events.Game.move.GameObjects.tools.gui_tools import create_circle, create_squer, \
     create_line
 
 

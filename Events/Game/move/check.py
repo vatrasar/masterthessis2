@@ -1,4 +1,3 @@
-import math
 import typing
 
 from Events.Game.gameState import GameState

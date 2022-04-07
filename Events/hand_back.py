@@ -1,10 +1,9 @@
 from random import Random
 
 from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.tools.enum.enumStatus import HandStatus, UavStatus
+from Events.Game.move.GameObjects.tools.enum.enumStatus import HandStatus
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
-from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_point_is_reached
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time

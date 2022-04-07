@@ -2,7 +2,6 @@ from Events.Game.Statistics import Statistics
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 import tkinter
 

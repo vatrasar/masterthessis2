@@ -1,20 +1,19 @@
-from random import random, Random
+from random import Random
 
 from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus, Sides
+from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_uav_is_in_range, check_if_uav_is_visible
 from Events.Game.move.distance import get_2d_distance
-from Events.Game.move.get_position import get_point_based_on_time, get_point_base_on_distance
+from Events.Game.move.get_position import get_point_based_on_time
 from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x, get_max_x_in_range
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list
 from Events.hand_back import plan_hand_back_event
-from Events.jump_event import plan_jump_event, init_jump
-from Events.wait import plan_wait
+from Events.jump_event import init_jump
 
 
 def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_time,tk_master,game_state):

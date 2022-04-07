@@ -5,7 +5,6 @@ from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 from Events.Game.move.path_planning import search_back_path
-from Events.Game.move.time import get_travel_time_to_point
 from Events.attack import plan_attck_dodge_move
 
 from Events.event import Event

@@ -1,7 +1,4 @@
-from Events.Game.move.GameObjects.tools.enum.enumStatus import Sides
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.GameObjects.uav import Uav
 
 
 class Intruder(MovableObject):

@@ -5,7 +5,6 @@ from Events.Game.move.GameObjects.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.tools.point import Point
 from Events.Game.move.GameObjects.tools.settings import Settings
 from Events.Game.move.check import check_if_point_is_in_range
-from Events.Game.move.map_ranges_tools import get_max_x_in_range
 from Events.Game.move.time import get_travel_time_to_point
 
 

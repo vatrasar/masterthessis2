@@ -1,5 +1,4 @@
 from Events.Game.move.GameObjects.tools.point import Point
-import numpy as np
 import math
 from Events.Game.move.distance import get_2d_distance
 

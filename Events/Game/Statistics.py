@@ -1,12 +1,9 @@
 import logging
 import typing
 
-from Events.Game.gameState import GameState
 from Events.Game.game_state_stac import GameStateStac
-from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.tools.other_tools import create_folder
-from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
 
 import csv
@@ -46,9 +43,6 @@ class Statistics():
         plt.plot(x,y)
         plt.savefig(save_directory+"/"+"distance_between_uav.svg")
         plt.clf()
-        import os
-
-
 
         #distance to hands
         x = []
