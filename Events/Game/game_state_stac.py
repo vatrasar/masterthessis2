@@ -11,7 +11,7 @@ class GameStateStac():
 
         #hands
         self.hands_list=[]
-        naive_algo=Naive_Algo()
+        naive_algo=Naive_Algo(0,9)
         for hand in game_state.hands_list:
             hand_copy=Hand(hand.status,hand.velocity,hand.side,settings.map_size_x,settings.map_size_y,hand.next_status,hand.target_position,hand.position.x,hand.position.y)
             hand_copy.position.x=hand.position.x

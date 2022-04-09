@@ -18,7 +18,7 @@ from Events.event import Event
 from Events.events_list import Event_list
 
 
-def plan_attack(current_time, event_owner,tk_master,path,v_of_uav,game_state,event_list:Event_list,status,safe_margin):
+def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state,event_list:Event_list,status,safe_margin):
     if len(path)==2:
         print("plan_attack")
     target_position=path[1].position
@@ -26,6 +26,7 @@ def plan_attack(current_time, event_owner,tk_master,path,v_of_uav,game_state,eve
     event_time=dt_arrive+current_time
     new_event=Attack(event_time,event_owner,tk_master,target_position,status,game_state,path[1:],safe_margin)
     event_list.append_event(new_event,status)
+    event_owner.register_attack(target_position)
 
 
 
@@ -142,6 +143,7 @@ class Attack(Event):
                         attack_path_found=False
 
                 if attack_path_found==False or self.event_owner.status==UavStatus.ON_BACK:
+
                     path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder,settings,self.game_state.hands_list)
                     if path!=None:
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin)
@@ -162,6 +164,7 @@ class Attack(Event):
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
+                self.event_owner.naive_algo.un_register_attack(self.event_owner.index,self.event_owner.points)
                 self.start_to_move_on_tier1(event_list, rand, settings)
 
     def start_to_move_on_tier1(self, event_list, rand, settings):

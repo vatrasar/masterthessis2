@@ -1,4 +1,5 @@
 from Events.Game.Statistics import Statistics
+from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
 from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
@@ -29,7 +30,8 @@ class Runner():
 
 
     def run_normal(self):
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings)
+            naive_alog=Naive_Algo(self.settings.naive_algo_list_limit,self.settings.naive_algo_curiosity_ratio)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,naive_alog)
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
             #init uavs events
