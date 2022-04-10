@@ -2,7 +2,7 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 
 
 class Event():

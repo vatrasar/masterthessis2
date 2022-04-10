@@ -1,8 +1,10 @@
 import typing
+from random import Random
 
-from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.GameObjects.tools.points_cell import PointsCell
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
+from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
+from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 class Naive_Algo():
@@ -13,6 +15,8 @@ class Naive_Algo():
         self.current_attacks={}
         self.current_attacks[0]={"start postion":None,"points":None,"active":False}
         self.current_attacks[1]={"start postion":None,"points":None,"active":False}
+        self.targert_attacks={0:None,1:None}
+        self.type_of_algo_choose=Target_choose.RANDOM_ATTACK
 
     def register_attack(self, start_position:Point,uav_id,points_before_attack):
         if self.current_attacks[uav_id]["active"]==False:
@@ -25,4 +29,36 @@ class Naive_Algo():
         points=current_points-self.current_attacks[uav_id]["points before attack"]
         start_location=self.current_attacks[uav_id]["start postion"]
         self.results_list.append(PointsCell(start_location.x,start_location.y,0,points))
+
+    def choose_new_target(self,settings,rand:Random,uav_index):
+        x=rand.random()
+        new_target=None
+        if x<self.curiosty_ratio:
+            new_target=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
+            self.type_of_algo_choose=Target_choose.RANDOM_ATTACK
+        else:
+            x=rand.random()
+            if x<self.curiosty_ratio:# choose random from list
+                i=rand.randint(0,len(self.results_list)-1)
+                new_target=self.results_list[i]
+                self.type_of_algo_choose=Target_choose.RANDOM_FROM_LIST
+            else:#choose best form list
+                self.type_of_algo_choose=Target_choose.BEST_FROM_LIST
+                new_target=self.get_best_from_list()
+
+        self.targert_attacks[uav_index]=new_target
+
+    def get_best_from_list(self):
+        best_target=self.results_list[0]
+        for target in self.results_list:
+            if target.points>best_target.points:
+                best_target=target
+        return best_target
+
+    def get_target_postion(self,index):
+
+        return self.targert_attacks[index]
+
+    def is_limit_reached(self):
+        return len(self.results_list)>=self.list_limit
 

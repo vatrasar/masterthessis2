@@ -2,7 +2,7 @@ import random
 
 from Events.Game.Statistics import Statistics
 from runner import Runner
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 
 
 def main():

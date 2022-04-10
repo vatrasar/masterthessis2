@@ -1,8 +1,8 @@
 import logging
 import typing
 
-from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.GameObjects.tools.points_cell import PointsCell
+from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
 
 
 class Settings():
@@ -155,7 +155,7 @@ class Settings():
 
         elif (property_name=="mode"):
             property_value=property_value.strip()
-            if (property_value=="RW-RA"):
+            if (property_value in ["RW-RA","list"]):
                 self.mode=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RW-RA"%(property_name))

@@ -1,9 +1,9 @@
 import logging
 
 from Events.Game.move.GameObjects.intruder import Intruder
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.point import Point
 
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance

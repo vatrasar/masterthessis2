@@ -1,7 +1,7 @@
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
 from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 
 

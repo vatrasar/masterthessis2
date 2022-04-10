@@ -1,8 +1,8 @@
 
 from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import Sides
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.point import Point
 
 
 class Uav(MovableObject):

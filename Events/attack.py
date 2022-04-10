@@ -3,10 +3,10 @@ from random import Random
 
 
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
-from Events.Game.move.GameObjects.tools.geometry import get_transform_between_points
-from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.algos.tools.geometry import get_transform_between_points
+from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe
 from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
@@ -26,7 +26,8 @@ def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state
     event_time=dt_arrive+current_time
     new_event=Attack(event_time,event_owner,tk_master,target_position,status,game_state,path[1:],safe_margin)
     event_list.append_event(new_event,status)
-    event_owner.register_attack(target_position)
+    if not event_owner.naive_algo.is_limit_reached():
+        event_owner.register_attack(target_position)
 
 
 

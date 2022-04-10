@@ -1,9 +1,9 @@
 from Events.Game.Statistics import Statistics
 from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 import tkinter
 
 from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
@@ -77,8 +77,8 @@ class Runner():
         update_stac_step=1
         self.current_time=closest_event.time_of_event
         self.game_state.t_curr=self.current_time
-        # if self.current_time>=20.83:
-        #      print("ok")
+        if self.current_time>=382.0:
+             print("ok")
         # if len(self.events_list.event_list)>5:
         #      print("ok")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)

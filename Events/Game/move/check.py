@@ -3,9 +3,9 @@ import typing
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus, Sides
-from Events.Game.move.GameObjects.tools.point import Point
-from Events.Game.move.GameObjects.tools.settings import Settings
+from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, HandStatus, Sides
+from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time
