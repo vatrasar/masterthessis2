@@ -1,6 +1,7 @@
 from random import Random
 
 from Events.Game.gameState import GameState
+from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
 from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
 
@@ -57,10 +58,15 @@ class Move_along(Event):
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
 
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
+
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin)
                 return
+            else:
+                if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.type_of_algo_choose in [Target_choose.BEST_FROM_LIST,Target_choose.RANDOM_FROM_LIST]:
+                    self.event_owner.naive_algo.update_result_to_exisiting_record(0,self.event_owner.position,settings)
+
         if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
             self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
 

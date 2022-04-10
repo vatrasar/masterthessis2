@@ -167,7 +167,7 @@ class Attack(Event):
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
-                self.event_owner.naive_algo.un_register_attack(self.event_owner.index,self.event_owner.points)
+                self.event_owner.naive_algo.un_register_attack(self.event_owner.index,self.event_owner.points,settings)
                 if settings.tier2_mode:
                     from Events.move_along import plan_enter_from_tier2
                     plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)

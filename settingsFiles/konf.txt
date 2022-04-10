@@ -26,4 +26,4 @@ blind_angle=20 # wyrażony w stopniach maksymalny kąt pomiędzy uav, przy któr
 intruder_time_of_reaction=5 # czas co jaki intruz aktualizuje swoją strategie
 hand_max_deviation=20
 visualisation_speed=1
-tier2_mode=1 # możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2, 0 uav będzie mógł się również poruszać po tier1
+tier2_mode=0 # możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2, 0 uav będzie mógł się również poruszać po tier1

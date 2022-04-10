@@ -4,6 +4,8 @@ from random import Random
 from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
 from Events.Game.move.GameObjects.algos.tools.point import Point
 from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
@@ -20,15 +22,38 @@ class Naive_Algo():
 
     def register_attack(self, start_position:Point,uav_id,points_before_attack):
         if self.current_attacks[uav_id]["active"]==False:
+
             points_before_attack=points_before_attack
             self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
 
-    def un_register_attack(self, uav_id,current_points):
+    def update_result_to_exisiting_record(self,result,position,settings):
+        for record in self.results_list:
+            if get_2d_distance(Point(record.x,record.y),position)<=2*settings.map_resolution:
+
+                record.r=record.r+1
+                average_points=(result+record.points)/record.r
+                record.points=average_points
+                return True
+        return False
+
+    def un_register_attack(self, uav_id,current_points,settings:Settings):
 
         self.current_attacks[uav_id]["active"]=False
         points=current_points-self.current_attacks[uav_id]["points before attack"]
         start_location=self.current_attacks[uav_id]["start postion"]
-        self.results_list.append(PointsCell(start_location.x,start_location.y,0,points))
+        if self.update_result_to_exisiting_record(points,start_location,settings):
+            return
+
+        if points==0:
+            return
+        if self.is_limit_reached():
+            worse_record=self.get_worse_on_list()
+            if worse_record.points<points:
+                self.results_list.remove(worse_record)
+                self.results_list.append(PointsCell(start_location.x,start_location.y,1,points))
+
+        else:
+            self.results_list.append(PointsCell(start_location.x,start_location.y,1,points))
 
     def choose_new_target(self,settings,rand:Random,uav_index):
         x=rand.random()
@@ -62,4 +87,11 @@ class Naive_Algo():
 
     def is_limit_reached(self):
         return len(self.results_list)>=self.list_limit
+
+    def get_worse_on_list(self):
+        min_record=self.results_list[0]
+        for record in self.results_list:
+            if record.points<min_record.points:
+                min_record=record
+        return min_record
 
