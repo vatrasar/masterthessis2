@@ -46,6 +46,8 @@ def decide_whether_uav_back_on_tier2(prob_of_return_to_T2,rand:Random,uav_list:t
     #             return True
     # if settings.mode=="list" and uav.naive_algo.is_limit_reached():
     #     return True
+    if settings.tier2_mode==True:
+         return True
 
     x=rand.random()
     if x<prob_of_return_to_T2:

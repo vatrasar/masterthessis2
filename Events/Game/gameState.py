@@ -66,9 +66,10 @@ class GameState():
     def check_collisions(self,settings,event_list):
         uav_list_to_delete=[]
         for uav in self.uav_list:
-            for hand in self.hands_list:
-                if get_2d_distance(uav.position,hand.position)<settings.hand_size+settings.uav_size:
-                    uav_list_to_delete.append(uav)
+            if uav.position!=None:
+                for hand in self.hands_list:
+                    if get_2d_distance(uav.position,hand.position)<settings.hand_size+settings.uav_size:
+                        uav_list_to_delete.append(uav)
 
         for uav_to_delete in uav_list_to_delete:
             print("colision!")

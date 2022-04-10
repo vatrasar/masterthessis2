@@ -19,8 +19,8 @@ from Events.make_dodge import Make_dodge
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
     time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1,rand)+current_time
     target_position=None
-    if settings.mode=="list" and len(event_owner.naive_algo.results_list)==settings.naive_algo_list_limit:
-        target_position=event_owner.naive_algo.get_target_postion(event_owner.index)
+    if settings.mode=="list" and event_owner.naive_algo.is_limit_reached():
+        target_position=event_owner.naive_algo.get_target_postion(event_owner.index,rand,settings)
     else:
         target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state,safe_margin)
@@ -84,9 +84,7 @@ class Move_along(Event):
                     target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
                 elif settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached():
 
-                    target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index)
-                    if target_postion==None:
-                        print("ok")
+                    target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
 
                 if check_distance_between_uav(self.state.uav_list,settings.save_distance)==False and check_if_same_move_direction(self.event_owner,self.state.uav_list,target_postion):
                     continue

@@ -55,8 +55,9 @@ class Naive_Algo():
                 best_target=target
         return best_target
 
-    def get_target_postion(self,index):
-
+    def get_target_postion(self,index,rand,settings):
+        if self.targert_attacks[index]==None:
+            self.choose_new_target(settings,rand,index)
         return self.targert_attacks[index]
 
     def is_limit_reached(self):

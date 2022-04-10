@@ -159,6 +159,9 @@ class Settings():
                 self.mode=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RW-RA"%(property_name))
+        elif (property_name=="tier2_mode"):
+
+            self.tier2_mode=self.check_binary(property_value,property_name)
 
         elif (property_name=="prob_of_attack"):
 

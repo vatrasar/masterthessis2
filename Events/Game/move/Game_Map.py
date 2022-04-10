@@ -159,7 +159,8 @@ class GameMap():
 
         #seting object on map, code works but i turned it of becase of performacnes
         for uav in game_state.uav_list:#set uav positions on map
-            self.set_object_on_map(uav,self.uav_size,100)
+            if uav.position!=None:
+                self.set_object_on_map(uav,self.uav_size,100)
 
         for hand in game_state.hands_list:  # set uav positions on map
             self.set_object_on_map(hand,self.hand_size,200)

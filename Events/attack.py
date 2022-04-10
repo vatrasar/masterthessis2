@@ -18,6 +18,7 @@ from Events.event import Event
 from Events.events_list import Event_list
 
 
+
 def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state,event_list:Event_list,status,safe_margin):
     if len(path)==2:
         print("plan_attack")
@@ -108,7 +109,8 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
     else:
         dt_arrive=get_travel_time_to_point(event_owner.position,target_position,settings.v_of_uav)
         event_time=dt_arrive+current_time
-        new_event=Attack(event_time,event_owner,tk_master,target_position,UavStatus.ATTACK_DODGE_MOVE,game_state,[target_position],settings.safe_margin)
+        target_cell=game_state.game_map.get_floading_point(target_position)
+        new_event=Attack(event_time,event_owner,tk_master,target_position,UavStatus.ATTACK_DODGE_MOVE,game_state,[target_cell],settings.safe_margin)
         event_list.append_event(new_event,UavStatus.ATTACK_DODGE_MOVE)
 
 
@@ -166,7 +168,11 @@ class Attack(Event):
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
                 self.event_owner.naive_algo.un_register_attack(self.event_owner.index,self.event_owner.points)
-                self.start_to_move_on_tier1(event_list, rand, settings)
+                if settings.tier2_mode:
+                    from Events.move_along import plan_enter_from_tier2
+                    plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)
+                else:
+                    self.start_to_move_on_tier1(event_list, rand, settings)
 
     def start_to_move_on_tier1(self, event_list, rand, settings):
         target_postion = get_random_position_on_tier1(rand, settings.map_size_x, settings.tier1_distance_from_intruder)
