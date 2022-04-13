@@ -1,0 +1,57 @@
+import math
+import typing
+from random import Random
+import numpy as np
+from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
+from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import is_in_bondaries
+from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.distance import get_2d_distance
+from Events.Game.move.get_position import get_random_position_on_tier1
+
+
+class Annealing_Algo():
+    def __init__(self,settings:Settings,rand:Random):
+        self.temperature=settings.temperature
+        self.current_attacks={}
+        self.temperature_reduction=settings.temperature_reduction
+        self.current_attacks[0]={"start postion":None,"points":None,"active":False}
+        self.current_attacks[1]={"start postion":None,"points":None,"active":False}
+        self.current_result={"position":None, "points":None}
+        self.targert_attacks={0:None,1:None}
+        self.randm_np=np.random.RandomState()
+        self.randm_np.seed(rand.randint(0,200000))
+        self.step=math.sqrt(settings.temperature)
+
+
+    def register_attack(self, start_position:Point,uav_id,points_before_attack):
+        if self.current_attacks[uav_id]["active"]==False:
+
+            points_before_attack=points_before_attack
+            self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
+
+
+
+    def un_register_attack(self, uav_id,current_points,settings:Settings,rand:Random):
+
+        self.current_attacks[uav_id]["active"]=False
+        candidate_points=current_points-self.current_attacks[uav_id]["points before attack"]
+        candidate:Point=self.current_attacks[uav_id]["start postion"]
+
+        value_delta=candidate_points-self.current_result["points"]
+        if np.log(rand.random())*settings.temperature<value_delta:#if true than accept
+            self.current_result={"position":candidate,"points":candidate_points}
+            self.temperature=settings.temperature_reduction*self.temperature #reduction of temperature
+
+
+
+
+    def choose_new_target(self,settings,rand:Random,uav_index):
+
+
+        candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
+        while not is_in_bondaries(0,settings.map_size_x,candidate):
+            candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
+
+        self.targert_attacks[uav_index]=Point(candidate,settings.tier1_distance_from_intruder)

@@ -4,7 +4,7 @@ from random import Random
 from Events.Game.move.GameObjects.hand import Hand
 from Events.Game.move.GameObjects.algos.tools.FluidCel import FluidCell
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, HandStatus
-from Events.Game.move.map_ranges_tools import put_point_in_range_of_map, get_max_hand_range_in_x
+from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import put_point_in_range_of_map, get_max_hand_range_in_x
 from Events.Game.move.GameObjects.algos.tools.point import Point
 from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav

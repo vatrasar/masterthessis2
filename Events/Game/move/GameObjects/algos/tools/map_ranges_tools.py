@@ -16,6 +16,8 @@ def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y)
 
     if point.y>max_range_of_map_y:
         point.y=max_range_of_map_y-2
+
+
 def get_max_x_in_range(hand_side:Sides,settings:Settings,x):
     if hand_side==Sides.LEFT:
         if x>settings.left_box.x:
@@ -28,6 +30,12 @@ def get_max_x_in_range(hand_side:Sides,settings:Settings,x):
         else:
             return x
 
+
+def is_in_bondaries(left_bond, right_bond,value):
+    if value<right_bond and value>left_bond:
+        return True
+    else:
+        return False
 
 def get_max_hand_range_in_x(hand_side:Sides,minimal_hand_range,maximum_hand_range,map_size_x,x,settings:Settings):
 

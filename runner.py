@@ -7,7 +7,7 @@ from Events.Game.move.GameObjects.algos.tools.settings import Settings
 import tkinter
 
 from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
-from Events.Game.move.map_ranges_tools import get_max_hand_range_in_x
+from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_d_t_arrive_poison
 from Events.hand_chase import plan_chase_event
 from Events.hand_control_event import plan_hand_control_event

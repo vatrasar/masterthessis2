@@ -11,7 +11,7 @@ from Events.Game.move.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe
 from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
 from Events.Game.move.get_position import get_random_position_on_tier1
-from Events.Game.move.map_ranges_tools import put_point_in_range_of_map
+from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import put_point_in_range_of_map
 from Events.Game.move.path_planning import search_back_path, search_attack_patch
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
