@@ -85,7 +85,12 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
     is_point_safe=True
     for hand in game_state.hands_list:#checking for safety
         if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
-            is_point_safe=False
+            if get_2d_distance(hand.position,event_owner.position)<(settings.uav_size+settings.hand_size)*2:
+                if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*1.1:
+                    is_point_safe=False
+            else:
+                is_point_safe=False
+
 
     for secound_uav in game_state.uav_list:#checking for safety
         if secound_uav!=event_owner and get_2d_distance(secound_uav.position,target_position)<settings.uav_size*2:
