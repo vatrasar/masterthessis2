@@ -102,15 +102,24 @@ class Statistics():
         y1,y2=[],[]
         x_sum,y_sum=[],[]
         for state in self.game_states_list:
-            if len(state.uav_list)>0:
-                x1.append(state.t_curr)
-                y1.append(state.uav_list[0].points)
+            all_uav_list=[]
+            all_uav_list.extend(state.uav_list)
+            # all_uav_list.extend(state.dead_uav_list)
 
+            for uav in all_uav_list:
+                if uav.index==0:
+                    x1.append(state.t_curr)
+                    y1.append(uav.points)
+
+            for uav in all_uav_list:
+                if uav.index==1:
+                    x2.append(state.t_curr)
+                    y2.append(uav.points)
             if len(state.uav_list)>1:
-                x2.append(state.t_curr)
-                y2.append(state.uav_list[1].points)
                 x_sum.append(state.t_curr)
                 y_sum.append(state.uav_list[1].points+state.uav_list[0].points)
+
+
         if len(x1) > 0:
             plt.plot(x1, y1)
             plt.plot(x2, y2)

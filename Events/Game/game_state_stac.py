@@ -8,7 +8,7 @@ from Events.Game.move.GameObjects.uav import Uav
 class GameStateStac():
     def __init__(self,game_state:GameState,settings:Settings):
 
-
+        self.dead_uav_list=[]
         #hands
         self.hands_list=[]
         naive_algo=Naive_Algo(0,9)
@@ -27,6 +27,12 @@ class GameStateStac():
             uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
             uav_copy.points=uav.points
             self.uav_list.append(uav_copy)
+
+        # for uav in game_state.list_of_dead_uavs:
+        #     uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
+        #     uav_copy.points=uav.points
+        #     self.dead_uav_list.append(uav_copy)
+
         if len(game_state.list_of_dead_uavs) > 0:
             for uav in game_state.list_of_dead_uavs:
                 uav_copy = Uav(uav.position.x, uav.position.y, uav.status, uav.points, uav.velocity, uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
