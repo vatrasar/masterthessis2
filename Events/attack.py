@@ -181,7 +181,13 @@ class Attack(Event):
                     self.start_to_move_on_tier1(event_list, rand, settings)
 
     def start_to_move_on_tier1(self, event_list, rand, settings):
+
         target_postion = get_random_position_on_tier1(rand, settings.map_size_x, settings.tier1_distance_from_intruder)
+        if settings.mode=="list":
+            if self.event_owner.naive_algo.is_limit_reached():
+                target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
+        if settings.mode=="annealing":
+            target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
         from Events.move_along import plan_move_along
         plan_move_along(event_list, self.event_owner, target_postion, self.time_of_event, self.game_state, settings,
                         self.tk_master, self.safe_margin)

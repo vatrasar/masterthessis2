@@ -31,9 +31,9 @@ class Runner():
 
 
     def run_normal(self):
-            naive_alog=Naive_Algo(self.settings.naive_algo_list_limit,self.settings.naive_algo_curiosity_ratio)
-            annealing_algo=Annealing_Algo(self.settings,self.rand)
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,naive_alog,self.settings,self.rand)
+
+
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand)
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
             #init uavs events

@@ -61,6 +61,9 @@ class Naive_Algo():
     def choose_new_target(self,settings,rand:Random,uav_index):
         x=rand.random()
         new_target=None
+        if not self.is_limit_reached():
+            self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
+            return
         if x<self.curiosty_ratio:
             new_target=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
             self.type_of_algo_choose=Target_choose.RANDOM_ATTACK
@@ -84,6 +87,12 @@ class Naive_Algo():
         return best_target
 
     def get_target_postion(self,index,rand,settings):
+        # if self.is_limit_reached():
+        #     if index==0:
+        #         return Point(100,settings.tier1_distance_from_intruder)
+        #     else:
+        #         return Point(500,settings.tier1_distance_from_intruder)
+
         if self.targert_attacks[index]==None:
             self.choose_new_target(settings,rand,index)
         return self.targert_attacks[index]
