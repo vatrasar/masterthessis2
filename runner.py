@@ -1,4 +1,5 @@
 from Events.Game.Statistics import Statistics
+from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
 from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
 from Events.Game.move.GameObjects.movableObject import MovableObject
@@ -31,7 +32,8 @@ class Runner():
 
     def run_normal(self):
             naive_alog=Naive_Algo(self.settings.naive_algo_list_limit,self.settings.naive_algo_curiosity_ratio)
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,naive_alog)
+            annealing_algo=Annealing_Algo(self.settings,self.rand)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,naive_alog,self.settings,self.rand)
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
             #init uavs events
@@ -77,10 +79,11 @@ class Runner():
         update_stac_step=1
         self.current_time=closest_event.time_of_event
         self.game_state.t_curr=self.current_time
-        if self.current_time>=138.22:
-             print("ok")
+        # if self.current_time>=138.22:
+        #      print("ok")
         # if len(self.events_list.event_list)>5:
         #      print("ok")
+
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
         if self.current_time-update_stac_step>0:
             update_stac_step=update_stac_step+1

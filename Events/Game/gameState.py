@@ -1,5 +1,8 @@
 import logging
+from random import Random
 
+from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
+from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.intruder import Intruder
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.move.GameObjects.hand import Hand
@@ -11,7 +14,7 @@ from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_
 import typing
 
 class GameState():
-    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,naive_algo):
+    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,naive_algo,setting:Settings,rand:Random):
 
         self.visualize_first=True
         self.t_curr=0
@@ -22,7 +25,7 @@ class GameState():
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
 
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,naive_algo))
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,naive_algo,Annealing_Algo(setting,rand)))
 
         #init hands
         self.hands_list:typing.List[Hand] = []

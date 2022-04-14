@@ -26,6 +26,9 @@ class Naive_Algo():
             points_before_attack=points_before_attack
             self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
 
+    def remove_target(self,uav_index):
+        self.targert_attacks[uav_index]=None
+
     def update_result_to_exisiting_record(self,result,position,settings):
         for record in self.results_list:
             if get_2d_distance(Point(record.x,record.y),position)<=2*settings.map_resolution:

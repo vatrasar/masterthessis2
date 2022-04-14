@@ -18,7 +18,9 @@ class Annealing_Algo():
         self.temperature_reduction=settings.temperature_reduction
         self.current_attacks[0]={"start postion":None,"points":None,"active":False}
         self.current_attacks[1]={"start postion":None,"points":None,"active":False}
-        self.current_result={"position":None, "points":None}
+
+        init_start_x=rand.random()*settings.map_size_x
+        self.current_result={"position":Point(init_start_x,settings.tier1_distance_from_intruder), "points":0}
         self.targert_attacks={0:None,1:None}
         self.randm_np=np.random.RandomState()
         self.randm_np.seed(rand.randint(0,200000))
@@ -31,7 +33,10 @@ class Annealing_Algo():
             points_before_attack=points_before_attack
             self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
 
-
+    def get_target_postion(self,index,rand,settings):
+        if self.targert_attacks[index]==None:
+            self.choose_new_target(settings,rand,index)
+        return self.targert_attacks[index]
 
     def un_register_attack(self, uav_id,current_points,settings:Settings,rand:Random):
 
@@ -44,14 +49,16 @@ class Annealing_Algo():
             self.current_result={"position":candidate,"points":candidate_points}
             self.temperature=settings.temperature_reduction*self.temperature #reduction of temperature
 
-
+    def remove_target(self,uav_index):
+        self.targert_attacks[uav_index]=None
 
 
     def choose_new_target(self,settings,rand:Random,uav_index):
 
 
         candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
-        while not is_in_bondaries(0,settings.map_size_x,candidate):
+        while not is_in_bondaries(1,settings.map_size_x-2,candidate):
             candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
 
         self.targert_attacks[uav_index]=Point(candidate,settings.tier1_distance_from_intruder)
+

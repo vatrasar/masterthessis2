@@ -37,7 +37,16 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
                 return True
             else:
                 return False
+    if (mode=="annealing"):
+        if uav.annealing_algo.targert_attacks[uav.index]==None:
+                uav.annealing_algo.choose_new_target(settings,rand,uav.index)
 
+
+        if get_2d_distance(uav.position,uav.annealing_algo.targert_attacks[uav.index])<settings.map_resolution*2:
+            uav.annealing_algo.targert_attacks[uav.index]=None
+            return True
+        else:
+            return False
 
 def decide_whether_uav_back_on_tier2(prob_of_return_to_T2,rand:Random,uav_list:typing.List[Uav],dodge_radius,settings:Settings,uav:Uav):
     # if len(uav_list)==2:

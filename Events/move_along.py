@@ -22,6 +22,8 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,mast
     target_position=None
     if settings.mode=="list" and event_owner.naive_algo.is_limit_reached():
         target_position=event_owner.naive_algo.get_target_postion(event_owner.index,rand,settings)
+    elif settings.mode=="annealing":
+        target_position=event_owner.annealing_algo.get_target_postion(event_owner.index,rand,settings)
     else:
         target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state,safe_margin)
@@ -61,14 +63,24 @@ class Move_along(Event):
 
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:
-                plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin)
+                plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
                 return
             else:
-                if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.type_of_algo_choose in [Target_choose.BEST_FROM_LIST,Target_choose.RANDOM_FROM_LIST]:
-                    self.event_owner.naive_algo.update_result_to_exisiting_record(0,self.event_owner.position,settings)
+                if settings.mode=="list" :
+                    if self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.type_of_algo_choose in [Target_choose.BEST_FROM_LIST,Target_choose.RANDOM_FROM_LIST]:
+                        self.event_owner.naive_algo.update_result_to_exisiting_record(0,self.event_owner.position,settings)
+                    self.event_owner.naive_algo.remove_target(self.event_owner.index)
+                if  settings.mode=="annealing":
+                    self.event_owner.annealing_algo.remove_target(self.event_owner.index)
 
+        #choose target
         if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
             self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
+
+        if settings.mode=="annealing" and self.event_owner.annealing_algo.targert_attacks[self.event_owner.index]==None:
+            self.event_owner.annealing_algo.choose_new_target(settings,rand,self.event_owner.index)
+
+
 
 
 
@@ -91,6 +103,8 @@ class Move_along(Event):
                 elif settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached():
 
                     target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
+                elif settings.mode=="annealing":
+                    target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
 
                 if check_distance_between_uav(self.state.uav_list,settings.save_distance)==False and check_if_same_move_direction(self.event_owner,self.state.uav_list,target_postion):
                     continue

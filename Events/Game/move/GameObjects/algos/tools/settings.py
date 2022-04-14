@@ -157,7 +157,7 @@ class Settings():
 
         elif (property_name=="mode"):
             property_value=property_value.strip()
-            if (property_value in ["RW-RA","list"]):
+            if (property_value in ["RW-RA","list","annealing"]):
                 self.mode=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RW-RA"%(property_name))

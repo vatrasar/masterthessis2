@@ -39,7 +39,7 @@ class Wait(Event):
         path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder,settings,self.state.hands_list)
         if path!=None:
             from Events.attack import plan_attack
-            plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin)
+            plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
             return
         else:
             if self.event_owner.position.y>settings.r_of_LR:

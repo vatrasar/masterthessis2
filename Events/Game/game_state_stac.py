@@ -24,12 +24,12 @@ class GameStateStac():
         for uav in game_state.uav_list:
 
 
-            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo)
+            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
             uav_copy.points=uav.points
             self.uav_list.append(uav_copy)
         if len(game_state.list_of_dead_uavs) > 0:
             for uav in game_state.list_of_dead_uavs:
-                uav_copy = Uav(uav.position.x, uav.position.y, uav.status, uav.points, uav.velocity, uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo)
+                uav_copy = Uav(uav.position.x, uav.position.y, uav.status, uav.points, uav.velocity, uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
                 self.uav_list.append(uav_copy)
         if self.uav_list[0].index>self.uav_list[1].index:
             self.uav_list.reverse()
