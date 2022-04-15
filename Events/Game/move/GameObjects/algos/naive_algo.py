@@ -87,11 +87,11 @@ class Naive_Algo():
         return best_target
 
     def get_target_postion(self,index,rand,settings):
-        if self.is_limit_reached():
-            if index==0:
-                return Point(10,settings.tier1_distance_from_intruder)
-            else:
-                return Point(1000,settings.tier1_distance_from_intruder)
+        # if self.is_limit_reached():
+        #     if index==0:
+        #         return Point(10,settings.tier1_distance_from_intruder)
+        #     else:
+        #         return Point(1000,settings.tier1_distance_from_intruder)
 
         if self.targert_attacks[index]==None:
             self.choose_new_target(settings,rand,index)
