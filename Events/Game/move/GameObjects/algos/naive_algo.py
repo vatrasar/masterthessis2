@@ -31,7 +31,7 @@ class Naive_Algo():
 
     def update_result_to_exisiting_record(self,result,position,settings):
         for record in self.results_list:
-            if get_2d_distance(Point(record.x,record.y),position)<=2*settings.map_resolution:
+            if get_2d_distance(Point(record.x,record.y),position)<=settings.map_resolution:
 
                 record.r=record.r+1
                 average_points=(result+record.points)/record.r

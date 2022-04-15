@@ -9,7 +9,7 @@ from Events.event import Event
 from Events.Game.move.GameObjects.algos.tools.gui_tools import create_circle, create_squer, \
     create_line
 
-
+from PIL import Image
 class Visualisation_event(Event):
     def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state:GameState,visualisation_delay):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
@@ -20,6 +20,10 @@ class Visualisation_event(Event):
         #     self.visualisation_delay=200
 
 
+    def save_to_file(self,time):
+        self.canvas.postscript(file="./history/temp/image"+str(time)+".ps", colormode='color')
+        img = Image.open("./history/temp/image"+str(time)+".ps")
+        img.save("./history/history/image"+str(time)+'.png', 'png')
 
 
     def handle_event(self, event_list, settings: Settings, rand: Random,iteration_function):
@@ -31,7 +35,8 @@ class Visualisation_event(Event):
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
 
         self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
-
+        if self.time_of_event%1==0 and self.time_of_event>350 and settings.visualisation==2:
+            self.save_to_file(self.time_of_event)
 
         # self.canvas.update()
 

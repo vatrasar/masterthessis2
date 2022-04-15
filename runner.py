@@ -2,6 +2,7 @@ from Events.Game.Statistics import Statistics
 from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
 from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
+from Events.Game.move.GameObjects.algos.tools.other_tools import clear_folder
 from Events.Game.move.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.algos.tools.settings import Settings
@@ -32,14 +33,15 @@ class Runner():
 
     def run_normal(self):
 
-
+            clear_folder("./history/temp")
+            clear_folder("./history/history")
             self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand)
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
             #init uavs events
 
 
-            if self.settings.visualisation==1:#visualisation
+            if self.settings.visualisation in [1,2]:#visualisation
 
                 self.setup_visualisation()
 
@@ -54,7 +56,7 @@ class Runner():
             if self.settings.mode_debug!=3:
                 plan_hand_control_event(self.current_time+get_d_t_arrive_poison(self.settings.arrive_deterministic,self.settings.lambda1,self.rand),self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
-            if self.settings.visualisation==1:#visualisation
+            if self.settings.visualisation in [1,2]:#visualisation
                 self.master.after(1, self.single_iteration)
                 self.master.mainloop()
             else:
@@ -91,7 +93,7 @@ class Runner():
         print(self.current_time)
 
         if self.current_time>self.settings.T:
-            if self.settings.visualisation==1:
+            if self.settings.visualisation in [1,2]:
                 self.master.quit()
             self.statistics.save()
 
