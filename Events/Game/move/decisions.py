@@ -28,21 +28,21 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
             else:
                 return False
         else:
-            if uav.naive_algo.targert_attacks[uav.index]==None:
+            if uav.naive_algo.get_target_postion(uav.index,rand,settings)==None:
                 uav.naive_algo.choose_new_target(settings,rand,uav.index)
 
 
-            if get_2d_distance(uav.position,uav.naive_algo.targert_attacks[uav.index])<settings.map_resolution*2:
+            if get_2d_distance(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings))<settings.map_resolution*2:
                 uav.naive_algo.targert_attacks[uav.index]=None
                 return True
             else:
                 return False
     if (mode=="annealing"):
-        if uav.annealing_algo.targert_attacks[uav.index]==None:
+        if uav.annealing_algo.get_target_postion(uav.index,rand,settings)==None:
                 uav.annealing_algo.choose_new_target(settings,rand,uav.index)
 
 
-        if get_2d_distance(uav.position,uav.annealing_algo.targert_attacks[uav.index])<settings.map_resolution*2:
+        if get_2d_distance(uav.position,uav.annealing_algo.get_target_postion(uav.index,rand,settings))<settings.map_resolution*2:
             uav.annealing_algo.targert_attacks[uav.index]=None
             return True
         else:
