@@ -57,7 +57,7 @@ class Annealing_Algo():
 
 
         candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
-        while not is_in_bondaries(1,settings.map_size_x-2,candidate):
+        while not is_in_bondaries(1,settings.map_size_x-10,candidate):
             candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
 
         self.targert_attacks[uav_index]=Point(candidate,settings.tier1_distance_from_intruder)

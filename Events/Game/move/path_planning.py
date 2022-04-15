@@ -171,6 +171,8 @@ def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_int
     target_point=game_map.get_floading_point(Point(uav.position.x,tier1_distance_from_intruder-1))
     if not(target_point.is_visited):
         target_point=game_map.fluid_map[target_point.index.y-1][target_point.index.x]
+        # if not(target_point.is_visited):
+        #     game_map.show_visited()
     path=create_path(target_point)
     if len(path)==1:
         return None

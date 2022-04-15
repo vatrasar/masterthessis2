@@ -51,7 +51,7 @@ class Visualisation_event(Event):
             create_circle(point.x,point.y,point.r,self.canvas,"grey")
 
         create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
-        # create_circle(122,267,hand_size,self.canvas,"black") #marker
+        create_circle(1011,396,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 

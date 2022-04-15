@@ -354,6 +354,15 @@ class GameMap():
             self.fluid_memory[element.index.y][element.index.x]=i
             i=i+1
 
+    def show_visited(self):
+        i=50
+
+        for raw in self.fluid_map:
+            for element in raw :
+                if element.is_visited==True:
+                    self.fluid_memory[element.index.y][element.index.x]=i
+
+
 
 
 

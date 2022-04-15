@@ -81,12 +81,12 @@ class Runner():
         update_stac_step=1
         self.current_time=closest_event.time_of_event
         self.game_state.t_curr=self.current_time
-        if self.current_time>69.959:
+        if self.current_time>290.5:
              print("ok")
-        # if len(self.events_list.event_list)>5:
-        #      print("ok")
-        if len(self.events_list.event_list)<6:
-            print("test")
+        # # if len(self.events_list.event_list)>5:
+        # #      print("ok")
+        # if len(self.events_list.event_list)<6:
+        #     print("test")
         closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
 
         if self.current_time-update_stac_step>0:
