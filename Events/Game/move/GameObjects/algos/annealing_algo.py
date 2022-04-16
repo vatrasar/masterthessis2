@@ -25,6 +25,7 @@ class Annealing_Algo():
         self.randm_np=np.random.RandomState()
         self.randm_np.seed(rand.randint(0,200000))
         self.step=math.sqrt(settings.temperature)
+        self.choose_random=False
 
 
     def register_attack(self, start_position:Point,uav_id,points_before_attack):
@@ -55,7 +56,12 @@ class Annealing_Algo():
 
     def choose_new_target(self,settings,rand:Random,uav_index):
 
-
+        if self.choose_random:
+            self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
+            self.choose_random=False
+            return
+        else:
+            self.choose_random=True
         candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
         while not is_in_bondaries(1,settings.map_size_x-10,candidate):
             candidate=self.current_result["position"].x+self.randm_np.normal()*self.step

@@ -19,7 +19,7 @@ class Naive_Algo():
         self.current_attacks[1]={"start postion":None,"points":None,"active":False}
         self.targert_attacks={0:None,1:None}
         self.type_of_algo_choose=Target_choose.RANDOM_ATTACK
-
+        self.choose_random=False
     def register_attack(self, start_position:Point,uav_id,points_before_attack):
         if self.current_attacks[uav_id]["active"]==False:
 
@@ -59,6 +59,14 @@ class Naive_Algo():
             self.results_list.append(PointsCell(start_location.x,start_location.y,1,points))
 
     def choose_new_target(self,settings,rand:Random,uav_index):
+
+        if self.choose_random:
+            self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
+            self.choose_random=False
+            return
+        else:
+            self.choose_random=True
+
         x=rand.random()
         new_target=None
         if not self.is_limit_reached():

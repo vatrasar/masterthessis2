@@ -106,10 +106,10 @@ class Settings():
 
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
-        self.naive_algo_list_limit=1
+        self.naive_algo_list_limit=5
         self.naive_algo_curiosity_ratio=0.1
-        self.temperature=4
-        self.temperature_reduction=0.6
+        self.temperature=1000000
+        self.temperature_reduction=0.9
 
         logging.info("properties correct")
         return setting_dict

@@ -1,8 +1,8 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
-T=500 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
-mode=annealing #tryby wyszukiwania trasy przez drona. RW-RA to tryb losowy. mozliwe wartości: RW-RA, list, annealing
+T=2000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+mode=list #tryby wyszukiwania trasy przez drona. RW-RA to tryb losowy. mozliwe wartości: RW-RA, list, annealing
 prob_of_attack=0.7 #Prawdopodobieństwo wykonania ataku w trybie losowym. wartości od 0 do 1
 prob_of_return_to_T2=0.2 #Parwdopodobieństwo powrotu na tier2. wartośc od 0 do 1
 arrive_deterministic=0 #wartości 0: niedeterministycznie lub 1: deterministycznie
