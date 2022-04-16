@@ -5,8 +5,8 @@ from Events.Game.move.GameObjects.algos.tools.settings import Settings
 
 def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y):
 
-    if point.x<0:
-        point.x=2
+    if point.x<2:
+        point.x=3
 
     if point.x>max_range_of_map_x:
         point.x=max_range_of_map_x

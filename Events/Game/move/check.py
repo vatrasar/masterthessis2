@@ -188,6 +188,7 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
 
     for hand in hands_list:# chacking for static targets
         save_distance=settings.velocity_hand*4+settings.hand_size*2
+
         if hand.status==HandStatus.JUMP:
             save_distance=settings.velocity_hand*settings.jump_ratio*3+settings.hand_size*2
         if get_2d_distance(cell.position,hand.position)<save_distance:
@@ -203,6 +204,23 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
     #         return False
 
     return True
+
+def check_if_point_safe_attack_dodge(game_state,target_position,settings,event_owner):
+    is_point_safe=True
+    for hand in game_state.hands_list:#checking for safety
+        if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
+            if get_2d_distance(hand.position,event_owner.position)<(settings.uav_size+settings.hand_size)*2:
+                if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*1.1:
+                    is_point_safe=False
+            else:
+                is_point_safe=False
+
+
+    for secound_uav in game_state.uav_list:#checking for safety
+        if secound_uav!=event_owner and get_2d_distance(secound_uav.position,target_position)<settings.uav_size*2:
+            is_point_safe=False
+    return is_point_safe
+
 
 def check_if_point_is_reached(object_velocity,minimal_time_of_travel,object_position,target_position):
     trevel_time=get_travel_time_to_point(object_position,target_position,object_velocity)
