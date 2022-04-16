@@ -38,6 +38,9 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
             else:
                 return False
     if (mode=="annealing"):
+        # if uav.annealing_algo.choose_random==False:
+        #     uav.annealing_algo.choose_new_target(settings,rand,uav.index)
+        #     return False
         if uav.annealing_algo.get_target_postion(uav.index,rand,settings)==None:
                 uav.annealing_algo.choose_new_target(settings,rand,uav.index)
 
