@@ -49,8 +49,17 @@ class Visualisation_event(Event):
         for point in settings.lif_of_invisible:
 
             create_circle(point.x,point.y,point.r,self.canvas,"grey")
-
-        create_squer(0,0,map_size_x, intruder_size,self.canvas)#target
+        if len(self.game_state.hands_list)==2:
+            squer_bootm_start=0
+            squer_top_end=map_size_x/2.0
+            if self.game_state.hands_list[0].side==Sides.RIGHT:
+                self.game_state.hands_list.reverse()
+            for hand in self.game_state.hands_list:
+                create_squer(squer_bootm_start,0,squer_top_end, intruder_size,self.canvas,hand.color)
+                squer_bootm_start=map_size_x/2.0
+                squer_top_end=map_size_x
+        else:
+            create_squer(0,0,map_size_x, intruder_size,self.canvas,"blue")#target
         # create_circle(1011,396,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
