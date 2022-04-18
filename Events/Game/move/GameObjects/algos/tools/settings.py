@@ -106,8 +106,8 @@ class Settings():
 
         self.is_hand_deviation=True
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
-        self.naive_algo_list_limit=5
-        self.naive_algo_curiosity_ratio=0.1
+
+        self.naive_algo_curiosity_ratio=0.0
         self.temperature=1000000
         self.temperature_reduction=0.9
 
@@ -139,6 +139,8 @@ class Settings():
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
+        elif (property_name=="naive algo list limit"):
+            self.naive_algo_list_limit=self.check_int(property_value,property_name,1,0,True)
         elif (property_name=="hand_max_deviation"):
             self.hand_max_deviation=self.check_int(property_value, property_name, 0, 1, True)
         elif (property_name=="T"):

@@ -108,16 +108,16 @@ def check_if_point_is_in_range(point:Point,hand:Hand,settings):
 
 def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin,jump_velocity):
 
-    actual_margin=safe_margin
+    actual_margin=jump_velocity*4*1.5
     for hand in hands_list:
         if hand.status==HandStatus.JUMP:
             actual_margin=safe_margin*2
-        elif hand.status==HandStatus.CHASING and hand.target_uav==uav:
-            actual_margin=safe_margin*1.5
+        # elif hand.status==HandStatus.CHASING and hand.target_uav==uav:
+        #     actual_margin=safe_margin*1.5
         elif hand.status==HandStatus.WAIT_AFTER_JUMP and uav.status!=UavStatus.ON_ATTACK:
             actual_margin=0
         else:
-            actual_margin=safe_margin
+            actual_margin=jump_velocity*4*1.5
 
         if abs(uav.position.x-hand.position.x)<actual_margin:
 
@@ -207,7 +207,9 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
 
 def check_if_point_safe_attack_dodge(game_state,target_position,settings,event_owner):
     is_point_safe=True
+
     for hand in game_state.hands_list:#checking for safety
+
         if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
             if get_2d_distance(hand.position,event_owner.position)<(settings.uav_size+settings.hand_size)*2:
                 if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*1.1:
