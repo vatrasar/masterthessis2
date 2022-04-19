@@ -28,11 +28,8 @@ def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state
     event_time=dt_arrive+current_time
     new_event=Attack(event_time,event_owner,tk_master,target_position,status,game_state,path[1:],safe_margin)
     event_list.append_event(new_event,status)
-    if settings.mode=="list" and (not event_owner.naive_algo.is_limit_reached()):
-        event_owner.register_attack(target_position)
 
-    if settings.mode=="annealing":
-        event_owner.annealing_algo.register_attack(target_position,event_owner.index,event_owner.points)
+
 
 def get_target_point_according_to_direction(direction,event_owner,settings):
     if direction<0:
@@ -169,6 +166,7 @@ class Attack(Event):
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
                         return
                     elif abs(self.event_owner.position.y-settings.tier1_distance_from_intruder)<10:
+                        self.update_algos_results(rand, settings)
                         self.start_to_move_on_tier1(event_list, rand, settings)
                     else:
                         plan_attck_dodge_move(self.time_of_event,self.event_owner,self.tk_master,self.game_state,settings,event_list)
@@ -186,15 +184,19 @@ class Attack(Event):
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
-                if settings.mode=="list":
-                    self.event_owner.naive_algo.un_register_attack(self.event_owner.index,self.event_owner.points,settings)
-                if settings.mode=="annealing":
-                    self.event_owner.annealing_algo.un_register_attack(self.event_owner.index,self.event_owner.points,settings,rand)
+                self.update_algos_results(rand, settings)
                 if settings.tier2_mode:
                     from Events.move_along import plan_enter_from_tier2
                     plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)
                 else:
                     self.start_to_move_on_tier1(event_list, rand, settings)
+
+    def update_algos_results(self, rand, settings):
+        if settings.mode == "list":
+            self.event_owner.naive_algo.un_register_attack(self.event_owner.index, self.event_owner.points, settings)
+        if settings.mode == "annealing":
+            self.event_owner.annealing_algo.un_register_attack(self.event_owner.index, self.event_owner.points,
+                                                               settings, rand)
 
     def start_to_move_on_tier1(self, event_list, rand, settings):
 
@@ -214,6 +216,7 @@ class Attack(Event):
                                 settings.tier1_distance_from_intruder, settings, self.game_state.hands_list)
 
         if abs(settings.tier1_distance_from_intruder-self.event_owner.position.y)<settings.uav_size:
+            self.update_algos_results(rand, settings)
             self.start_to_move_on_tier1(event_list, rand, settings)
         elif path != None:
             plan_attack(self.time_of_event, self.event_owner, self.tk_master, path, settings.v_of_uav, self.state,

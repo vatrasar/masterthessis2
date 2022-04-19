@@ -22,9 +22,17 @@ class Naive_Algo():
         self.choose_random=False
     def register_attack(self, start_position:Point,uav_id,points_before_attack):
         if self.current_attacks[uav_id]["active"]==False:
-
+            self.current_attacks[uav_id]["active"]=True
             points_before_attack=points_before_attack
             self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
+
+
+    def cancel_attack(self,uav_id,rand:Random,settings:Settings):
+
+        points=0
+        self.update_result_to_exisiting_record(points,self.targert_attacks[uav_id],settings)
+
+        self.targert_attacks[uav_id]=None
 
     def remove_target(self,uav_index):
         self.targert_attacks[uav_index]=None
@@ -36,10 +44,14 @@ class Naive_Algo():
                 record.r=record.r+1
                 average_points=(result+record.points)/record.r
                 record.points=average_points
+
                 return True
+
         return False
 
+
     def un_register_attack(self, uav_id,current_points,settings:Settings):
+
 
         self.current_attacks[uav_id]["active"]=False
         points=current_points-self.current_attacks[uav_id]["points before attack"]
@@ -65,6 +77,7 @@ class Naive_Algo():
             self.choose_random=False
             return
         else:
+
             self.choose_random=True
 
         x=rand.random()

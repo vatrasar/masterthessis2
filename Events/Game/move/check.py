@@ -104,7 +104,8 @@ def check_if_point_is_in_range(point:Point,hand:Hand,settings):
     else:
         return False
 
-
+def check_if_algo_target_reached(uav_postion,target_position,settings):
+    return get_2d_distance(uav_postion,target_position)<settings.map_resolution*2
 
 def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin,jump_velocity):
 

@@ -3,7 +3,10 @@ import typing
 
 from Events.Game.move.GameObjects.algos.tools.settings import Settings
 from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.check import check_if_algo_target_reached
 from Events.Game.move.distance import get_2d_distance
+
+
 
 
 def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:Settings):
@@ -21,22 +24,16 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
         else:
             return False
     if (mode=="list"):
-        if not uav.naive_algo.is_limit_reached():
-            x=rand.random()
-            if x<prob_of_attack:
-                return True
-            else:
-                return False
+
+        if uav.naive_algo.get_target_postion(uav.index,rand,settings)==None:
+            uav.naive_algo.choose_new_target(settings,rand,uav.index)
+
+
+        if check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings):
+
+            return True
         else:
-            if uav.naive_algo.get_target_postion(uav.index,rand,settings)==None:
-                uav.naive_algo.choose_new_target(settings,rand,uav.index)
-
-
-            if get_2d_distance(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings))<settings.map_resolution*2:
-                uav.naive_algo.targert_attacks[uav.index]=None
-                return True
-            else:
-                return False
+            return False
     if (mode=="annealing"):
         # if uav.annealing_algo.choose_random==False:
         #     uav.annealing_algo.choose_new_target(settings,rand,uav.index)
@@ -45,9 +42,14 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
                 uav.annealing_algo.choose_new_target(settings,rand,uav.index)
 
 
-        if get_2d_distance(uav.position,uav.annealing_algo.get_target_postion(uav.index,rand,settings))<settings.map_resolution*2:
-            uav.annealing_algo.targert_attacks[uav.index]=None
-            return True
+        if check_if_algo_target_reached(uav.position,uav.annealing_algo.get_target_postion(uav.index,rand,settings),settings):
+            print("ITER:"+str(uav.annealing_algo.iteration))
+            if uav.annealing_algo.annealing_number_of_iterations<uav.annealing_algo.iteration and uav.annealing_algo.choose_random==False:
+                uav.annealing_algo.choose_new_target(settings,rand,uav.index)
+
+                return False
+            else:
+                return True
         else:
             return False
 

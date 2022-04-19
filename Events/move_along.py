@@ -2,7 +2,9 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
-from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance
+from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance, \
+    check_if_algo_target_reached
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
 
 from Events.Game.move.GameObjects.algos.tools.settings import Settings
@@ -47,7 +49,7 @@ class Move_along(Event):
     def __init__(self, time_of_event, event_owner,tk_master,target_postion,next_status,state,safe_margin):
         super().__init__(time_of_event, event_owner,tk_master,state)
         self.safe_margin = safe_margin
-
+        self.event_owner:Uav=event_owner
         self.event_owner.target_position=target_postion
         self.event_owner.next_status=next_status
         self.state:GameState=state
@@ -62,26 +64,30 @@ class Move_along(Event):
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
 
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
-            if path!=None:
+            if path!=None:#attack
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
-                return
-            else:
-                if settings.mode=="list" :
-                    if self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.type_of_algo_choose in [Target_choose.BEST_FROM_LIST,Target_choose.RANDOM_FROM_LIST]:
-                        self.event_owner.naive_algo.update_result_to_exisiting_record(0,self.event_owner.position,settings)
-                    self.event_owner.naive_algo.remove_target(self.event_owner.index)
                 if  settings.mode=="annealing":
-                    self.event_owner.annealing_algo.remove_target(self.event_owner.index)
+                    self.event_owner.annealing_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
+                if settings.mode=="list":
+
+                    self.event_owner.register_attack(self.event_owner.position)
+
+                    self.event_owner.naive_algo.remove_target(self.event_owner.index)
+                return
+            else:#no attack
+
+                if settings.mode=="annealing":
+                    self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
+                if settings.mode=="list":
+                    self.event_owner.naive_algo.cancel_attack(self.event_owner.index,rand,settings)
+
+        else:
+            if settings.mode=="annealing" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
+                self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
 
         #choose target
-        if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
-            self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
-
-        if settings.mode=="annealing" and self.event_owner.annealing_algo.targert_attacks[self.event_owner.index]==None:
-            self.event_owner.annealing_algo.choose_new_target(settings,rand,self.event_owner.index)
-
-
-
+        # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
+        #     self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
 
 
 
