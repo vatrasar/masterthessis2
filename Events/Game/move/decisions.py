@@ -30,7 +30,9 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
 
 
         if check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings):
-
+            if uav.naive_algo.is_limit_reached() and uav.naive_algo.choose_random==False:
+                uav.naive_algo.choose_new_target(settings,rand,uav.index)
+                return False
             return True
         else:
             return False

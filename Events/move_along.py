@@ -84,7 +84,8 @@ class Move_along(Event):
         else:
             if settings.mode=="annealing" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
-
+            if settings.mode=="list" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
+                self.event_owner.naive_algo.cancel_attack(self.event_owner.index,rand,settings)
         #choose target
         # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
         #     self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
