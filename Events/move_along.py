@@ -104,9 +104,9 @@ class Move_along(Event):
                     plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.state,self.safe_margin)
                     return
                 target_postion=None
-                if settings.mode=="RW-RA" or (settings.mode=="list" and (not self.event_owner.naive_algo.is_limit_reached())):
+                if settings.mode=="RW-RA":
                     target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
-                elif settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached():
+                elif settings.mode=="list":
 
                     target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
                 elif settings.mode=="annealing":

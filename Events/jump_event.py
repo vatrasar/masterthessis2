@@ -23,8 +23,9 @@ def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, han
     if len(path)==0:
         target_point=Point(uav_position.x,uav_position.y)
     else:
-        target_point=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
-
+        cell=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
+        if cell!=None:
+            target_point=Point(cell.x,cell.y)
 
     if target_point==None:
         from Events.hand_chase import plan_chase_event

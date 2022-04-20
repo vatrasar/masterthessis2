@@ -7,7 +7,7 @@ class FluidCell():
         self.uav_arrive_time=arrive_time
         self.points=0
         self.is_safe=False
-        self.position=position
+        self.position:Point=position
         self.is_visited=False
         self.index=Point(i_x,i_y)
         self.is_queue=False
