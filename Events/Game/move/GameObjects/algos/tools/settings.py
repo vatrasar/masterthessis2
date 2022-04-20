@@ -108,7 +108,7 @@ class Settings():
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
         self.naive_algo_curiosity_ratio=0.0
-        self.annealing_number_of_iterations=50
+
 
         logging.info("properties correct")
         return setting_dict
@@ -142,6 +142,8 @@ class Settings():
             self.temperature=self.check_float(property_value,property_name,1,0,True)
         elif(property_name=="temperature_reduction"):
             self.temperature_reduction=1-self.check_float(property_value,property_name,0,1,False)
+        elif(property_name=="annealing_number_of_iterations"):
+            self.annealing_number_of_iterations=self.check_int(property_value,property_name,1,0,True)
         elif (property_name=="naive algo list limit"):
             self.naive_algo_list_limit=self.check_int(property_value,property_name,1,0,True)
         elif (property_name=="hand_max_deviation"):
