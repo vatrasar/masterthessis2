@@ -108,8 +108,7 @@ class Settings():
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
         self.naive_algo_curiosity_ratio=0.0
-        self.is_multirun=True
-        self.number_of_runs=3
+
 
         logging.info("properties correct")
         return setting_dict
@@ -139,6 +138,11 @@ class Settings():
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
+        elif(property_name=="is_multirun"):
+            self.is_multirun=self.check_binary(property_value,property_name)
+        elif (property_name=="number_of_runs"):
+            self.number_of_runs=self.check_int(property_value,property_name,1,0,True)
+
         elif(property_name=="temperature"):
             self.temperature=self.check_float(property_value,property_name,1,0,True)
         elif(property_name=="temperature_reduction"):

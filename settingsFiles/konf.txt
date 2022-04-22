@@ -31,3 +31,5 @@ naive algo list limit=5 #liczba losowych ataków po osiągnięciu, której algor
 temperature=1000000 #temperatura z algorytmu wyżarzania
 temperature_reduction=0.7 # o jaki ułamek zostanie zredukowana temperatura przy kolejnej iteracji
 annealing_number_of_iterations=50 #liczba iteracji w algorytmie wyżarzania
+is_multirun=1 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
+number_of_runs=2 #gdy multirun aktywny okresla liczbe odpaleń algorytmu
