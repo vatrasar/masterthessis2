@@ -28,15 +28,19 @@ class Visualisation_event(Event):
 
     def handle_event(self, event_list, settings: Settings, rand: Random,iteration_function):
         super().handle_event(event_list, settings, rand,iteration_function)
-        self.canvas.delete("all")
+
         self.game_state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state,settings.visualisation_speed)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
+        if not settings.is_multirun:
 
-        self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
-        if self.time_of_event%1==0 and self.time_of_event>3100 and settings.visualisation==2:
-            self.save_to_file(self.time_of_event)
+            self.canvas.delete("all")
+
+
+            self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
+            if self.time_of_event%1==0 and self.time_of_event>3100 and settings.visualisation==2:
+                self.save_to_file(self.time_of_event)
 
         # self.canvas.update()
 

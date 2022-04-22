@@ -59,7 +59,7 @@ class Settings():
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name))
         else:
 
-            if (property_value > min and property_value<max):
+            if (property_value >= min and property_value<max):
                 return int(str(property_value))
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s ma nieprawidłową wartość"%(property_name) )
@@ -108,7 +108,8 @@ class Settings():
         self.safe_margin=self.jump_ratio*self.velocity_hand*4 # minimal distance from each hand to start attack
 
         self.naive_algo_curiosity_ratio=0.0
-
+        self.is_multirun=True
+        self.number_of_runs=3
 
         logging.info("properties correct")
         return setting_dict

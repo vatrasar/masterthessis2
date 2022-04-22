@@ -1,6 +1,7 @@
 import random
 
 from Events.Game.Statistics import Statistics
+from Events.Game.move.GameObjects.algos.tools.other_tools import clear_folder
 from runner import Runner
 from Events.Game.move.GameObjects.algos.tools.settings import Settings
 
@@ -20,6 +21,8 @@ def main():
         file_with_rewards=open("settingsFiles/"+rewardsFileName)
         file_with_boxes=open("settingsFiles/"+"boxes.txt")
         file_with_invisible=open("settingsFiles/"+"invisible_boxes.txt")
+        clear_folder("./history/temp")
+        clear_folder("./history/history")
         settings.get_properties(file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible)
     except Exception as exp:
         print(str(exp))
@@ -29,7 +32,10 @@ def main():
     rand = random.Random(settings.seed)  # 800
 
     runner=Runner(settings,rand, statistics)
-    runner.run_normal()
+    if settings.is_multirun:
+        runner.run_multirun()
+    else:
+        runner.run_normal()
 
 
 

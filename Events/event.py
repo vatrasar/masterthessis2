@@ -19,7 +19,7 @@ class Event():
 
         self.event_owner.set_status(self.event_owner.next_status)
         self.event_owner.set_new_position(self.event_owner.target_position,self.time_of_event)
-        if settings.visualisation in [1,2]:
+        if settings.visualisation in [1,2] and not settings.is_multirun:
             self.tk_master.after(self.visualisation_delay,iteration_function)
 
 

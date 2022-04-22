@@ -1,4 +1,9 @@
+from random import Random
+
+import ra as ra
+
 from Events.Game.Statistics import Statistics
+from Events.Game.gnuplot import export_to_gnuplot
 from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
 from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
 from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
@@ -23,22 +28,47 @@ from Events.wait import plan_wait
 class Runner():
     def __init__(self,settings:Settings,rand,statistics:Statistics):
         self.settings=settings
-        self.rand=rand
+        self.rand:Random=rand
         self.current_time=0
         self.master=None
         self.statistics=statistics
+        self.run_stac_list=[]
+
+
+
+    def run_multirun(self):
+        for i in range(0,self.settings.number_of_runs):
+            seed_for_run=self.rand.randint(0,100000000)
+            rand_for_run=Random(seed_for_run)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,rand_for_run)
+            self.game_state.game_map.update_map(self.game_state,None)
+            self.events_list=Event_list()
+            for uav in self.game_state.uav_list:
+                plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
+
+
+            event_time=self.settings.visualzation_update_interval
+            self.game_state.visualisation_owner = MovableObject(0, 0, UavStatus.VISUALISE, 0, 0, 0, None, None)
+            visualisation_event = Visualisation_event(event_time, self.game_state.visualisation_owner, self.master, None,
+                                              self.game_state,self.settings.visualisation_speed)
+            self.events_list.append_event(visualisation_event, UavStatus.VISUALISE)
+            while self.perform_singel_iteration(rand_for_run):
+
+                continue
+        export_to_gnuplot(self.run_stac_list)
+
 
 
 
 
     def run_normal(self):
 
-            clear_folder("./history/temp")
-            clear_folder("./history/history")
             self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand)
+
+
             self.game_state.game_map.update_map(self.game_state,None)
             self.events_list=Event_list()
-            #init uavs events
+
 
 
             if self.settings.visualisation in [1,2]:#visualisation
@@ -46,7 +76,7 @@ class Runner():
                 self.setup_visualisation()
 
 
-
+            #init uavs events
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
@@ -60,8 +90,9 @@ class Runner():
                 self.master.after(1, self.single_iteration)
                 self.master.mainloop()
             else:
-                while self.current_time<=self.settings.T:
-                    self.single_iteration()
+                while self.perform_singel_iteration(self.rand):
+                    continue
+
 
     def setup_visualisation(self):
         self.master = tkinter.Tk()
@@ -76,28 +107,35 @@ class Runner():
 
     def single_iteration(self):
 
-        closest_event:Event=self.events_list.get_closest_event()
+        return self.perform_singel_iteration(self.rand)
 
-        update_stac_step=1
-        self.current_time=closest_event.time_of_event
-        self.game_state.t_curr=self.current_time
+    def perform_singel_iteration(self, rand):
+        closest_event: Event = self.events_list.get_closest_event()
+        update_stac_step = 1
+        self.current_time = closest_event.time_of_event
+        self.game_state.t_curr = self.current_time
         # if self.current_time>550.5:
         #      print("ok")
         # # if len(self.events_list.event_list)>5:
         # #      print("ok")
         # if len(self.events_list.event_list)<6:
         #     print("test")
-        closest_event.handle_event(self.events_list,self.settings,self.rand,self.single_iteration)
+        closest_event.handle_event(self.events_list, self.settings, rand, self.single_iteration)
+        if self.current_time%1==0:
 
-        if self.current_time-update_stac_step>0:
-            update_stac_step=update_stac_step+1
-            self.statistics.update_stac(self.game_state,self.settings)
+            self.statistics.update_stac(self.game_state, self.settings)
         print(self.current_time)
-
-        if self.current_time>self.settings.T:
-            if self.settings.visualisation in [1,2]:
+        if self.current_time > self.settings.T:
+            if self.settings.is_multirun:
+                self.run_stac_list.append(self.statistics)
+                self.statistics = Statistics()
+                return False
+            if self.settings.visualisation in [1, 2]:
                 self.master.quit()
+
             self.statistics.save()
+        return True
+
 
     def setup_debug2(self,event_list):
         for uav in self.game_state.uav_list:
