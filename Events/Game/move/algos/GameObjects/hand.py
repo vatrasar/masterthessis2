@@ -1,6 +1,6 @@
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import Sides
-from Events.Game.move.GameObjects.movableObject import MovableObject
-from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.movableObject import MovableObject
+from Events.Game.move.algos.GameObjects.tools.point import Point
 
 
 
@@ -17,7 +17,7 @@ class Hand(MovableObject):
             self.color="blue"
         else:
             self.color="purple"
-        from Events.Game.move.GameObjects.uav import Uav
+        from Events.Game.move.algos.GameObjects.uav import Uav
         self.target_uav:Uav=None
 
 

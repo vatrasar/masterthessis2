@@ -1,8 +1,8 @@
 from random import Random
 
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 from Events.Game.move.path_planning import search_back_path
 from Events.attack import plan_attck_dodge_move

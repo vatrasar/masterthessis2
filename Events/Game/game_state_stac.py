@@ -1,8 +1,8 @@
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
-from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.naive_algo import Naive_Algo
+from Events.Game.move.algos.GameObjects.hand import Hand
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
 
 
 class GameStateStac():
@@ -24,7 +24,7 @@ class GameStateStac():
         for uav in game_state.uav_list:
 
 
-            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
+            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position)
             uav_copy.points=uav.points
             self.uav_list.append(uav_copy)
 
@@ -35,7 +35,7 @@ class GameStateStac():
 
         if len(game_state.list_of_dead_uavs) > 0:
             for uav in game_state.list_of_dead_uavs:
-                uav_copy = Uav(uav.position.x, uav.position.y, uav.status, uav.points, uav.velocity, uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,naive_algo,None)
+                uav_copy = Uav(uav.position.x, uav.position.y, uav.status, uav.points, uav.velocity, uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position)
                 self.uav_list.append(uav_copy)
         if len(self.uav_list)>1 and self.uav_list[0].index>self.uav_list[1].index:
             self.uav_list.reverse()

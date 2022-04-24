@@ -1,20 +1,15 @@
 from random import Random
 
-import ra as ra
-
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
-from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
-from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
-from Events.Game.move.GameObjects.algos.tools.other_tools import clear_folder
-from Events.Game.move.GameObjects.movableObject import MovableObject
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 import tkinter
 
 from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
-from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import get_max_hand_range_in_x
+from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_d_t_arrive_poison
 from Events.hand_chase import plan_chase_event
 from Events.hand_control_event import plan_hand_control_event

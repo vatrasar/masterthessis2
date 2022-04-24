@@ -1,6 +1,6 @@
 from tkinter import Canvas
 
-from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.point import Point
 
 
 def create_circle(x,y, r, canvas, color): #center coordinates, radius

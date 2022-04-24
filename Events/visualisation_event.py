@@ -1,12 +1,12 @@
 from random import Random
 from tkinter import Tk, Canvas
 
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 from Events.event import Event
-from Events.Game.move.GameObjects.algos.tools.gui_tools import create_circle, create_squer, \
+from Events.Game.move.algos.GameObjects.tools.gui_tools import create_circle, create_squer, \
     create_line
 
 from PIL import Image
@@ -74,11 +74,13 @@ class Visualisation_event(Event):
                 if uav.index==1:
                     create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"black")
 
-                if uav.naive_algo.is_limit_reached():
-                    best=uav.naive_algo.get_best_from_list()[0]
-                    create_circle(best.x, best.y,uav_size,self.canvas,"purple")
-                    best=uav.naive_algo.get_best_from_list()[1]
-                    create_circle(best.x, best.y,uav_size,self.canvas,"brown")
+                if self.game_state.naive_algo.is_limit_reached():
+                    best=self.game_state.naive_algo.get_best_from_list()[0]
+                    if best!=None:
+                        create_circle(best.x, best.y,uav_size,self.canvas,"purple")
+                    best=self.game_state.naive_algo.get_best_from_list()[1]
+                    if best!=None:
+                        create_circle(best.x, best.y,uav_size,self.canvas,"brown")
 
 
 

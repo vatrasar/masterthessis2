@@ -1,15 +1,15 @@
 import logging
 from random import Random
 
-from Events.Game.move.GameObjects.algos.annealing_algo import Annealing_Algo
-from Events.Game.move.GameObjects.algos.naive_algo import Naive_Algo
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.GameObjects.intruder import Intruder
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, Sides, HandStatus
-from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.algos.annealing_algo import Annealing_Algo
+from Events.Game.move.algos.naive_algo import Naive_Algo
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.intruder import Intruder
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.move.algos.GameObjects.hand import Hand
+from Events.Game.move.algos.GameObjects.tools.point import Point
 
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_distance
 import typing
@@ -24,9 +24,9 @@ class GameState():
         self.list_of_dead_uavs=[]
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
-        naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio)
+        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio)
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,naive_algo,Annealing_Algo(setting,rand)))
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None))
 
         #init hands
         self.hands_list:typing.List[Hand] = []

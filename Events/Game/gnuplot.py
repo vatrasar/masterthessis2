@@ -2,9 +2,7 @@ import math
 from typing import List
 
 from Events.Game.Statistics import Statistics
-from Events.Game.gameState import GameState
 from Events.Game.game_state_stac import GameStateStac
-from Events.Game.move.GameObjects.algos.tools.other_tools import clear_folder
 
 
 def get_std(list_of_valuse):

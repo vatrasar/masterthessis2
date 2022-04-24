@@ -1,13 +1,9 @@
 import math
-import typing
 from random import Random
 import numpy as np
-from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
-from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import is_in_bondaries
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.distance import get_2d_distance
+from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import is_in_bondaries
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 

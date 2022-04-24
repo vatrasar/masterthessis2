@@ -1,9 +1,9 @@
 import random
 
 from Events.Game.Statistics import Statistics
-from Events.Game.move.GameObjects.algos.tools.other_tools import clear_folder
+from Events.Game.move.algos.GameObjects.tools.other_tools import clear_folder
 from runner import Runner
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 
 
 def main():

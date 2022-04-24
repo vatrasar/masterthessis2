@@ -1,4 +1,4 @@
-uav_number=1 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
+uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
 T=4000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
@@ -27,7 +27,7 @@ intruder_time_of_reaction=5 # czas co jaki intruz aktualizuje swoją strategie
 hand_max_deviation=20
 visualisation_speed=1
 tier2_mode=0 # możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2, 0 uav będzie mógł się również poruszać po tier1
-naive algo list limit=10 #liczba losowych ataków po osiągnięciu, której algorytm zaczyna wykorzystywać informacje z pamięci
+naive algo list limit=3 #liczba losowych ataków po osiągnięciu, której algorytm zaczyna wykorzystywać informacje z pamięci
 temperature=1000000 #temperatura z algorytmu wyżarzania
 temperature_reduction=0.7 # o jaki ułamek zostanie zredukowana temperatura przy kolejnej iteracji
 annealing_number_of_iterations=50 #liczba iteracji w algorytmie wyżarzania

@@ -1,8 +1,8 @@
 import logging
 import typing
 
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.points_cell import PointsCell
 
 
 class Settings():

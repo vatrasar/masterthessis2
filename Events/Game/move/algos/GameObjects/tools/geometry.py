@@ -1,4 +1,4 @@
-from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.point import Point
 import math
 from Events.Game.move.distance import get_2d_distance
 

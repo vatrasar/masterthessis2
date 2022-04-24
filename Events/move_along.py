@@ -1,13 +1,12 @@
 from random import Random
 
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance, \
     check_if_algo_target_reached
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
 
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 from Events.Game.move.collisions import check_colisions
 from Events.Game.move.decisions import decide_whether_uav_attack, decide_whether_uav_back_on_tier2
 from Events.Game.move.get_position import get_random_position_on_tier1
@@ -22,10 +21,10 @@ from Events.make_dodge import Make_dodge
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
     time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1,rand)+current_time
     target_position=None
-    if settings.mode=="list" and event_owner.naive_algo.is_limit_reached():
-        target_position=event_owner.naive_algo.get_target_postion(event_owner.index,rand,settings)
+    if settings.mode=="list" and state.naive_algo.is_limit_reached():
+        target_position=state.naive_algo.get_target_postion(event_owner.index,rand,settings,state.uav_list)
     elif settings.mode=="annealing":
-        target_position=event_owner.annealing_algo.get_target_postion(event_owner.index,rand,settings)
+        target_position=state.annealing_algo.get_target_postion(event_owner.index,rand,settings)
     else:
         target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state,safe_margin)
@@ -56,23 +55,24 @@ class Move_along(Event):
 
 
 
+
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
         super().handle_event(event_list,settings,rand,iteration_function)
 
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
 
-        if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
+        if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings,self.game_state.naive_algo,self.game_state.uav_list) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
 
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:#attack
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
                 if  settings.mode=="annealing":
-                    self.event_owner.annealing_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
+                    self.game_state.annealing_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
                 if settings.mode=="list":
 
-                    self.event_owner.register_attack(self.event_owner.position)
+                    self.game_state.naive_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
 
-                    self.event_owner.naive_algo.remove_target(self.event_owner.index)
+                    self.game_state.naive_algo.remove_target(self.event_owner.index)
                 return
             else:#no attack
 
@@ -81,17 +81,17 @@ class Move_along(Event):
                 if settings.mode=="list":
 
                     points1,points2=self.get_points1_and_points2()
-                    self.event_owner.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings)
+                    self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings,self.game_state.uav_list)
 
         else:
             if settings.mode=="annealing" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
-            if settings.mode=="list" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
+            if settings.mode=="list" and check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 points1=0
                 points2=0
                 points1, points2 = self.get_points1_and_points2()
 
-                self.event_owner.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings)
+                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings,self.game_state.uav_list)
         #choose target
         # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
         #     self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
@@ -115,7 +115,7 @@ class Move_along(Event):
                     target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
                 elif settings.mode=="list":
 
-                    target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
+                    target_postion=self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list)
                 elif settings.mode=="annealing":
                     target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
 

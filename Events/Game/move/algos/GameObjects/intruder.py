@@ -1,4 +1,4 @@
-from Events.Game.move.GameObjects.movableObject import MovableObject
+from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 
 
 class Intruder(MovableObject):

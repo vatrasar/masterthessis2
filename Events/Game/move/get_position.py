@@ -1,8 +1,8 @@
 import math
 from random import Random
 
-from Events.Game.move.GameObjects.algos.tools.geometry import get_transform_between_points
-from Events.Game.move.GameObjects.algos.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.geometry import get_transform_between_points
+from Events.Game.move.algos.GameObjects.tools.point import Point
 
 
 def get_point_on_tier1(current_position:Point,distance,target_position:Point):

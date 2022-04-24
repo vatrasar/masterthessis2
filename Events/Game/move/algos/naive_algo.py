@@ -1,10 +1,8 @@
-import typing
 from random import Random
 
-from Events.Game.move.GameObjects.algos.tools.enum.enum_algos import Target_choose
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.points_cell import PointsCell
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.tools.enum.enum_algos import Target_choose
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
@@ -33,19 +31,22 @@ class Naive_Algo():
             points_before_attack=points_before_attack
             self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
 
-    def is_after_attack(self):
+    def is_after_attack(self,uav_list):
+        is_after_attack=True
+        for uav in uav_list:
+            if self.after_attack[uav.index]==False:
+                is_after_attack=False
+        return is_after_attack
 
-
-        return self.after_attack[0]==True and self.after_attack[1]==True
-    def cancel_attack(self,uav_id,start_position,points,points1,points2,rand:Random,settings:Settings):
+    def cancel_attack(self,uav_id,start_position,points,points1,points2,rand:Random,settings:Settings,uav_list):
         self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False}
         self.after_attack[uav_id]=True
         points=0
 
 
         self.targert_attacks[uav_id]=None
-        if self.is_after_attack():
-            self.un_register_attack(uav_id,points1,points2,settings)
+        if self.is_after_attack(uav_list):
+            self.un_register_attack(uav_id,points1,points2,settings,uav_list)
 
 
     def remove_target(self,uav_index):
@@ -66,17 +67,19 @@ class Naive_Algo():
         return False
 
 
-    def un_register_attack(self, uav_id,current_points1,current_points2,settings:Settings):
+    def un_register_attack(self, uav_id,current_points1,current_points2,settings:Settings,uav_list):
 
 
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
 
-        if self.is_after_attack():
+        if self.is_after_attack(uav_list):
+            points=[]
+            points_sum=0
+            for uav in uav_list:
+                points=uav.points-self.current_attacks[uav.index]["points before attack"]
+                points_sum=points_sum+points
 
-            points1=current_points1-self.current_attacks[0]["points before attack"]
-            points2=current_points2-self.current_attacks[1]["points before attack"]
-            points_sum=points2+points1
             # if self.update_result_to_exisiting_record(points_sum,settings):
             #     return
             if points_sum==0:
@@ -86,7 +89,7 @@ class Naive_Algo():
 
 
 
-    def choose_new_target(self,settings,rand:Random,uav_index):
+    def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
 
         #fake move
 
@@ -101,7 +104,7 @@ class Naive_Algo():
         #     self.choose_random[uav_index]=True
 
         #waitnig for secound drone
-        if not self.is_after_attack():
+        if not self.is_after_attack(uav_list):
             self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
             self.choose_random[uav_index]=False
             return
@@ -138,7 +141,7 @@ class Naive_Algo():
                 best_target=target
         return best_target
 
-    def get_target_postion(self,index,rand,settings):
+    def get_target_postion(self,index,rand,settings,uav_list):
         # if self.is_limit_reached():
         #     if index==0:
         #         return Point(10,settings.tier1_distance_from_intruder)
@@ -146,7 +149,7 @@ class Naive_Algo():
         #         return Point(1000,settings.tier1_distance_from_intruder)
 
         if self.targert_attacks[index]==None:
-            self.choose_new_target(settings,rand,index)
+            self.choose_new_target(settings,rand,index,uav_list)
         return self.targert_attacks[index]
 
     def is_limit_reached(self):

@@ -1,15 +1,13 @@
 from random import Random
 import typing
 
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
+from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.check import check_if_algo_target_reached
-from Events.Game.move.distance import get_2d_distance
 
 
-
-
-def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:Settings):
+def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:Settings,naive_alog:Naive_Algo,uav_list):
     """
 
     :param mode:
@@ -25,13 +23,13 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
             return False
     if (mode=="list"):
 
-        if uav.naive_algo.get_target_postion(uav.index,rand,settings)==None:
-            uav.naive_algo.choose_new_target(settings,rand,uav.index)
+        if naive_alog.get_target_postion(uav.index,rand,settings,uav_list)==None:
+            naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
 
 
-        if check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings):
-            if uav.naive_algo.choose_random[uav.index]==False:
-                uav.naive_algo.choose_new_target(settings,rand,uav.index)
+        if check_if_algo_target_reached(uav.position,naive_alog.get_target_postion(uav.index,rand,settings,uav_list),settings):
+            if naive_alog.choose_random[uav.index]==False:
+                naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
                 return False
             # check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings)
             return True

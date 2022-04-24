@@ -1,13 +1,13 @@
 import typing
 from random import Random
 
-from Events.Game.move.GameObjects.hand import Hand
-from Events.Game.move.GameObjects.algos.tools.FluidCel import FluidCell
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus, HandStatus
-from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import put_point_in_range_of_map, get_max_hand_range_in_x
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.GameObjects.hand import Hand
+from Events.Game.move.algos.GameObjects.tools.FluidCel import FluidCell
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import put_point_in_range_of_map, get_max_hand_range_in_x
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_uav_is_in_range
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.find import find_target_for_jump

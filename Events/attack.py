@@ -3,16 +3,16 @@ from random import Random
 
 
 from Events.Game.gameState import GameState
-from Events.Game.move.GameObjects.algos.tools.enum.enumStatus import UavStatus
-from Events.Game.move.GameObjects.algos.tools.geometry import get_transform_between_points
-from Events.Game.move.GameObjects.algos.tools.point import Point
-from Events.Game.move.GameObjects.algos.tools.settings import Settings
-from Events.Game.move.GameObjects.uav import Uav
+from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.tools.geometry import get_transform_between_points
+from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe, \
     check_if_point_safe_attack_dodge
 from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
 from Events.Game.move.get_position import get_random_position_on_tier1
-from Events.Game.move.GameObjects.algos.tools.map_ranges_tools import put_point_in_range_of_map
+from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import put_point_in_range_of_map
 from Events.Game.move.path_planning import search_back_path, search_attack_patch
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
@@ -201,7 +201,7 @@ class Attack(Event):
                     points1=uav.points
                 else:
                     points2=uav.points
-            self.event_owner.naive_algo.un_register_attack(self.event_owner.index, points1,points2, settings)
+            self.game_state.naive_algo.un_register_attack(self.event_owner.index, points1,points2, settings,self.game_state.uav_list)
         if settings.mode == "annealing":
             self.event_owner.annealing_algo.un_register_attack(self.event_owner.index, self.event_owner.points,
                                                                settings, rand)
@@ -211,7 +211,7 @@ class Attack(Event):
         target_postion = get_random_position_on_tier1(rand, settings.map_size_x, settings.tier1_distance_from_intruder)
         if settings.mode=="list":
 
-            target_postion=self.event_owner.naive_algo.get_target_postion(self.event_owner.index,rand,settings)
+            target_postion=self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list)
         if settings.mode=="annealing":
             target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
         from Events.move_along import plan_move_along
