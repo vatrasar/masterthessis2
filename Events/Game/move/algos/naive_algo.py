@@ -19,6 +19,7 @@ class Naive_Algo():
         self.after_attack={0:True,1:True}
         self.type_of_algo_choose={0:Target_choose.RANDOM_ATTACK,1:Target_choose.RANDOM_ATTACK}
         self.choose_random={0:True,1:True}
+        self.random_move={0:False,1:False}
 
 
 
@@ -42,6 +43,7 @@ class Naive_Algo():
         self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False}
         self.after_attack[uav_id]=True
         points=0
+        self.random_move[uav_id]=True
 
 
         self.targert_attacks[uav_id]=None
@@ -72,6 +74,8 @@ class Naive_Algo():
 
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
+        self.random_move[uav_id]=True
+
 
         if self.is_after_attack(uav_list):
             points=[]
@@ -104,9 +108,11 @@ class Naive_Algo():
         #     self.choose_random[uav_index]=True
 
         #waitnig for secound drone
-        if not self.is_after_attack(uav_list):
+
+        if (not self.is_after_attack(uav_list)) or self.random_move[uav_index]:
             self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
             self.choose_random[uav_index]=False
+            self.random_move[uav_index]=False
             return
 
 
