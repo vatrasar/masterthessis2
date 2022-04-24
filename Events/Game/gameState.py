@@ -24,9 +24,9 @@ class GameState():
         self.list_of_dead_uavs=[]
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
-
+        naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio)
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio),Annealing_Algo(setting,rand)))
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,naive_algo,Annealing_Algo(setting,rand)))
 
         #init hands
         self.hands_list:typing.List[Hand] = []

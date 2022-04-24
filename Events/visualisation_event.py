@@ -16,8 +16,8 @@ class Visualisation_event(Event):
 
         self.canvas=canvas
         self.visualisation_delay=visualisation_delay
-        # if time_of_event>1950:
-        #     self.visualisation_delay=200
+        # if time_of_event>700:
+        #     self.visualisation_delay=30
 
 
     def save_to_file(self,time):
@@ -69,8 +69,16 @@ class Visualisation_event(Event):
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
 
                 # create_circle(uav.position.x, uav.position.y,settings.safe_margin*1.2,self.canvas,"black")
-                create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+                if uav.index==0:
+                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+                if uav.index==1:
+                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"black")
 
+                if uav.naive_algo.is_limit_reached():
+                    best=uav.naive_algo.get_best_from_list()[0]
+                    create_circle(best.x, best.y,uav_size,self.canvas,"purple")
+                    best=uav.naive_algo.get_best_from_list()[1]
+                    create_circle(best.x, best.y,uav_size,self.canvas,"brown")
 
 
 

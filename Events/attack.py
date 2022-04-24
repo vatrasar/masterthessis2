@@ -194,7 +194,14 @@ class Attack(Event):
 
     def update_algos_results(self, rand, settings):
         if settings.mode == "list":
-            self.event_owner.naive_algo.un_register_attack(self.event_owner.index, self.event_owner.points, settings)
+            points1=0
+            points2=0
+            for uav in self.game_state.uav_list:
+                if uav.index==0:
+                    points1=uav.points
+                else:
+                    points2=uav.points
+            self.event_owner.naive_algo.un_register_attack(self.event_owner.index, points1,points2, settings)
         if settings.mode == "annealing":
             self.event_owner.annealing_algo.un_register_attack(self.event_owner.index, self.event_owner.points,
                                                                settings, rand)
