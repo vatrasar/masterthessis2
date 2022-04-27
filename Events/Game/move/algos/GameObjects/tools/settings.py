@@ -138,6 +138,8 @@ class Settings():
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
+        elif (property_name=="zone_width"):
+            self.zone_width=self.check_int(property_value, property_name, 1, 3, True)
         elif(property_name=="is_multirun"):
             self.is_multirun=self.check_binary(property_value,property_name)
         elif (property_name=="number_of_runs"):
@@ -172,6 +174,8 @@ class Settings():
 
         elif (property_name=="mode"):
             property_value=property_value.strip()
+            if property_value=="normal operating":
+                property_value="list"
             if (property_value in ["RW-RA","list","annealing"]):
                 self.mode=property_value
             else:

@@ -1,5 +1,6 @@
 from random import Random
 
+from Events.Game.move.algos.GameObjects.tools.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.tools.point import Point
 from Events.Game.move.algos.GameObjects.tools.settings import Settings
@@ -8,7 +9,7 @@ from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 class Naive_Algo():
-    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning):
+    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list):
         self.curiosty_ratio = curiosty_ratio
         self.results_list=[]
         self.list_limit=list_limit
@@ -22,6 +23,7 @@ class Naive_Algo():
         self.random_move={0:False,1:False}
         self.iteration_number=0
         self.iterations_for_learning=iterations_for_learning
+        self.hit_list=hit_list
 
 
 
@@ -69,11 +71,13 @@ class Naive_Algo():
                 return True
 
         return False
-
+    def adnotate_hit(self,point,position):
+        self.iteration_number=self.iteration_number+1
+        self.hit_list.add_hit(position,point)
 
     def un_register_attack(self, uav_id,current_points1,current_points2,settings:Settings,uav_list):
 
-        self.iteration_number=self.iteration_number+1
+
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
         self.random_move[uav_id]=True
@@ -86,6 +90,7 @@ class Naive_Algo():
             for uav in uav_list:
                 points=uav.points-self.current_attacks[uav.index]["points before attack"]
                 points_sum=points_sum+points
+                self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
 
             # if self.update_result_to_exisiting_record(points_sum,settings):
             #     return

@@ -129,6 +129,7 @@ class Runner():
                 self.master.quit()
 
             self.statistics.save()
+            self.game_state.hit_list.save_to_file()
         return True
 
 
