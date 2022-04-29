@@ -1,6 +1,6 @@
-from Events.Game.move.algos.GameObjects.tools.other_tools import clear_folder
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 import math
 import typing
 
@@ -36,9 +36,9 @@ class Hit_list():
         zone_stac.points_mean=(zone_stac.points_mean+points)/float(zone_stac.number_of_hits)
 
     def save_to_file(self):
-        clear_folder("./data")
+
         file=open("./data/HITS.txt","w")
-        file.write("#hits number #best attack position best attack points  #mean\n")
+        file.write("#hits number #best attack position #best attack points  #mean\n")
         for hit in self.hit_list:
             if hit.best_attack_postion==None:
                 file.write("0 - - -\n")

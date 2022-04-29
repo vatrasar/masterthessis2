@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 
 
 def get_2d_distance(source, position):

@@ -1,9 +1,9 @@
 from random import Random
 
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
 
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.time import get_travel_time_to_point, get_travel_time_on_tier1
 from Events.event import Event
 from Events.events_list import Event_list

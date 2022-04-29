@@ -1,10 +1,10 @@
 import typing
 
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.Game_Map import GameMap
-from Events.Game.move.algos.GameObjects.tools.FluidCel import FluidCell
-from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_cell_is_on_map, check_if_point_safe
 from Events.Game.move.distance import get_2d_distance

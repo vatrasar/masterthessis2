@@ -1,8 +1,6 @@
-from Events.Game.move.algos.annealing_algo import Annealing_Algo
 from Events.Game.move.algos.GameObjects.hand import Hand
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
-from Events.Game.move.algos.GameObjects.tools.point import Point
 
 
 class Uav(MovableObject):
@@ -16,9 +14,7 @@ class Uav(MovableObject):
         self.chasing_hand:Hand=None
         self.points=0
         self.points=points
-        from Events.Game.move.algos.naive_algo import Naive_Algo
-
-
+        self.attack_started_from_tier2=True
 
     def asign_points(self, points):
         self.points=self.points+points

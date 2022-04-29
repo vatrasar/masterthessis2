@@ -1,6 +1,6 @@
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import Sides
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
 def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y):

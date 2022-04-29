@@ -1,10 +1,10 @@
 from random import Random
 
 from Events.Game.gameState import GameState
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
-from Events.Game.move.algos.GameObjects.tools.geometry import get_angle_between_points
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.geometry import get_angle_between_points
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.check import check_if_uav_is_visible
 from Events.event import Event
 from Events.events_list import Event_list

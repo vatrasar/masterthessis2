@@ -2,14 +2,15 @@ from random import Random
 
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 import tkinter
 
 from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
-from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import get_max_hand_range_in_x
+from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_d_t_arrive_poison
 from Events.hand_chase import plan_chase_event
 from Events.hand_control_event import plan_hand_control_event
@@ -129,7 +130,10 @@ class Runner():
                 self.master.quit()
 
             self.statistics.save()
+            clear_folder("./data")
             self.game_state.hit_list.save_to_file()
+            self.game_state.naive_algo.results_list.save_to_file()
+
         return True
 
 

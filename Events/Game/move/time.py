@@ -1,7 +1,7 @@
 import math
 from random import Random
 
-from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
 
 

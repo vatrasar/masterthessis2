@@ -1,6 +1,6 @@
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
-from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 
 
 

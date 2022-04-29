@@ -1,14 +1,14 @@
 import logging
 from random import Random
 
-from Events.Game.move.algos.GameObjects.tools.Hit_list import Hit_list
-from Events.Game.move.algos.annealing_algo import Annealing_Algo
+from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
+from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
 from Events.Game.move.algos.naive_algo import Naive_Algo
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.intruder import Intruder
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, Sides, HandStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, Sides, HandStatus
 from Events.Game.move.algos.GameObjects.hand import Hand
-from Events.Game.move.algos.GameObjects.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
@@ -26,6 +26,7 @@ class GameState():
         self.hit_list=Hit_list(settings)
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
+
         self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list)
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None))

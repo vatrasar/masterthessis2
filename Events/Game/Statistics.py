@@ -2,11 +2,10 @@ import logging
 import typing
 
 from Events.Game.game_state_stac import GameStateStac
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
-from Events.Game.move.algos.GameObjects.tools.other_tools import create_folder
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import create_folder
 from Events.Game.move.distance import get_2d_distance
 
-import csv
 
 class Statistics():
 

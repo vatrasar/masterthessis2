@@ -1,8 +1,9 @@
 from random import Random
 
 from Events.Game.gameState import GameState
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
 class Event():
@@ -16,6 +17,7 @@ class Event():
 
     def handle_event(self,event_list,settings:Settings,rand:Random,iteration_function):
         self.event_owner.delete_current_event(event_list)
+
 
         self.event_owner.set_status(self.event_owner.next_status)
         self.event_owner.set_new_position(self.event_owner.target_position,self.time_of_event)

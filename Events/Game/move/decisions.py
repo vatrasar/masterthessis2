@@ -1,7 +1,7 @@
 from random import Random
 import typing
 
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.check import check_if_algo_target_reached

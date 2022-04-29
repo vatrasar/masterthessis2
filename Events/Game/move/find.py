@@ -1,9 +1,9 @@
 import typing
 
 from Events.Game.move.algos.GameObjects.hand import Hand
-from Events.Game.move.algos.GameObjects.tools.FluidCel import FluidCell
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.check import check_if_point_is_in_range
 from Events.Game.move.time import get_travel_time_to_point
 

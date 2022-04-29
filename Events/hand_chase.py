@@ -1,14 +1,14 @@
 from random import Random
 
 from Events.Game.move.algos.GameObjects.hand import Hand
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus, HandStatus
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, HandStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_uav_is_in_range, check_if_uav_is_visible
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_point_based_on_time
-from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import get_max_hand_range_in_x, get_max_x_in_range
+from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import get_max_hand_range_in_x, get_max_x_in_range
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
 from Events.events_list import Event_list

@@ -1,9 +1,9 @@
 import math
 from random import Random
 import numpy as np
-from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import is_in_bondaries
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import is_in_bondaries
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 

@@ -3,16 +3,16 @@ from random import Random
 
 
 from Events.Game.gameState import GameState
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
-from Events.Game.move.algos.GameObjects.tools.geometry import get_transform_between_points
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.geometry import get_transform_between_points
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe, \
     check_if_point_safe_attack_dodge
 from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
 from Events.Game.move.get_position import get_random_position_on_tier1
-from Events.Game.move.algos.GameObjects.tools.map_ranges_tools import put_point_in_range_of_map
+from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import put_point_in_range_of_map
 from Events.Game.move.path_planning import search_back_path, search_attack_patch
 from Events.Game.move.time import get_travel_time_to_point
 from Events.event import Event
@@ -215,7 +215,11 @@ class Attack(Event):
         if settings.mode=="annealing":
             target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
         from Events.move_along import plan_move_along
-        plan_move_along(event_list, self.event_owner, target_postion, self.time_of_event, self.game_state, settings,
+        from Events.move_along import plan_enter_from_tier2
+        if settings.tier2_mode==True:
+            plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.state,self.safe_margin)
+        else:
+            plan_move_along(event_list, self.event_owner, target_postion, self.time_of_event, self.game_state, settings,
                         self.tk_master, self.safe_margin)
 
     def start_backing(self, event_list, settings,rand):

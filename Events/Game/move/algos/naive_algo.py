@@ -1,9 +1,9 @@
 from random import Random
 
-from Events.Game.move.algos.GameObjects.tools.Hit_list import Hit_list
-from Events.Game.move.algos.GameObjects.tools.enum.enum_algos import Target_choose
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
@@ -11,7 +11,7 @@ from Events.Game.move.get_position import get_random_position_on_tier1
 class Naive_Algo():
     def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list):
         self.curiosty_ratio = curiosty_ratio
-        self.results_list=[]
+        self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit)
         self.list_limit=list_limit
         self.current_attacks={}
         self.current_attacks[0]={"start postion":None,"points":0,"active":False}
@@ -58,19 +58,19 @@ class Naive_Algo():
     def remove_target(self,uav_index):
         self.targert_attacks[uav_index]=None
 
-    def update_result_to_exisiting_record(self,points,settings):
-        for record in self.results_list:
-            postion1=record[0]
-            postion2=record[1]
-            if get_2d_distance(record[0],postion1)<=settings.map_resolution and get_2d_distance(record[1],postion2)<=settings.map_resolution:
-
-                record["attaks_number"]=record["attaks_number"]+1
-                average_points=(points+record["points"])/record["attaks_number"]
-                record["points"]=average_points
-
-                return True
-
-        return False
+    # def update_result_to_exisiting_record(self,points,settings):
+    #     for record in self.results_list:
+    #         postion1=record[0]
+    #         postion2=record[1]
+    #         if get_2d_distance(record[0],postion1)<=settings.map_resolution and get_2d_distance(record[1],postion2)<=settings.map_resolution:
+    #
+    #             record["attaks_number"]=record["attaks_number"]+1
+    #             average_points=(points+record["points"])/record["attaks_number"]
+    #             record["points"]=average_points
+    #
+    #             return True
+    #
+    #     return False
     def adnotate_hit(self,point,position):
         self.iteration_number=self.iteration_number+1
         self.hit_list.add_hit(position,point)
@@ -96,14 +96,12 @@ class Naive_Algo():
             #     return
             if points_sum==0:
                 return
-            if not self.is_limit_reached():
-                self.results_list.append({"points":points_sum,0:self.current_attacks[0]["start postion"],1:self.current_attacks[1]["start postion"],"attaks_number":1})
-            else:
-                worse_record=self.get_worse_on_list()
-                if worse_record["points"]<points_sum:
-                    self.results_list.remove(worse_record)
-                    self.results_list.append({"points":points_sum,0:self.current_attacks[0]["start postion"],1:self.current_attacks[1]["start postion"],"attaks_number":1})
 
+            tiers_uav={0:None,1:None}
+            for uav in uav_list:
+                tiers_uav[uav.index]=uav.attack_started_from_tier2
+
+            self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
 
 
     def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
@@ -139,7 +137,7 @@ class Naive_Algo():
 
         x=rand.random()
         new_target=None
-        if not self.is_learning_finished():
+        if (not self.is_learning_finished()) or len(self.results_list.result_list)==0:
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             return
@@ -149,22 +147,14 @@ class Naive_Algo():
         self.type_of_algo_choose[0]=Target_choose.BEST_FROM_LIST
         self.type_of_algo_choose[1]=Target_choose.BEST_FROM_LIST
 
-        best_result=self.get_best_from_list()
+        best_result=self.results_list.get_best_from_list()
         if best_result==None:
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
         else:
 
-            self.targert_attacks[0]=best_result[0]
-            self.targert_attacks[1]=best_result[1]
-
-    def get_best_from_list(self):
-
-        best_target=self.results_list[0]
-        for target in self.results_list:
-            if target["points"]>best_target["points"]:
-                best_target=target
-        return best_target
+            self.targert_attacks[0]=best_result.position1
+            self.targert_attacks[1]=best_result.position2
 
     def get_target_postion(self,index,rand,settings,uav_list):
         # if self.is_limit_reached():
@@ -180,13 +170,5 @@ class Naive_Algo():
     def is_learning_finished(self):
         return self.iteration_number>self.iterations_for_learning
 
-    def is_limit_reached(self):
-        return len(self.results_list)>=self.list_limit
 
-    def get_worse_on_list(self):
-        min_record=self.results_list[0]
-        for record in self.results_list:
-            if record["points"]<min_record["points"]:
-                min_record=record
-        return min_record
 

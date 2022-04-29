@@ -42,9 +42,9 @@ import numpy as np
 #     return is_angle_in_range(point_angle,anlge_min,anlge_max)
 from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
-from Events.Game.move.algos.GameObjects.tools.FluidCel import FluidCell
-from Events.Game.move.algos.GameObjects.tools.point import Point
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_if_cell_is_on_map
 from Events.Game.move.distance import get_2d_distance

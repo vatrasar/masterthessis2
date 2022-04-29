@@ -4,9 +4,9 @@ from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance, \
     check_if_algo_target_reached
-from Events.Game.move.algos.GameObjects.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
 
-from Events.Game.move.algos.GameObjects.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.collisions import check_colisions
 from Events.Game.move.decisions import decide_whether_uav_attack, decide_whether_uav_back_on_tier2
 from Events.Game.move.get_position import get_random_position_on_tier1
@@ -21,7 +21,7 @@ from Events.make_dodge import Make_dodge
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
     time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1,rand)+current_time
     target_position=None
-    if settings.mode=="list" and state.naive_algo.is_limit_reached():
+    if settings.mode=="list":
         target_position=state.naive_algo.get_target_postion(event_owner.index,rand,settings,state.uav_list)
     elif settings.mode=="annealing":
         target_position=state.annealing_algo.get_target_postion(event_owner.index,rand,settings)
@@ -57,6 +57,10 @@ class Move_along(Event):
 
 
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
+        if self.event_owner.status==UavStatus.TIER_2:
+            self.event_owner.attack_started_from_tier2=True
+        else:
+            self.event_owner.attack_started_from_tier2=False
         super().handle_event(event_list,settings,rand,iteration_function)
 
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
