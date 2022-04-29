@@ -33,6 +33,8 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,mast
 
 
 def plan_move_along(event_list, event_owner, target_postion, current_time, game_state, settings, tk_master,safe_margin):
+
+
     is_colision,start_dodge_postion,dodge_position=check_colisions(event_owner,game_state.uav_list,target_postion,settings.dodge_radius,settings.save_distance)
     if is_colision:
         event_time= get_travel_time_on_tier1(start_dodge_postion,event_owner.position,settings.v_of_uav) + current_time
@@ -69,6 +71,7 @@ class Move_along(Event):
 
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:#attack
+                self.event_owner.set_start_acttack_time(self.time_of_event)
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
                 if  settings.mode=="annealing":
                     self.game_state.annealing_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)

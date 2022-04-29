@@ -185,6 +185,7 @@ class Attack(Event):
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
+                self.event_owner.consume_energy(settings.uav_energy_consumption,self.time_of_event)
                 self.update_algos_results(rand, settings)
                 if settings.tier2_mode:
                     from Events.move_along import plan_enter_from_tier2

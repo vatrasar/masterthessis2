@@ -100,6 +100,11 @@ class Settings():
 
         self.uav_wait_time=3.0
 
+        self.intruder_energy_consumption=2
+        self.uav_energy_consumption=2
+        self.uav_energy=20
+        self.intruder_energy=20
+
 
         self.minimal_travel_time=0.2
 

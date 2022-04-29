@@ -1,6 +1,7 @@
 import typing
 from random import Random
 
+from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.hand import Hand
 from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, HandStatus
@@ -18,7 +19,8 @@ from Events.events_list import Event_list
 from Events.hand_back import plan_hand_back_event
 
 
-def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state, event_list,rand:Random):
+def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state:GameState, event_list,rand:Random):
+
     target_point=None
     if len(path)==0:
         target_point=Point(uav_position.x,uav_position.y)
@@ -40,7 +42,7 @@ def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, han
             max_hand_y=get_max_hand_range_in_x(hand.side,settings.minimal_hand_range,settings.r_of_LR,settings.map_size_x,target_point.x,settings)
             put_point_in_range_of_map(target_point,settings.map_size_x,max_hand_y)
 
-
+        game_state.intruder.start_jump_time=current_time
         plan_jump_event(target_point, hand,  settings, current_time, tk_master, game_state, event_list)
 
 
@@ -79,7 +81,7 @@ def plan_jump_event(target_point, hand, settings:Settings, current_time, tk_mast
 
 class Jump_event(Event):
 
-    def __init__(self, time_of_event, event_owner:Hand, tk_master,target_uav:Uav,next_status:HandStatus,target_postion:Point,game_state,old_target):
+    def __init__(self, time_of_event, event_owner:Hand, tk_master,target_uav:Uav,next_status:HandStatus,target_postion:Point,game_state:GameState,old_target):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
         self.event_owner:Hand=event_owner
         self.event_owner.target_uav=target_uav
@@ -93,6 +95,8 @@ class Jump_event(Event):
             self.event_owner.set_status(HandStatus.TIER_0)
             self.event_owner.stop_chasing()
             self.event_owner.next_event=None
+            self.game_state.intruder.consume_energy(settings.intruder_energy_consumption,self.time_of_event)
+
             plan_hand_back_event(event_list,settings,self.event_owner,self.game_state,self.time_of_event,self.tk_master)
             return
 
@@ -102,6 +106,7 @@ class Jump_event(Event):
             else:
                 if self.event_owner.status==HandStatus.WAIT_AFTER_JUMP:
                     from Events.hand_chase import plan_chase_event
+                    self.game_state.intruder.consume_energy(settings.intruder_energy_consumption,self.time_of_event)
                     plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                 else:
                     new_event=Jump_event(self.time_of_event+settings.time_to_wait_after_jump,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.WAIT_AFTER_JUMP,self.event_owner.position,self.game_state,self.event_owner.position)

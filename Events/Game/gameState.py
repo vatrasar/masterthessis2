@@ -29,7 +29,7 @@ class GameState():
 
         self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list)
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None))
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,settings.uav_energy))
 
         #init hands
         self.hands_list:typing.List[Hand] = []
@@ -39,7 +39,7 @@ class GameState():
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.RIGHT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
 
-        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,))
+        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),settings.intruder_energy)
         logging.info("state initiated")
 
 

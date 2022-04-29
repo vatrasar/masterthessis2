@@ -24,7 +24,7 @@ class GameStateStac():
         for uav in game_state.uav_list:
 
 
-            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position)
+            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,None)
             uav_copy.points=uav.points
             self.uav_list.append(uav_copy)
 
