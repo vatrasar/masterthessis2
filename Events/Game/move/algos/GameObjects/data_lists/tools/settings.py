@@ -100,10 +100,10 @@ class Settings():
 
         self.uav_wait_time=3.0
 
-        self.intruder_energy_consumption=2
-        self.uav_energy_consumption=2
-        self.uav_energy=20
-        self.intruder_energy=20
+
+
+
+
 
 
         self.minimal_travel_time=0.2
@@ -143,6 +143,14 @@ class Settings():
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
+        elif (property_name=="uav_energy_consumption"):
+            self.uav_energy_consumption=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="uav_energy"):
+            self.uav_energy=self.check_float(property_value, property_name, 1, 3, True)
+        elif (property_name=="intruder_energy"):
+            self.intruder_energy=self.check_float(property_value, property_name, 1, 3, True)
+        elif (property_name=="intruder_energy_consumption"):
+            self.intruder_energy_consumption=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="zone_width"):
             self.zone_width=self.check_int(property_value, property_name, 1, 3, True)
         elif(property_name=="is_multirun"):
