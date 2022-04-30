@@ -70,7 +70,12 @@ class Runner():
             if self.settings.visualisation in [1,2]:#visualisation
 
                 self.setup_visualisation()
-
+            else:
+                event_time=self.settings.visualzation_update_interval
+                self.game_state.visualisation_owner = MovableObject(0, 0, UavStatus.VISUALISE, 0, 0, 0, None, None)
+                visualisation_event = Visualisation_event(event_time, self.game_state.visualisation_owner, self.master, None,
+                                                  self.game_state,self.settings.visualisation_speed)
+                self.events_list.append_event(visualisation_event, UavStatus.VISUALISE)
 
             #init uavs events
             for uav in self.game_state.uav_list:
@@ -88,6 +93,8 @@ class Runner():
             else:
                 while self.perform_singel_iteration(self.rand):
                     continue
+
+            export_to_gnuplot(self.run_stac_list,self.settings)
 
 
     def setup_visualisation(self):
@@ -125,17 +132,20 @@ class Runner():
 
 
         if self.is_simulation_finished():
+            self.run_stac_list.append(self.statistics)
             if self.settings.is_multirun:
-                self.run_stac_list.append(self.statistics)
+
                 self.statistics = Statistics()
                 return False
             if self.settings.visualisation in [1, 2]:
+
                 self.master.quit()
 
             self.statistics.save()
             clear_folder("./data")
             self.game_state.hit_list.save_to_file()
             self.game_state.naive_algo.results_list.save_to_file()
+            return False
 
         return True
 

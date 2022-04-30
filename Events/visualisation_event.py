@@ -33,7 +33,7 @@ class Visualisation_event(Event):
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state,settings.visualisation_speed)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
-        if not settings.is_multirun:
+        if not settings.is_multirun and settings.visualisation!=0:
 
             self.canvas.delete("all")
 

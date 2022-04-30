@@ -97,4 +97,4 @@ class Result_list():
         for target in self.result_list:
             if target.points>best_target.points:
                 best_target=target
-        return best_target
+        return Result_record(best_target.position1,best_target.position2,best_target.points,best_target.tier1,best_target.tier2,best_target.zone1,best_target.zone2)

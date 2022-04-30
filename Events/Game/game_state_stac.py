@@ -1,4 +1,7 @@
 from Events.Game.gameState import GameState
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.intruder import Intruder
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.algos.GameObjects.hand import Hand
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -24,7 +27,7 @@ class GameStateStac():
         for uav in game_state.uav_list:
 
 
-            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,None)
+            uav_copy=Uav(uav.position.x,uav.position.y,uav.status,uav.points,uav.velocity,uav.index,uav.last_postion_update_time,uav.next_status,uav.target_position,uav.energy)
             uav_copy.points=uav.points
             self.uav_list.append(uav_copy)
 
@@ -42,5 +45,6 @@ class GameStateStac():
 
 
         self.t_curr=game_state.t_curr
+        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),game_state.intruder.energy)
 
 
