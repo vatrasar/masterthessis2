@@ -151,6 +151,11 @@ class Settings():
             self.intruder_energy=self.check_float(property_value, property_name, 1, 3, True)
         elif (property_name=="intruder_energy_consumption"):
             self.intruder_energy_consumption=self.check_float(property_value, property_name, 0, 3, True)
+
+        elif (property_name=="energy_simulation_end_condition"):
+            self.energy_simulation_end_condition=self.check_binary(property_value, property_name)
+        elif (property_name=="drone_energy_destroy_condition"):
+            self.drone_energy_destroy_condition=self.check_binary(property_value, property_name)
         elif (property_name=="zone_width"):
             self.zone_width=self.check_int(property_value, property_name, 1, 3, True)
         elif(property_name=="is_multirun"):

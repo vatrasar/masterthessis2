@@ -27,6 +27,8 @@ class GameState():
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
 
+
+
         self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list)
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,settings.uav_energy))
@@ -44,6 +46,10 @@ class GameState():
 
 
     def update_postions(self,current_time,uav_velocity,hand_velocity,event_owner,jump_ratio,settings,event_list):
+
+
+
+
 
         self.game_map.update_map(self,None)
         for uav in self.uav_list: #uavs to update
@@ -69,6 +75,17 @@ class GameState():
                         distance=delta_time*hand_velocity
                     hand.set_new_position(get_point_base_on_distance(hand.position, distance, hand.target_position), current_time)
         self.check_collisions(settings,event_list)
+        if settings.drone_energy_destroy_condition:
+            self.check_energy(event_list)
+
+    def check_energy(self, event_list):
+        # check uav energy
+        uav_list_to_delete = []
+        for uav in self.uav_list:
+            if uav.energy < 0:
+                uav_list_to_delete.append(uav)
+        for uav_to_delete in uav_list_to_delete:
+            self.remove_drone(event_list, uav_to_delete)
 
     def check_collisions(self,settings,event_list):
         uav_list_to_delete=[]

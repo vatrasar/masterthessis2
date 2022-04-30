@@ -39,3 +39,5 @@ uav_energy_consumption=2
 uav_energy=3
 intruder_energy=3
 intruder_energy_consumption=2
+energy_simulation_end_condition=0 #czy symulacja zakonczy sie gdy energia intruza wyniesie 0. mozliwe wartości 1: warunek będzie brany pod uwagę, 0: warunek ni będzie brany pod uwagę
+drone_energy_destroy_condition=0 #czy drony będą niszczone gdy wyczerpie się ich energia. mozliwe wartości 1: warunek będzie brany pod uwagę, 0: warunek ni będzie brany pod uwagę

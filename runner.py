@@ -121,7 +121,10 @@ class Runner():
 
             self.statistics.update_stac(self.game_state, self.settings)
         print(self.current_time)
-        if self.current_time > self.settings.T:
+
+
+
+        if self.is_simulation_finished():
             if self.settings.is_multirun:
                 self.run_stac_list.append(self.statistics)
                 self.statistics = Statistics()
@@ -154,6 +157,9 @@ class Runner():
             uav.position=get_random_position_between_tier1_and_0(self.settings.map_size_x,get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,rand_pos.x,self.settings),self.settings.intuder_size,self.rand,rand_pos.x)
             plan_wait(0,20000,uav, self.master,self.game_state,event_list,self.settings.safe_margin)
             plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
+
+    def is_simulation_finished(self):
+        return (self.current_time>self.settings.T or (self.game_state.intruder.energy<0 and self.settings.energy_simulation_end_condition))
 
 
 
