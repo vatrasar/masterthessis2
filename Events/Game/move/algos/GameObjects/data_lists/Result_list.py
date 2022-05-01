@@ -2,6 +2,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clea
 import typing
 
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
+from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
@@ -15,18 +16,29 @@ class Result_record():
         self.zone2=zone2
         self.tier1=tier1
         self.tier2=tier2
+        self.number_of_hits=1
 
 
-
+def sort_results(e:Result_record):
+    return e.points
 
 class Result_list():
 
-    def __init__(self,zone_width,list_limit):
+    def __init__(self,zone_width,list_limit,settings:Settings):
+        self.settings = settings
         self.list_limit = list_limit
         self.zone_width = zone_width
         self.result_list:typing.List[Result_record]=[]
 
+
     def add_result_point(self, postion1,postion2, points,tier1,tier2):
+        record_to_update=self.get_record_with_postions(postion1,postion2)
+        if record_to_update!=None:
+            # record_to_update.number_of_hits=record_to_update.number_of_hits+1
+            # record_to_update.points=(record_to_update.points+points)/float(record_to_update.number_of_hits)
+            return
+
+
         if self.is_limit_reached():
             worse_record=self.get_worse_on_list()
             if worse_record.points<points:
@@ -97,4 +109,14 @@ class Result_list():
         for target in self.result_list:
             if target.points>best_target.points:
                 best_target=target
-        return Result_record(best_target.position1,best_target.position2,best_target.points,best_target.tier1,best_target.tier2,best_target.zone1,best_target.zone2)
+        return best_target
+
+    def sort_list(self):
+        self.result_list.sort(key=sort_results)
+        self.result_list.reverse()
+
+    def get_record_with_postions(self, postion1, postion2):
+        for record in self.result_list:
+            if get_2d_distance(record.position1,postion1)<self.settings.map_resolution*2 and get_2d_distance(record.position2,postion2)<self.settings.map_resolution*2:
+                return record
+        return None

@@ -156,6 +156,8 @@ class Settings():
             self.energy_simulation_end_condition=self.check_binary(property_value, property_name)
         elif (property_name=="drone_energy_destroy_condition"):
             self.drone_energy_destroy_condition=self.check_binary(property_value, property_name)
+        elif (property_name=="fake_targets_number"):
+            self.fake_targets_number=self.check_int(property_value, property_name,1,0,True)
         elif (property_name=="zone_width"):
             self.zone_width=self.check_int(property_value, property_name, 1, 3, True)
         elif(property_name=="is_multirun"):

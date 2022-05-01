@@ -8,10 +8,11 @@ from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
+
 class Naive_Algo():
     def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list):
         self.curiosty_ratio = curiosty_ratio
-        self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit)
+        self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
         self.list_limit=list_limit
         self.current_attacks={}
         self.current_attacks[0]={"start postion":None,"points":0,"active":False}
@@ -24,6 +25,8 @@ class Naive_Algo():
         self.iteration_number=0
         self.iterations_for_learning=iterations_for_learning
         self.hit_list=hit_list
+        self.fake_targets_list=[]
+        self.is_fake_attack={0:False,1:False}
 
 
 
@@ -45,9 +48,12 @@ class Naive_Algo():
     def cancel_attack(self,uav_id,start_position,points,points1,points2,rand:Random,settings:Settings,uav_list):
 
         self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False}
+
+
         self.after_attack[uav_id]=True
         points=0
-        self.random_move[uav_id]=True
+        if not self.is_fake_attack[uav_id]:
+            self.random_move[uav_id]=True
 
 
         self.targert_attacks[uav_id]=None
@@ -73,6 +79,7 @@ class Naive_Algo():
     #     return False
     def adnotate_hit(self,point,position):
         self.iteration_number=self.iteration_number+1
+        print("iteration:"+str(self.iteration_number))
         self.hit_list.add_hit(position,point)
 
     def un_register_attack(self, uav_id,current_points1,current_points2,settings:Settings,uav_list):
@@ -80,11 +87,13 @@ class Naive_Algo():
 
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
-        self.random_move[uav_id]=True
+
+        if not self.is_fake_attack[uav_id]:
+            self.random_move[uav_id]=True
 
 
         if self.is_after_attack(uav_list):
-            self.iteration_number=self.iteration_number+1
+
             points=[]
             points_sum=0
             for uav in uav_list:
@@ -119,11 +128,35 @@ class Naive_Algo():
         #     self.choose_random[uav_index]=True
 
         #waitnig for secound drone
+        if self.random_move[uav_index] and self.is_after_attack(uav_list) and self.is_learning_finished():
+            number_of_fake_targets=min(len(self.results_list.result_list)-1,settings.fake_targets_number)
 
-        if (not self.is_after_attack(uav_list)) or self.random_move[uav_index]:
+            self.results_list.sort_list()
+            self.fake_targets_list.extend(self.results_list.result_list[1:number_of_fake_targets+1])
+
+            self.random_move[0]=False
+            self.random_move[1]=False
+
+
+        if len(self.fake_targets_list)>0 and self.is_after_attack(uav_list):
+            self.is_fake_attack[0]=True
+            self.is_fake_attack[1]=True
+            self.choose_random[0]=True
+            self.choose_random[1]=True
+            self.after_attack[0]=False
+            self.after_attack[1]=False
+            self.targert_attacks[0]=self.fake_targets_list[0].position1
+            self.targert_attacks[1]=self.fake_targets_list[0].position2
+            self.fake_targets_list.remove(self.fake_targets_list[0])
+            return
+
+
+        if (not self.is_after_attack(uav_list) ):
+
+            self.is_fake_attack[uav_index]=True
             self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
             self.choose_random[uav_index]=False
-            self.random_move[uav_index]=False
+
             return
 
 
@@ -133,6 +166,8 @@ class Naive_Algo():
         self.after_attack[1]=False
         self.choose_random[0]=True
         self.choose_random[1]=True
+
+        self.is_fake_attack[uav_index]=False
 
 
         x=rand.random()

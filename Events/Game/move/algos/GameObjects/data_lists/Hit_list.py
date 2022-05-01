@@ -22,7 +22,9 @@ class Hit_list():
             self.hit_list.append(Hit_list_record(zone))
 
     def add_hit(self, postion, points):
+
         zone_index=int(postion.x / self.zones_width)
+
         zone_stac=self.hit_list[zone_index]
         zone_stac.number_of_hits=zone_stac.number_of_hits+1
         if zone_stac.best_attack_postion==None:
