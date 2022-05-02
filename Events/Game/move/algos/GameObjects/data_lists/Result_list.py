@@ -66,7 +66,7 @@ class Result_list():
     def save_to_file(self):
 
         file=open("./data/Memory.txt","w")
-        file.write("#position1 #position2 #zone1 #zone2 #reward #tier1 #tier2\n")
+        file.write("#position1 #position2 #zone1 #zone2 #reward #attack from tier2 uav1 #attack from tier2 uav2\n")
         for result in self.result_list:
 
             if result.position1!=None:

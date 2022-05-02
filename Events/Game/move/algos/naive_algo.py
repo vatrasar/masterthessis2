@@ -1,6 +1,6 @@
 from random import Random
 
-from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
+from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -13,6 +13,7 @@ class Naive_Algo():
     def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list):
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
+        self.settings=settings
         self.list_limit=list_limit
         self.current_attacks={}
         self.current_attacks[0]={"start postion":None,"points":0,"active":False}
@@ -204,6 +205,25 @@ class Naive_Algo():
 
     def is_learning_finished(self):
         return self.iteration_number>self.iterations_for_learning
+
+    def load_memory(self):
+        file=open("data/Memory.txt","r")
+        lines=file.readlines()
+        for line in lines[1:]:
+
+            line_elements=line.split(" ")
+            position1=Point(float(line_elements[0]),self.settings.tier1_distance_from_intruder)
+            position2=Point(float(line_elements[1]),self.settings.tier1_distance_from_intruder)
+            # zone1=int(line_elements[2])
+            # zone2=int(line_elements[3])
+            points=float(line_elements[4])
+
+            tier1=bool(line_elements[5])
+            tier2=bool(line_elements[6])
+
+
+
+            self.results_list.add_result_point(position1,position2,points,tier1,tier2)
 
 
 
