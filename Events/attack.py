@@ -20,7 +20,12 @@ from Events.events_list import Event_list
 
 
 
-def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state,event_list:Event_list,status,safe_margin,settings:Settings):
+def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state:GameState,event_list:Event_list,status,safe_margin,settings:Settings):
+    if status==UavStatus.ON_ATTACK:
+
+        event_owner.target_with_points=path[-1]
+
+
     if len(path)==2:
         print("plan_attack")
     target_position=path[1].position
@@ -158,6 +163,14 @@ class Attack(Event):
                         attack_path_found=True
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.game_state,event_list,self.event_owner.status,self.safe_margin,settings)
                     else:
+                        #give part of points
+                        distance_from_tier1=self.event_owner.target_with_points.position.y
+                        distance_from_uav=get_2d_distance(self.event_owner.target_with_points.position,self.event_owner.position)
+                        if distance_from_tier1-distance_from_uav>0:
+
+
+                            points=(distance_from_uav/float(distance_from_tier1))*self.event_owner.target_with_points.points
+                            self.event_owner.asign_points(points)
                         attack_path_found=False
 
                 if attack_path_found==False or self.event_owner.status==UavStatus.ON_BACK:

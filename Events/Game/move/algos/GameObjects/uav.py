@@ -17,6 +17,7 @@ class Uav(MovableObject):
         self.attack_started_from_tier2=True
         self.energy=energy
         self.start_attack_time=0
+        self.target_with_points=None
     def set_start_acttack_time(self,time):
         self.start_attack_time=time
 
