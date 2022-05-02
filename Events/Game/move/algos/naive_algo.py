@@ -1,16 +1,18 @@
 from random import Random
 
+import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 
 class Naive_Algo():
-    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list):
+    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list):
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
         self.settings=settings
@@ -28,7 +30,7 @@ class Naive_Algo():
         self.hit_list=hit_list
         self.fake_targets_list=[]
         self.is_fake_attack={0:False,1:False}
-
+        self.uav_list:typing.List[Uav]=uav_list
 
 
 
@@ -146,8 +148,9 @@ class Naive_Algo():
             self.choose_random[1]=True
             self.after_attack[0]=False
             self.after_attack[1]=False
-            self.targert_attacks[0]=self.fake_targets_list[0].position1
-            self.targert_attacks[1]=self.fake_targets_list[0].position2
+            self.update_tragets_using_result_record(self.fake_targets_list[0])
+            # self.targert_attacks[0]=self.fake_targets_list[0].position1
+            # self.targert_attacks[1]=self.fake_targets_list[0].position2
             self.fake_targets_list.remove(self.fake_targets_list[0])
             return
 
@@ -188,9 +191,9 @@ class Naive_Algo():
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
         else:
-
-            self.targert_attacks[0]=best_result.position1
-            self.targert_attacks[1]=best_result.position2
+            self.update_tragets_using_result_record(best_result)
+            # self.targert_attacks[0]=best_result.position1
+            # self.targert_attacks[1]=best_result.position2
 
     def get_target_postion(self,index,rand,settings,uav_list):
         # if self.is_limit_reached():
@@ -224,6 +227,40 @@ class Naive_Algo():
 
 
             self.results_list.add_result_point(position1,position2,points,tier1,tier2)
+    def get_uav_with_index(self, index):
+
+        for uav in self.uav_list:
+            if uav.index==index:
+                return uav
+        return None
+    def update_tragets_using_result_record(self, record:Result_record):
+        if len(self.uav_list)<2:
+            self.targert_attacks[0]=record.position1
+            self.targert_attacks[1]=record.position2
+            return
+
+        current_target1=self.targert_attacks[0]
+        current_target2=self.targert_attacks[1]
+        if current_target2==None:
+            uav=self.get_uav_with_index(1)
+            current_target2=uav.position
+
+        if current_target1==None:
+            uav=self.get_uav_with_index(0)
+            current_target1=uav.position
 
 
+        distance1=get_2d_distance(current_target1,record.position1)
+        distance2=get_2d_distance(current_target2,record.position2)
+        distance_sum_nomral_order=distance2+distance1
 
+        distance1=get_2d_distance(current_target2,record.position1)
+        distance2=get_2d_distance(current_target1,record.position2)
+        distance_sum_reverse_order=distance2+distance1
+
+        if distance_sum_nomral_order<distance_sum_reverse_order:
+            self.targert_attacks[0]=record.position1
+            self.targert_attacks[1]=record.position2
+        else:
+            self.targert_attacks[1]=record.position1
+            self.targert_attacks[0]=record.position2
