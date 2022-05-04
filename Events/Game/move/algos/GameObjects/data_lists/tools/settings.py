@@ -300,7 +300,7 @@ class Settings():
         for record in file_with_invisible.readlines():
 
             fields_list=record.split(" ")
-            list_of_invisible.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
+            list_of_invisible.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),0))
         return list_of_invisible
 
 
