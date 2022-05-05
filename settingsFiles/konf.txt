@@ -1,4 +1,4 @@
-uav_number=1 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
+uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
 T=2000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
@@ -32,8 +32,8 @@ temperature_reduction=0.7 # alpha czyli współczynnik redukcji temperatury algo
 annealing_number_of_iterations=50 #liczba iteracji w algorytmie wyżarzania
 is_multirun=0 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
 number_of_runs=2 #gdy multirun aktywny okresla liczbe odpaleń algorytmu
-iterations_for_learning=20 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania
-zone_width=10 #szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
+iterations_for_learning=50 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania
+zone_width=50 #szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
 uav_energy_consumption=2 # zużycie energi uav na jednostke czasu
 uav_energy=3 #poczatkowa energia uav
 intruder_energy=3 #poczatkowa energia intruza

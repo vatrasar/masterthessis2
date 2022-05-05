@@ -5,6 +5,7 @@ from typing import List
 from Events.Game.Statistics import Statistics
 from Events.Game.gameState import GameState
 from Events.Game.game_state_stac import GameStateStac
+from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
@@ -130,8 +131,30 @@ def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics]):
     return gnuplot_data
 
 
+def get_points_map_data(hits_lists:typing.List[Hit_list],settings:Settings):
+    gnuplot_data=[]
 
-def export_to_gnuplot(runs_stac_list:List[Statistics],settings:Settings):
+
+    for i in range(0,int(settings.map_size_x)):
+        zone_best_value_list=[]
+        zone_index=int(i / float(settings.zone_width))
+
+        for hit_list in hits_lists:
+
+            zone_i_best_value=hit_list.hit_list[zone_index].best_points
+            if zone_i_best_value==None:
+                zone_i_best_value=0
+            zone_best_value_list.append(zone_i_best_value)
+
+        std=get_std(zone_best_value_list)
+        mean=get_mean(zone_best_value_list)
+        gnuplot_record=[i,mean,std]
+        gnuplot_data.append(gnuplot_record)
+
+    return gnuplot_data
+
+
+def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Settings):
     data_to_export=get_gnuplot_mean_data(runs_stac_list)
     # clear_folder("./gnuplot")
     file=open("./gnuplot/mean_data.txt","w")
@@ -152,6 +175,12 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],settings:Settings):
         data_to_export=get_uav2_energy_data(runs_stac_list)
         save_records_to_file(data_to_export,file)
         file.close()
+
+
+    file=open("./gnuplot/points_map.txt","w")
+    data_to_export=get_points_map_data(hit_lists,settings)
+    save_records_to_file(data_to_export,file)
+    file.close()
 
 
 

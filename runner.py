@@ -29,6 +29,7 @@ class Runner():
         self.master=None
         self.statistics=statistics
         self.run_stac_list=[]
+        self.run_hits=[]
 
 
 
@@ -51,7 +52,7 @@ class Runner():
             while self.perform_singel_iteration(rand_for_run):
 
                 continue
-        export_to_gnuplot(self.run_stac_list)
+        export_to_gnuplot(self.run_stac_list,2,self.settings)
 
 
 
@@ -94,7 +95,7 @@ class Runner():
                 while self.perform_singel_iteration(self.rand):
                     continue
 
-            export_to_gnuplot(self.run_stac_list,self.settings)
+            export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
 
 
     def setup_visualisation(self):
@@ -133,6 +134,7 @@ class Runner():
 
         if self.is_simulation_finished():
             self.run_stac_list.append(self.statistics)
+            self.run_hits.append(self.game_state.hit_list)
             if self.settings.is_multirun:
 
                 self.statistics = Statistics()
