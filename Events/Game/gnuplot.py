@@ -179,6 +179,45 @@ def get_freqency_of_hits_data(hits_lists:typing.List[Hit_list],settings:Settings
     return gnuplot_data
 
 
+def get_uav_points_data(runs_stac_list,index):
+    gnuplot_data=[]
+    if len(runs_stac_list)>0:
+        for i in range(0,len(runs_stac_list[0].game_states_list)-1):
+            enrgy_sum_list=[]
+
+            for run_stac in runs_stac_list:
+                iteration_i_state=run_stac.game_states_list[i]
+                uav=get_uav_with_index(index,iteration_i_state)
+                enrgy_sum_list.append(uav.last_points)
+
+            std=get_std(enrgy_sum_list)
+            mean=get_mean(enrgy_sum_list)
+            gnuplot_record=[i,mean,std]
+            gnuplot_data.append(gnuplot_record)
+
+    return gnuplot_data
+
+
+def get_sum_uav_points_data(runs_stac_list):
+    gnuplot_data=[]
+    if len(runs_stac_list)>0:
+        for i in range(0,len(runs_stac_list[0].game_states_list)-1):
+            enrgy_sum_list=[]
+
+            for run_stac in runs_stac_list:
+                iteration_i_state=run_stac.game_states_list[i]
+                uav=get_uav_with_index(0,iteration_i_state)
+                uav2=get_uav_with_index(1,iteration_i_state)
+                enrgy_sum_list.append(uav.last_points+uav2.last_points)
+
+            std=get_std(enrgy_sum_list)
+            mean=get_mean(enrgy_sum_list)
+            gnuplot_record=[i,mean,std]
+            gnuplot_data.append(gnuplot_record)
+
+    return gnuplot_data
+
+
 def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Settings):
     data_to_export=get_gnuplot_mean_data(runs_stac_list)
     # clear_folder("./gnuplot")
@@ -199,6 +238,22 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Setting
         file=open("./gnuplot/uav2_energy_data.txt","w")
         data_to_export=get_uav2_energy_data(runs_stac_list,settings)
         save_records_with_max_value_to_file(data_to_export,file)
+        file.close()
+
+
+    file=open("./gnuplot/uav1_points_data.txt","w")
+    data_to_export=get_uav_points_data(runs_stac_list,0)
+    save_records_to_file(data_to_export,file)
+    file.close()
+    if settings.uav_number>1:
+        file=open("./gnuplot/uav2_points_data.txt","w")
+        data_to_export=get_uav_points_data(runs_stac_list,1)
+        save_records_to_file(data_to_export,file)
+        file.close()
+
+        file=open("./gnuplot/sum_uav_points_data.txt","w")
+        data_to_export=get_sum_uav_points_data(runs_stac_list)
+        save_records_to_file(data_to_export,file)
         file.close()
 
 
