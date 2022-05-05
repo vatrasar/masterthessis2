@@ -62,7 +62,9 @@ def save_records_to_file(data_to_export:List,file):
     for record in data_to_export:
         file.write("%d %.2f %.2f\n"%(record[0],record[1],record[2]))
 
-
+def save_records_with_max_value_to_file(data_to_export:List,file):
+    for record in data_to_export:
+        file.write("%d %.2f %.2f %.2f\n"%(record[0],record[1],record[2],record[3]))
 def get_uav_with_index(index, state:GameStateStac):
     for uav in state.uav_list:
         if uav.index==index:
@@ -73,7 +75,7 @@ def get_uav_with_index(index, state:GameStateStac):
             return uav
 
 
-def get_uav1_energy_data(runs_stac_list:typing.List[Statistics]):
+def get_uav1_energy_data(runs_stac_list:typing.List[Statistics],settings:Settings):
     gnuplot_data=[]
 
     if len(runs_stac_list)>0:
@@ -83,17 +85,17 @@ def get_uav1_energy_data(runs_stac_list:typing.List[Statistics]):
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
                 uav=get_uav_with_index(0,iteration_i_state)
-                enrgy_sum_list.append(uav.energy)
+                enrgy_sum_list.append(settings.uav_energy-uav.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)
-            gnuplot_record=[i,mean,std]
+            gnuplot_record=[i,mean,std,settings.uav_energy]
             gnuplot_data.append(gnuplot_record)
     return gnuplot_data
 
 
 
-def get_uav2_energy_data(runs_stac_list:typing.List[Statistics]):
+def get_uav2_energy_data(runs_stac_list:typing.List[Statistics],settings:Settings):
     gnuplot_data=[]
 
     if len(runs_stac_list)>0:
@@ -103,11 +105,11 @@ def get_uav2_energy_data(runs_stac_list:typing.List[Statistics]):
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
                 uav=get_uav_with_index(1,iteration_i_state)
-                enrgy_sum_list.append(uav.energy)
+                enrgy_sum_list.append(settings.uav_energy-uav.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)
-            gnuplot_record=[i,mean,std]
+            gnuplot_record=[i,mean,std,settings.uav_energy]
             gnuplot_data.append(gnuplot_record)
 
     return gnuplot_data
@@ -190,13 +192,13 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Setting
     file.close()
 
     file=open("./gnuplot/uav1_energy_data.txt","w")
-    data_to_export=get_uav1_energy_data(runs_stac_list)
-    save_records_to_file(data_to_export,file)
+    data_to_export=get_uav1_energy_data(runs_stac_list,settings)
+    save_records_with_max_value_to_file(data_to_export,file)
     file.close()
     if settings.uav_number>1:
         file=open("./gnuplot/uav2_energy_data.txt","w")
-        data_to_export=get_uav2_energy_data(runs_stac_list)
-        save_records_to_file(data_to_export,file)
+        data_to_export=get_uav2_energy_data(runs_stac_list,settings)
+        save_records_with_max_value_to_file(data_to_export,file)
         file.close()
 
 
