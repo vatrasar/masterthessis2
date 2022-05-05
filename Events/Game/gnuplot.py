@@ -114,7 +114,7 @@ def get_uav2_energy_data(runs_stac_list:typing.List[Statistics],settings:Setting
 
     return gnuplot_data
 
-def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics]):
+def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics],settings:Settings):
     gnuplot_data=[]
 
     if len(runs_stac_list)>0:
@@ -123,11 +123,11 @@ def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics]):
 
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
-                enrgy_sum_list.append(iteration_i_state.intruder.energy)
+                enrgy_sum_list.append(settings.intruder_energy-iteration_i_state.intruder.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)
-            gnuplot_record=[i,mean,std]
+            gnuplot_record=[i,mean,std,settings.intruder_energy]
             gnuplot_data.append(gnuplot_record)
 
     return gnuplot_data
@@ -187,8 +187,8 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Setting
     file.close()
 
     file=open("./gnuplot/intruder_energy_data.txt","w")
-    data_to_export=get_gnuplot_energy_data(runs_stac_list)
-    save_records_to_file(data_to_export,file)
+    data_to_export=get_gnuplot_energy_data(runs_stac_list,settings)
+    save_records_with_max_value_to_file(data_to_export,file)
     file.close()
 
     file=open("./gnuplot/uav1_energy_data.txt","w")
