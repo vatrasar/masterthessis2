@@ -22,7 +22,8 @@ class Hit_list():
             self.hit_list.append(Hit_list_record(zone))
 
     def add_hit(self, postion, points):
-
+        if points>0:
+            print("ok")
         zone_index=int(postion.x / self.zones_width)
 
         zone_stac=self.hit_list[zone_index]
@@ -35,7 +36,7 @@ class Hit_list():
                 zone_stac.best_attack_postion=postion
                 zone_stac.best_points=points
 
-        zone_stac.points_mean=(zone_stac.points_mean+points)/float(zone_stac.number_of_hits)
+        zone_stac.points_mean=(zone_stac.points_mean*(zone_stac.number_of_hits-1)+points)/float(zone_stac.number_of_hits)
 
     def save_to_file(self):
 

@@ -80,7 +80,8 @@ class Visualisation_event(Event):
                 if best!=None:
 
                     create_circle(best.x, best.y,uav_size,self.canvas,"purple")
-                    best=self.game_state.naive_algo.results_list.get_best_from_list().position2
+                best=self.game_state.naive_algo.results_list.get_best_from_list().position2
+                if best!=None:
                     create_circle(best.x, best.y,uav_size,self.canvas,"brown")
 
 

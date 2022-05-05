@@ -116,7 +116,28 @@ class Result_list():
         self.result_list.reverse()
 
     def get_record_with_postions(self, postion1, postion2):
+        positions_to_check=[]
+
+
+
         for record in self.result_list:
-            if get_2d_distance(record.position1,postion1)<self.settings.map_resolution*2 and get_2d_distance(record.position2,postion2)<self.settings.map_resolution*2:
-                return record
+
+            record_pozitions=[]
+            current_postions=[]
+            self.add_to_list_if_not_none(record_pozitions,record.position1)
+            self.add_to_list_if_not_none(record_pozitions,record.position2)
+            self.add_to_list_if_not_none(current_postions,postion1)
+            self.add_to_list_if_not_none(current_postions,postion2)
+            if len(current_postions)==2:
+                if get_2d_distance(record.position1,postion1)<self.settings.map_resolution*2 and get_2d_distance(record.position2,postion2)<self.settings.map_resolution*2:
+                    return record
+            elif len(current_postions)==1 and len(record_pozitions)>0:
+                if get_2d_distance(current_postions[0],record_pozitions[0])<self.settings.map_resolution*2:
+                    return record
+            else:
+                return None
         return None
+
+    def add_to_list_if_not_none(self, list, postion1):
+        if postion1!=None:
+            list.append(postion1)
