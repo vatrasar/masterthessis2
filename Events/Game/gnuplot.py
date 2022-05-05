@@ -154,6 +154,29 @@ def get_points_map_data(hits_lists:typing.List[Hit_list],settings:Settings):
     return gnuplot_data
 
 
+def get_freqency_of_hits_data(hits_lists:typing.List[Hit_list],settings:Settings):
+    gnuplot_data=[]
+
+
+    for i in range(0,int(settings.map_size_x)):
+        zone_best_value_list=[]
+        zone_index=int(i / float(settings.zone_width))
+
+        for hit_list in hits_lists:
+
+            zone_i_best_value=hit_list.hit_list[zone_index].number_of_hits
+            if zone_i_best_value==None:
+                zone_i_best_value=0
+            zone_best_value_list.append(zone_i_best_value)
+
+        std=get_std(zone_best_value_list)
+        mean=get_mean(zone_best_value_list)
+        gnuplot_record=[i,mean,std]
+        gnuplot_data.append(gnuplot_record)
+
+    return gnuplot_data
+
+
 def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Settings):
     data_to_export=get_gnuplot_mean_data(runs_stac_list)
     # clear_folder("./gnuplot")
@@ -179,6 +202,11 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Setting
 
     file=open("./gnuplot/points_map.txt","w")
     data_to_export=get_points_map_data(hit_lists,settings)
+    save_records_to_file(data_to_export,file)
+    file.close()
+
+    file=open("./gnuplot/freqency_of_hits.txt","w")
+    data_to_export=get_freqency_of_hits_data(hit_lists,settings)
     save_records_to_file(data_to_export,file)
     file.close()
 
