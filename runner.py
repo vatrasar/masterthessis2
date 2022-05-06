@@ -86,7 +86,7 @@ class Runner():
                 self.setup_debug2(self.events_list)
 
             if self.settings.mode_debug!=3:
-                plan_hand_control_event(self.current_time+get_d_t_arrive_poison(self.settings.arrive_deterministic,self.settings.lambda1,self.rand),self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
+                plan_hand_control_event(self.current_time+get_d_t_arrive_poison(self.rand),self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
             if self.settings.visualisation in [1,2]:#visualisation
                 self.master.after(1, self.single_iteration)

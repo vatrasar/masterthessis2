@@ -19,7 +19,7 @@ from Events.make_dodge import Make_dodge
 
 
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
-    time_of_next_event=get_d_t_arrive_poison(settings.arrive_deterministic,settings.lambda1,rand)+current_time
+    time_of_next_event=get_d_t_arrive_poison(rand)+current_time
     target_position=None
     if settings.mode=="list":
         target_position=state.naive_algo.get_target_postion(event_owner.index,rand,settings,state.uav_list)

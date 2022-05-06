@@ -216,13 +216,6 @@ class Settings():
         elif (property_name=="prob_of_return_to_T2"):
 
             self.prob_of_return_to_T2=self.check_float(property_value,property_name,0,1,False)
-
-        elif (property_name=="arrive_deterministic"):
-
-            self.arrive_deterministic=self.check_binary(property_value,property_name)
-        elif (property_name=="lambda1"):
-
-            self.lambda1=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="tier1_distance_from_intruder"):
 
             self.tier1_distance_from_intruder=self.check_float(property_value,property_name,0,1,True)
@@ -231,7 +224,7 @@ class Settings():
 
             self.v_of_uav=self.check_float(property_value,property_name,0,1,True)
 
-        elif (property_name=="wiat_time"):
+        elif (property_name=="wait_time"):
 
             self.wiat_time=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="intuder_size"):

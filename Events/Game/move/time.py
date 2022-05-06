@@ -30,12 +30,10 @@ def get_travel_time_on_tier1(target_postion:Point,current_position:Point,drone_v
     return time
 
 
-def get_d_t_arrive_poison(is_arrive_deterministic,lambda1,rand:Random):
+def get_d_t_arrive_poison(rand:Random):
     d_ta_arrive=0
-    if is_arrive_deterministic:
-        d_ta_arrive = 1.0 / lambda1
-    else:
-        d_ta_arrive = -(1.0 / lambda1)* math.log(rand.random(), math.e)
+    lambda1=0.8
+    d_ta_arrive = -(1.0 / lambda1)* math.log(rand.random(), math.e)
     return d_ta_arrive
 
 
