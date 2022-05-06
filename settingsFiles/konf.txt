@@ -1,7 +1,7 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
-T=100 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+T=500 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 mode=normal operating #tryby wyszukiwania trasy przez drona. możliwe wartości: RW-RA, normal operating, annealing
 prob_of_attack=0.7 #Prawdopodobieństwo wykonania ataku w trybie losowym(dotyczy trybu exploitation1). wartości od 0 do 1
 prob_of_return_to_T2=0.1 #Parwdopodobieństwo powrotu na tier2. wartośc od 0 do 1(dotyczy wszaystkich trybów)
@@ -14,6 +14,7 @@ velocity_hand=10 #Prędkość ręki. wartość powyżej 0
 visualzation_update_interval=0.5 #co ile jednostek czasu ma być aktualizowana wizualizacja symulacji. Wartość powyżej 0
 r_of_LR=300 #Maksymalny zasięg ręki. wartość powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
 map_resolution=3 #Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki. wartość powyżej 0
+seed_clock=0 #możliwe wartości: 1 seed jest wybierany z zegara, 0: wartość seed jest ustawionan w pliku konf(we właściwość seed)
 seed=250 #ziarno generatora liczb losowych
 intuder_size=120 #rozmiar intruza
 mode_debug=0 #tryb debug w jakim działa program. możliwe wartości: 0 SA1(tryb normalny), 1 debug A0, 2 debug A1, 3 debug SA0, 4 debug SA0

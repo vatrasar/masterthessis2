@@ -4,7 +4,7 @@ from Events.Game.Statistics import Statistics
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from runner import Runner
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
-
+import time
 
 def main():
     settings:Settings=Settings()
@@ -29,8 +29,10 @@ def main():
         return
 
     #init state
-    rand = random.Random(settings.seed)  # 800
 
+    rand = random.Random(settings.seed)  # 800
+    if settings.seed_clock:
+        rand =random.Random(time.time()) #
     runner=Runner(settings,rand, statistics)
     if settings.is_multirun:
         runner.run_multirun()

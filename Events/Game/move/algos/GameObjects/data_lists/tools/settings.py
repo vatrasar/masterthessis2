@@ -269,6 +269,10 @@ class Settings():
 
             self.seed=self.check_int(property_value,property_name,0,223,True)
 
+        elif (property_name=="seed_clock"):
+
+            self.seed_clock=self.check_binary(property_value,property_name)
+
         elif (property_name=="blind_angle"):
 
             self.blind_angle=self.check_int(property_value,property_name,0,223,True)
