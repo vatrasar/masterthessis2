@@ -75,7 +75,7 @@ class Settings():
 
 
         self.map_size_y=int(self.tier1_distance_from_intruder * 1.3)
-        self.map_size_x =self.map_size_y*2
+
 
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
@@ -158,6 +158,9 @@ class Settings():
             self.drone_energy_destroy_condition=self.check_binary(property_value, property_name)
         elif (property_name=="fake_targets_number"):
             self.fake_targets_number=self.check_int(property_value, property_name,1,0,True)
+
+        elif (property_name=="map_size_x"):
+            self.map_size_x=self.check_int(property_value, property_name,1,0,True)
 
         elif (property_name=="load_memory"):
             self.load_memory=self.check_binary(property_value,property_name)
