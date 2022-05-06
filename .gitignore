@@ -143,3 +143,4 @@ data/
 Entities/
 history/
 test
+gnuplot/*.txt
