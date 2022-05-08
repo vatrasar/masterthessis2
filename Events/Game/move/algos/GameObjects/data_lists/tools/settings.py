@@ -200,12 +200,22 @@ class Settings():
 
         elif (property_name=="mode"):
             property_value=property_value.strip()
-            if property_value=="normal operating":
-                property_value="list"
-            if (property_value in ["RW-RA","list","annealing"]):
+            if (property_value in ["learning", "exploitation"]):
                 self.mode=property_value
             else:
-                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RW-RA"%(property_name))
+                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: learning, exploitation"%(property_name))
+        elif (property_name=="learning_algo_type"):
+            property_value=property_value.strip()
+            if (property_value in ["RS", "SA"]):
+                self.learning_algo_type=property_value
+            else:
+                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RS, SA"%(property_name))
+        elif (property_name=="exploitation_type"):
+            property_value=property_value.strip()
+            if (property_value in ["wheel_roulette", "eplsion-LA", "best", "random"]):
+                self.exploitation_type=property_value
+            else:
+                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: wheel_roulette, eplsion-LA, best, random"%(property_name))
         elif (property_name=="tier2_mode"):
 
             self.tier2_mode=self.check_binary(property_value,property_name)
