@@ -10,7 +10,6 @@ from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
-
 class Naive_Algo():
     def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list):
         self.curiosty_ratio = curiosty_ratio

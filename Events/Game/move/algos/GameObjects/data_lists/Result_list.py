@@ -3,7 +3,7 @@ import typing
 
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.distance import get_2d_distance
-from Events.Game.move.get_position import get_random_position_on_tier1
+
 
 
 class Result_record():

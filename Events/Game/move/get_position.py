@@ -1,8 +1,11 @@
 import math
 from random import Random
 
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
 from Events.Game.move.algos.GameObjects.data_lists.tools.geometry import get_transform_between_points
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
 
 
 def get_point_on_tier1(current_position:Point,distance,target_position:Point):
@@ -20,6 +23,16 @@ def get_random_position_on_tier1(rand:Random,map_width,tier1_distance):
     x=(map_width)*rand.random()
 
     return Point(x,tier1_distance)
+
+
+def get_random_postion_x_in_hand_range(uav:Uav,settings:Settings,rand:Random):
+    x=None
+    if uav.chasing_hand.side==Sides.LEFT:
+        x=settings.left_box.x*rand.random()
+
+    else:
+        x=(settings.map_size_x-settings.right_box.x)*rand.random()+settings.right_box.x
+    return x
 
 def get_random_position_between_tier1_and_0(max_x,tier1_distance,size_of_intruder,rand:Random,x):
 

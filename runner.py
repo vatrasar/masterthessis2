@@ -2,14 +2,16 @@ from random import Random
 
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, Sides
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 import tkinter
 
-from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1
+from Events.Game.move.algos.GameObjects.uav import Uav
+from Events.Game.move.get_position import get_random_position_between_tier1_and_0, get_random_position_on_tier1, \
+    get_random_postion_x_in_hand_range
 from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import get_max_hand_range_in_x
 from Events.Game.move.time import get_d_t_arrive_poison
 from Events.hand_chase import plan_chase_event
@@ -19,6 +21,9 @@ from Events.events_list import Event_list
 from Events.visualisation_event import Visualisation_event
 from Events.event import Event
 from Events.wait import plan_wait
+
+
+
 
 
 class Runner():
@@ -165,8 +170,9 @@ class Runner():
             # x=(self.settings.map_size_x)*self.rand.random()
             # y=(get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,x)-self.settings.intuder_size)*self.rand.random()+self.settings.intuder_size
             # uav.position=Point(x,y)
-            rand_pos=get_random_position_on_tier1(self.rand,self.settings.map_size_x,self.settings.tier1_distance_from_intruder)
-            uav.position=get_random_position_between_tier1_and_0(self.settings.map_size_x,get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,rand_pos.x,self.settings),self.settings.intuder_size,self.rand,rand_pos.x)
+            x=get_random_postion_x_in_hand_range(uav,self.settings,self.rand)
+
+            uav.position=get_random_position_between_tier1_and_0(self.settings.map_size_x,get_max_hand_range_in_x(uav.chasing_hand.side,self.settings.minimal_hand_range,self.settings.r_of_LR,self.settings.map_size_x,x,self.settings),self.settings.intuder_size,self.rand,x)
             plan_wait(0,20000,uav, self.master,self.game_state,event_list,self.settings.safe_margin)
             plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
 
