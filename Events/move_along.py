@@ -21,7 +21,7 @@ from Events.make_dodge import Make_dodge
 def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
     time_of_next_event=get_d_t_arrive_poison(rand)+current_time
     target_position=None
-    if settings.mode=="list":
+    if settings.learning_algo_type == "RS":
         target_position=state.naive_algo.get_target_postion(event_owner.index,rand,settings,state.uav_list)
     elif settings.mode=="annealing":
         target_position=state.annealing_algo.get_target_postion(event_owner.index,rand,settings)
@@ -75,7 +75,7 @@ class Move_along(Event):
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
                 if  settings.mode=="annealing":
                     self.game_state.annealing_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
-                if settings.mode=="list":
+                if settings.learning_algo_type == "RS":
 
                     self.game_state.naive_algo.register_attack(self.event_owner.position,self.event_owner.index,self.event_owner.points)
 
@@ -85,7 +85,7 @@ class Move_along(Event):
 
                 if settings.mode=="annealing":
                     self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
-                if settings.mode=="list":
+                if settings.learning_algo_type == "RS":
 
                     points1,points2=self.get_points1_and_points2()
                     self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings,self.game_state.uav_list)
@@ -93,7 +93,7 @@ class Move_along(Event):
         else:
             if settings.mode=="annealing" and check_if_algo_target_reached(self.event_owner.position,self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 self.event_owner.annealing_algo.cancel_attack(self.event_owner.index,rand,settings)
-            if settings.mode=="list" and check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
+            if settings.learning_algo_type == "RS" and check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 points1=0
                 points2=0
                 points1, points2 = self.get_points1_and_points2()
@@ -120,7 +120,7 @@ class Move_along(Event):
                 target_postion=None
                 if settings.mode=="RW-RA":
                     target_postion=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
-                elif settings.mode=="list":
+                elif settings.learning_algo_type == "RS":
 
                     target_postion=self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list)
                 elif settings.mode=="annealing":

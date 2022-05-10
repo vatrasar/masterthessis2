@@ -21,7 +21,7 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
             return True
         else:
             return False
-    if (mode=="list"):
+    if (settings.learning_algo_type == "RS"):
 
         if naive_alog.get_target_postion(uav.index,rand,settings,uav_list)==None:
             naive_alog.choose_new_target(settings,rand,uav.index,uav_list)

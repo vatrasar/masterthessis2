@@ -207,7 +207,7 @@ class Attack(Event):
                     self.start_to_move_on_tier1(event_list, rand, settings)
 
     def update_algos_results(self, rand, settings):
-        if settings.mode == "list":
+        if settings.learning_algo_type == "RS":
             points1=0
             points2=0
             for uav in self.game_state.uav_list:
@@ -216,17 +216,17 @@ class Attack(Event):
                 else:
                     points2=uav.points
             self.game_state.naive_algo.un_register_attack(self.event_owner.index, points1,points2, settings,self.game_state.uav_list)
-        if settings.mode == "annealing":
+        if settings.learning_algo_type == "annealing":
             self.event_owner.annealing_algo.un_register_attack(self.event_owner.index, self.event_owner.points,
                                                                settings, rand)
 
     def start_to_move_on_tier1(self, event_list, rand, settings):
 
         target_postion = get_random_position_on_tier1(rand, settings.map_size_x, settings.tier1_distance_from_intruder)
-        if settings.mode=="list":
+        if settings.learning_algo_type=="RS":
 
             target_postion=self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list)
-        if settings.mode=="annealing":
+        if settings.learning_algo_type=="annealing":
             target_postion=self.event_owner.annealing_algo.get_target_postion(self.event_owner.index,rand,settings)
         from Events.move_along import plan_move_along
         from Events.move_along import plan_enter_from_tier2

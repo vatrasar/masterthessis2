@@ -3,6 +3,7 @@ from random import Random
 
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.intruder import Intruder
@@ -40,7 +41,7 @@ class GameState():
         else:
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.RIGHT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
-        if settings.load_memory:
+        if settings.load_memory or settings.mode==Modes.EXPLOITATION:
             self.naive_algo.load_memory()
         self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),settings.intruder_energy)
         logging.info("state initiated")

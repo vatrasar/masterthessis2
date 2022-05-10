@@ -18,12 +18,12 @@ class Hit_list():
         self.hit_list:typing.List[Hit_list_record]=[]
         number_of_zones=math.ceil(settings.map_size_x/float(settings.zone_width))
         self.zones_width=float(settings.zone_width)
+        self.iteration=0
         for zone in range(0,number_of_zones):
             self.hit_list.append(Hit_list_record(zone))
 
     def add_hit(self, postion, points):
-        if points>0:
-            print("ok")
+        self.iteration=self.iteration+1
         zone_index=int(postion.x / self.zones_width)
 
         zone_stac=self.hit_list[zone_index]

@@ -3,6 +3,7 @@ from random import Random
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
@@ -177,8 +178,15 @@ class Runner():
             plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
 
     def is_simulation_finished(self):
-        return (self.current_time>self.settings.T or (self.game_state.intruder.energy<0 and self.settings.energy_simulation_end_condition))
+        if self.current_time>self.settings.T:
+            return True
 
+        if self.settings.mode==Modes.LEARNING:
+
+            if self.settings.iterations_for_learning<=self.game_state.hit_list.iteration:
+                return True
+        return False
+        # if (self.game_state.intruder.energy<0 and self.settings.energy_simulation_end_condition):
 
 
 

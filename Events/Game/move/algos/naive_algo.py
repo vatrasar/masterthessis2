@@ -3,6 +3,7 @@ from random import Random
 import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
@@ -114,23 +115,9 @@ class Naive_Algo():
 
             self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
 
-
-    def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
-
-        #fake move
-
-
-
-
-        # if self.choose_random[uav_index] and self.is_limit_reached():
-        #     self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
-        #     self.choose_random[uav_index]=False
-        #     return
-        # else:
-        #     self.choose_random[uav_index]=True
-
+    def exploitation(self,settings,rand:Random,uav_index,uav_list):
         #waitnig for secound drone
-        if self.random_move[uav_index] and self.is_after_attack(uav_list) and self.is_learning_finished():
+        if self.random_move[uav_index] and self.is_after_attack(uav_list):
             number_of_fake_targets=min(len(self.results_list.result_list)-1,settings.fake_targets_number)
 
             self.results_list.sort_list()
@@ -175,7 +162,7 @@ class Naive_Algo():
 
         x=rand.random()
         new_target=None
-        if (not self.is_learning_finished()) or len(self.results_list.result_list)==0:
+        if len(self.results_list.result_list)==0:
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             return
@@ -194,6 +181,67 @@ class Naive_Algo():
             # self.targert_attacks[0]=best_result.position1
             # self.targert_attacks[1]=best_result.position2
 
+    def learning(self,settings,rand:Random,uav_index,uav_list):
+
+        if len(self.fake_targets_list)>0 and self.is_after_attack(uav_list):
+            self.is_fake_attack[0]=True
+            self.is_fake_attack[1]=True
+            self.choose_random[0]=True
+            self.choose_random[1]=True
+            self.after_attack[0]=False
+            self.after_attack[1]=False
+            self.update_tragets_using_result_record(self.fake_targets_list[0])
+            # self.targert_attacks[0]=self.fake_targets_list[0].position1
+            # self.targert_attacks[1]=self.fake_targets_list[0].position2
+            self.fake_targets_list.remove(self.fake_targets_list[0])
+            return
+
+
+        if (not self.is_after_attack(uav_list) ):
+
+            self.is_fake_attack[uav_index]=True
+            self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
+            self.choose_random[uav_index]=False
+
+            return
+
+
+
+        #chooseing true target
+        self.after_attack[0]=False
+        self.after_attack[1]=False
+        self.choose_random[0]=True
+        self.choose_random[1]=True
+
+        self.is_fake_attack[uav_index]=False
+
+
+        x=rand.random()
+        new_target=None
+        if (not self.is_learning_finished()) or len(self.results_list.result_list)==0:
+            self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
+            self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
+            return
+
+    def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
+
+        #fake move
+        if settings.mode=="learning":
+            self.learning(settings,rand,uav_index,uav_list)
+        if settings.mode=="exploitation":
+            self.exploitation(settings,rand,uav_index,uav_list)
+
+
+
+        # if self.choose_random[uav_index] and self.is_limit_reached():
+        #     self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
+        #     self.choose_random[uav_index]=False
+        #     return
+        # else:
+        #     self.choose_random[uav_index]=True
+
+
+
     def get_target_postion(self,index,rand,settings,uav_list):
         # if self.is_limit_reached():
         #     if index==0:
@@ -206,7 +254,7 @@ class Naive_Algo():
         return self.targert_attacks[index]
 
     def is_learning_finished(self):
-        return self.iteration_number>self.iterations_for_learning
+        return self.hit_list.iteration>self.iterations_for_learning or self.settings.mode==Modes.EXPLOITATION
 
     def load_memory(self):
         file=open("data/Memory.txt","r")
