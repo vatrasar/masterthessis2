@@ -3,10 +3,11 @@ from random import Random
 import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
+from Events.Game.move.algos.list_algo import list_algo_new_targets
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
@@ -183,18 +184,7 @@ class Naive_Algo():
 
     def learning(self,settings,rand:Random,uav_index,uav_list):
 
-        if len(self.fake_targets_list)>0 and self.is_after_attack(uav_list):
-            self.is_fake_attack[0]=True
-            self.is_fake_attack[1]=True
-            self.choose_random[0]=True
-            self.choose_random[1]=True
-            self.after_attack[0]=False
-            self.after_attack[1]=False
-            self.update_tragets_using_result_record(self.fake_targets_list[0])
-            # self.targert_attacks[0]=self.fake_targets_list[0].position1
-            # self.targert_attacks[1]=self.fake_targets_list[0].position2
-            self.fake_targets_list.remove(self.fake_targets_list[0])
-            return
+
 
 
         if (not self.is_after_attack(uav_list) ):
@@ -215,12 +205,11 @@ class Naive_Algo():
 
         self.is_fake_attack[uav_index]=False
 
-
-        x=rand.random()
-        new_target=None
-        if (not self.is_learning_finished()) or len(self.results_list.result_list)==0:
-            self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
-            self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
+        #choosing new target by algo
+        if self.settings.learning_algo_type==Learning_algos.RS:
+            target1,target2=list_algo_new_targets(settings,rand)
+            self.targert_attacks[0]=target1
+            self.targert_attacks[1]=target2
             return
 
     def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
