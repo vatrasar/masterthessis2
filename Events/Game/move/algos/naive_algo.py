@@ -7,13 +7,14 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings impo
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
+from Events.Game.move.algos.annealing_algo import Annealing_Algo
 from Events.Game.move.algos.list_algo import list_algo_new_targets
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 class Naive_Algo():
-    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list):
+    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random):
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
         self.settings=settings
@@ -32,6 +33,8 @@ class Naive_Algo():
         self.fake_targets_list=[]
         self.is_fake_attack={0:False,1:False}
         self.uav_list:typing.List[Uav]=uav_list
+        if settings.learning_algo_type==Learning_algos.SA:
+            self.anneling_algorithm=Annealing_Algo(settings,rand)
 
 
 
@@ -113,8 +116,11 @@ class Naive_Algo():
             tiers_uav={0:None,1:None}
             for uav in uav_list:
                 tiers_uav[uav.index]=uav.attack_started_from_tier2
-
             self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
+            if settings.learning_algo_type==Learning_algos.SA:
+                self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
+
+
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
         #waitnig for secound drone
@@ -211,7 +217,12 @@ class Naive_Algo():
             self.targert_attacks[0]=target1
             self.targert_attacks[1]=target2
             return
+        elif self.settings.learning_algo_type==Learning_algos.SA:
 
+            target1,target2=self.anneling_algorithm.get_new_targets(settings,rand)
+            self.targert_attacks[0]=target1
+            self.targert_attacks[1]=target2
+            return
     def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
 
         #fake move

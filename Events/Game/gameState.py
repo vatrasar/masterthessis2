@@ -33,7 +33,7 @@ class GameState():
 
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,settings.uav_energy,0))
-        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list)
+        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand)
         #init hands
         self.hands_list:typing.List[Hand] = []
         if(hands_number==1):
@@ -53,7 +53,7 @@ class GameState():
 
 
 
-        self.game_map.update_map(self,None)
+        self.game_map.update_map(self.uav_list,self.hands_list,None)
         for uav in self.uav_list: #uavs to update
             if event_owner!=uav:
                 if uav.status!=UavStatus.TIER_2 and uav.status!=UavStatus.DEAD and uav.status!=UavStatus.WAIT:

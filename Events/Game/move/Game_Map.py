@@ -40,13 +40,13 @@ import numpy as np
 #
 #     # print(("current %.2f radians %.2f point %.2f %.2f")%(point_angle,orginal_angle,temp_point.x,temp_point.y))
 #     return is_angle_in_range(point_angle,anlge_min,anlge_max)
-from Events.Game.gameState import GameState
+
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
-from Events.Game.move.check import check_if_cell_is_on_map
+
 from Events.Game.move.distance import get_2d_distance
 
 
@@ -73,6 +73,7 @@ class GameMap():
         for invisible in self.settings.lif_of_invisible:
             cells=self.get_all_cells_to_color(Point(invisible.x,invisible.y),invisible.r)
             for cell in cells:
+                from Events.Game.move.check import check_if_cell_is_on_map
                 if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
                     self.memory_invisible[cell.y][cell.x] = 1
 
@@ -126,6 +127,7 @@ class GameMap():
             # drones_candidates.append(Point(x_i, y_i))
             cells_to_color=self.get_all_cells_to_color(object.position,object_size)
             for cell in cells_to_color:
+                from Events.Game.move.check import check_if_cell_is_on_map
                 if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
                     self.map_memmory[cell.y][cell.x] = object_id
                     self.fluid_memory[cell.y][cell.x] = object_id
@@ -150,7 +152,7 @@ class GameMap():
 # #neighbour.y<=self.dimension_y and neighbour.y>=0 and neighbour.x>=0 and neighbour.x<=self.dimension_x and
 #                 drones_candidates.extend(neighbours_to_check)
 
-    def update_map(self, game_state:GameState,uav:Uav):
+    def update_map(self, uav_list,hands_list,uav:Uav):
 
         self.map_memmory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
         self.fluid_memory=np.zeros((self.dimension_y, self.dimension_x), np.int32)
@@ -158,11 +160,11 @@ class GameMap():
 
 
         #seting object on map, code works but i turned it of becase of performacnes
-        for uav in game_state.uav_list:#set uav positions on map
+        for uav in uav_list:#set uav positions on map
             if uav.position!=None:
                 self.set_object_on_map(uav,self.uav_size,100)
 
-        for hand in game_state.hands_list:  # set uav positions on map
+        for hand in hands_list:  # set uav positions on map
             self.set_object_on_map(hand,self.hand_size,200)
         #
         #

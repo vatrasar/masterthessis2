@@ -61,7 +61,7 @@ class Hand_chase(Event):
     def handle_event(self, event_list:Event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
 
-        if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD or (not check_if_uav_is_visible(self.event_owner.target_uav,self.game_state)):
+        if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD or (not check_if_uav_is_visible(self.event_owner.target_uav,self.game_state.game_map)):
             # self.event_owner.set_status(HandStatus.TIER_0)
             self.event_owner.stop_chasing()
             self.event_owner.next_event=None

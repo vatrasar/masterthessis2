@@ -30,7 +30,7 @@ class Hand_control_event(Event):
                 if uav.chasing_hand==None:
 
                     for hand in self.game_state.hands_list:
-                        if hand.target_uav==None and check_if_uav_is_visible(uav,self.game_state):
+                        if hand.target_uav==None and check_if_uav_is_visible(uav,self.game_state.game_map):
                             if hand.next_event!=None:
                                 hand.delete_current_event(event_list)
                             hand.start_chasing(uav)
@@ -40,7 +40,7 @@ class Hand_control_event(Event):
 
                     if uav.chasing_hand==None and (uav.status in [UavStatus.ON_BACK,UavStatus.ON_ATTACK,UavStatus.ATTACK_DODGE_MOVE,UavStatus.WAIT] ):#there was no free hand but this uav is attacking
                         for hand in self.game_state.hands_list:
-                            if check_if_uav_is_visible(uav,self.game_state) and  (hand.target_uav.status not in [UavStatus.ON_ATTACK,UavStatus.ON_BACK,UavStatus.WAIT,UavStatus.ATTACK_DODGE_MOVE]) and hand.status!=HandStatus.WAIT_AFTER_JUMP:
+                            if check_if_uav_is_visible(uav,self.game_state.game_map) and  (hand.target_uav.status not in [UavStatus.ON_ATTACK,UavStatus.ON_BACK,UavStatus.WAIT,UavStatus.ATTACK_DODGE_MOVE]) and hand.status!=HandStatus.WAIT_AFTER_JUMP:
                                 hand.delete_current_event(event_list)
                                 hand.stop_chasing()
                                 hand.start_chasing(uav)

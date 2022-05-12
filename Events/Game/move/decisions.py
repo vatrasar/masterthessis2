@@ -1,6 +1,7 @@
 from random import Random
 import typing
 
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.algos.naive_algo import Naive_Algo
@@ -15,13 +16,13 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
     :param rand:
     :return true if attack false if not
     """
-    if(mode=="RW-RA"):
+    if(settings.exploitation_type=="random" and settings.mode==Modes.EXPLOITATION):
         x=rand.random()
         if x<prob_of_attack:
             return True
         else:
             return False
-    if (settings.learning_algo_type == "RS"):
+    else:
 
         if naive_alog.get_target_postion(uav.index,rand,settings,uav_list)==None:
             naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
@@ -35,24 +36,7 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
             return True
         else:
             return False
-    if (mode=="annealing"):
-        # if uav.annealing_algo.choose_random==False:
-        #     uav.annealing_algo.choose_new_target(settings,rand,uav.index)
-        #     return False
-        if uav.annealing_algo.get_target_postion(uav.index,rand,settings)==None:
-                uav.annealing_algo.choose_new_target(settings,rand,uav.index)
 
-
-        if check_if_algo_target_reached(uav.position,uav.annealing_algo.get_target_postion(uav.index,rand,settings),settings):
-            print("ITER:"+str(uav.annealing_algo.iteration))
-            if uav.annealing_algo.annealing_number_of_iterations<uav.annealing_algo.iteration and uav.annealing_algo.choose_random==False:
-                uav.annealing_algo.choose_new_target(settings,rand,uav.index)
-
-                return False
-            else:
-                return True
-        else:
-            return False
 
 def decide_whether_uav_back_on_tier2(prob_of_return_to_T2,rand:Random,uav_list:typing.List[Uav],dodge_radius,settings:Settings,uav:Uav):
     # if len(uav_list)==2:

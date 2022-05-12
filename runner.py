@@ -44,7 +44,7 @@ class Runner():
             seed_for_run=self.rand.randint(0,100000000)
             rand_for_run=Random(seed_for_run)
             self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,rand_for_run)
-            self.game_state.game_map.update_map(self.game_state,None)
+            self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
             self.events_list=Event_list()
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
@@ -69,7 +69,7 @@ class Runner():
             self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand)
 
 
-            self.game_state.game_map.update_map(self.game_state,None)
+            self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
             self.events_list=Event_list()
 
 

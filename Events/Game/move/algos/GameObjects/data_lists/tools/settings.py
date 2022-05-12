@@ -171,6 +171,9 @@ class Settings():
         elif (property_name=="number_of_runs"):
             self.number_of_runs=self.check_int(property_value,property_name,1,0,True)
 
+        elif (property_name=="annealing_step"):
+            self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
+
         elif(property_name=="temperature"):
             self.temperature=self.check_float(property_value,property_name,1,0,True)
         elif(property_name=="iterations_for_learning"):

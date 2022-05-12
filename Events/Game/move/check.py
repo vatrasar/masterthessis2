@@ -1,6 +1,7 @@
 import typing
 
-from Events.Game.gameState import GameState
+
+from Events.Game.move.Game_Map import GameMap
 from Events.Game.move.algos.GameObjects.hand import Hand
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, HandStatus, Sides
@@ -61,14 +62,14 @@ def check_if_in_safe_distance(uav,hands_list,safe_margin):
     return True
 
 def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
-    if cell.x<max_index_x and cell.x>=0 and cell.y<max_index_y and cell.y>=0:
+    if cell.x<max_index_x-2 and cell.x>=1 and cell.y<max_index_y-2 and cell.y>=1:
         return True
     else:
         return False
 
-def check_if_uav_is_visible(uav:Uav,game_state:GameState):
-    index=game_state.game_map.get_point_on_map_index(uav.position.x,uav.position.y)
-    if game_state.game_map.memory_invisible[index.y][index.x]==1:
+def check_if_uav_is_visible(uav:Uav,game_map:GameMap):
+    index=game_map.get_point_on_map_index(uav.position.x,uav.position.y)
+    if game_map.memory_invisible[index.y][index.x]==1:
         return False
     else:
         return True

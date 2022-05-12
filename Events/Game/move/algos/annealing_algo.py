@@ -4,80 +4,62 @@ import numpy as np
 from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import is_in_bondaries
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.uav import Uav
+from Events.Game.move.check import check_if_cell_is_on_map
 from Events.Game.move.get_position import get_random_position_on_tier1
-
+import typing
 
 class Annealing_Algo():
     def __init__(self,settings:Settings,rand:Random):
-        self.temperature=settings.temperature
-        self.current_attacks={}
-        self.temperature_reduction=settings.temperature_reduction
-        self.current_attacks[0]={"start postion":None,"points":None,"active":False}
-        self.current_attacks[1]={"start postion":None,"points":None,"active":False}
 
-        init_start_x=rand.random()*settings.map_size_x
+
+        self.temperature=settings.temperature
+        self.temperature_reduction=settings.temperature_reduction
+
+        self.iterations_form_last_temperature_update=0
+
+        self.randm_np=None
+        init_start_x=None
+        self.rand=None
+        if rand!=None:
+            self.randm_np=np.random.RandomState()
+            self.randm_np.seed(rand.randint(0,200000))
+            self.rand=rand
+            init_start_x=rand.random()*settings.map_size_x
         self.current_result={"position":Point(init_start_x,settings.tier1_distance_from_intruder), "points":0}
-        self.targert_attacks={0:None,1:None}
-        self.randm_np=np.random.RandomState()
-        self.randm_np.seed(rand.randint(0,200000))
-        self.step=math.sqrt(settings.temperature)
-        self.choose_random=False
-        self.iteration=0
+        self.step=settings.annealing_step
+
+
         self.annealing_number_of_iterations=settings.annealing_number_of_iterations
         self.can_terget_be_changed=True
 
+    def un_register_attack(self, candidate_points,candidate_positions:typing.List[Point],settings:Settings):
 
 
-    def register_attack(self, start_position:Point,uav_id,points_before_attack):
+        self.iterations_form_last_temperature_update=self.iterations_form_last_temperature_update+1
+        if self.iterations_form_last_temperature_update>self.annealing_number_of_iterations:
+            self.iterations_form_last_temperature_update=0
+            self.temperature=self.temperature*self.temperature_reduction
 
-        if self.current_attacks[uav_id]["active"]==False:
-            self.targert_attacks[uav_id]=None
-            self.current_attacks[uav_id]["active"]=True
 
-            points_before_attack=points_before_attack
-            self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
 
-    def get_target_postion(self,index,rand,settings):
-        if self.targert_attacks[index]==None:
-            self.choose_new_target(settings,rand,index)
-        return self.targert_attacks[index]
-
-    def un_register_attack(self, uav_id,current_points,settings:Settings,rand:Random):
-        self.iteration=self.iteration+1
-        self.current_attacks[uav_id]["active"]=False
-        candidate_points=current_points-self.current_attacks[uav_id]["points before attack"]
-        candidate:Point=self.current_attacks[uav_id]["start postion"]
 
         value_delta=candidate_points-self.current_result["points"]
-        if np.log(rand.random())*settings.temperature<value_delta:#if true than accept
-            self.current_result={"position":candidate,"points":candidate_points}
+        metropolis=math.exp(-value_delta / self.temperature)
+        x=self.rand.random()
+        if value_delta<0 or x<metropolis:#if true than accept
 
-        self.remove_target(uav_id,settings)
-
-    def cancel_attack(self,uav_index,rand:Random,settings:Settings):
-        self.iteration=self.iteration+1
-        if np.log(rand.random())*settings.temperature<0:#if true than accept
-            self.current_result={"position":self.targert_attacks[uav_index],"points":0}
-        self.remove_target(uav_index,settings)
-
-    def remove_target(self,uav_index,settings:Settings):
+            self.current_result={"position":candidate_positions,"points":candidate_points}
 
 
-        self.temperature=settings.temperature_reduction*self.temperature #reduction of temperature
-        self.targert_attacks[uav_index]=None
-        self.can_terget_be_changed=True
 
 
-    def choose_new_target(self,settings,rand:Random,uav_index):
-        if self.iteration>self.annealing_number_of_iterations:
-            if self.choose_random:
-                self.targert_attacks[uav_index]=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
-                self.choose_random=False
-                return
-            else:
-                self.choose_random=True
-                self.targert_attacks[uav_index]=self.current_result["position"]
-                return
+
+
+    def get_new_targets(self,settings,rand:Random):
+
+            
+
         # if self.can_terget_be_changed==False:
         #     print("test")
 
@@ -88,10 +70,22 @@ class Annealing_Algo():
         # else:
         #     self.choose_random=True
 
-        candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
-        while not is_in_bondaries(1,settings.map_size_x-10,candidate):
-            candidate=self.current_result["position"].x+self.randm_np.normal()*self.step
+        candidate1=self.current_result["position"].x+self.get_candidate(rand)
+        while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+            candidate1=self.get_candidate(rand)
 
-        self.targert_attacks[uav_index]=Point(candidate,settings.tier1_distance_from_intruder)
-        self.can_terget_be_changed=False
+        candidate2=self.current_result["position"].x+self.get_candidate(rand)
+        while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+            candidate2=self.get_candidate(rand)
+
+        return (Point(candidate1,settings.tier1_distance_from_intruder),Point(candidate2,settings.tier1_distance_from_intruder))
+    def get_candidate(self, rand):
+        sign=1
+        if rand.randint(0,1)==0:
+            sign=-1
+
+        candidate=self.step*rand.random()*sign
+
+        return candidate
+
 
