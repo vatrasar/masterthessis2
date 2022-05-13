@@ -3,7 +3,8 @@ from random import Random
 import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos, \
+    Exploitation_types
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
@@ -167,26 +168,74 @@ class Naive_Algo():
         self.is_fake_attack[uav_index]=False
 
 
-        x=rand.random()
-        new_target=None
-        if len(self.results_list.result_list)==0:
+
+
+        self.choose_true_traget(rand, settings)
+
+    def choose_true_traget(self, rand, settings:Settings):
+
+
+
+        if len(self.results_list.result_list)==0 or settings.exploitation_type==Exploitation_types.RANDOM:
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             return
+        elif settings.exploitation_type==Exploitation_types.BEST:
+            self.choose_best(rand, settings)
+
+        elif settings.exploitation_type==Exploitation_types.WHEEL:
+            points_sum=0
+            for result in self.results_list.result_list:
+                points_sum=points_sum+result.points
+            list_resutls_with_probability=[]
+            for result in self.results_list.result_list:
+                prob=result.points/float(points_sum)
+                list_resutls_with_probability.append({"result":result,"prob":prob})
+            x=rand.random()
+            start=0
+            end=0
+            current_result=None
+            if x==0:
+                self.update_tragets_using_result_record(list_resutls_with_probability[0]["result"])
+                return
+
+            for result_and_prob in list_resutls_with_probability:
+                current_result=result_and_prob["result"]
+                start=end
+                end=end+result_and_prob["prob"]
+                if x>start and x<end:
+                    self.update_tragets_using_result_record(result_and_prob["result"])
+                    return
+
+            self.update_tragets_using_result_record(current_result)
+            return
+        elif settings.exploitation_type==Exploitation_types.EPSLION:
+            x=rand.random()
+            if 1-self.settings.epslion>x:
+                self.choose_best(rand, settings)
+            else:#choose random from list
+
+                result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
+                self.update_tragets_using_result_record(result)
+                return
 
 
 
-        self.type_of_algo_choose[0]=Target_choose.BEST_FROM_LIST
-        self.type_of_algo_choose[1]=Target_choose.BEST_FROM_LIST
 
-        best_result=self.results_list.get_best_from_list()
-        if best_result==None:
-            self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
-            self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
-        else:
-            self.update_tragets_using_result_record(best_result)
             # self.targert_attacks[0]=best_result.position1
             # self.targert_attacks[1]=best_result.position2
+
+    def choose_best(self, rand, settings):
+        self.type_of_algo_choose[0] = Target_choose.BEST_FROM_LIST
+        self.type_of_algo_choose[1] = Target_choose.BEST_FROM_LIST
+        best_result = self.results_list.get_best_from_list()
+        if best_result == None:
+            self.targert_attacks[0] = get_random_position_on_tier1(rand, settings.map_size_x - 2,
+                                                                   settings.tier1_distance_from_intruder)
+            self.targert_attacks[1] = get_random_position_on_tier1(rand, settings.map_size_x - 2,
+                                                                   settings.tier1_distance_from_intruder)
+        else:
+            self.update_tragets_using_result_record(best_result)
 
     def learning(self,settings,rand:Random,uav_index,uav_list):
 

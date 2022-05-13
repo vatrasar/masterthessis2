@@ -11,4 +11,7 @@ class Learning_algos:
 
 
 class Exploitation_types:
+    EPSLION = "eplsion-LA"
+    WHEEL = "wheel_roulette"
+    BEST = "best"
     RANDOM="random"
