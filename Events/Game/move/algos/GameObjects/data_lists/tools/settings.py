@@ -143,15 +143,23 @@ class Settings():
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
-        elif (property_name=="uav_energy_consumption"):
-            self.uav_energy_consumption=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="uav_energy_energy_cost_attack"):
+            self.uav_energy_energy_cost_attack=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="uav_energy_energy_cost_tier1"):
+            self.uav_energy_energy_cost_tier1=self.check_float(property_value, property_name, 0, 3, True)
+
+        elif (property_name=="uav_energy_energy_cost_tier2"):
+            self.uav_energy_energy_cost_tier2=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="uav_energy"):
             self.uav_energy=self.check_float(property_value, property_name, 1, 3, True)
         elif (property_name=="intruder_energy"):
-            self.intruder_energy=self.check_float(property_value, property_name, 1, 3, True)
-        elif (property_name=="intruder_energy_consumption"):
-            self.intruder_energy_consumption=self.check_float(property_value, property_name, 0, 3, True)
-
+            self.intruder_energy_cost_jump=self.check_float(property_value, property_name, 1, 3, True)
+        elif (property_name=="intruder_energy_cost_jump"):
+            self.intruder_energy_cost_jump=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="intruder_energy_cost_chasing"):
+            self.intruder_energy_cost_chasing=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="intruder_energy_cost_of_reaction"):
+            self.intruder_energy_cost_of_reaction=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="energy_simulation_end_condition"):
             self.energy_simulation_end_condition=self.check_binary(property_value, property_name)
         elif (property_name=="drone_energy_destroy_condition"):

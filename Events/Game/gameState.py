@@ -43,7 +43,7 @@ class GameState():
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
         if settings.load_memory or settings.mode==Modes.EXPLOITATION:
             self.naive_algo.load_memory()
-        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),settings.intruder_energy)
+        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),settings.intruder_max_energy)
         logging.info("state initiated")
 
 

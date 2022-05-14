@@ -1,4 +1,5 @@
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides, HandStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 
@@ -19,9 +20,16 @@ class Hand(MovableObject):
             self.color="purple"
         from Events.Game.move.algos.GameObjects.uav import Uav
         self.target_uav:Uav=None
+        self.energy_consumed=0
+        self.start_energy_time=0
 
 
 
+
+
+    def beggin_energy_time(self,time,type):
+        self.start_energy_time=time
+        self.energy_consumptiont_type=type
 
     def get_hand_tier0_position(self, side,map_x_size,map_y_size):
 

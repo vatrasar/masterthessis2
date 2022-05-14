@@ -1,5 +1,5 @@
 from Events.Game.move.algos.GameObjects.hand import Hand
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides, UavStatus
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 
 
@@ -16,16 +16,27 @@ class Uav(MovableObject):
         self.points=points
         self.attack_started_from_tier2=True
         self.energy=energy
-        self.start_attack_time=0
+        self.start_energy_time=0
+        self.energy_consumptiont_type=UavStatus.TIER_2
         self.target_with_points=None
         self.last_points=last_points
-    def set_start_acttack_time(self,time):
-        self.start_attack_time=time
 
+    def beggin_energy_time(self,time,type):
+        self.start_energy_time=time
+        self.energy_consumptiont_type=type
 
-    def consume_energy(self,uav_energy_consumption,time):
-        time_delta=time-self.start_attack_time
-        self.energy=self.energy-time_delta*uav_energy_consumption
+    def consume_energy(self,settings,time):
+        time_delta=time-self.start_energy_time
+        ratio=0
+        if self.energy_consumptiont_type==UavStatus.ON_ATTACK:
+            ratio=settings.uav_energy_energy_cost_attack
+        elif self.energy_consumptiont_type==UavStatus.TIER_1:
+            ratio=settings.uav_energy_energy_cost_tier1
+        elif self.energy_consumptiont_type==UavStatus.TIER_1:
+            ratio=settings.uav_energy_energy_cost_tier2
+        energy_consumption=ratio*time_delta
+        self.energy=self.energy-energy_consumption
+
     def asign_points(self, points):
         self.points=self.points+points
         self.last_points=points

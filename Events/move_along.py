@@ -19,7 +19,8 @@ from Events.event import Event
 from Events.make_dodge import Make_dodge
 
 
-def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,master_tk,state,safe_margin):
+def plan_enter_from_tier2(event_list,settings,current_time,event_owner:Uav,rand,master_tk,state,safe_margin):
+    event_owner.beggin_energy_time(current_time,UavStatus.TIER_2)
     time_of_next_event=get_d_t_arrive_poison(rand)+current_time
     target_position=None
     if settings.mode == Modes.EXPLOITATION and settings.exploitation_type==Exploitation_types.RANDOM:
@@ -34,7 +35,7 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner,rand,mast
 
 def plan_move_along(event_list, event_owner, target_postion, current_time, game_state, settings, tk_master,safe_margin):
 
-
+    event_owner.beggin_energy_time(current_time,UavStatus.TIER_1)
     is_colision,start_dodge_postion,dodge_position=check_colisions(event_owner,game_state.uav_list,target_postion,settings.dodge_radius,settings.save_distance)
     if is_colision:
         event_time= get_travel_time_on_tier1(start_dodge_postion,event_owner.position,settings.v_of_uav) + current_time
@@ -59,19 +60,21 @@ class Move_along(Event):
 
 
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
+
         if self.event_owner.status==UavStatus.TIER_2:
             self.event_owner.attack_started_from_tier2=True
         else:
             self.event_owner.attack_started_from_tier2=False
         super().handle_event(event_list,settings,rand,iteration_function)
+        self.event_owner.consume_energy(settings,self.time_of_event)
 
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
-        settings.map_size_x
+
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings,self.game_state.naive_algo,self.game_state.uav_list) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
 
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:#attack
-                self.event_owner.set_start_acttack_time(self.time_of_event)
+                self.event_owner.beggin_energy_time(self.time_of_event,UavStatus.ON_ATTACK)
                 plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_ATTACK,settings.safe_margin,settings)
 
 

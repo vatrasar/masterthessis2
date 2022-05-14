@@ -42,7 +42,6 @@ def get_target_point_according_to_direction(direction,event_owner,settings):
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
         if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
             distance=abs(direction)*1.1
-
             target_position=Point(event_owner.position.x+distance,event_owner.position.y)
     else:
         target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
@@ -180,6 +179,7 @@ class Attack(Event):
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
                         return
                     elif abs(self.event_owner.position.y-settings.tier1_distance_from_intruder)<10:
+                        self.event_owner.consume_energy(settings,self.time_of_event)
                         self.update_algos_results(rand, settings)
                         self.start_to_move_on_tier1(event_list, rand, settings)
                     else:
@@ -198,7 +198,7 @@ class Attack(Event):
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ON_BACK:
-                self.event_owner.consume_energy(settings.uav_energy_consumption,self.time_of_event)
+                self.event_owner.consume_energy(settings,self.time_of_event)
                 self.update_algos_results(rand, settings)
                 if settings.tier2_mode:
                     from Events.move_along import plan_enter_from_tier2
@@ -237,6 +237,7 @@ class Attack(Event):
                                 settings.tier1_distance_from_intruder, settings, self.game_state.hands_list)
 
         if abs(settings.tier1_distance_from_intruder-self.event_owner.position.y)<settings.uav_size:
+            self.event_owner.consume_energy(settings,self.time_of_event)
             self.update_algos_results(rand, settings)
             self.start_to_move_on_tier1(event_list, rand, settings)
         elif path != None:

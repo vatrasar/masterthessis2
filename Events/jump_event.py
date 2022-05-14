@@ -95,7 +95,7 @@ class Jump_event(Event):
             self.event_owner.set_status(HandStatus.TIER_0)
             self.event_owner.stop_chasing()
             self.event_owner.next_event=None
-            self.game_state.intruder.consume_energy(settings.intruder_energy_consumption,self.time_of_event)
+            self.game_state.intruder.consume_energy(settings,self.time_of_event,self.event_owner.start_energy_time,self.event_owner.energy_consumptiont_type)
 
             plan_hand_back_event(event_list,settings,self.event_owner,self.game_state,self.time_of_event,self.tk_master)
             return
@@ -106,7 +106,7 @@ class Jump_event(Event):
             else:
                 if self.event_owner.status==HandStatus.WAIT_AFTER_JUMP:
                     from Events.hand_chase import plan_chase_event
-                    self.game_state.intruder.consume_energy(settings.intruder_energy_consumption,self.time_of_event)
+                    self.game_state.intruder.consume_energy(settings,self.time_of_event,self.event_owner.start_energy_time,self.event_owner.energy_consumptiont_type)
                     plan_chase_event(self.event_owner,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                 else:
                     new_event=Jump_event(self.time_of_event+settings.time_to_wait_after_jump,self.event_owner,self.tk_master,self.event_owner.target_uav,HandStatus.WAIT_AFTER_JUMP,self.event_owner.position,self.game_state,self.event_owner.position)

@@ -38,11 +38,13 @@ def plan_chase_event(event_owner:Hand,settings,event_list:Event_list,current_tim
             time_of_event=trevel_time+current_time
             new_event=Hand_chase(time_of_event,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
             event_list.append_event(new_event,HandStatus.CHASING)
+            event_owner.beggin_energy_time(current_time,HandStatus.CHASING)
     else:
         target_point=get_point_based_on_time(event_owner.position,settings.intruder_time_of_reaction,last_point_on_path,settings.velocity_hand)
         time_of_event=settings.intruder_time_of_reaction+current_time
         new_event=Hand_chase(time_of_event,event_owner,tk_master,event_owner.target_uav,HandStatus.CHASING,target_point,game_state)
         event_list.append_event(new_event,HandStatus.CHASING)
+        event_owner.beggin_energy_time(current_time,HandStatus.CHASING)
         event_owner.last_postion_update_time=current_time
 
 
@@ -60,7 +62,7 @@ class Hand_chase(Event):
 
     def handle_event(self, event_list:Event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
-
+        self.game_state.intruder.consume_energy(settings, self.time_of_event, self.event_owner.start_energy_time,self.event_owner.energy_consumptiont_type)
         if self.event_owner.target_uav.status==UavStatus.TIER_2 or self.event_owner.target_uav.status==UavStatus.DEAD or (not check_if_uav_is_visible(self.event_owner.target_uav,self.game_state.game_map)):
             # self.event_owner.set_status(HandStatus.TIER_0)
             self.event_owner.stop_chasing()

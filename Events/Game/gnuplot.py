@@ -123,11 +123,11 @@ def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics],settings:Sett
 
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
-                enrgy_sum_list.append(settings.intruder_energy-iteration_i_state.intruder.energy)
+                enrgy_sum_list.append(settings.intruder_max_energy-iteration_i_state.intruder.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)
-            gnuplot_record=[i,mean,std,settings.intruder_energy]
+            gnuplot_record=[i,mean,std,settings.intruder_max_energy]
             gnuplot_data.append(gnuplot_record)
 
     return gnuplot_data

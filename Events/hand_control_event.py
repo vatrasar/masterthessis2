@@ -5,6 +5,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import 
 from Events.Game.move.algos.GameObjects.data_lists.tools.geometry import get_angle_between_points
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
+from Events.Game.move.algos.GameObjects.intruder import Intruder
 from Events.Game.move.check import check_if_uav_is_visible
 from Events.event import Event
 from Events.events_list import Event_list
@@ -13,9 +14,9 @@ from Events.hand_chase import plan_chase_event
 
 class Hand_control_event(Event):
 
-    def __init__(self, time_of_event, event_owner, tk_master,game_state:GameState):
+    def __init__(self, time_of_event, event_owner:Intruder, tk_master,game_state:GameState):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
-
+        self.event_owner=event_owner
     def handle_event(self, event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
         list_of_uav=[]
@@ -29,11 +30,13 @@ class Hand_control_event(Event):
             if not(uav.status in [UavStatus.TIER_2 or UavStatus.DEAD]):
                 if uav.chasing_hand==None:
 
+
                     for hand in self.game_state.hands_list:
                         if hand.target_uav==None and check_if_uav_is_visible(uav,self.game_state.game_map):
                             if hand.next_event!=None:
                                 hand.delete_current_event(event_list)
                             hand.start_chasing(uav)
+                            self.event_owner.consume_change_decision(settings)
 
                             plan_chase_event(hand,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                             break
@@ -44,6 +47,7 @@ class Hand_control_event(Event):
                                 hand.delete_current_event(event_list)
                                 hand.stop_chasing()
                                 hand.start_chasing(uav)
+                                self.event_owner.consume_change_decision(settings)
 
                                 plan_chase_event(hand,settings,event_list,self.time_of_event,self.tk_master,self.game_state)
                                 break
