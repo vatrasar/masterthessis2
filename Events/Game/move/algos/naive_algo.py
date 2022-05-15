@@ -34,6 +34,7 @@ class Naive_Algo():
         self.fake_targets_list=[]
         self.is_fake_attack={0:False,1:False}
         self.uav_list:typing.List[Uav]=uav_list
+        self.last_iterations_points=[]
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
 
@@ -86,7 +87,7 @@ class Naive_Algo():
     #
     #     return False
     def adnotate_hit(self,point,position):
-        self.iteration_number=self.iteration_number+1
+
         print("iteration:"+str(self.iteration_number))
         self.hit_list.add_hit(position,point)
 
@@ -108,7 +109,8 @@ class Naive_Algo():
                 points=uav.points-self.current_attacks[uav.index]["points before attack"]
                 points_sum=points_sum+points
                 self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
-
+            self.iteration_number=self.iteration_number+1
+            self.add_points_to_last_hits_list(points_sum)
             # if self.update_result_to_exisiting_record(points_sum,settings):
             #     return
             if points_sum==0:
@@ -303,7 +305,10 @@ class Naive_Algo():
         return self.targert_attacks[index]
 
     def is_learning_finished(self):
-        return self.hit_list.iteration>self.iterations_for_learning or self.settings.mode==Modes.EXPLOITATION
+
+
+
+        return self.hit_list.iteration>self.iterations_for_learning or self.is_no_progess() or self.settings.mode==Modes.EXPLOITATION
 
     def load_memory(self):
         file=open("data/Memory.txt","r")
@@ -360,3 +365,20 @@ class Naive_Algo():
         else:
             self.targert_attacks[1]=record.position1
             self.targert_attacks[0]=record.position2
+
+    def is_no_progess(self):
+        if len(self.last_iterations_points)<self.settings.itertions_without_progress_to_stop:
+            return False
+
+        for iter_points in self.last_iterations_points:
+            if self.last_iterations_points[0]<iter_points:
+                return False
+        return True
+
+    def add_points_to_last_hits_list(self, points_sum):
+        if len(self.last_iterations_points)<self.settings.itertions_without_progress_to_stop:
+            self.last_iterations_points.append(points_sum)
+        else:
+            self.last_iterations_points.remove(self.last_iterations_points[0])
+
+

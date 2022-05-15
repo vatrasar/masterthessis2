@@ -183,7 +183,7 @@ class Runner():
 
         if self.settings.mode==Modes.LEARNING:
 
-            if self.settings.iterations_for_learning<=self.game_state.hit_list.iteration:
+            if self.game_state.naive_algo.is_learning_finished():
                 return True
         return False
         # if (self.game_state.intruder.energy<0 and self.settings.energy_simulation_end_condition):

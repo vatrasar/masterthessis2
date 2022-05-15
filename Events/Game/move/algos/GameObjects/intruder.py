@@ -9,10 +9,9 @@ class Intruder(MovableObject):
         super().__init__(x, y, status, object_size, velocity, last_postion_update_time, next_status, target_position)
         self.energy=energy
 
+
+
     def consume_energy(self,settings:Settings,end_time,start_time,energy_consumptiont_type):
-
-
-
         time_delta=end_time-start_time
         ratio=0
         if settings.mode==Modes.LEARNING:
@@ -28,8 +27,8 @@ class Intruder(MovableObject):
 
     def update_energy(self,energy_consumed):
         self.energy=self.energy-energy_consumed
+
+
+
     def consume_change_decision(self,settings:Settings):
-
         self.energy=self.energy-settings.intruder_energy_cost_of_reaction
-
-

@@ -1,8 +1,8 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
-T=500 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
-mode=exploitation #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
+T=2000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=RS #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
 epslion=0.2 #parametr dla eksplotacji typu eplsion-LA
@@ -50,3 +50,4 @@ fake_targets_number=3 #liczba celów z listy które będą zaatakowane bo wykona
 load_memory=0 #czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksplotacji pamięć ta jest używana zawsze). możlwe wartośći 0: nie będzie używana pamięć z pliku 1: będzie używana pamięć z pliku
 map_size_x=1040 #szerokość mapy
 annealing_step=1040 #krok w algorytmie wyżarzania
+itertions_without_progress_to_stop=10 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
