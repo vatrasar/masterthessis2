@@ -143,7 +143,7 @@ class Runner():
             self.run_hits.append(self.game_state.hit_list)
             if self.settings.is_multirun:
 
-                self.statistics = Statistics()
+                self.statistics = Statistics(self.settings)
                 return False
             if self.settings.visualisation in [1, 2]:
 

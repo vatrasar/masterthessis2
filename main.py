@@ -8,7 +8,7 @@ import time
 
 def main():
     settings:Settings=Settings()
-    statistics=Statistics()
+    statistics=Statistics(settings)
 
     try:
         settings_file_name_f=open("settingsFiles/settingsFileName.txt")

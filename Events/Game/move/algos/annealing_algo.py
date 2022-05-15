@@ -19,14 +19,16 @@ class Annealing_Algo():
         self.iterations_form_last_temperature_update=0
 
         self.randm_np=None
-        init_start_x=None
+        init_start1_x=None
+        init_start2_x=None
         self.rand=None
         if rand!=None:
             self.randm_np=np.random.RandomState()
             self.randm_np.seed(rand.randint(0,200000))
             self.rand=rand
-            init_start_x=rand.random()*settings.map_size_x
-        self.current_result={"position":Point(init_start_x,settings.tier1_distance_from_intruder), "points":0}
+            init_start1_x=rand.random()*settings.map_size_x
+            init_start2_x=rand.random()*settings.map_size_x
+        self.current_result={"position":[Point(init_start1_x,settings.tier1_distance_from_intruder),Point(init_start2_x,settings.tier1_distance_from_intruder)], "points":0}
         self.step=settings.annealing_step
 
 
@@ -70,15 +72,17 @@ class Annealing_Algo():
         # else:
         #     self.choose_random=True
 
-        candidate1=self.current_result["position"].x+self.get_candidate(rand)
+        candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
         while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
             candidate1=self.get_candidate(rand)
 
-        candidate2=self.current_result["position"].x+self.get_candidate(rand)
+        candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
         while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
             candidate2=self.get_candidate(rand)
 
         return (Point(candidate1,settings.tier1_distance_from_intruder),Point(candidate2,settings.tier1_distance_from_intruder))
+
+
     def get_candidate(self, rand):
         sign=1
         if rand.randint(0,1)==0:

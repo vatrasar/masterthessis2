@@ -9,8 +9,9 @@ from Events.Game.move.distance import get_2d_distance
 
 class Statistics():
 
-    def __init__(self):
+    def __init__(self,settings):
         self.game_states_list:typing.List[GameStateStac]=[]
+        self.settings=settings
     def update_stac(self,game_state,settings):
 
         to_svae=GameStateStac(game_state,settings)

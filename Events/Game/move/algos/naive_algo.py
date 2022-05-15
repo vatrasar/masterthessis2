@@ -307,8 +307,7 @@ class Naive_Algo():
     def is_learning_finished(self):
 
 
-
-        return self.hit_list.iteration>self.iterations_for_learning or self.is_no_progess() or self.settings.mode==Modes.EXPLOITATION
+        return self.hit_list.iteration>self.iterations_for_learning or (self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.temperature<self.settings.temeprature_to_stop) or self.is_no_progess() or self.settings.mode==Modes.EXPLOITATION
 
     def load_memory(self):
         file=open("data/Memory.txt","r")

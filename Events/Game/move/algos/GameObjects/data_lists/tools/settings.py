@@ -209,6 +209,8 @@ class Settings():
 
         elif (property_name=="itertions_without_progress_to_stop"):
             self.itertions_without_progress_to_stop=self.check_int(property_value,property_name,0,1,True)
+        elif (property_name=="temeprature_to_stop"):
+            self.temeprature_to_stop=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="beat_the_score"):
             self.beat_the_score=self.check_float(property_value,property_name,0,1,True)
 
