@@ -217,6 +217,10 @@ class Settings():
         elif (property_name=="intruder_max_energy"):
             self.intruder_max_energy=self.check_float(property_value,property_name,0,1,True)
 
+        elif (property_name=="delay_between_attacks"):
+            self.delay_between_attacks=self.check_float(property_value,property_name,0,1,True)
+
+
         elif (property_name=="mode"):
             property_value=property_value.strip()
             if (property_value in ["learning", "exploitation"]):

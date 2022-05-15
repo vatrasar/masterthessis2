@@ -35,8 +35,11 @@ class Naive_Algo():
         self.is_fake_attack={0:False,1:False}
         self.uav_list:typing.List[Uav]=uav_list
         self.last_iterations_points=[]
+        self.is_synchronization_needed=False
+        self.is_secound_synchorniaztion_needed=False
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
+
 
 
 
@@ -53,6 +56,17 @@ class Naive_Algo():
             if self.after_attack[uav.index]==False:
                 is_after_attack=False
         return is_after_attack
+
+    def is_partly_after_attack(self,uav_list):
+        is_after_attack=True
+        after=False
+        not_after=False
+        for uav in uav_list:
+            if self.after_attack[uav.index]==False:
+                not_after=True
+            else:
+                after=True
+        return after and not_after
 
     def cancel_attack(self,uav_id,start_position,points,points1,points2,rand:Random,settings:Settings,uav_list):
 
@@ -263,6 +277,8 @@ class Naive_Algo():
         self.is_fake_attack[uav_index]=False
 
         #choosing new target by algo
+
+        self.is_synchronization_needed=True
         if self.settings.learning_algo_type==Learning_algos.RS:
             target1,target2=list_algo_new_targets(settings,rand)
             self.targert_attacks[0]=target1
@@ -274,6 +290,7 @@ class Naive_Algo():
             self.targert_attacks[0]=target1
             self.targert_attacks[1]=target2
             return
+
     def choose_new_target(self,settings,rand:Random,uav_index,uav_list):
 
         #fake move

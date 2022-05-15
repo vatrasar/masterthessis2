@@ -25,6 +25,7 @@ class Uav(MovableObject):
         self.start_energy_time=time
         self.energy_consumptiont_type=type
 
+
     def consume_energy(self,settings,time):
         time_delta=time-self.start_energy_time
         ratio=0

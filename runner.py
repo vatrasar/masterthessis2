@@ -178,6 +178,9 @@ class Runner():
             plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
 
     def is_simulation_finished(self):
+        if len(self.game_state.uav_list)<2:
+            return True
+
         if self.current_time>self.settings.T:
             return True
 

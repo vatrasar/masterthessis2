@@ -1,21 +1,24 @@
+from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.uav import Uav
-from Events.Game.move.check import chekc_if_uav_goes_to_trash
-from Events.Game.move.distance import get_horizontal_distance
+from Events.Game.move.check import chekc_if_uav_goes_to_trash, check_if_algo_target_reached
+from Events.Game.move.distance import get_horizontal_distance, get_2d_distance
 from Events.Game.move.get_position import get_point_on_tier1
 
 
-def check_colisions(event_owner:MovableObject,uavs_list,target_postion:Point,dodge_radius,save_distance):
+def check_colisions(event_owner:MovableObject,uavs_list,target_postion:Point,dodge_radius,save_distance,settings:Settings):
     if len(uavs_list)<2:
         return (False,None,None)
     secound_uav:Uav=None
 
+
     for uav in uavs_list:#find another uav
         if uav!=event_owner:
             secound_uav=uav
-
+    if check_if_algo_target_reached(event_owner.position,secound_uav.position,settings):
+        return (False,None,None)
     if is_cross_on_tier1(event_owner, secound_uav, target_postion,save_distance):
         distance= get_horizontal_distance(event_owner.position, secound_uav.position) / 2.0
         start_dodge_postion=get_point_on_tier1(event_owner.position,distance-dodge_radius,secound_uav.position)

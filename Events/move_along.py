@@ -19,9 +19,13 @@ from Events.event import Event
 from Events.make_dodge import Make_dodge
 
 
-def plan_enter_from_tier2(event_list,settings,current_time,event_owner:Uav,rand,master_tk,state,safe_margin):
+def plan_enter_from_tier2(event_list,settings,current_time,event_owner:Uav,rand,master_tk,state,safe_margin,time_of_event=-1):
     event_owner.beggin_energy_time(current_time,UavStatus.TIER_2)
-    time_of_next_event=get_d_t_arrive_poison(rand)+current_time
+    time_of_next_event=None
+    if time_of_event>0:
+       time_of_next_event=time_of_event
+    else:
+        time_of_next_event=get_d_t_arrive_poison(rand)+current_time
     target_position=None
     if settings.mode == Modes.EXPLOITATION and settings.exploitation_type==Exploitation_types.RANDOM:
         target_position=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder)
@@ -33,18 +37,44 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner:Uav,rand,
 
 
 
-def plan_move_along(event_list, event_owner, target_postion, current_time, game_state, settings, tk_master,safe_margin):
+def plan_move_along(event_list, event_owner, target_postion, current_time, game_state, settings, tk_master,safe_margin,rand:Random):
 
     event_owner.beggin_energy_time(current_time,UavStatus.TIER_1)
-    is_colision,start_dodge_postion,dodge_position=check_colisions(event_owner,game_state.uav_list,target_postion,settings.dodge_radius,settings.save_distance)
+    first_event_time=0
+    is_colision,start_dodge_postion,dodge_position=check_colisions(event_owner,game_state.uav_list,target_postion,settings.dodge_radius,settings.save_distance,settings)
     if is_colision:
         event_time= get_travel_time_on_tier1(start_dodge_postion,event_owner.position,settings.v_of_uav) + current_time
         event=Make_dodge(event_time, event_owner, tk_master, start_dodge_postion, UavStatus.PLANED_DODGE,target_postion,dodge_position,game_state,safe_margin)
         event_list.append_event(event,UavStatus.PLANED_DODGE)
+        first_event_time=event_time
     else:
         event_time= get_travel_time_on_tier1(target_postion,event_owner.position,settings.v_of_uav) + current_time
         event=Move_along(event_time, event_owner, tk_master, target_postion, UavStatus.TIER_1,game_state,safe_margin)
         event_list.append_event(event,UavStatus.TIER_1)
+        first_event_time=event_time
+
+    #synchronization
+    if game_state.naive_algo.is_synchronization_needed:
+        target_uav=None
+        for uav in game_state.uav_list:
+            if uav.index!=event_owner.index:
+                target_uav=uav
+        if game_state.naive_algo.is_partly_after_attack(game_state.uav_list):
+            print("ghh")
+
+        if target_uav.status!=UavStatus.TIER_1:
+            return
+
+        game_state.naive_algo.is_synchronization_needed=False
+        game_state.naive_algo.is_secound_synchorniaztion_needed=True
+        game_state.naive_algo.choose_random[target_uav.index]=True
+
+        target_uav.consume_energy(settings,current_time)
+        target_uav.delete_current_event(event_list)
+
+        plan_enter_from_tier2(event_list,settings,current_time,target_uav,rand,tk_master,game_state,safe_margin,first_event_time+1)
+
+
 
 class Move_along(Event):
 
@@ -71,7 +101,26 @@ class Move_along(Event):
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
 
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings,self.game_state.naive_algo,self.game_state.uav_list) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
+            #synchronization
+            if self.game_state.naive_algo.is_synchronization_needed==True:
+                self.game_state.naive_algo.is_synchronization_needed=False
+                self.game_state.naive_algo.is_secound_synchorniaztion_needed=True
+            if self.game_state.naive_algo.is_secound_synchorniaztion_needed==True:
+                self.game_state.naive_algo.is_secound_synchorniaztion_needed=False
 
+                target_uav=None
+                for uav in self.game_state.uav_list:
+                    if uav.index!=self.event_owner.index:
+                        target_uav=uav
+                target_uav.consume_energy(settings,self.time_of_event)
+                target_uav.delete_current_event(event_list)
+
+                target=self.game_state.naive_algo.get_target_postion(target_uav.index,rand,settings,self.game_state.uav_list)
+
+                plan_enter_from_tier2(event_list,settings,self.time_of_event,target_uav,rand,self.tk_master,self.game_state,settings.safe_margin,self.time_of_event+settings.delay_between_attacks)
+
+
+            #attack
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
             if path!=None:#attack
                 self.event_owner.beggin_energy_time(self.time_of_event,UavStatus.ON_ATTACK)
@@ -122,7 +171,7 @@ class Move_along(Event):
                 else:
                     break
 
-            plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin)
+            plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin,rand)
 
     def get_points1_and_points2(self):
         points1=0

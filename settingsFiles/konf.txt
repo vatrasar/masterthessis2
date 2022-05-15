@@ -52,3 +52,4 @@ map_size_x=1040 #szerokość mapy
 annealing_step=1040 #krok w algorytmie wyżarzania
 itertions_without_progress_to_stop=10 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
 temeprature_to_stop=10 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop
+delay_between_attacks=10 # opóźnienie pomiędzy atakami dronów

@@ -229,7 +229,7 @@ class Attack(Event):
             plan_enter_from_tier2(event_list,settings,self.time_of_event,self.event_owner,rand,self.tk_master,self.state,self.safe_margin)
         else:
             plan_move_along(event_list, self.event_owner, target_postion, self.time_of_event, self.game_state, settings,
-                        self.tk_master, self.safe_margin)
+                        self.tk_master, self.safe_margin,rand)
 
     def start_backing(self, event_list, settings,rand):
         # plan to back

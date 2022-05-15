@@ -50,5 +50,5 @@ class Make_dodge(Event):
 
                 event_time=get_travel_time_on_tier1(target_postion,self.event_owner.position,settings.v_of_uav)+self.time_of_event
                 from Events.move_along import plan_move_along
-                plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin)
+                plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin,rand)
 
