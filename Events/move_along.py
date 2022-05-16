@@ -91,15 +91,16 @@ class Move_along(Event):
     def handle_event(self, event_list,settings:Settings,rand:Random,iteration_function):
 
         if self.event_owner.status==UavStatus.TIER_2:
-            self.event_owner.attack_started_from_tier2=True
+            self.event_owner.attack_started_from_tier2=2
         else:
-            self.event_owner.attack_started_from_tier2=False
+            self.event_owner.attack_started_from_tier2=1
         super().handle_event(event_list,settings,rand,iteration_function)
         self.event_owner.consume_energy(settings,self.time_of_event)
 
         self.state.update_postions(self.time_of_event,settings.v_of_uav,settings.velocity_hand,self.event_owner,settings.jump_ratio,settings,event_list)
 
         if decide_whether_uav_attack(settings.mode,settings.prob_of_attack,rand,self.event_owner,settings,self.game_state.naive_algo,self.game_state.uav_list) and check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin):#if true then attack
+            self.game_state.naive_algo.tiers_uav[self.event_owner.index]=self.event_owner.attack_started_from_tier2
             #synchronization
             if self.game_state.naive_algo.is_synchronization_needed==True:
                 self.game_state.naive_algo.is_synchronization_needed=False
@@ -141,7 +142,7 @@ class Move_along(Event):
                 points1=0
                 points2=0
                 points1, points2 = self.get_points1_and_points2()
-
+                self.game_state.naive_algo.tiers_uav[self.event_owner.index]=self.event_owner.attack_started_from_tier2
                 self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,points1,points2,rand,settings,self.game_state.uav_list)
         #choose target
         # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:

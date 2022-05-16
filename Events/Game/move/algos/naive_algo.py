@@ -39,6 +39,7 @@ class Naive_Algo():
         self.last_iterations_points=[]
         self.is_synchronization_needed=False
         self.is_secound_synchorniaztion_needed=False
+        self.tiers_uav={0:None,1:None}
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
 
@@ -119,9 +120,8 @@ class Naive_Algo():
 
         if self.is_after_attack(uav_list):
 
-            tiers_uav={0:None,1:None}
-            for uav in uav_list:
-                tiers_uav[uav.index]=uav.attack_started_from_tier2
+
+
             points=[]
             points_sum=0
             points1=0
@@ -143,16 +143,16 @@ class Naive_Algo():
 
 
             if points_sum==0:
-                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
+                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1])
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
 
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
-                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],tiers_uav[0],tiers_uav[1],points1,points2,points_sum,self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
             else:
-                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],tiers_uav[0],tiers_uav[1],points1,points2,points_sum)
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
