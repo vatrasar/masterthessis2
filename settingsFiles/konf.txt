@@ -1,7 +1,7 @@
 uav_number=2 #początkowa liczba dronów w symulacji. mozliwe wartości to 1,2
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
-T=2000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+T=500 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=SA #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
