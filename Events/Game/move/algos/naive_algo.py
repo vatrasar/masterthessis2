@@ -2,6 +2,7 @@ from random import Random
 
 import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
+from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos, \
     Exploitation_types
@@ -15,7 +16,8 @@ from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 class Naive_Algo():
-    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random):
+    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random,result_tr:Result_tr_list):
+        self.result_tr = result_tr
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
         self.settings=settings
@@ -117,26 +119,40 @@ class Naive_Algo():
 
         if self.is_after_attack(uav_list):
 
+            tiers_uav={0:None,1:None}
+            for uav in uav_list:
+                tiers_uav[uav.index]=uav.attack_started_from_tier2
             points=[]
             points_sum=0
+            points1=0
+            points2=0
             for uav in uav_list:
                 points=uav.points-self.current_attacks[uav.index]["points before attack"]
+                if uav.index==0:
+                    points1=points
+                else:
+                    points2=points
                 points_sum=points_sum+points
                 self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
+
+
             self.iteration_number=self.iteration_number+1
             self.add_points_to_last_hits_list(points_sum)
             # if self.update_result_to_exisiting_record(points_sum,settings):
             #     return
-            if points_sum==0:
-                return
 
-            tiers_uav={0:None,1:None}
-            for uav in uav_list:
-                tiers_uav[uav.index]=uav.attack_started_from_tier2
-            self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
+
+            if points_sum==0:
+                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,tiers_uav[0],tiers_uav[1])
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
+
+            #file result_tr
+            if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],tiers_uav[0],tiers_uav[1],points1,points2,points_sum,self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
+            else:
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],tiers_uav[0],tiers_uav[1],points1,points2,points_sum)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):

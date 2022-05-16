@@ -99,6 +99,7 @@ class Settings():
         self.minimal_hand_range=self.intuder_size*1.3
 
         self.uav_wait_time=3.0
+        self.uav_number=2
 
 
 

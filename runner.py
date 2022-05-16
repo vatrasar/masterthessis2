@@ -153,6 +153,7 @@ class Runner():
             clear_folder("./data")
             self.game_state.hit_list.save_to_file()
             self.game_state.naive_algo.results_list.save_to_file()
+            self.game_state.naive_algo.result_tr.save_to_file(self.settings)
             return False
 
         return True

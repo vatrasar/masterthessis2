@@ -17,7 +17,9 @@ class Annealing_Algo():
         self.temperature_reduction=settings.temperature_reduction
 
         self.iterations_form_last_temperature_update=0
-
+        self.last_metropolis=0
+        self.last_x=0
+        self.last_decison=1
         self.randm_np=None
         init_start1_x=None
         init_start2_x=None
@@ -49,7 +51,11 @@ class Annealing_Algo():
         value_delta=candidate_points-self.current_result["points"]
         metropolis=math.exp(-value_delta / self.temperature)
         x=self.rand.random()
+        self.last_decison=0
+        self.last_x=x
+        self.last_metropolis=metropolis
         if value_delta<0 or x<metropolis:#if true than accept
+            self.last_decison=1
 
             self.current_result={"position":candidate_positions,"points":candidate_points}
 

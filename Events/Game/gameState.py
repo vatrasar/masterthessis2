@@ -3,6 +3,7 @@ from random import Random
 
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
+from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -25,6 +26,7 @@ class GameState():
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
         self.hit_list=Hit_list(settings)
+        self.result_tr_list=Result_tr_list(settings)
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
 
@@ -33,7 +35,7 @@ class GameState():
 
         for i in range(0, uav_number):
             self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,settings.uav_energy,0))
-        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand)
+        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand,self.result_tr_list)
         #init hands
         self.hands_list:typing.List[Hand] = []
         if(hands_number==1):

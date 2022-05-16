@@ -59,8 +59,7 @@ def plan_move_along(event_list, event_owner, target_postion, current_time, game_
         for uav in game_state.uav_list:
             if uav.index!=event_owner.index:
                 target_uav=uav
-        if game_state.naive_algo.is_partly_after_attack(game_state.uav_list):
-            print("ghh")
+
 
         if target_uav.status!=UavStatus.TIER_1:
             return
