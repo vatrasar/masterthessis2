@@ -1,6 +1,6 @@
 import typing
 
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Learning_algos
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Learning_algos, Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
@@ -39,13 +39,13 @@ class Result_tr_list():
 
         file=open("./data/results_tr.csv","w")
 
-        if settings.learning_algo_type==Learning_algos.SA:
+        if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
             file.write("#iteration, #attack postion drone 1 ,#tier1, #attack position drone 2, #tier2, #points1, #points2, #sum of points, #curr solution1, #curr solution2, #accept probablity, #x, #accept/reject, #temperature\n")
             for i,record in enumerate(self.result_tr_list):
                 str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
                 file.write(str)
         else:
-            file.write("#iteration, #attack postion drone 1 ,#tier1, #attack position drone 2, #tier2, #points1, #points2, #sum of points\n")
+            file.write("#iteration, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1, #points2, #sum of points\n")
             for i,record in enumerate(self.result_tr_list):
 
                 str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)

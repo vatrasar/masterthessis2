@@ -215,7 +215,7 @@ class Attack(Event):
                 points1=uav.points
             else:
                 points2=uav.points
-        self.game_state.naive_algo.un_register_attack(self.event_owner.index, points1,points2, settings,self.game_state.uav_list)
+        self.game_state.naive_algo.un_register_attack(self.event_owner.index, settings,self.game_state.uav_list,self.game_state.t_curr,self.game_state.intruder.energy)
 
 
     def start_to_move_on_tier1(self, event_list, rand, settings):

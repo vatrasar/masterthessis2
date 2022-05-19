@@ -30,3 +30,14 @@ def clear_folder(path):
                 shutil.rmtree(file_path)
         except Exception as e:
             print('Failed to delete %s. Reason: %s' % (file_path, e))
+
+
+def get_uav1_and2(uav_list):
+    uav1=None
+    uav2=None
+    for uav in uav_list:
+        if uav.index==0:
+            uav1=uav
+        else:
+            uav2=uav
+    return (uav1,uav2)

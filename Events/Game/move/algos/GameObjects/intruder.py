@@ -22,13 +22,15 @@ class Intruder(MovableObject):
             ratio=settings.intruder_energy_cost_chasing
         elif energy_consumptiont_type==HandStatus.WAIT:
             ratio=0
-        self.energy=self.energy-time_delta*ratio
 
-
-    def update_energy(self,energy_consumed):
-        self.energy=self.energy-energy_consumed
+        if time_delta*ratio!=0:
+            print("jo")
+        self.energy=self.energy+time_delta*ratio
 
 
 
     def consume_change_decision(self,settings:Settings):
-        self.energy=self.energy-settings.intruder_energy_cost_of_reaction
+        if settings.mode==Modes.LEARNING:
+            ratio=0
+        else:
+            self.energy=self.energy+settings.intruder_energy_cost_of_reaction

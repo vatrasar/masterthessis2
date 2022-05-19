@@ -85,7 +85,7 @@ def get_uav1_energy_data(runs_stac_list:typing.List[Statistics],settings:Setting
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
                 uav=get_uav_with_index(0,iteration_i_state)
-                enrgy_sum_list.append(settings.uav_energy-uav.energy)
+                enrgy_sum_list.append(uav.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)
@@ -123,7 +123,7 @@ def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics],settings:Sett
 
             for run_stac in runs_stac_list:
                 iteration_i_state=run_stac.game_states_list[i]
-                enrgy_sum_list.append(settings.intruder_max_energy-iteration_i_state.intruder.energy)
+                enrgy_sum_list.append(iteration_i_state.intruder.energy)
 
             std=get_std(enrgy_sum_list)
             mean=get_mean(enrgy_sum_list)

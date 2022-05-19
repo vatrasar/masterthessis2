@@ -1,3 +1,4 @@
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.hand import Hand
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import Sides, UavStatus
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
@@ -29,6 +30,8 @@ class Uav(MovableObject):
     def consume_energy(self,settings,time):
         time_delta=time-self.start_energy_time
         ratio=0
+        if settings.mode==Modes.LEARNING:
+            return
         if self.energy_consumptiont_type==UavStatus.ON_ATTACK:
             ratio=settings.uav_energy_energy_cost_attack
         elif self.energy_consumptiont_type==UavStatus.TIER_1:
@@ -36,7 +39,8 @@ class Uav(MovableObject):
         elif self.energy_consumptiont_type==UavStatus.TIER_1:
             ratio=settings.uav_energy_energy_cost_tier2
         energy_consumption=ratio*time_delta
-        self.energy=self.energy-energy_consumption
+
+        self.energy=self.energy+energy_consumption
 
     def asign_points(self, points):
         self.points=self.points+points

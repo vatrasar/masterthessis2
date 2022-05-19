@@ -3,9 +3,11 @@ from random import Random
 import typing
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
+from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos, \
     Exploitation_types
+from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import get_uav1_and2
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
@@ -16,7 +18,8 @@ from Events.Game.move.get_position import get_random_position_on_tier1
 
 
 class Naive_Algo():
-    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random,result_tr:Result_tr_list):
+    def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random,result_tr:Result_tr_list,result_file:Result_file):
+        self.result_file = result_file
         self.result_tr = result_tr
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
@@ -47,11 +50,15 @@ class Naive_Algo():
 
 
 
-    def register_attack(self, start_position:Point,uav_id,points_before_attack):
+    def register_attack(self, start_position:Point,uav_id,points_before_attack, intruder_energy,uav_list):
         if self.current_attacks[uav_id]["active"]==False:
             self.current_attacks[uav_id]["active"]=True
             points_before_attack=points_before_attack
-            self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True}
+            uav_energy=0
+            for uav in uav_list:
+                if uav.index==uav_id:
+                   uav_energy=uav.energy
+            self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points_before_attack,"active":True,"intruder energy before attack":intruder_energy,"uav_energy":uav_energy}
 
     def is_after_attack(self,uav_list):
         is_after_attack=True
@@ -71,9 +78,12 @@ class Naive_Algo():
                 after=True
         return after and not_after
 
-    def cancel_attack(self,uav_id,start_position,points,points1,points2,rand:Random,settings:Settings,uav_list):
-
-        self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False}
+    def cancel_attack(self,uav_id,start_position,points,rand:Random,settings:Settings,uav_list,intruder_energy,time):
+        uav_energy=0
+        for uav in uav_list:
+            if uav.index==uav_id:
+               uav_energy=uav.energy
+        self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False,"intruder energy before attack":intruder_energy,"uav_energy":uav_energy}
 
 
         self.after_attack[uav_id]=True
@@ -84,7 +94,7 @@ class Naive_Algo():
 
         self.targert_attacks[uav_id]=None
         if self.is_after_attack(uav_list):
-            self.un_register_attack(uav_id,points1,points2,settings,uav_list)
+            self.un_register_attack(uav_id,settings,uav_list,time,intruder_energy)
 
 
     def remove_target(self,uav_index):
@@ -108,7 +118,7 @@ class Naive_Algo():
         print("iteration:"+str(self.iteration_number))
         self.hit_list.add_hit(position,point)
 
-    def un_register_attack(self, uav_id,current_points1,current_points2,settings:Settings,uav_list):
+    def un_register_attack(self, uav_id,settings:Settings,uav_list:typing.List[Uav],time,intruder_energy):
 
 
         self.current_attacks[uav_id]["active"]=False
@@ -142,7 +152,7 @@ class Naive_Algo():
             #     return
 
 
-            if points_sum==0:
+            if points_sum!=0:
                 self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1])
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
@@ -153,6 +163,13 @@ class Naive_Algo():
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
             else:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum)
+            uav1,uav2=get_uav1_and2(uav_list)
+            uav1:Uav=uav1
+            intruder_start_energy=min(self.current_attacks[0]["intruder energy before attack"],self.current_attacks[1]["intruder energy before attack"])
+            intruder_energy_spending=intruder_energy-intruder_start_energy
+            uav1_energy_spending=uav1.energy-self.current_attacks[0]["uav_energy"]
+            uav2_energy_spending=uav2.energy-self.current_attacks[1]["uav_energy"]
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder_energy)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
@@ -343,7 +360,7 @@ class Naive_Algo():
         return self.hit_list.iteration>self.iterations_for_learning or (self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.temperature<self.settings.temeprature_to_stop) or self.is_no_progess() or self.settings.mode==Modes.EXPLOITATION
 
     def load_memory(self):
-        file=open("data/Memory.txt","r")
+        file=open("data/goals_of_attack.txt","r")
         lines=file.readlines()
         for line in lines[1:]:
 

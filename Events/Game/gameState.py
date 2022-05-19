@@ -4,6 +4,7 @@ from random import Random
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
+from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -27,6 +28,7 @@ class GameState():
         self.list_of_dead_uavs=[]
         self.hit_list=Hit_list(settings)
         self.result_tr_list=Result_tr_list(settings)
+        self.result_file=Result_file(settings)
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
 
@@ -34,8 +36,8 @@ class GameState():
 
 
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,settings.uav_energy,0))
-        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand,self.result_tr_list)
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,0,0))
+        self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand,self.result_tr_list,self.result_file)
         #init hands
         self.hands_list:typing.List[Hand] = []
         if(hands_number==1):
@@ -45,7 +47,7 @@ class GameState():
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
         if settings.load_memory or settings.mode==Modes.EXPLOITATION:
             self.naive_algo.load_memory()
-        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),settings.intruder_max_energy)
+        self.intruder=Intruder(0,0,UavStatus.WAIT,20,20,0,UavStatus.WAIT,Point(0,0,),0)
         logging.info("state initiated")
 
 
