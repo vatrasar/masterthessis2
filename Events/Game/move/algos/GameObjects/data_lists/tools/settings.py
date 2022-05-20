@@ -167,6 +167,8 @@ class Settings():
             self.drone_energy_destroy_condition=self.check_binary(property_value, property_name)
         elif (property_name=="fake_targets_number"):
             self.fake_targets_number=self.check_int(property_value, property_name,1,0,True)
+        elif (property_name=="number_of_points_to_win"):
+            self.number_of_points_to_win=self.check_int(property_value, property_name,1,0,True)
 
         elif (property_name=="map_size_x"):
             self.map_size_x=self.check_int(property_value, property_name,1,0,True)

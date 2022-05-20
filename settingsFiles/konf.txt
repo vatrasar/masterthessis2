@@ -1,7 +1,7 @@
 hands_number=2 #liczba rąk w symulacji. mozliwe wartości to 0,1,2
 visualization=1 #czy ma być widoczna wizualizacja. 0: brak wizualizacji, 1: jest wizualizacja,2 jest wizaulizacja i zapis do pliku
 T=1000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
-mode=exploitation #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
+mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=SA #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
 epslion=0.2 #parametr dla eksplotacji typu eplsion-LA
@@ -52,3 +52,4 @@ annealing_step=1040 #krok w algorytmie wyżarzania
 itertions_without_progress_to_stop=10 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
 temeprature_to_stop=10 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop
 delay_between_attacks=10 # opóźnienie pomiędzy atakami dronów
+number_of_points_to_win=20000 #liczba punktów po osiągnięciu, której ma zostać zakończona symulacja

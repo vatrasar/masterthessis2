@@ -49,12 +49,14 @@ class Annealing_Algo():
 
 
         value_delta=candidate_points-self.current_result["points"]
-        metropolis=math.exp(-value_delta / self.temperature)
+        metropolis=math.exp(value_delta / self.temperature)
         x=self.rand.random()
         self.last_decison=0
         self.last_x=x
         self.last_metropolis=metropolis
-        if value_delta<0 or x<metropolis:#if true than accept
+        if value_delta>0:
+            self.last_metropolis=1
+        if value_delta>0 or x<metropolis:#if true than accept
             self.last_decison=1
 
             self.current_result={"position":candidate_positions,"points":candidate_points}

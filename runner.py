@@ -185,7 +185,12 @@ class Runner():
 
         if self.current_time>self.settings.T:
             return True
+        sum_of_points = 0
+        for uav in self.game_state.uav_list:
+            sum_of_points=uav.points+sum_of_points
 
+        if self.settings.number_of_points_to_win<sum_of_points:
+            return True
         if self.settings.mode==Modes.LEARNING:
 
             if self.game_state.naive_algo.is_learning_finished():
