@@ -70,6 +70,8 @@ class Settings():
         setting_dict={}
         for record in file_with_properties.readlines():
             if(len(record)!=0):
+                if record[0]=="#":
+                    continue
                 property_name,property_value=self.get_property_pair(record)
                 self.check_property(property_name,property_value)
 
