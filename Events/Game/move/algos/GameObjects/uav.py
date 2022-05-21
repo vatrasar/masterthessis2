@@ -20,7 +20,7 @@ class Uav(MovableObject):
         self.start_energy_time=0
         self.energy_consumptiont_type=UavStatus.TIER_2
         self.target_with_points=None
-        self.last_points=last_points
+        self.best_points=last_points
 
     def beggin_energy_time(self,time,type):
         self.start_energy_time=time
@@ -44,4 +44,5 @@ class Uav(MovableObject):
 
     def asign_points(self, points):
         self.points=self.points+points
-        self.last_points=points
+        if self.best_points<points:
+            self.best_points=points
