@@ -38,7 +38,7 @@ class Result_tr_list():
     def save_to_file(self,settings):
 
         file=open("./data/results_tr.csv","w")
-
+        settings.add_settings_to_csv(file)
         if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
             file.write("#iteration, #attack postion drone 1 ,#tier1, #attack position drone 2, #tier2, #points1, #points2, #sum of points, #curr solution1, #curr solution2, #accept probablity, #x, #accept/reject, #temperature\n")
             for i,record in enumerate(self.result_tr_list):

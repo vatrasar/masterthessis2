@@ -31,8 +31,9 @@ def main():
     #init state
 
     rand = random.Random(settings.seed)  # 800
+    settings.acutal_seed=time.time()
     if settings.seed_clock:
-        rand =random.Random(time.time()) #
+        rand =random.Random(settings.acutal_seed) #
     runner=Runner(settings,rand, statistics)
     if settings.is_multirun:
         runner.run_multirun()

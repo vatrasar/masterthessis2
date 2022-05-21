@@ -7,7 +7,8 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.points_cell import Poin
 
 class Settings():
 
-
+    def __init__(self):
+        self.list_to_print=[]
 
     def get_property_pair(self,property_line:str):
 
@@ -72,7 +73,9 @@ class Settings():
             if(len(record)!=0):
                 if record[0]=="#":
                     continue
+
                 property_name,property_value=self.get_property_pair(record)
+                self.list_to_print.append({"name":property_name,"value":property_value})
                 self.check_property(property_name,property_value)
 
 
@@ -341,5 +344,16 @@ class Settings():
             list_of_invisible.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),0))
         return list_of_invisible
 
+    def add_settings_to_csv(self,file):
+        file.write("actual seed,%s\n"%(str(self.acutal_seed)))
+        for record in self.list_to_print:
+
+            file.write("%s,%s\n"%(record["name"],str(record["value"])))
+
+    def add_settings_to_data_file(self,file):
+        file.write("#actual seed=%s\n"%(str(self.acutal_seed)))
+        for record in self.list_to_print:
+
+            file.write("#%s=%s\n"%(record["name"],str(record["value"])))
 
 

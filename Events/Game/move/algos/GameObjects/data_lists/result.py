@@ -32,10 +32,10 @@ class Result_file():
         self.result_tr_list.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending))
 
 
-    def save_to_file(self):
+    def save_to_file(self,settings:Settings):
 
         file=open("./data/results.csv","w")
-
+        settings.add_settings_to_csv(file)
 
         file.write("#time, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1,#energy spending dr1, #sum energy spending dr1, #points dr2,#energy spending dr2, #sum energy spending dr2, #sum of points, #intruder energy spending, #sum of intruder energy spending\n")
         for i,record in enumerate(self.result_tr_list):
