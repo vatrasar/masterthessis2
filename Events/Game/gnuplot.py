@@ -169,6 +169,7 @@ def get_freqency_of_hits_data(hits_lists:typing.List[Hit_list],settings:Settings
             zone_i_best_value=hit_list.hit_list[zone_index].number_of_hits
             if zone_i_best_value==None:
                 zone_i_best_value=0
+            zone_i_best_value=float(zone_i_best_value)/len(hit_list.hit_list)
             zone_best_value_list.append(zone_i_best_value)
 
         std=get_std(zone_best_value_list)

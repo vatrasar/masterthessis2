@@ -13,7 +13,7 @@ delay_between_attacks=10 # opóźnienie pomiędzy atakami dronów
 #EXPLOITATION PARAMETERS
 #
 epslion=0.2 #parametr dla eksplotacji typu eplsion-LA
-fake_targets_number=3 #liczba celów z listy które będą zaatakowane bo wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania
+fake_targets_number=3 #liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania
 #
 #
 #LEARNING PARAMETERS
