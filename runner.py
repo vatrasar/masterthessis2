@@ -2,6 +2,9 @@ from random import Random
 
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
+from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
+from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
+from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, Sides
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
@@ -36,14 +39,20 @@ class Runner():
         self.statistics=statistics
         self.run_stac_list=[]
         self.run_hits=[]
+        self.memory_list=[]
 
 
 
     def run_multirun(self):
+        self.hit_list=Hit_list(self.settings)
+        self.result_tr_list=Result_tr_list(self.settings)
+        self.result_file=Result_file(self.settings)
         for i in range(0,self.settings.number_of_runs):
+
             seed_for_run=self.rand.randint(0,100000000)
             rand_for_run=Random(seed_for_run)
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,rand_for_run)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,rand_for_run,self.hit_list,self.result_tr_list,self.result_file)
+
             self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
             self.events_list=Event_list()
             for uav in self.game_state.uav_list:
@@ -58,7 +67,20 @@ class Runner():
             while self.perform_singel_iteration(rand_for_run):
 
                 continue
-        export_to_gnuplot(self.run_stac_list,2,self.settings)
+            self.result_tr_list.end_run()
+            self.result_file.end_run()
+            self.memory_list.append(self.game_state.naive_algo.results_list)
+            self.hit_list=Hit_list(self.settings)
+            self.current_time=0
+
+        export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
+        self.statistics.save()
+        clear_folder("./data")
+        self.hit_list.save_to_file(self.run_hits)
+        self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
+        self.result_tr_list.save_to_file(self.settings)
+        self.result_file.save_to_file(self.settings)
+
 
 
 
@@ -149,12 +171,7 @@ class Runner():
 
                 self.master.quit()
 
-            self.statistics.save()
-            clear_folder("./data")
-            self.game_state.hit_list.save_to_file()
-            self.game_state.naive_algo.results_list.save_to_file()
-            self.game_state.naive_algo.result_tr.save_to_file(self.settings)
-            self.game_state.naive_algo.result_file.save_to_file(self.settings)
+
             return False
 
         return True

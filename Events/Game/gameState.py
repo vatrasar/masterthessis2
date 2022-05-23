@@ -19,16 +19,16 @@ from Events.Game.move.get_position import get_point_on_tier1, get_point_base_on_
 import typing
 
 class GameState():
-    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,setting:Settings,rand:Random):
+    def __init__(self, uav_number,v_of_uav,velocity_hand,map_size_x,map_size_y,hands_number,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,setting:Settings,rand:Random,hit_list,result_tr_list,result_file):
 
         self.visualize_first=True
         self.t_curr=0
         #init UAv
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
-        self.hit_list=Hit_list(settings)
-        self.result_tr_list=Result_tr_list(settings)
-        self.result_file=Result_file(settings)
+        self.hit_list=hit_list
+        self.result_tr_list=result_tr_list
+        self.result_file=result_file
         from Events.Game.move.Game_Map import GameMap
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
 

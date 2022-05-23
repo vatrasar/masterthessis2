@@ -28,26 +28,33 @@ class Result_tr_record():
 class Result_tr_list():
     def __init__(self,settings:Settings):
         self.settings = settings
-        self.result_tr_list:typing.List[Result_tr_record]=[]
+        self.result_tr_list:typing.List[typing.List[Result_tr_record]]=[]
+        self.current_run=[]
 
 
+
+    def end_run(self):
+        self.result_tr_list.append(self.current_run)
+        self.current_run=[]
     def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None):
-        self.result_tr_list.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature))
+        self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature))
 
 
     def save_to_file(self,settings):
 
         file=open("./data/results_tr.csv","w")
         settings.add_settings_to_csv(file)
-        if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
-            file.write("#iteration, #attack postion drone 1 ,#tier1, #attack position drone 2, #tier2, #points1, #points2, #sum of points, #curr solution1, #curr solution2, #accept probablity, #x, #accept/reject, #temperature\n")
-            for i,record in enumerate(self.result_tr_list):
-                str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
-                file.write(str)
-        else:
-            file.write("#iteration, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1, #points2, #sum of points\n")
-            for i,record in enumerate(self.result_tr_list):
+        for i,run in enumerate(self.result_tr_list):
+            file.write("run %d\n"%(i+1))
+            if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
+                file.write("#iteration, #attack postion drone 1 ,#tier1, #attack position drone 2, #tier2, #points1, #points2, #sum of points, #curr solution1, #curr solution2, #accept probablity, #x, #accept/reject, #temperature\n")
+                for i,record in enumerate(run):
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
+                    file.write(str)
+            else:
+                file.write("#iteration, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1, #points2, #sum of points\n")
+                for i,record in enumerate(run):
 
-                str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
-                file.write(str)
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
+                    file.write(str)
         file.close()

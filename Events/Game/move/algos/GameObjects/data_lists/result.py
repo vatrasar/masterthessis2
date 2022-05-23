@@ -22,24 +22,28 @@ class Result_file_record():
         self.tier2=tier2
         self.number_of_hits=1
 
+
 class Result_file():
     def __init__(self,settings:Settings):
         self.settings = settings
-        self.result_tr_list:typing.List[Result_file_record]=[]
-
+        self.result_lists:typing.List[typing.List[Result_file_record]]=[]
+        self.current_run=[]
 
     def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending):
-        self.result_tr_list.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending))
+        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending))
 
+    def end_run(self):
+        self.result_lists.append(self.current_run)
+        self.current_run=[]
 
     def save_to_file(self,settings:Settings):
 
         file=open("./data/results.csv","w")
         settings.add_settings_to_csv(file)
+        for i,run in enumerate(self.result_lists):
+            file.write("#time, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1,#energy spending dr1, #sum energy spending dr1, #points dr2,#energy spending dr2, #sum energy spending dr2, #sum of points, #intruder energy spending, #sum of intruder energy spending\n")
+            for i,record in enumerate(run):
 
-        file.write("#time, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1,#energy spending dr1, #sum energy spending dr1, #points dr2,#energy spending dr2, #sum energy spending dr2, #sum of points, #intruder energy spending, #sum of intruder energy spending\n")
-        for i,record in enumerate(self.result_tr_list):
-
-            str="%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
-            file.write(str)
+                str="%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                file.write(str)
         file.close()

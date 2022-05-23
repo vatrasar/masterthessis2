@@ -2,7 +2,7 @@
 #MAIN ALGOS PARAMETERS
 #
 mode_debug=0 #tryb debug w jakim działa program. możliwe wartości: 0 SA1(tryb normalny), 1 debug A0(drony nie unikają kolizji), 2 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają), 3 debug SA0(ręce pozostają na pozycjach startowych i się nie poruszają
-mode=exploitation #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
+mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=SA #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
 prob_of_attack=0.7 #Prawdopodobieństwo wykonania ataku w trybie losowym(dotyczy trybu exploitation1). wartości od 0 do 1
@@ -73,7 +73,7 @@ intruder_energy_cost_of_reaction=50 #  zużycie energi intruza na jednostke czas
 ###CONDITIONS TO FINISH SIMULATION
 #
 itertions_without_progress_to_stop=10 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
-T=1000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+T=200 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 iterations_for_learning=50 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania
 energy_simulation_end_condition=0 #czy symulacja zakonczy sie gdy energia intruza wyniesie 0. mozliwe wartości 1: warunek będzie brany pod uwagę, 0: warunek nie będzie brany pod uwagę
 number_of_points_to_win=20000 #liczba punktów po osiągnięciu, której ma zostać zakończona symulacja
@@ -96,6 +96,6 @@ seed=101 #ziarno generatora liczb losowych
 zone_width=50 #szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
 #
 #RUNS
-is_multirun=0 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
+is_multirun=1 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
 number_of_runs=2 #gdy multirun aktywny okresla liczbe odpaleń algorytmu
 load_memory=0 #czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksplotacji pamięć ta jest używana zawsze). możlwe wartośći 0: nie będzie używana pamięć z pliku 1: będzie używana pamięć z pliku

@@ -38,15 +38,18 @@ class Hit_list():
 
         zone_stac.points_mean=(zone_stac.points_mean*(zone_stac.number_of_hits-1)+points)/float(zone_stac.number_of_hits)
 
-    def save_to_file(self):
+    def save_to_file(self,hits_list):
 
-        file=open("./data/HITS.txt","w")
-        file.write("#hits number #best attack position #best attack points  #mean\n")
-        for hit in self.hit_list:
-            if hit.best_attack_postion==None:
-                file.write("0 - - -\n")
-            else:
-                file.write("%d %.2f %.2f %.2f\n"%(hit.number_of_hits,hit.best_attack_postion.x,hit.best_points,hit.points_mean))
+        file=open("./data/HITS.csv","w")
+        for i,hit_list in enumerate(hits_list):
+            file.write("run %d\n"%(i))
+            file.write("#hits number, #best attack position, #best attack points,  #mean points\n")
+            for hit in hit_list.hit_list\
+                    :
+                if hit.best_attack_postion==None:
+                    file.write("0, -, -, -\n")
+                else:
+                    file.write("%d, %.2f, %.2f, %.2f\n"%(hit.number_of_hits,hit.best_attack_postion.x,hit.best_points,hit.points_mean))
         file.close()
 
 

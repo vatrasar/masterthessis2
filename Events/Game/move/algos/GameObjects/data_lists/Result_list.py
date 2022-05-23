@@ -63,26 +63,36 @@ class Result_list():
 
             self.result_list.append(Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2))
 
-    def save_to_file(self):
+    def save_to_file(self,memory_list):
 
+        file=open("./data/goals_of_attack.csv","w")
+        for i,run in enumerate(memory_list):
+            file.write("run:%d\n"%(i))
+            file.write("#position1, #position2, #zone1, #zone2, #reward, #attack from tier2 uav1, #attack from tier2 uav2\n")
+            for result in run.result_list:
+
+                if result.position1!=None:
+                    result.position1="%.2f"%(result.position1.x)
+                else:
+                    result.position1="-"
+                    result.tier1="-"
+                    result.zone1="-"
+
+
+                if result.position2!=None:
+                    result.position2="%.2f"%(result.position2.x)
+                else:
+                    result.position2="-"
+                    result.tier2="-"
+                    result.zone2="-"
+
+                file.write("%s, %s, %s, %s, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.points,result.tier1,result.tier2))
+        file.close()
         file=open("./data/goals_of_attack.txt","w")
+
+
         file.write("#position1 #position2 #zone1 #zone2 #reward #attack from tier2 uav1 #attack from tier2 uav2\n")
         for result in self.result_list:
-
-            if result.position1!=None:
-                result.position1="%.2f"%(result.position1.x)
-            else:
-                result.position1="-"
-                result.tier1="-"
-                result.zone1="-"
-
-
-            if result.position2!=None:
-                result.position2="%.2f"%(result.position2.x)
-            else:
-                result.position2="-"
-                result.tier2="-"
-                result.zone2="-"
 
             file.write("%s %s %s %s %.2f %s %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.points,result.tier1,result.tier2))
         file.close()
