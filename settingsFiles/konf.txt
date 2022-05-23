@@ -2,7 +2,7 @@
 #MAIN ALGOS PARAMETERS
 #
 mode_debug=0 #tryb debug w jakim działa program. możliwe wartości: 0 SA1(tryb normalny), 1 debug A0(drony nie unikają kolizji), 2 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają), 3 debug SA0(ręce pozostają na pozycjach startowych i się nie poruszają
-mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
+mode=exploitation #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=SA #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
 prob_of_attack=0.7 #Prawdopodobieństwo wykonania ataku w trybie losowym(dotyczy trybu exploitation1). wartości od 0 do 1

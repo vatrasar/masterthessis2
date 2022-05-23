@@ -84,7 +84,7 @@ class Naive_Algo():
             if uav.index==uav_id:
                uav_energy=uav.energy
         self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False,"intruder energy before attack":intruder_energy,"uav_energy":uav_energy}
-
+        self.current_attacks[uav_id]["attack_stop_energy"]=uav_energy
 
         self.after_attack[uav_id]=True
         points=0
@@ -123,7 +123,11 @@ class Naive_Algo():
 
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
-
+        uav_energy=0
+        for uav in uav_list:
+            if uav.index==uav_id:
+                uav_energy=uav.energy
+        self.current_attacks[uav_id]["attack_stop_energy"]=uav_energy
         if not self.is_fake_attack[uav_id]:
             self.random_move[uav_id]=True
 
@@ -167,8 +171,8 @@ class Naive_Algo():
             uav1:Uav=uav1
             intruder_start_energy=min(self.current_attacks[0]["intruder energy before attack"],self.current_attacks[1]["intruder energy before attack"])
             intruder_energy_spending=intruder_energy-intruder_start_energy
-            uav1_energy_spending=uav1.energy-self.current_attacks[0]["uav_energy"]
-            uav2_energy_spending=uav2.energy-self.current_attacks[1]["uav_energy"]
+            uav1_energy_spending=self.current_attacks[0]["attack_stop_energy"]-self.current_attacks[0]["uav_energy"]
+            uav2_energy_spending=self.current_attacks[1]["attack_stop_energy"]-self.current_attacks[1]["uav_energy"]
             self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder_energy)
 
 
