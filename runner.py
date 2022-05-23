@@ -87,8 +87,10 @@ class Runner():
 
 
     def run_normal(self):
-
-            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand)
+            self.hit_list=Hit_list(self.settings)
+            self.result_tr_list=Result_tr_list(self.settings)
+            self.result_file=Result_file(self.settings)
+            self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,self.rand,self.hit_list,self.result_tr_list,self.result_file)
 
 
             self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
@@ -122,7 +124,10 @@ class Runner():
             else:
                 while self.perform_singel_iteration(self.rand):
                     continue
-
+            self.result_tr_list.end_run()
+            self.result_file.end_run()
+            self.memory_list.append(self.game_state.naive_algo.results_list)
+            self.hit_list=Hit_list(self.settings)
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
 
 

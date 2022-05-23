@@ -135,7 +135,10 @@ def get_gnuplot_energy_data(runs_stac_list:typing.List[Statistics],settings:Sett
 
 def get_points_map_data(hits_lists:typing.List[Hit_list],settings:Settings):
     gnuplot_data=[]
-
+    max=0
+    for cell in settings.list_of_cell_points:
+        if cell.points>max:
+            max=cell.points
 
     for i in range(0,int(settings.map_size_x)):
         zone_best_value_list=[]
@@ -150,7 +153,7 @@ def get_points_map_data(hits_lists:typing.List[Hit_list],settings:Settings):
 
         std=get_std(zone_best_value_list)
         mean=get_mean(zone_best_value_list)
-        gnuplot_record=[i,mean,std]
+        gnuplot_record=[i,mean,std,max]
         gnuplot_data.append(gnuplot_record)
 
     return gnuplot_data
@@ -267,7 +270,7 @@ def export_to_gnuplot(runs_stac_list:List[Statistics],hit_lists,settings:Setting
     file=open("./gnuplot/points_map.txt","w")
     # settings.add_settings_to_data_file(file)
     data_to_export=get_points_map_data(hit_lists,settings)
-    save_records_to_file(data_to_export,file)
+    save_records_with_max_value_to_file(data_to_export,file)
     file.close()
 
     file=open("./gnuplot/freqency_of_hits.txt","w")

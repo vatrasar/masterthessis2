@@ -96,6 +96,6 @@ seed=101 #ziarno generatora liczb losowych
 zone_width=50 #szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
 #
 #RUNS
-is_multirun=1 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
+is_multirun=0 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 1 multirun
 number_of_runs=2 #gdy multirun aktywny okresla liczbe odpaleń algorytmu
 load_memory=0 #czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksplotacji pamięć ta jest używana zawsze). możlwe wartośći 0: nie będzie używana pamięć z pliku 1: będzie używana pamięć z pliku
