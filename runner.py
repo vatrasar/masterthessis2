@@ -129,6 +129,12 @@ class Runner():
             self.memory_list.append(self.game_state.naive_algo.results_list)
             self.hit_list=Hit_list(self.settings)
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
+            self.statistics.save()
+            clear_folder("./data")
+            self.hit_list.save_to_file(self.run_hits)
+            self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
+            self.result_tr_list.save_to_file(self.settings)
+            self.result_file.save_to_file(self.settings)
 
 
     def setup_visualisation(self):
