@@ -173,8 +173,12 @@ class Naive_Algo():
             uav1:Uav=uav1
             intruder_start_energy=min(self.current_attacks[0]["intruder energy before attack"],self.current_attacks[1]["intruder energy before attack"])
             intruder_energy_spending=intruder_energy-intruder_start_energy
-            uav1_energy_spending=self.current_attacks[0]["attack_stop_energy"]-self.current_attacks[0]["uav_energy"]
-            uav2_energy_spending=self.current_attacks[1]["attack_stop_energy"]-self.current_attacks[1]["uav_energy"]
+            # uav1_energy_spending=self.current_attacks[0]["attack_stop_energy"]-self.current_attacks[0]["uav_energy"]
+            # uav2_energy_spending=self.current_attacks[1]["attack_stop_energy"]-self.current_attacks[1]["uav_energy"]
+            uav1_energy_spending=uav1.energy-uav1.last_updated_energy
+            uav1.last_updated_energy=uav1.energy
+            uav2_energy_spending=uav2.energy-uav2.last_updated_energy
+            uav2.last_updated_energy=uav2.energy
             self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder_energy)
 
 
