@@ -190,7 +190,7 @@ class Settings():
         elif (property_name=="annealing_step"):
             self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
 
-        elif (property_name=="epslion"):
+        elif (property_name=="epsilon"):
             self.epslion=self.check_float(property_value,property_name,0.1,0,True)
 
         elif(property_name=="temperature"):
@@ -286,6 +286,10 @@ class Settings():
         elif (property_name=="visualzation_update_interval"):
 
             self.visualzation_update_interval=self.check_float(property_value,property_name,0,1,True)
+
+        elif (property_name=="l_lr"):
+
+            self.l_lr=self.check_int(property_value,property_name,1,1,True)
 
         elif (property_name=="r_of_LR"):
 

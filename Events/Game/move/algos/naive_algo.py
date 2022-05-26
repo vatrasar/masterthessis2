@@ -265,12 +265,13 @@ class Naive_Algo():
             self.update_tragets_using_result_record(current_result)
             return
         elif settings.exploitation_type==Exploitation_types.EPSLION:
+
             x=rand.random()
             if 1-self.settings.epslion>x:
                 self.choose_best(rand, settings)
             else:#choose random from list
-
-                result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
+                self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
+                result=self.lr_memory[rand.randint(0,len(self.lr_memory)-1)]
                 self.update_tragets_using_result_record(result)
                 return
 
@@ -394,6 +395,8 @@ class Naive_Algo():
 
 
             self.results_list.add_result_point(position1,position2,points,tier1,tier2)
+
+        self.results_list.sort_list()
     def get_uav_with_index(self, index):
 
         for uav in self.uav_list:
