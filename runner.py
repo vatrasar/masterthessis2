@@ -7,6 +7,7 @@ from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_
 from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus, Sides
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_stop_reasons import Reason_to_stop
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 from Events.Game.gameState import GameState
@@ -40,6 +41,7 @@ class Runner():
         self.run_stac_list=[]
         self.run_hits=[]
         self.memory_list=[]
+        self.reason_to_stop_simulation=[]
 
 
 
@@ -76,7 +78,7 @@ class Runner():
         export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
         self.statistics.save()
         clear_folder("./data")
-        self.hit_list.save_to_file(self.run_hits)
+        self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         self.result_tr_list.save_to_file(self.settings)
         self.result_file.save_to_file(self.settings)
@@ -131,7 +133,7 @@ class Runner():
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
             self.statistics.save()
             clear_folder("./data")
-            self.hit_list.save_to_file(self.run_hits)
+            self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
             self.result_tr_list.save_to_file(self.settings)
             self.result_file.save_to_file(self.settings)
@@ -209,19 +211,24 @@ class Runner():
 
     def is_simulation_finished(self):
         if len(self.game_state.uav_list)<2:
+            self.reason_to_stop_simulation.append(Reason_to_stop.ONE_UAV_KILLED)
             return True
 
         if self.current_time>self.settings.T:
+            self.reason_to_stop_simulation.append(Reason_to_stop.TIME)
             return True
         sum_of_points = 0
         for uav in self.game_state.uav_list:
+
             sum_of_points=uav.points+sum_of_points
 
         if self.settings.number_of_points_to_win<sum_of_points:
+            self.reason_to_stop_simulation.append(Reason_to_stop.POINTS_LIMIT)
             return True
         if self.settings.mode==Modes.LEARNING:
 
             if self.game_state.naive_algo.is_learning_finished():
+                self.reason_to_stop_simulation.append(self.game_state.naive_algo.reason_why_learning_stoped)
                 return True
         return False
         # if (self.game_state.intruder.energy<0 and self.settings.energy_simulation_end_condition):

@@ -7,6 +7,7 @@ from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_algos import Target_choose
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos, \
     Exploitation_types
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_stop_reasons import Reason_to_stop
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import get_uav1_and2
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -43,6 +44,7 @@ class Naive_Algo():
         self.is_synchronization_needed=False
         self.is_secound_synchorniaztion_needed=False
         self.tiers_uav={0:None,1:None}
+        self.reason_why_learning_stoped=None
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
 
@@ -359,9 +361,20 @@ class Naive_Algo():
         return self.targert_attacks[index]
 
     def is_learning_finished(self):
-
-
-        return self.hit_list.iteration>self.iterations_for_learning or (self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.temperature<self.settings.temeprature_to_stop) or self.is_no_progess() or self.settings.mode==Modes.EXPLOITATION
+        if self.hit_list.iteration>self.iterations_for_learning:
+            self.reason_why_learning_stoped=Reason_to_stop.ITERATIONS
+            return True
+        elif (self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.temperature<self.settings.temeprature_to_stop):
+            self.reason_why_learning_stoped=Reason_to_stop.MINIMUM_TEMPERATURE
+            return True
+        elif self.is_no_progess():
+            self.reason_why_learning_stoped=Reason_to_stop.NO_PROGRESS
+            return True
+        elif self.settings.mode==Modes.EXPLOITATION:
+            self.reason_why_learning_stoped=Reason_to_stop.EXPLOITATION
+            return True
+        else:
+            return False
 
     def load_memory(self):
         file=open("data/goals_of_attack.txt","r")
