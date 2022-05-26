@@ -328,7 +328,8 @@ class Settings():
     def get_list_of_points(self, file_with_rewards):
         list_of_cell_points:typing.List[PointsCell]=[]
         for record in file_with_rewards.readlines():
-
+            if record[0]=="#":
+                continue
             fields_list=record.split(" ")
             list_of_cell_points.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
         return list_of_cell_points
