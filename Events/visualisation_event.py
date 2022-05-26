@@ -75,14 +75,14 @@ class Visualisation_event(Event):
                     create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"black")
 
             if self.game_state.naive_algo.is_learning_finished() and len(self.game_state.naive_algo.results_list.result_list)>0:
-
-                best=self.game_state.naive_algo.results_list.get_best_from_list().position1
-                if best!=None:
-
-                    create_circle(best.x, best.y,uav_size,self.canvas,"purple")
-                best=self.game_state.naive_algo.results_list.get_best_from_list().position2
-                if best!=None:
-                    create_circle(best.x, best.y,uav_size,self.canvas,"brown")
+                pass
+                # best=self.game_state.naive_algo.results_list.get_best_from_list().position1
+                # if best!=None:
+                #
+                #     create_circle(best.x, best.y,uav_size,self.canvas,"purple")
+                # best=self.game_state.naive_algo.results_list.get_best_from_list().position2
+                # if best!=None:
+                #     create_circle(best.x, best.y,uav_size,self.canvas,"brown")
 
 
 
