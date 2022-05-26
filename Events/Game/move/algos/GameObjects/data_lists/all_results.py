@@ -58,3 +58,20 @@ class Result_tr_list():
                     str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
                     file.write(str)
         file.close()
+
+        file=open("./data/results_tr.txt","w")
+        settings.add_settings_to_data_file(file)
+        for i,run in enumerate(self.result_tr_list):
+            file.write("run %d\n"%(i+1))
+            if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
+                file.write("#iteration #attack postion drone 1 #tier1 #attack position drone 2 #tier2 #points1 #points2 #sum of points #curr solution1 #curr solution2 #accept probablity #x #accept/reject #temperature\n")
+                for i,record in enumerate(run):
+                    str="%d %.2f %d %.2f %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
+                    file.write(str)
+            else:
+                file.write("#iteration #attack postion drone 1 #tier #attack position drone 2 #tier #points1 #points2 #sum of points\n")
+                for i,record in enumerate(run):
+
+                    str="%d %.2f %d %.2f %d %.2f %.2f %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
+                    file.write(str)
+        file.close()

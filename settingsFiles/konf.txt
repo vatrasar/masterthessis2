@@ -2,7 +2,7 @@
 #MAIN ALGOS PARAMETERS
 #
 mode_debug=0 #tryb debug w jakim działa program. możliwe wartości: 0 SA1(tryb normalny), 1 debug A0(drony nie unikają kolizji), 2 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają), 3 debug SA0(ręce pozostają na pozycjach startowych i się nie poruszają
-mode=exploitation #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
+mode=learning #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, exploitation
 learning_algo_type=SA #typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS, SA
 exploitation_type=eplsion-LA #rodzaj eksplotacji.  możliwe wartości: wheel_roulette, eplsion-LA, best, random
 prob_of_attack=0.7 #Prawdopodobieństwo wykonania ataku w trybie losowym(dotyczy trybu exploitation1). wartości od 0 do 1
@@ -74,7 +74,7 @@ intruder_energy_cost_of_reaction=50 #  zużycie energi intruza na jednostke czas
 ###CONDITIONS TO FINISH SIMULATION
 #
 itertions_without_progress_to_stop=5000 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
-T=2000 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+T=500 #liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
 iterations_for_learning=2000 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania
 energy_simulation_end_condition=0 #czy symulacja zakonczy sie gdy energia intruza wyniesie 0. mozliwe wartości 1: warunek będzie brany pod uwagę, 0: warunek nie będzie brany pod uwagę
 number_of_points_to_win=20000 #liczba punktów po osiągnięciu, której ma zostać zakończona symulacja
