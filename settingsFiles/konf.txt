@@ -6,7 +6,7 @@ mode_debug=0
 #                                                     1 debug A0(drony nie unikają kolizji), 
 #                                                     2 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają), 
 #                                                     3 debug SA0(ręce pozostają na pozycjach startowych i się nie poruszają
-mode=exploitation
+mode=learning
 #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, 
 #                                                        exploitation
 learning_algo_type=SA 
@@ -127,7 +127,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=5000 
 #jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie(działa tylko w trybie uczenia)
-T=500 
+T=2000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji). wartości powyżej 0
 iterations_for_learning=2000 
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania(działa tylko w trybie uczenia)

@@ -66,6 +66,7 @@ class Result_list():
     def save_to_file(self,memory_list):
 
         file=open("./data/goals_of_attack.csv","w")
+        self.sort_list()
         for i,run in enumerate(memory_list):
             file.write("run:%d\n"%(i))
             file.write("#position1, #position2, #zone1, #zone2, #reward, #attack from tier2 uav1, #attack from tier2 uav2\n")
