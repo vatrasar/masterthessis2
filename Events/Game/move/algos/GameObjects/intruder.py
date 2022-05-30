@@ -23,8 +23,7 @@ class Intruder(MovableObject):
         elif energy_consumptiont_type==HandStatus.WAIT:
             ratio=0
 
-        if time_delta*ratio!=0:
-            print("jo")
+
         self.energy=self.energy+time_delta*ratio
 
 

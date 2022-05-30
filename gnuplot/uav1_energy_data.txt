@@ -1,4 +1,4 @@
-#actual seed=1653903061.4991205
+#actual seed=1653907688.3996425
 #mode_debug=0
 
 #mode=exploitation
@@ -15,11 +15,11 @@
 
 #epsilon=0.05 
 
+#l_lr=5
+
 #fake_targets_number=3 
 
 #naive algo list limit=20 
-
-#l_lr=5 
 
 #temperature=100 
 
@@ -50,7 +50,7 @@
 #uav_energy_energy_cost_attack=3 
 #uav_energy_energy_cost_tier1=1 
 #uav_energy_energy_cost_tier2=1 
-#uav_energy=50 
+#uav_energy=2000
 
 #drone_energy_destroy_condition=0 
 
@@ -88,7 +88,7 @@
 
 #iterations_for_learning=2000 
 
-#energy_simulation_end_condition=0 
+#energy_simulation_end_condition=0
 
 #number_of_points_to_win=20000 
 

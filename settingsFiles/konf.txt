@@ -83,7 +83,7 @@ tier2_mode=0
 uav_energy_energy_cost_attack=3 # zużycie energi uav na jednostke czasu podczas ataku
 uav_energy_energy_cost_tier1=1 #  zużycie energi uav na jednostke czasu podczas poruszania się na tier1
 uav_energy_energy_cost_tier2=1 #  zużycie energi uav na jednostke czasu podczas poruszania się na tier2
-uav_energy=50 
+uav_energy=2000
 #poczatkowa energia uav
 drone_energy_destroy_condition=0 
 #czy drony będą niszczone gdy wyczerpie się ich energia. mozliwe wartości 1: warunek będzie brany pod uwagę, 
@@ -126,16 +126,16 @@ intruder_energy_cost_of_reaction=5
 ###CONDITIONS TO FINISH SIMULATION
 #
 itertions_without_progress_to_stop=5000 
-#jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie
+#jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie(działa tylko w trybie uczenia)
 T=500 
-#liczba jednostek czasu, do zakończenia symulacji. wartości powyżej 0
+#liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji). wartości powyżej 0
 iterations_for_learning=2000 
-#liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania
-energy_simulation_end_condition=0 
-#czy symulacja zakonczy sie gdy energia intruza wyniesie 0. mozliwe wartości 1: warunek będzie brany pod uwagę, 
+#liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania(działa tylko w trybie uczenia)
+energy_simulation_end_condition=0
+#czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji). mozliwe wartości 1: warunek będzie brany pod uwagę,
 #                                                                            0: warunek nie będzie brany pod uwagę
 number_of_points_to_win=20000 
-#liczba punktów po osiągnięciu, której ma zostać zakończona symulacja
+#liczba punktów po osiągnięciu, której ma zostać zakończona symulacja(działa zarówno w trybie uczenia jak i eksploatacji).
 #
 ## VISUALISATION
 #

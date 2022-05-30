@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class Reason_to_stop(Enum):
+    ENERGY = "ENERGY"
     ONE_UAV_KILLED="one uav has been killed"
     TIME="time"
     POINTS_LIMIT="points limit reached"

@@ -225,6 +225,15 @@ class Runner():
         if self.settings.number_of_points_to_win<sum_of_points:
             self.reason_to_stop_simulation.append(Reason_to_stop.POINTS_LIMIT)
             return True
+        if self.settings.mode==Modes.EXPLOITATION:
+            if self.settings.energy_simulation_end_condition==True:
+                for uav in self.game_state.uav_list:
+                    if uav.energy>self.settings.uav_energy:
+                        self.reason_to_stop_simulation.append(Reason_to_stop.ENERGY)
+                        return True
+                if self.game_state.intruder.energy>self.settings.intruder_max_energy:
+                        self.reason_to_stop_simulation.append(Reason_to_stop.ENERGY)
+                        return True
         if self.settings.mode==Modes.LEARNING:
 
             if self.game_state.naive_algo.is_learning_finished():
