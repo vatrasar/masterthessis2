@@ -41,19 +41,21 @@ class Result_file():
         file=open("./data/results.csv","w")
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_lists):
-            file.write("#time, #attack postion drone 1 ,#tier, #attack position drone 2, #tier, #points1,#energy spending dr1, #sum energy spending dr1, #points dr2,#energy spending dr2, #sum energy spending dr2, #sum of points, #intruder energy spending, #sum of intruder energy spending\n")
+            file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
+            file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
             for i,record in enumerate(run):
 
-                str="%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                str="%.2f, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
                 file.write(str)
         file.close()
 
         file=open("./data/results.txt","w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
-            file.write("#time #attack postion drone 1 #tier #attack position drone 2 #tier #points1 #energy spending dr1 #sum energy spending dr1 #points dr2 #energy spending dr2 #sum energy spending dr2 #sum of points #intruder energy spending #sum of intruder energy spending\n")
+            file.write("#time #att pos dr1 #tier #att pos dr2 #tier #ps1 #ener spend dr1 #ener sum spen dr1 #pts dr2 #ener spend dr2 #ener sum spen dr2 #pts sum #intr ener spend #intr ener sum spend\n")
+            file.write("#1 2 3 4 5 6 7 8 9 10 11 12 13 14\n")
             for i,record in enumerate(run):
 
-                str="%.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                str="%.2f %.2f %d %.2f %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
                 file.write(str)
         file.close()
