@@ -191,7 +191,7 @@ class Settings():
             self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
 
         elif (property_name=="epsilon"):
-            self.epslion=self.check_float(property_value,property_name,0.1,0,True)
+            self.epslion=self.check_float(property_value,property_name,0.001,0,True)
 
         elif(property_name=="temperature"):
             self.temperature=self.check_float(property_value,property_name,1,0,True)
@@ -243,7 +243,7 @@ class Settings():
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RS, SA"%(property_name))
         elif (property_name=="exploitation_type"):
             property_value=property_value.strip()
-            if (property_value in ["wheel_roulette", "eplsion-LA", "best", "random"]):
+            if (property_value in ["wheel_roulette", "epsilon-LA", "best", "random"]):
                 self.exploitation_type=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: wheel_roulette, eplsion-LA, best, random"%(property_name))
