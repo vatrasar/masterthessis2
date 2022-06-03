@@ -137,7 +137,7 @@ def check_is_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_ma
 
 def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hands_list:typing.List[Hand]):
 
-    if settings.mode_debug==1:
+    if settings.mode_debug=="11":
         return True
 
     jump_velocity=settings.jump_ratio*settings.velocity_hand

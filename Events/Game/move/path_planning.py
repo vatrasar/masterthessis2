@@ -99,7 +99,7 @@ def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings:Settings,hand
                 arrive_time = new_parrent.uav_arrive_time + distance / v_of_uav
                 is_point_avaiable = True
                 # check hand arrive_time
-                if settings.mode_debug!=1:
+                if settings.mode_debug!="11":
                     is_point_avaiable = check_if_point_safe(arrive_time, uav.chasing_hand,  neighbour, settings,hands_list,jump_velocity)
                     if target!=None and neighbour.uav_arrive_time>max_time_of_travel:
                         is_point_avaiable=False

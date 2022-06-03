@@ -1,11 +1,12 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-mode_debug=0
-#tryb debug w jakim działa program. możliwe wartości: 0 SA1(tryb normalny), 
-#                                                     1 debug A0(drony nie unikają kolizji), 
-#                                                     2 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają), 
-#                                                     3 debug SA0(ręce pozostają na pozycjach startowych i się nie poruszają
+operation_mode=10
+#tryb operation_mode w jakim działa program. możliwe wartości:
+#                                                     10 full operation(tryb normalny),
+#                                                     11 debug A0(drony nie unikają kolizji),
+#                                                     12 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
+#                                                     13 debug A2(ręce pozostają na pozycjach startowych i się nie poruszają
 mode=learning
 #tryby wyszukiwania trasy przez drona. możliwe wartości: learning, 
 #                                                        exploitation

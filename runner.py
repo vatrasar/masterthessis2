@@ -114,10 +114,10 @@ class Runner():
             for uav in self.game_state.uav_list:
                 plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
-            if self.settings.mode_debug==2:
+            if self.settings.mode_debug=="12":
                 self.setup_debug2(self.events_list)
 
-            if self.settings.mode_debug!=3:
+            if self.settings.mode_debug!="13":
                 plan_hand_control_event(self.current_time+get_d_t_arrive_poison(self.rand),self.settings,self.game_state.intruder,self.master,self.game_state,self.events_list)
 
             if self.settings.visualisation in [1,2]:#visualisation

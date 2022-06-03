@@ -140,12 +140,13 @@ class Settings():
                 self.hands_number=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2 "%(property_name))
-        elif (property_name=="mode_debug"):
-            property_value = int(str(property_value))
-            if (property_value >= 0 and property_value <= 3):
+        elif (property_name=="operation_mode"):
+            property_value = property_value.strip()
+
+            if (property_value in ["10", "11","12","13"]):
                 self.mode_debug=property_value
             else:
-                raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2,3 "%(property_name))
+                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: 10, 11, 12, 13"%(property_name))
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
