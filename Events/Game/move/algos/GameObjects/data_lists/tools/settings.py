@@ -229,7 +229,18 @@ class Settings():
         elif (property_name=="delay_between_attacks"):
             self.delay_between_attacks=self.check_float(property_value,property_name,0,1,True)
 
-
+        elif (property_name=="learning"):
+            self.learning=self.check_binary(property_value,property_name)
+        elif(property_name=="exploitation"):
+            exploitation=self.check_binary(property_value,property_name)
+            if exploitation==self.learning:
+                raise Exception("Błąd pliku konfiguracyjnego. parametry exploitation i learning nie mogą mieć tej samej wartości")
+            if exploitation:
+                self.mode="exploitation"
+            else:
+                self.mode="learning"
+        elif (property_name=="debug"):
+            self.debug=self.check_binary(property_value,property_name)
         elif (property_name=="mode"):
             property_value=property_value.strip()
             if (property_value in ["learning", "exploitation"]):
