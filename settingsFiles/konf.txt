@@ -125,7 +125,7 @@ intruder_energy_cost_jump=3
 intruder_energy_cost_chasing=1 
 # zużycie energi intruza na jednostke czasu podczas śledzenia drona
 intruder_energy_cost_of_reaction=5 
-#  zużycie energi intruza na jednostke czasu podczas śledzenia drona
+#  zużycie energi intruza gdy podejmuje on decyzje o rozpoczęciu śledzenia drona.
 #
 ###CONDITIONS TO FINISH SIMULATION
 #
