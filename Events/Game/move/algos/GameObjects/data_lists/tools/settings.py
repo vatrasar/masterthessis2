@@ -1,6 +1,7 @@
 import logging
 import typing
 
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.points_cell import PointsCell
 
@@ -79,6 +80,8 @@ class Settings():
                 self.check_property(property_name,property_value)
 
 
+        if self.is_multirun and self.mode==Modes.LEARNING:
+            raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
         self.map_size_y=int(self.tier1_distance_from_intruder * 1.3)
 
 

@@ -2,6 +2,7 @@ from random import Random
 
 from Events.Game.Statistics import Statistics
 from Events.Game.gnuplot import export_to_gnuplot
+from Events.Game.move.algos.GameObjects.data_lists.Debug import Debug_file
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
 from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
@@ -42,6 +43,7 @@ class Runner():
         self.run_hits=[]
         self.memory_list=[]
         self.reason_to_stop_simulation=[]
+        self.debug_file=Debug_file(settings)
 
 
 
@@ -80,8 +82,11 @@ class Runner():
         clear_folder("./data")
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
-        self.result_tr_list.save_to_file(self.settings)
-        self.result_file.save_to_file(self.settings)
+        if self.settings.mode==Modes.LEARNING:
+            self.result_tr_list.save_to_file(self.settings)
+        else:
+            self.result_file.save_to_file(self.settings)
+        self.debug_file.save_to_file(self.settings)
 
 
 
@@ -135,8 +140,16 @@ class Runner():
             clear_folder("./data")
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
-            self.result_tr_list.save_to_file(self.settings)
-            self.result_file.save_to_file(self.settings)
+            if self.settings.mode==Modes.LEARNING:
+                self.result_tr_list.save_to_file(self.settings)
+            else:
+                self.result_file.save_to_file(self.settings)
+
+            self.debug_file.save_to_file(self.settings)
+
+
+
+
 
 
     def setup_visualisation(self):
