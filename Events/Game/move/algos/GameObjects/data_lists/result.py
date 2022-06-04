@@ -40,7 +40,7 @@ class Result_file():
         file_name="results"
         if settings.is_multirun:
             file_name="m_results"
-        file=open("./data/%s.csv"%(file_name),"w")
+        file=open("./results/%s.csv"%(file_name),"w")
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_lists):
             file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
@@ -51,7 +51,7 @@ class Result_file():
                 file.write(str)
         file.close()
 
-        file=open("./data/%s.txt"%(file_name),"w")
+        file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
             file.write("#time #att pos dr1 #tier #att pos dr2 #tier #ps1 #ener spend dr1 #ener sum spen dr1 #pts dr2 #ener spend dr2 #ener sum spen dr2 #pts sum #intr ener spend #intr ener sum spend\n")

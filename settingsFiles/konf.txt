@@ -168,7 +168,7 @@ zone_width=50
 #szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
 #
 #RUNS
-is_multirun=1
+is_multirun=0
 #czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 
 #                                                      1 multirun
 number_of_runs=2 

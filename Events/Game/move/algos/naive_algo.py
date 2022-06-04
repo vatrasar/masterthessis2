@@ -382,7 +382,7 @@ class Naive_Algo():
             return False
 
     def load_memory(self):
-        file=open("data/goals_of_attack.txt","r")
+        file=open("results/goals_of_attack.txt","r")
         lines=file.readlines()
         for line in lines[1:]:
 

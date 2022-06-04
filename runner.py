@@ -79,7 +79,7 @@ class Runner():
 
         export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
         self.statistics.save()
-        clear_folder("./data")
+        clear_folder("./results")
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         if self.settings.mode==Modes.LEARNING:
@@ -137,7 +137,7 @@ class Runner():
             self.hit_list=Hit_list(self.settings)
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
             self.statistics.save()
-            clear_folder("./data")
+            clear_folder("./results")
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
             if self.settings.mode==Modes.LEARNING:

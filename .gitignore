@@ -144,3 +144,5 @@ Entities/
 history/
 test
 gnuplot/*.txt
+results/*
+!results/goals_of_attack.*

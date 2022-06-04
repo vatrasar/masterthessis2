@@ -14,6 +14,6 @@ class Debug_file():
             file_name="deb_res_tr.csv"
         else:
             file_name="deb_res.csv"
-        file=open("./data/"+file_name,"w")
+        file=open("./results/"+file_name,"w")
 
         file.close()

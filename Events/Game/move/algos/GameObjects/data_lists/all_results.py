@@ -42,7 +42,7 @@ class Result_tr_list():
 
     def save_to_file(self,settings):
 
-        file=open("./data/results_tr.csv","w")
+        file=open("./results/results_tr.csv","w")
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_tr_list):
             file.write("run %d\n"%(i+1))
@@ -61,7 +61,7 @@ class Result_tr_list():
                     file.write(str)
         file.close()
 
-        file=open("./data/results_tr.txt","w")
+        file=open("./results/results_tr.txt","w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_tr_list):
             file.write("#run %d\n"%(i+1))

@@ -40,7 +40,7 @@ class Hit_list():
 
     def save_to_file(self,hits_list,reasons_to_stop_simulation):
 
-        file=open("./data/HITS.csv","w")
+        file=open("./results/HITS.csv","w")
         for i,hit_list in enumerate(hits_list):
             file.write("run, %d, reason to stop, %s\n"%(i,reasons_to_stop_simulation[i].value))
             file.write("#hits number, #best attack position, #best attack points,  #mean points\n")
