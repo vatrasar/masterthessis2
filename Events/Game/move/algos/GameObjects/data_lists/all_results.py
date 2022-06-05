@@ -78,4 +78,5 @@ class Result_tr_list():
 
                     str="%d %.2f %d %.2f %d %.2f %.2f %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
                     file.write(str)
+            file.write("\n")
         file.close()

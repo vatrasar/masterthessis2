@@ -60,4 +60,5 @@ class Result_file():
 
                 str="%.2f %.2f %d %.2f %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
                 file.write(str)
+            file.write("\n")
         file.close()
