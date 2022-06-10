@@ -54,6 +54,7 @@ def get_target_point_according_to_direction(direction,event_owner,settings):
     return target_position
 
 
+
 def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:GameState,settings:Settings,event_list:Event_list):
     target_position=None
     if len(game_state.hands_list)>1 and get_2d_distance(game_state.hands_list[0].position,game_state.hands_list[1].position)<settings.safe_margin:

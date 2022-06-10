@@ -83,7 +83,7 @@ class Settings():
         if self.is_multirun and self.mode==Modes.LEARNING:
             raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
         self.map_size_y=int(self.tier1_distance_from_intruder * 1.3)
-
+        self.map_size_x=1040
 
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
@@ -178,10 +178,6 @@ class Settings():
             self.fake_targets_number=self.check_int(property_value, property_name,1,0,True)
         elif (property_name=="number_of_points_to_win"):
             self.number_of_points_to_win=self.check_int(property_value, property_name,1,0,True)
-
-        elif (property_name=="map_size_x"):
-            self.map_size_x=self.check_int(property_value, property_name,1,0,True)
-
         elif (property_name=="load_memory"):
             self.load_memory=self.check_binary(property_value,property_name)
         elif (property_name=="zone_width"):
