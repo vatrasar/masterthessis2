@@ -82,7 +82,7 @@ class Settings():
 
         if self.is_multirun and self.mode==Modes.LEARNING:
             raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
-        self.map_size_y=int(self.tier1_distance_from_intruder * 1.3)
+        self.map_size_y=520
         self.map_size_x=1040
 
 
@@ -105,7 +105,7 @@ class Settings():
         self.dodge_radius=self.uav_size*4
         self.save_distance=self.dodge_radius*2 #minimal distance form secound uav
         self.minimal_hand_range=self.intuder_size*1.3
-
+        self.tier1_distance_from_intruder=400
         self.uav_wait_time=3.0
         self.uav_number=2
 
@@ -268,9 +268,6 @@ class Settings():
         elif (property_name=="prob_of_return_to_T2"):
 
             self.prob_of_return_to_T2=self.check_float(property_value,property_name,0,1,False)
-        elif (property_name=="tier1_distance_from_intruder"):
-
-            self.tier1_distance_from_intruder=self.check_float(property_value,property_name,0,1,True)
 
         elif (property_name=="v_of_uav"):
 

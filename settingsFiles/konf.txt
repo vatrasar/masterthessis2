@@ -64,9 +64,6 @@ load_memory=0
 #
 ######### SIMULATION PARAMETERS
 ###MAP PARAMETERS
-#
-tier1_distance_from_intruder=400 
-#Odległość tier1 od intruza. wartosci powyżej 0
 map_resolution=3 
 #Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki. wartość powyżej 0
 #
