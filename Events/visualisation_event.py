@@ -70,9 +70,9 @@ class Visualisation_event(Event):
 
                 # create_circle(uav.position.x, uav.position.y,settings.safe_margin*1.2,self.canvas,"black")
                 if uav.index==0:
-                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"green")
+                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"yellow")
                 if uav.index==1:
-                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"black")
+                    create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"OrangeRed2")
 
             if self.game_state.naive_algo.is_learning_finished() and len(self.game_state.naive_algo.results_list.result_list)>0:
                 pass
