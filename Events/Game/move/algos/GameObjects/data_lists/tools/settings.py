@@ -339,7 +339,10 @@ class Settings():
             if record[0]=="#":
                 continue
             fields_list=record.split(" ")
-            list_of_cell_points.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),int(fields_list[3])))
+            fields_list=list(filter("".__ne__,fields_list))
+            for i,field in enumerate(fields_list):
+                fields_list[i]=field.strip("\n")
+            list_of_cell_points.append(PointsCell(int(fields_list[0]),int(fields_list[1]),int(fields_list[2]),float(fields_list[3])))
         return list_of_cell_points
 
     def get_boxes(self,file_with_boxes):
