@@ -49,7 +49,7 @@ temperature_reduction=0.9
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania
 annealing_number_of_iterations=20 
 #liczba iteracji w algorytmie wyżarzania
-annealing_step=1040 
+annealing_range=1040
 #krok w algorytmie wyżarzania
 temeprature_to_stop=10 
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop

@@ -187,7 +187,7 @@ class Settings():
         elif (property_name=="number_of_runs"):
             self.number_of_runs=self.check_int(property_value,property_name,1,0,True)
 
-        elif (property_name=="annealing_step"):
+        elif (property_name=="annealing_range"):
             self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
 
         elif (property_name=="epsilon"):
