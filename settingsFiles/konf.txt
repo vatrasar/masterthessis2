@@ -3,16 +3,16 @@
 #
 operation_mode=10
 #tryb operation_mode w jakim działa program; możliwe wartości:
-#                                                     10 full operation(tryb normalny),
-#                                                     11 debug A0(drony nie unikają kolizji),
-#                                                     12 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
-#                                                     13 debug A2(ręce pozostają na pozycjach startowych i się nie poruszają
+#                                                     10: full operation (tryb normalny),
+#                                                     11: debug A0 (drony nie unikają kolizji),
+#                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
+#                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
 learning=1
-#możliwe wartości: 0 tryb uczenia nieaktywny, 1 tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
+#możliwe wartości: 0 - tryb uczenia nieaktywny, 1 - tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
 exploitation=0
-#możliwe wartości: 0 tryb eksploatacji nieaktywny, 1 tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
+#możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
-#możliwe wartości: 0 plik debug.txt nie jest tworzony, 1 plik debug.txt jest tworzony
+#możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
 learning_algo_type=SA 
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
@@ -36,7 +36,7 @@ epsilon=0.05
 l_lr=5
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
 fake_targets_number=3 
-#liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; ; wartości całkowite, większe od 0
+#liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; wartości całkowite, większe od 0
 #
 #
 #LEARNING PARAMETERS
@@ -58,8 +58,8 @@ temeprature_to_stop=10
 #
 load_memory=0 
 #czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksploatacji pamięć ta jest używana zawsze);
-# możlwe wartośći 0: nie będzie używana pamięć z pliku,
-#                 1: będzie używana pamięć z pliku
+# możlwe wartośći; 0 - nie będzie używana pamięć z pliku,
+#                  1 - będzie używana pamięć z pliku
 #
 #
 ######### SIMULATION PARAMETERS
@@ -77,8 +77,8 @@ wait_time=0.3
 uav_size=10 
 #Rozmiar UAV; wartośc powyżej 0
 tier2_mode=0;
-# możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2,
-#                   0 uav będzie mógł poruszać się zarówno po Tier1 jak i Tier2
+# możliwe wartości; 1 - uav po każdym ataku będzie przechodził na tier2,
+#                   0 - uav będzie mógł poruszać się zarówno po Tier1 jak i Tier2
 uav_energy_energy_cost_attack=3
 # zużycie energii uav na jednostkę czasu podczas ataku; wartości powyżej zera
 uav_energy_energy_cost_tier1=1
@@ -88,8 +88,8 @@ uav_energy_energy_cost_tier2=1
 uav_energy=2000
 #początkowa energia uav; wartości całkowite, powyżej zera
 drone_energy_destroy_condition=0 
-#czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości 1: warunek będzie brany pod uwagę,
-#                                                                         0: warunek nie będzie brany pod uwagę
+#czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
+#                                                                          0 - warunek nie będzie brany pod uwagę
 #
 ### HANDS PARAMETERS
 #
@@ -134,18 +134,19 @@ T=500
 iterations_for_learning=2000 
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
-#czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości
-#                                                                            1: warunek będzie brany pod uwagę,
-#                                                                            0: warunek nie będzie brany pod uwagę
+#czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
+#                                                                            1 - warunek będzie brany pod uwagę,
+#                                                                            0 - warunek nie będzie brany pod uwagę
 number_of_points_to_win=20000 
 #liczba punktów po osiągnięciu, której ma zostać zakończona symulacja (działa zarówno w trybie uczenia jak i eksploatacji); wartości całkowite, powyżej 0
 #
 ## VISUALISATION
 #
 visualization=1 
-#czy ma być widoczna wizualizacja; możliwe wartości 0: brak wizualizacji,
-#                                  1: jest wizualizacja,
-#                                  2 jest wizualizacja i zapis do pliku
+#czy ma być widoczna wizualizacja; możliwe wartości
+#                                  0 - brak wizualizacji,
+#                                  1 - jest wizualizacja,
+#                                  2 - jest wizualizacja i zapis do pliku
 visualization_update_interval=0.5
 #co ile jednostek czasu ma być aktualizowana wizualizacja symulacji. Wartość powyżej 0
 visualisation_speed=1 
@@ -154,8 +155,8 @@ visualisation_speed=1
 #SEED
 #
 seed_clock=0 
-#możliwe wartości: 1 seed jest wybierany z zegara,
-#                  0: wartość seed jest ustawiana w pliku konf(we właściwość seed)
+#możliwe wartości: 1 - seed jest wybierany z zegara,
+#                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=101 
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
@@ -168,7 +169,7 @@ zone_width=50
 #
 #RUNS
 is_multirun=0
-#czy ma zostać uruchomiony multirun; możliwe wartości: 0 normalne uruchomienie algorytmu (bez multiruna)
-#                                                      1 multirun
+#czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)
+#                                                      1 - multirun
 number_of_runs=2 
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera
