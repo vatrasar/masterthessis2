@@ -57,9 +57,9 @@ temeprature_to_stop=10
 #MEMORY
 #
 load_memory=0 
-#czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksploatacji pamięć ta jest używana zawsze);
-# możlwe wartośći; 0 - nie będzie używana pamięć z pliku,
-#                  1 - będzie używana pamięć z pliku
+#czy podczas uczenia ma być używana poprzednio znaleziona lista ataków (w trybie eksploatacji ma to miejsce zawsze);
+# możlwe wartośći; 0 - poprzednio znaleziona lista ataków nie będzie używana,
+#                  1 - poprzednio znaleziona lista ataków będzie używana
 #
 #
 ######### SIMULATION PARAMETERS
