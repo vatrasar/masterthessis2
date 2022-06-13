@@ -2,29 +2,29 @@
 #MAIN ALGOS PARAMETERS
 #
 operation_mode=10
-#tryb operation_mode w jakim działa program. możliwe wartości:
+#tryb operation_mode w jakim działa program; możliwe wartości:
 #                                                     10 full operation(tryb normalny),
 #                                                     11 debug A0(drony nie unikają kolizji),
 #                                                     12 debug A1(drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13 debug A2(ręce pozostają na pozycjach startowych i się nie poruszają
 learning=1
-#możliwe wartości:0 tryb uczenia nieaktywny, 1 tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
+#możliwe wartości: 0 tryb uczenia nieaktywny, 1 tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
 exploitation=0
-#możliwe wartości:0 tryb eksploatacji nieaktywny, 1 tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
+#możliwe wartości: 0 tryb eksploatacji nieaktywny, 1 tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
-#możliwe wartości:0 plik debug.txt nie jest tworzony, 1 plik debug.txt jest tworzony
+#możliwe wartości: 0 plik debug.txt nie jest tworzony, 1 plik debug.txt jest tworzony
 learning_algo_type=SA 
-#typ algorytmu, który wykorzystujemy podczas uczenia. możliwe wartości: RS,
+#typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=epsilon-LA
-#rodzaj eksplotacji.  możliwe wartości: wheel_roulette, 
+#rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,
 #                                       random
 prob_of_attack=0.7 
-#Prawdopodobieństwo wykonania ataku w trybie losowym(dotyczy trybu exploitation1). wartości od 0 do 1
+#Prawdopodobieństwo wykonania ataku w trybie losowym (dotyczy trybu exploitation1); wartości od 0 do 1
 prob_of_return_to_T2=0.1 
-#Parwdopodobieństwo powrotu na tier2. wartośc od 0 do 1(dotyczy wszaystkich trybów)
+#Prawdopodobieństwo  powrotu na tier2; wartośc od 0 do 1 (dotyczy wszystkich trybów)
 delay_between_attacks=10 
 # opóźnienie pomiędzy atakami dronów
 #
@@ -32,32 +32,32 @@ delay_between_attacks=10
 #EXPLOITATION PARAMETERS
 #
 epsilon=0.05 
-#parametr dla eksplotacji typu eplsion-LA
+#parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
 l_lr=5
-#pojemość pamięci w algorytmie eplsion-LA
+#pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
 fake_targets_number=3 
-#liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania
+#liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; ; wartości całkowite, większe od 0
 #
 #
 #LEARNING PARAMETERS
 #
 naive algo list limit=20 
-#pojemność pamięci w algorytmie normal operating
+#pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100 
-#temperatura z algorytmu wyżarzania
+#temperatura z algorytmu wyżarzania; wartości większe od 0
 temperature_reduction=0.9 
-# alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania
+# alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
 annealing_number_of_iterations=20 
-#liczba iteracji w algorytmie wyżarzania
+#liczba iteracji w algorytmie wyżarzania; wartości całkowite, większe od 0
 annealing_range=1040
-#krok w algorytmie wyżarzania
+#krok w algorytmie wyżarzania; wartości całkowite, większe od 0
 temeprature_to_stop=10 
-#jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop
+#jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
 #MEMORY
 #
 load_memory=0 
-#czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksplotacji pamięć ta jest używana zawsze).
+#czy ma być używana pamięć zapisana w pliku podczas uczenia(w trybie eksploatacji pamięć ta jest używana zawsze);
 # możlwe wartośći 0: nie będzie używana pamięć z pliku,
 #                 1: będzie używana pamięć z pliku
 #
@@ -65,106 +65,110 @@ load_memory=0
 ######### SIMULATION PARAMETERS
 ###MAP PARAMETERS
 map_resolution=3 
-#Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki. wartość powyżej 0
+#Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki; wartość całkowite, powyżej 0
 #
 #
 ###UAVs PARAMETERS
 #
 v_of_uav=15 
-#Prędkośći drona. wartosci powyżej 0
+#Prędkośći drona; wartosci powyżej 0
 wait_time=0.3 
-#Czas oczekiwania dla zdarzenia wait. wartośc powyżej 0
+#Czas oczekiwania dla zdarzenia wait; wartośc powyżej 0
 uav_size=10 
-#Rozmiar UAV. wartośc powyżej 0
-tier2_mode=0 
-# możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2, 
+#Rozmiar UAV; wartośc powyżej 0
+tier2_mode=0;
+# możliwe wartości: 1 uav po każdym ataku będzie przechodził na tier2,
 #                   0 uav będzie mógł poruszać się zarówno po Tier1 jak i Tier2
-uav_energy_energy_cost_attack=3 # zużycie energi uav na jednostke czasu podczas ataku
-uav_energy_energy_cost_tier1=1 #  zużycie energi uav na jednostke czasu podczas poruszania się na tier1
-uav_energy_energy_cost_tier2=1 #  zużycie energi uav na jednostke czasu podczas poruszania się na tier2
+uav_energy_energy_cost_attack=3
+# zużycie energii uav na jednostkę czasu podczas ataku; wartości powyżej zera
+uav_energy_energy_cost_tier1=1
+#zużycie energii uav na jednostkę czasu podczas poruszania się na tier1; wartości powyżej zera
+uav_energy_energy_cost_tier2=1
+#zużycie energii uav na jednostkę czasu podczas poruszania się na tier2; wartości powyżej zera
 uav_energy=2000
-#poczatkowa energia uav
+#początkowa energia uav; wartości całkowite, powyżej zera
 drone_energy_destroy_condition=0 
-#czy drony będą niszczone gdy wyczerpie się ich energia. mozliwe wartości 1: warunek będzie brany pod uwagę, 
+#czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości 1: warunek będzie brany pod uwagę,
 #                                                                         0: warunek nie będzie brany pod uwagę
 #
 ### HANDS PARAMETERS
 #
 hands_number=2 
-#liczba rąk w symulacji. mozliwe wartości to 0,1,2
+#liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
-#Rozmiar ręki. wartość powyżej 0
+#Rozmiar ręki; wartość całkowite, powyżej 0
 velocity_hand=10 
-#Prędkość ręki. wartość powyżej 0
+#Prędkość ręki; wartość powyżej 0
 r_of_LR=300 
-#Maksymalny zasięg ręki. wartość powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
+#Maksymalny zasięg ręki; wartość całkowite, powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
 time_to_wait_after_jump=20 
-#jak długo ręka musi czekać po wykonaniu skoku
+#jak długo ręka musi czekać po wykonaniu skoku; wartości całkowite, powyżej zera
 jump_ratio=2 
-# ile razy ręka przyspiesza(ilu krotnie ręka zwiększa swoją prędkość) podczas skoku
+# ile razy ręka przyspiesza(ilu krotnie ręka zwiększa swoją prędkość) podczas skoku; wartości powyżej 1
 hand_max_deviation=20 
-#maksymalny błąd występujący przy wykonywaniu skoku przez ręke(jeśli bład=0 ręka będzie celowała idealnie w pozycje drona)
+#maksymalny błąd występujący przy wykonywaniu skoku przez ręke; wartości powyżej 0, jeśli bład=0 ręka będzie celowała idealnie w pozycje drona
 #
 ## INTRUDER PARAMETERS
 #
 intuder_size=120 
-#rozmiar intruza
+#rozmiar intruza; wartości całkowite, powyżej 0
 blind_angle=20 
-# wyrażony w stopniach maksymalny kąt pomiędzy uav, przy którm intruz jest zdolny do jednoczesnej reakcji na działania obydwu uav
+# wyrażony w stopniach maksymalny kąt pomiędzy uav, przy którym intruz jest zdolny do jednoczesnej reakcji na działania obydwu uav; wartości z przedziału (0,180)
 intruder_time_of_reaction=5 
-# czas co jaki intruz aktualizuje swoją strategie
+# czas co jaki intruz aktualizuje swoją strategię; wartości całkowite, powyżej 0
 intruder_max_energy=50 
-#poczatkowa energia intruza
+#początkowa energia intruza; wartości całkowite, powyżej 0
 intruder_energy_cost_jump=3 
-# zużycie energi intruza na jednostke czasu podczas skoku
+# zużycie energii intruza na jednostkę czasu podczas skoku; wartości powyżej 0
 intruder_energy_cost_chasing=1 
-# zużycie energi intruza na jednostke czasu podczas śledzenia drona
+# zużycie energii intruza na jednostkę czasu podczas śledzenia drona; wartości powyżej 0
 intruder_energy_cost_of_reaction=5 
-#  zużycie energi intruza gdy podejmuje on decyzje o rozpoczęciu śledzenia drona.
+#  zużycie energii intruza gdy podejmuje on decyzję o rozpoczęciu śledzenia drona; wartości powyżej 0
 #
 ###CONDITIONS TO FINISH SIMULATION
 #
 itertions_without_progress_to_stop=5000 
-#jeśli przez podaną liczbe iteracji alogrytm nie odnotuje żadnej poprawy to zakończy działanie(działa tylko w trybie uczenia)
-T=200
-#liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji). wartości powyżej 0
+#jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
+T=500
+#liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=2000 
-#liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania(działa tylko w trybie uczenia)
+#liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
-#czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji). mozliwe wartości 1: warunek będzie brany pod uwagę,
+#czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości
+#                                                                            1: warunek będzie brany pod uwagę,
 #                                                                            0: warunek nie będzie brany pod uwagę
 number_of_points_to_win=20000 
-#liczba punktów po osiągnięciu, której ma zostać zakończona symulacja(działa zarówno w trybie uczenia jak i eksploatacji).
+#liczba punktów po osiągnięciu, której ma zostać zakończona symulacja (działa zarówno w trybie uczenia jak i eksploatacji); wartości całkowite, powyżej 0
 #
 ## VISUALISATION
 #
 visualization=1 
-#czy ma być widoczna wizualizacja. 0: brak wizualizacji, 
+#czy ma być widoczna wizualizacja; możliwe wartości 0: brak wizualizacji,
 #                                  1: jest wizualizacja,
-#                                  2 jest wizaulizacja i zapis do pliku
-visualzation_update_interval=0.5 
+#                                  2 jest wizualizacja i zapis do pliku
+visualization_update_interval=0.5
 #co ile jednostek czasu ma być aktualizowana wizualizacja symulacji. Wartość powyżej 0
 visualisation_speed=1 
-#im wyższa wartość tym wolniej symulacja działa(wygodna do obserwacji wartośc to ponad 30)
+#im wyższa wartość tym wolniej symulacja działa (wygodna do obserwacji wartośc to ponad 30)
 #
 #SEED
 #
 seed_clock=0 
-#możliwe wartości: 1 seed jest wybierany z zegara, 
-#                  0: wartość seed jest ustawionan w pliku konf(we właściwość seed)
+#możliwe wartości: 1 seed jest wybierany z zegara,
+#                  0: wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=101 
-#ziarno generatora liczb losowych
+#ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
 ######OTHERS
 #STATISTICS
 #
 zone_width=50 
-#szerokość strefy(strefy są używane w pamięci algorytmu normalnego wykonania)
+#szerokość strefy (strefy są używane w pamięci algorytmu normalnego wykonania); wartości całkowite, powyżej zera
 #
 #RUNS
 is_multirun=0
-#czy ma zostać uruchomiony multirun. mozliwe wartości: 0 normalne uruchominie algorytmu(bez multiruna) 
+#czy ma zostać uruchomiony multirun; możliwe wartości: 0 normalne uruchomienie algorytmu (bez multiruna)
 #                                                      1 multirun
 number_of_runs=2 
-#gdy multirun aktywny okresla liczbe odpaleń algorytmu
+#gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera

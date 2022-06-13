@@ -1,4 +1,4 @@
-#actual seed=1654882275.4500477
+#actual seed=1655054223.1111581
 #operation_mode=10
 
 #learning=1
@@ -84,7 +84,7 @@
 
 #itertions_without_progress_to_stop=5000 
 
-#T=200
+#T=500
 
 #iterations_for_learning=2000 
 
