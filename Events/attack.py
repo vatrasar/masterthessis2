@@ -103,7 +103,13 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
 
 
 
+        closest_hand=None
+        for hand in game_state.hands_list:
+            if closest_hand==None:
+                closest_hand=hand
 
+            if get_2d_distance(event_owner.position,hand.position)<get_2d_distance(event_owner.position,closest_hand.position):
+                closest_hand=hand
         is_point_safe=True
         direction=closest_hand.position.y-event_owner.position.y
         if direction>0:
@@ -155,7 +161,7 @@ class Attack(Event):
             else:
 
                 attack_path_found=False
-                if self.event_owner.status==UavStatus.ON_ATTACK and check_is_horizontal_distance_form_hands_safe(self.state.hands_list, self.event_owner, settings.safe_margin,jump_velocity):
+                if self.event_owner.status==UavStatus.ON_ATTACK and check_is_horizontal_distance_form_hands_safe(self.state.hands_list, self.event_owner, settings.safe_margin,jump_velocity,settings):
                     path=None
 
                     path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)

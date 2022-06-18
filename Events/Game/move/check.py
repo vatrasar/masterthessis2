@@ -108,32 +108,44 @@ def check_if_point_is_in_range(point:Point,hand:Hand,settings):
 def check_if_algo_target_reached(uav_postion,target_position,settings):
     return get_2d_distance(uav_postion,target_position)<settings.map_resolution*2
 
-def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin,jump_velocity):
+def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin,jump_velocity,settings:Settings):
 
-    actual_margin=jump_velocity*4*1.5
+    # actual_margin=jump_velocity*4*1.5
+    # for hand in hands_list:
+    #     if hand.status==HandStatus.JUMP:
+    #         actual_margin=safe_margin*2
+    #     # elif hand.status==HandStatus.CHASING and hand.target_uav==uav:
+    #     #     actual_margin=safe_margin*1.5
+    #     elif hand.status==HandStatus.WAIT_AFTER_JUMP and uav.status!=UavStatus.ON_ATTACK:
+    #         actual_margin=0
+    #     else:
+    #         actual_margin=jump_velocity*4*1.5
+    #
+    #     if abs(uav.position.x-hand.position.x)<actual_margin:
+    #
+    #         return False
+
+    safe_distance_to_take=(settings.uav_size+settings.hand_size)*3
+    time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
+    save_distance=jump_velocity*time_of_uav_to_take_distance
     for hand in hands_list:
-        if hand.status==HandStatus.JUMP:
-            actual_margin=safe_margin*2
-        # elif hand.status==HandStatus.CHASING and hand.target_uav==uav:
-        #     actual_margin=safe_margin*1.5
-        elif hand.status==HandStatus.WAIT_AFTER_JUMP and uav.status!=UavStatus.ON_ATTACK:
-            actual_margin=0
-        else:
-            actual_margin=jump_velocity*4*1.5
 
-        if abs(uav.position.x-hand.position.x)<actual_margin:
-
+        actual_margin=jump_velocity*4*1.5
+        actual_margin=save_distance
+        if hand.status==HandStatus.WAIT_AFTER_JUMP and uav.status!=UavStatus.ON_ATTACK:
+            actual_margin=settings.uav_size+settings.hand_size
+        if get_2d_distance(uav.position,hand.position)<actual_margin:
             return False
 
     return True
 
-def check_is_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin):
-    for hand in hands_list:
-
-        if get_2d_distance(uav.position,hand.position)<safe_margin:
-            return False
-
-    return True
+# def check_is_distance_form_hands_safe(hands_list:typing.List[Hand], uav, safe_margin):
+#     for hand in hands_list:
+#
+#         if get_2d_distance(uav.position,hand.position)<safe_margin:
+#             return False
+#
+#     return True
 
 def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hands_list:typing.List[Hand]):
 
@@ -142,7 +154,7 @@ def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hand
 
     jump_velocity=settings.jump_ratio*settings.velocity_hand
     cells_to_check=settings.v_of_uav*5.0/settings.map_resolution
-    if (not check_is_horizontal_distance_form_hands_safe(hands_list, uav, settings.safe_margin,jump_velocity)) and uav.status!=UavStatus.ON_BACK:
+    if (not check_is_horizontal_distance_form_hands_safe(hands_list, uav, settings.safe_margin,jump_velocity,settings)) and uav.status!=UavStatus.ON_BACK:
          return False
 
     # if chasing_hand==None:
@@ -178,6 +190,11 @@ def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hand
     return True
 
 def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands_list:typing.List[Hand],jump_velocity):
+
+    safe_distance_to_take=(settings.uav_size+settings.hand_size)*3
+    time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
+    my_save_distance=jump_velocity*time_of_uav_to_take_distance
+
     jump_velocity=settings.jump_ratio*settings.velocity_hand
     if cell.position.y>settings.r_of_LR:
         return True
@@ -192,8 +209,8 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
         save_distance=settings.velocity_hand*4+settings.hand_size*2
 
         if hand.status==HandStatus.JUMP:
-            save_distance=settings.velocity_hand*settings.jump_ratio*3+settings.hand_size*2
-        if get_2d_distance(cell.position,hand.position)<save_distance:
+            save_distance=my_save_distance
+        if get_2d_distance(cell.position,hand.position)<my_save_distance:
             return False
 
 
