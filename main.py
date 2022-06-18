@@ -26,6 +26,7 @@ def main():
         settings.get_properties(file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible)
     except Exception as exp:
         print(str(exp))
+        input(" press close to exit ")
         return
 
     #init state
