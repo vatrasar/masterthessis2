@@ -42,7 +42,7 @@ class GameState():
         self.hands_list:typing.List[Hand] = []
         if(hands_number==1):
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
-        else:
+        elif (hands_number==2):
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.RIGHT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
             self.hands_list.append(Hand(HandStatus.TIER_0,velocity_hand,Sides.LEFT,map_size_x,map_size_y,0,HandStatus.TIER_0,None))
         if settings.load_memory or settings.mode==Modes.EXPLOITATION:
