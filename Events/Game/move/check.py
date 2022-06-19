@@ -125,7 +125,7 @@ def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], u
     #
     #         return False
 
-    safe_distance_to_take=(settings.uav_size+settings.hand_size)*3
+    safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
     time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
     save_distance=jump_velocity*time_of_uav_to_take_distance
     for hand in hands_list:
@@ -191,12 +191,12 @@ def check_if_path_save(path, uav:Uav, chasing_hand:Hand, settings:Settings, hand
 
 def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands_list:typing.List[Hand],jump_velocity):
 
-    safe_distance_to_take=(settings.uav_size+settings.hand_size)*3
+    safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
     time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
     my_save_distance=jump_velocity*time_of_uav_to_take_distance
 
     jump_velocity=settings.jump_ratio*settings.velocity_hand
-    if cell.position.y>settings.r_of_LR:
+    if cell.position.y>settings.r_of_LR+settings.hand_size+settings.uav_size:
         return True
     if chasing_hand!=None and chasing_hand.status==HandStatus.JUMP:# checking future targets
 
@@ -206,11 +206,13 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
             return False
 
     for hand in hands_list:# chacking for static targets
-        save_distance=settings.velocity_hand*4+settings.hand_size*2
+        save_distance=my_save_distance
 
         if hand.status==HandStatus.JUMP:
-            save_distance=my_save_distance
-        if get_2d_distance(cell.position,hand.position)<my_save_distance:
+            save_distance=(settings.uav_size+settings.hand_size)*2
+        if hand.status==HandStatus.WAIT_AFTER_JUMP or hand.status==HandStatus.WAIT:
+            save_distance=min((settings.uav_size+settings.hand_size)*3,my_save_distance)
+        if get_2d_distance(cell.position,hand.position)<save_distance:
             return False
 
 

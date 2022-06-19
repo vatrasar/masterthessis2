@@ -49,7 +49,9 @@ class Visualisation_event(Event):
 
 
     def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range,settings:Settings):
-
+        safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
+        time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
+        save_distance=settings.jump_ratio*settings.velocity_hand*time_of_uav_to_take_distance
         for point in settings.lif_of_invisible:
 
             create_circle(point.x,point.y,point.r,self.canvas,"grey")
@@ -67,8 +69,8 @@ class Visualisation_event(Event):
         # create_circle(1011,396,hand_size,self.canvas,"black") #marker
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
-
-                # create_circle(uav.position.x, uav.position.y,settings.safe_margin*1.2,self.canvas,"black")
+                if settings.show_safe_space:
+                    create_circle(uav.position.x, uav.position.y,save_distance,self.canvas,"black")
                 if uav.index==0:
                     create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"yellow")
                 if uav.index==1:

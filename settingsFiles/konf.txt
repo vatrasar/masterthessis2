@@ -91,6 +91,9 @@ drone_energy_destroy_condition=0
 #czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
 #                                                                          0 - warunek nie będzie brany pod uwagę
 #
+safe_distance_ratio=2
+#współczynnik określający bezpieczny dystans między dronem a ręką. Wartość używana
+#jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
 hands_number=2
@@ -142,7 +145,7 @@ number_of_points_to_win=20000
 #
 ## VISUALISATION
 #
-visualization=1 
+visualization=1
 #czy ma być widoczna wizualizacja; możliwe wartości
 #                                  0 - brak wizualizacji,
 #                                  1 - jest wizualizacja,
@@ -152,12 +155,17 @@ visualization_update_interval=0.5
 visualisation_speed=1 
 #im wyższa wartość tym wolniej symulacja działa (wygodna do obserwacji wartośc to ponad 30)
 #
+show_safe_space=0
+#Czy ma być pokazywana strefa bezpieczenstwa wokół drona; możliwe wartości:
+#                                                           1 - strefy są pokazywane
+#                                                           0 - strefy nie są pokazywane
+#
 #SEED
 #
 seed_clock=0 
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=101 
+seed=127
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

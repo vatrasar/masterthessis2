@@ -54,6 +54,18 @@ def get_target_point_according_to_direction(direction,event_owner,settings):
     return target_position
 
 
+def get_direction_according_to_wall(uav_pos:Point,settings:Settings,current_dir):
+    safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
+    time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
+    my_save_distance=settings.velocity_hand*settings.jump_ratio*time_of_uav_to_take_distance
+
+    if abs(uav_pos.x-settings.map_size_x)<my_save_distance:
+        return -1
+    if uav_pos.x<my_save_distance:
+        return 1
+    else:
+        return current_dir
+
 
 def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:GameState,settings:Settings,event_list:Event_list):
     target_position=None
@@ -77,6 +89,7 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
 
         direction=event_owner.position.x-closest_hand.position.x
 
+        direction=get_direction_according_to_wall(event_owner.position,settings,direction)
 
         target_position=get_target_point_according_to_direction(direction,event_owner,settings)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)

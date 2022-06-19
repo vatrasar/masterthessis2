@@ -174,6 +174,10 @@ class Settings():
             self.energy_simulation_end_condition=self.check_binary(property_value, property_name)
         elif (property_name=="drone_energy_destroy_condition"):
             self.drone_energy_destroy_condition=self.check_binary(property_value, property_name)
+        elif (property_name=="safe_distance_ratio"):
+            self.safe_distance_ratio=self.check_float(property_value, property_name,0.1,0,True)
+        elif (property_name=="show_safe_space"):
+            self.show_safe_space=self.check_binary(property_value, property_name)
         elif (property_name=="fake_targets_number"):
             self.fake_targets_number=self.check_int(property_value, property_name,1,0,True)
         elif (property_name=="number_of_points_to_win"):
