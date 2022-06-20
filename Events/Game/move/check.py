@@ -196,7 +196,10 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
     my_save_distance=jump_velocity*time_of_uav_to_take_distance
 
     jump_velocity=settings.jump_ratio*settings.velocity_hand
-    if cell.position.y>settings.r_of_LR+settings.hand_size+settings.uav_size:
+    save_space_outside_LF=(settings.hand_size+settings.uav_size)*1.5
+    # if arrive_time<520:
+    #     save_space_outside_LF=(settings.hand_size+settings.uav_size)
+    if cell.position.y>settings.r_of_LR+save_space_outside_LF:
         return True
     if chasing_hand!=None and chasing_hand.status==HandStatus.JUMP:# checking future targets
 
@@ -228,7 +231,8 @@ def check_if_point_safe(arrive_time, chasing_hand, cell, settings:Settings,hands
 
 def check_if_point_safe_attack_dodge(game_state,target_position,settings,event_owner):
     is_point_safe=True
-
+    if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
+        return False
     for hand in game_state.hands_list:#checking for safety
 
         if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:

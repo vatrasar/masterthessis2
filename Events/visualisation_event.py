@@ -39,7 +39,7 @@ class Visualisation_event(Event):
 
 
             self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
-            if self.time_of_event%1==0 and settings.visualisation==2:
+            if self.time_of_event%1==0 and settings.visualisation==2 and self.time_of_event>500:
                 self.save_to_file(self.time_of_event)
 
         # self.canvas.update()

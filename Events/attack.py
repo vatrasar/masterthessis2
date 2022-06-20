@@ -40,17 +40,17 @@ def get_target_point_according_to_direction(direction,event_owner,settings):
     if direction<0:
         target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
-        if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
-            distance=abs(direction)*1.1
-            target_position=Point(event_owner.position.x+distance,event_owner.position.y)
+        # if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
+        #     distance=abs(direction)*1.1
+        #     target_position=Point(event_owner.position.x+distance,event_owner.position.y)
     else:
         target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
-        if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
-            # target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
-            distance=abs(direction)*1.1
-
-            target_position=Point(event_owner.position.x-distance,event_owner.position.y)
+        # if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
+        #     # target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
+        #     distance=abs(direction)*1.1
+        #
+        #     target_position=Point(event_owner.position.x-distance,event_owner.position.y)
     return target_position
 
 
