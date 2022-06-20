@@ -1,4 +1,4 @@
-#actual seed=1655715340.3207996
+#actual seed=1655717561.577121
 #operation_mode=10
 
 #learning=1
@@ -103,7 +103,7 @@
 
 #visualisation_speed=1 
 
-#show_safe_space=1
+#show_safe_space=0
 
 #seed_clock=0 
 

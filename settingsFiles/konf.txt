@@ -155,7 +155,7 @@ visualization_update_interval=0.5
 visualisation_speed=1 
 #im wyższa wartość tym wolniej symulacja działa (wygodna do obserwacji wartośc to ponad 30)
 #
-show_safe_space=1
+show_safe_space=0
 #Czy ma być pokazywana strefa bezpieczenstwa wokół drona; możliwe wartości:
 #                                                           1 - strefy są pokazywane
 #                                                           0 - strefy nie są pokazywane
