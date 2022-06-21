@@ -132,9 +132,6 @@ class Move_along(Event):
                 self.game_state.naive_algo.remove_target(self.event_owner.index)
                 return
             else:#no attack
-
-
-                points1,points2=self.get_points1_and_points2()
                 self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder.energy,self.time_of_event)
 
         else:

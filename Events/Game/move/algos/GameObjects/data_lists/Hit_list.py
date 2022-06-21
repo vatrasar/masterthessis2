@@ -44,12 +44,53 @@ class Hit_list():
         for i,hit_list in enumerate(hits_list):
             file.write("run, %d, reason to stop, %s\n"%(i,reasons_to_stop_simulation[i].value))
             file.write("#hits number, #best attack position, #best attack points,  #mean points\n")
-            for hit in hit_list.hit_list\
-                    :
-                if hit.best_attack_postion==None:
+            for zone in hit_list.hit_list:
+                if zone.best_attack_postion==None:
                     file.write("0, -, -, -\n")
                 else:
-                    file.write("%d, %.2f, %.2f, %.2f\n"%(hit.number_of_hits,hit.best_attack_postion.x,hit.best_points,hit.points_mean))
+                    file.write("%d, %.2f, %.2f, %.2f\n"%(zone.number_of_hits,zone.best_attack_postion.x,zone.best_points,zone.points_mean))
+        file.close()
+
+        file=open("./results/freq_of_hits.txt","w")
+        for i,hit_list in enumerate(hits_list):
+
+            #counting number of hits
+            number_of_all_hits=0
+            for zone in hit_list.hit_list:
+                number_of_all_hits=number_of_all_hits+zone.number_of_hits
+
+
+            file.write("run, %d\n"%(i))
+
+            file.write("#zone_id freq average_rew\n")
+            file.write("#1 2 3\n")
+            for zone_number,zone in enumerate(hit_list.hit_list):
+                if zone.best_attack_postion==None:
+                    file.write("%d 0 0\n"%(zone_number))
+                else:
+                    file.write("%d %.2f %.2f\n"%(zone_number,zone.number_of_hits/float(number_of_all_hits),zone.points_mean))
+        file.close()
+
+
+
+        file=open("./results/freq_of_hits.csv","w")
+        for i,hit_list in enumerate(hits_list):
+
+            #counting number of hits
+            number_of_all_hits=0
+            for zone in hit_list.hit_list:
+                number_of_all_hits=number_of_all_hits+zone.number_of_hits
+
+
+            file.write("run, %d\n"%(i))
+
+            file.write("zone_id, freq, average_rew\n")
+
+            for zone_number,zone in enumerate(hit_list.hit_list):
+                if zone.best_attack_postion==None:
+                    file.write("%d, 0, 0\n"%(zone_number))
+                else:
+                    file.write("%d, %.2f, %.2f\n"%(zone_number,zone.number_of_hits/float(number_of_all_hits),zone.points_mean))
         file.close()
 
 

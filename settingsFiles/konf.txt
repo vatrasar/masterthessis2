@@ -13,7 +13,7 @@ exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=RS 
+learning_algo_type=SA
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=epsilon-LA
@@ -35,23 +35,23 @@ epsilon=0.05
 #parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
 l_lr=5
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
-fake_targets_number=3 
+fake_targets_number=3
 #liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; wartości całkowite, większe od 0
 #
 #
 #LEARNING PARAMETERS
 #
-naive algo list limit=10 
+naive algo list limit=5
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
-temperature=100 
+temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
 temperature_reduction=0.9 
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=20 
+annealing_number_of_iterations=1000
 #liczba iteracji w algorytmie wyżarzania; wartości całkowite, większe od 0
-annealing_range=1040
+annealing_range=100
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
-temeprature_to_stop=10 
+temeprature_to_stop=1
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
 #MEMORY
@@ -132,7 +132,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=1000000
+T=5000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=2000 
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

@@ -1,6 +1,8 @@
 from random import Random
 
 import typing
+
+from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
 from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
@@ -37,6 +39,7 @@ class Naive_Algo():
         self.iteration_number=0
         self.iterations_for_learning=iterations_for_learning
         self.hit_list=hit_list
+        self.hit_list2=Hit_list(settings)
         self.fake_targets_list=[]
         self.is_fake_attack={0:False,1:False}
         self.uav_list:typing.List[Uav]=uav_list
@@ -45,6 +48,7 @@ class Naive_Algo():
         self.is_secound_synchorniaztion_needed=False
         self.tiers_uav={0:None,1:None}
         self.reason_why_learning_stoped=None
+
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
 
@@ -149,7 +153,7 @@ class Naive_Algo():
                 else:
                     points2=points
                 points_sum=points_sum+points
-                self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
+                # self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
 
 
             self.iteration_number=self.iteration_number+1
@@ -157,13 +161,15 @@ class Naive_Algo():
             # if self.update_result_to_exisiting_record(points_sum,settings):
             #     return
 
-
+            is_candidate_accpeted=True
             if points_sum!=0:
                 self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1])
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
-
+            if settings.learning_algo_type!=Learning_algos.SA or settings.mode==Modes.EXPLOITATION or self.anneling_algorithm.last_decison==1:
+                for uav in uav_list:
+                    self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
@@ -327,6 +333,9 @@ class Naive_Algo():
             target1,target2=list_algo_new_targets(settings,rand)
             self.targert_attacks[0]=target1
             self.targert_attacks[1]=target2
+            # self.hit_list2.add_hit(self.targert_attacks[0],0)
+            # self.hit_list2.add_hit(self.targert_attacks[1],0)
+
             return
         elif self.settings.learning_algo_type==Learning_algos.SA:
 
