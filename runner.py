@@ -84,6 +84,7 @@ class Runner():
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         if self.settings.mode==Modes.LEARNING:
             self.result_tr_list.save_to_file(self.settings)
+            self.result_tr_list.save_to_file_uav1(self.settings)
         else:
             self.result_file.save_to_file(self.settings)
         self.debug_file.save_to_file(self.settings)
@@ -142,6 +143,7 @@ class Runner():
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
             if self.settings.mode==Modes.LEARNING:
                 self.result_tr_list.save_to_file(self.settings)
+                self.result_tr_list.save_to_file_uav1(self.settings)
             else:
                 self.result_file.save_to_file(self.settings)
 

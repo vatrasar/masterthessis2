@@ -13,7 +13,7 @@ exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=SA
+learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=epsilon-LA
@@ -132,7 +132,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=5000
+T=500
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=2000 
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
