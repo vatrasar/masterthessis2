@@ -124,12 +124,14 @@ class Naive_Algo():
         print("iteration:"+str(self.iteration_number))
         self.hit_list.add_hit(position,point)
 
+
     def un_register_attack(self, uav_id,settings:Settings,uav_list:typing.List[Uav],time,intruder_energy):
 
 
         self.current_attacks[uav_id]["active"]=False
         self.after_attack[uav_id]=True
         uav_energy=0
+
         for uav in uav_list:
             if uav.index==uav_id:
                 uav_energy=uav.energy
@@ -375,7 +377,7 @@ class Naive_Algo():
         return self.targert_attacks[index]
 
     def is_learning_finished(self):
-        if self.hit_list.iteration>self.iterations_for_learning:
+        if self.iteration_number>self.iterations_for_learning:
             self.reason_why_learning_stoped=Reason_to_stop.ITERATIONS
             return True
         elif (self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.temperature<self.settings.temeprature_to_stop):
