@@ -171,6 +171,10 @@ class Naive_Algo():
 
             if settings.learning_algo_type!=Learning_algos.SA or settings.mode==Modes.EXPLOITATION or self.anneling_algorithm.last_decison==1:
                 for uav in uav_list:
+                    if uav.index==0:
+                        points=points1
+                    else:
+                        points=points2
                     self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
