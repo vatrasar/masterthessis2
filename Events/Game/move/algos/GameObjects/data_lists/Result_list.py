@@ -72,7 +72,7 @@ class Result_list():
         self.sort_list()
         for i,run in enumerate(memory_list):
             file.write("run:%d\n"%(i))
-            file.write("#position1, #position2, #zone1, #zone2,reward1,reward2, #reward sum, #attack from tier2 uav1, #attack from tier2 uav2\n")
+            file.write("#position1, #position2, #zone1, #zone2,reward1,reward2, #reward sum, #tier uav1, #tier uav2\n")
             for result in run.result_list:
 
                 if result.position1!=None:
@@ -95,7 +95,7 @@ class Result_list():
         file=open("./results/goals_of_attack.txt","w")
 
 
-        file.write("#position1 #position2 #zone1 #zone2 #reward1 #reward2 #reward sum #attack from tier2 uav1 #attack from tier2 uav2\n")
+        file.write("#position1 #position2 #zone1 #zone2 #reward1 #reward2 #reward sum #tier uav1 #tier uav2\n")
         for result in self.result_list:
 
             file.write("%s %s %s %s %.2f %.2f %.2f %s %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))

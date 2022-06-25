@@ -1,4 +1,5 @@
-#position1 #position2 #zone1 #zone2 #reward1 #reward2 #reward sum #attack from tier2 uav1 #attack from tier2 uav2
-857.27 57.00 17 1 15.00 10.00 25.00 2 2
-486.48 619.21 9 12 9.00 15.00 24.00 2 2
-957.21 389.79 19 7 13.50 9.00 22.50 2 2
+#position1 #position2 #zone1 #zone2 #reward1 #reward2 #reward sum #tier uav1 #tier uav2
+57.00 857.27 1 17 10.00 15.00 25.00 2 2
+857.27 57.00 17 1 1.00 1.00 15.00 10.0 25.0
+957.21 389.79 19 7 1.00 1.00 13.50 9.0 22.5
+486.48 619.21 9 12 1.00 1.00 9.00 15.0 24.0
