@@ -7,9 +7,9 @@ operation_mode=10
 #                                                     11: debug A0 (drony nie unikają kolizji),
 #                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
-learning=0
+learning=1
 #możliwe wartości: 1 - tryb uczenia nieaktywny, 1 - tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
-exploitation=1
+exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
@@ -132,7 +132,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=10000
+T=12000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=100000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -165,7 +165,7 @@ show_safe_space=0
 seed_clock=0 
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=154
+seed=234
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
