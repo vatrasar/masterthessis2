@@ -1,4 +1,4 @@
-#actual seed=1656177061.3884382
+#actual seed=1656259480.008657
 #operation_mode=10
 
 #learning=1
@@ -37,7 +37,7 @@
 
 #load_memory=0 
 
-#map_resolution=3 
+#map_resolution=10
 
 #v_of_uav=15 
 
@@ -59,7 +59,7 @@
 
 #safe_distance_ratio=2
 
-#hands_number=0
+#hands_number=2
 
 #hand_size=20 
 
@@ -107,7 +107,7 @@
 
 #seed_clock=0 
 
-#seed=234
+#seed=300
 
 #zone_width=50 
 

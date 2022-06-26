@@ -6,7 +6,7 @@ from Events.Game.move.Game_Map import GameMap
 from Events.Game.move.algos.GameObjects.data_lists.tools.FluidCel import FluidCell
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.uav import Uav
-from Events.Game.move.check import check_if_cell_is_on_map, check_if_point_safe
+from Events.Game.move.check import check_if_cell_is_on_map, check_if_point_safe, check_if_point_safe_static
 from Events.Game.move.distance import get_2d_distance
 
 
@@ -29,11 +29,19 @@ def get_fluid_neighbours(cell:FluidCell, game_map:GameMap,right_branch,left_barn
     if check_if_cell_is_on_map(neighbour_candidate,len(game_map.fluid_map[0]),len(game_map.fluid_map)):
         neigbours_list.append(neighbour_candidate)
 
+    neighbour_candidate=Point(cell.index.x,cell.index.y+left_barnch.y)
+    if check_if_cell_is_on_map(neighbour_candidate,len(game_map.fluid_map[0]),len(game_map.fluid_map)):
+        neigbours_list.append(neighbour_candidate)
+
 
 
 
     for neighbour in neigbours_list:
-        result_list.append(game_map.fluid_map[neighbour.y][neighbour.x])
+        try:
+            result_list.append(game_map.fluid_map[neighbour.y][neighbour.x])
+        except Exception:
+            check_if_cell_is_on_map(neighbour,len(game_map.fluid_map[0]),len(game_map.fluid_map))
+            print(";")
     return result_list
 
 
@@ -149,7 +157,12 @@ def create_path(best_cell:FluidCell):
 
 def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings,hands_list):
 
-    cells_with_points=floading_algo(game_map, uav, uav_velocity,UavStatus.ON_ATTACK,settings,hands_list,Point(-1,-1),Point(1,-1))
+
+    map_to_use=game_map
+    # if check_if_point_safe_static(uav.position,settings,hands_list,settings.velocity_hand*settings.jump_ratio):
+    #     map_to_use=game_map.simple_map
+
+    cells_with_points=floading_algo(map_to_use, uav, uav_velocity,UavStatus.ON_ATTACK,settings,hands_list,Point(-1,-1),Point(1,-1))
     if(len(cells_with_points)>0):
         best_cell=cells_with_points[0]
 
@@ -167,7 +180,12 @@ def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings,hands_list):
     return path
 
 def search_back_path(uav, game_map:GameMap,uav_velocity, tier1_distance_from_intruder,settings,hands_list):
-    floading_algo(game_map, uav, uav_velocity,UavStatus.ON_BACK,settings,hands_list,Point(-1,1),Point(1,1))
+
+
+    map_to_use=game_map
+    # if check_if_point_safe_static(uav.position,settings,hands_list,settings.velocity_hand*settings.jump_ratio):
+    #     map_to_use=game_map.simple_map
+    floading_algo(map_to_use, uav, uav_velocity,UavStatus.ON_BACK,settings,hands_list,Point(-1,1),Point(1,1))
     target_point=game_map.get_floading_point(Point(uav.position.x,tier1_distance_from_intruder-1))
     if not(target_point.is_visited):
         target_point=game_map.fluid_map[target_point.index.y-1][target_point.index.x]

@@ -64,7 +64,7 @@ load_memory=0
 #
 ######### SIMULATION PARAMETERS
 ###MAP PARAMETERS
-map_resolution=3 
+map_resolution=10
 #Rozdzielczość mapy tworzonej na potrzeby algorytmu poszukującego ścieżki; wartość całkowite, powyżej 0
 #
 #
@@ -96,7 +96,7 @@ safe_distance_ratio=2
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
@@ -165,7 +165,7 @@ show_safe_space=0
 seed_clock=0 
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=234
+seed=300
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

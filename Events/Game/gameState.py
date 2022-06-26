@@ -1,6 +1,7 @@
 import logging
 from random import Random
 
+from Events.Game.move.Simple_map import Simple_map
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
@@ -30,7 +31,8 @@ class GameState():
         self.result_tr_list=result_tr_list
         self.result_file=result_file
         from Events.Game.move.Game_Map import GameMap
-        self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
+        simple_map=Simple_map(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
+        self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,simple_map)
 
 
 

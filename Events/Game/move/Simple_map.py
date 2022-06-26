@@ -51,26 +51,25 @@ from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.distance import get_2d_distance
 
 
-class GameMap():
-    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings:Settings,simple_map):
+class Simple_map():
+    def __init__(self,map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings:Settings):
+        self.map_resolution=map_resolution
         self.map_size_x=map_size_x
         self.map_size_y=map_size_y
-        self.simple_map=simple_map
-        self.dimension_x = round(map_size_x/map_resolution)
-        self.dimension_y = round(map_size_y/map_resolution)
+        self.dimension_x = round(map_size_x/self.map_resolution)
+        self.dimension_y = round(map_size_y/self.map_resolution)
         self.list_of_cells_with_points=list_of_cells_with_points
         self.map_memmory = np.zeros((self.dimension_y,self.dimension_x ), np.int32)
         self.memory_invisible=np.zeros((self.dimension_y,self.dimension_x ), np.int32)
         self.fluid_map:typing.List[typing.List[FluidCell]]=[]
         self.points_to_reset:typing.List[FluidCell]=[]
         self.fluid_memory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
-        self.map_resolution=map_resolution
+
         self.uav_size=uav_size
         self.hand_size=hand_size
         self.settings=settings
         self.build_fluid_map()
         self.build_invisible_map()
-
 
     def build_invisible_map(self):
         for invisible in self.settings.lif_of_invisible:
@@ -79,9 +78,7 @@ class GameMap():
                 from Events.Game.move.check import check_if_cell_is_on_map
                 if check_if_cell_is_on_map(cell,len(self.fluid_map[0]),len(self.fluid_map)):
                     self.memory_invisible[cell.y][cell.x] = 1
-    def build_simple_map(self):
-        self.simple_map.build_fluid_map()
-        self.simple_map.build_invisible_map()
+
     def build_fluid_map(self):
         for i in range(0, self.dimension_y):  # build fluid_map
             self.fluid_map.append([])
@@ -140,25 +137,25 @@ class GameMap():
             print("error in Game map, method set object on map")
 
 
-#         while (len(drones_candidates) != 0): #set all cells in range
-#
-#             drone_candidate = drones_candidates[0]
-#             drones_candidates.remove(drone_candidate)
-#             if get_2d_distance(self.get_cell_with_index(drone_candidate).position, object.position) <= object_size:
-#
-#                 self.map_memmory[drone_candidate.y][drone_candidate.x] = object_id
-#                 self.fluid_memory[drone_candidate.y][drone_candidate.x] = object_id
-#
-#                 neighbours = self.get_cell_neighbours(drone_candidate.x, drone_candidate.y)
-#                 neighbours_to_check = []
-#                 for neighbour in neighbours:
-#                     if  self.map_memmory[neighbour.y][neighbour.x] == 0:
-#                         neighbours_to_check.append(neighbour)
-# #neighbour.y<=self.dimension_y and neighbour.y>=0 and neighbour.x>=0 and neighbour.x<=self.dimension_x and
-#                 drones_candidates.extend(neighbours_to_check)
+    #         while (len(drones_candidates) != 0): #set all cells in range
+    #
+    #             drone_candidate = drones_candidates[0]
+    #             drones_candidates.remove(drone_candidate)
+    #             if get_2d_distance(self.get_cell_with_index(drone_candidate).position, object.position) <= object_size:
+    #
+    #                 self.map_memmory[drone_candidate.y][drone_candidate.x] = object_id
+    #                 self.fluid_memory[drone_candidate.y][drone_candidate.x] = object_id
+    #
+    #                 neighbours = self.get_cell_neighbours(drone_candidate.x, drone_candidate.y)
+    #                 neighbours_to_check = []
+    #                 for neighbour in neighbours:
+    #                     if  self.map_memmory[neighbour.y][neighbour.x] == 0:
+    #                         neighbours_to_check.append(neighbour)
+    # #neighbour.y<=self.dimension_y and neighbour.y>=0 and neighbour.x>=0 and neighbour.x<=self.dimension_x and
+    #                 drones_candidates.extend(neighbours_to_check)
 
     def update_map(self, uav_list,hands_list,uav:Uav):
-        self.simple_map.update_map(uav_list, hands_list,uav)
+
         self.map_memmory = np.zeros((self.dimension_y, self.dimension_x), np.int32)
         self.fluid_memory=np.zeros((self.dimension_y, self.dimension_x), np.int32)
 
@@ -214,25 +211,25 @@ class GameMap():
     #     return neighbours_cells_list
 
 
-        # neighbours_list=[]
-        # x_i,y_i=self.get_point_on_map_index(parrent_cell.position.x,parrent_cell.position.y)
-        #
-        #
-        # if(self.dimension>x_i+1 and y_i+1<self.dimension):
-        #     cell=self.fluid_map[y_i+1][x_i+1]
-        #     if get_2d_distance(cell.position,uav.position)<tier1_distance_from_intruder*1.3 and get_2d_distance(cell.position,uav.position)>tier1_distance_from_intruder:
-        #
-        #         neighbours_list.append(cell)
-        #
-        #
-        # if(0<=x_i-1 and y_i+1<self.dimension):
-        #     cell=self.fluid_map[y_i+1][x_i]
-        #     if get_2d_distance(cell.position,uav.position)<tier1_distance_from_intruder*1.3 and get_2d_distance(cell.position,uav.position)>tier1_distance_from_intruder:
-        #         neighbours_list.append(cell)
-        #
-        #
-        #
-        # return neighbours_list
+    # neighbours_list=[]
+    # x_i,y_i=self.get_point_on_map_index(parrent_cell.position.x,parrent_cell.position.y)
+    #
+    #
+    # if(self.dimension>x_i+1 and y_i+1<self.dimension):
+    #     cell=self.fluid_map[y_i+1][x_i+1]
+    #     if get_2d_distance(cell.position,uav.position)<tier1_distance_from_intruder*1.3 and get_2d_distance(cell.position,uav.position)>tier1_distance_from_intruder:
+    #
+    #         neighbours_list.append(cell)
+    #
+    #
+    # if(0<=x_i-1 and y_i+1<self.dimension):
+    #     cell=self.fluid_map[y_i+1][x_i]
+    #     if get_2d_distance(cell.position,uav.position)<tier1_distance_from_intruder*1.3 and get_2d_distance(cell.position,uav.position)>tier1_distance_from_intruder:
+    #         neighbours_list.append(cell)
+    #
+    #
+    #
+    # return neighbours_list
 
     def get_cell_neighbours(self, x, y)->typing.List[Point]:
         potential_neighbours_index_list = []
