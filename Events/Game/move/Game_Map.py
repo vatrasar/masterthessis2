@@ -1,3 +1,4 @@
+import math
 import typing
 
 import numpy as np
@@ -107,8 +108,8 @@ class GameMap():
 
     def get_point_on_map_index(self,x,y):
 
-        x_i = int(round((x) / self.map_resolution))
-        y_i= int(round((y) / self.map_resolution))
+        x_i = int(math.floor((x) / self.map_resolution))
+        y_i= int(math.floor((y) / self.map_resolution))
         return Point(x_i,y_i)
 
     def convert_index_to_point(self,x_i,y_i):
