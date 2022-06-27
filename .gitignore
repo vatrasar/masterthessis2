@@ -146,3 +146,4 @@ test
 gnuplot/*.txt
 results/*
 !results/goals_of_attack.*
+!results/*.plt
