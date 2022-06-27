@@ -1,4 +1,4 @@
-#actual seed=1656259480.008657
+#actual seed=1656320905.1492388
 #operation_mode=10
 
 #learning=1
@@ -59,7 +59,7 @@
 
 #safe_distance_ratio=2
 
-#hands_number=2
+#hands_number=0
 
 #hand_size=20 
 
@@ -107,7 +107,7 @@
 
 #seed_clock=0 
 
-#seed=300
+#seed=234
 
 #zone_width=50 
 

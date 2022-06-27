@@ -45,5 +45,7 @@ class Uav(MovableObject):
 
     def asign_points(self, points):
         self.points=self.points+points
+        if points==0:
+            print("i")
         if self.best_points<points:
             self.best_points=points

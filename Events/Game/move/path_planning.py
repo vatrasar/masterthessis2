@@ -139,6 +139,7 @@ def floading_algo(game_map, uav:Uav, v_of_uav, uav_status,settings:Settings,hand
         #         min_y=parent.index.y
         floadin_queue.extend(parents_list)
     # print(tick)
+    # game_map.show_visited()
     return cells_with_points
 
 

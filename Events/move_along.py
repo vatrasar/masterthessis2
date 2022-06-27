@@ -132,8 +132,9 @@ class Move_along(Event):
                 self.game_state.naive_algo.remove_target(self.event_owner.index)
                 return
             else:#no attack
-                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder.energy,self.time_of_event)
 
+                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder.energy,self.time_of_event)
+                # path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
         else:
             if check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
                 points1=0

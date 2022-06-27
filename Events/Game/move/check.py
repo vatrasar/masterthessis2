@@ -62,7 +62,7 @@ def check_if_in_safe_distance(uav,hands_list,safe_margin):
     return True
 
 def check_if_cell_is_on_map(cell:Point,max_index_x,max_index_y):
-    if cell.x<max_index_x-2 and cell.x>=1 and cell.y<max_index_y-2 and cell.y>=1:
+    if cell.x<max_index_x-1 and cell.x>=1 and cell.y<max_index_y-1 and cell.y>=1:
         return True
     else:
         return False
