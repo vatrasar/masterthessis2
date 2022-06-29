@@ -3,7 +3,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
-def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y):
+def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y,intruder_size):
 
     if point.x<2:
         point.x=3
@@ -11,8 +11,8 @@ def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y)
     if point.x>max_range_of_map_x-1:
         point.x=max_range_of_map_x-2
 
-    if point.y<0:
-        point.y=1
+    if point.y<intruder_size+1:
+        point.y=intruder_size+1
 
     if point.y>max_range_of_map_y-1:
         point.y=max_range_of_map_y-2
