@@ -36,15 +36,15 @@ def plan_attack(current_time, event_owner:Uav,tk_master,path,v_of_uav,game_state
 
 
 
-def get_target_point_according_to_direction(direction,event_owner,settings):
+def get_target_point_according_to_direction(direction,event_owner,settings,distnace_to_move):
     if direction<0:
-        target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
+        target_position=Point(event_owner.position.x-distnace_to_move,event_owner.position.y)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
         # if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
         #     distance=abs(direction)*1.1
         #     target_position=Point(event_owner.position.x+distance,event_owner.position.y)
     else:
-        target_position=Point(event_owner.position.x+settings.safe_margin/2,event_owner.position.y)
+        target_position=Point(event_owner.position.x+distnace_to_move,event_owner.position.y)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
         # if get_2d_distance(target_position,event_owner.position)<settings.safe_margin/4:
         #     # target_position=Point(event_owner.position.x-settings.safe_margin/2,event_owner.position.y)
@@ -69,11 +69,12 @@ def get_direction_according_to_wall(uav_pos:Point,settings:Settings,current_dir)
 
 def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:GameState,settings:Settings,event_list:Event_list):
     target_position=None
-    if len(game_state.hands_list)>1 and get_2d_distance(game_state.hands_list[0].position,game_state.hands_list[1].position)<settings.safe_margin:
+    move_distance_in_dodge=settings.jump_ratio*settings.velocity_hand
+    if len(game_state.hands_list)>1 and get_2d_distance(game_state.hands_list[0].position,event_owner.position)<settings.safe_margin and get_2d_distance(game_state.hands_list[1].position,event_owner.position)<settings.safe_margin:
         vector1=get_transform_between_points(game_state.hands_list[0].position,event_owner.position)
         vector2=get_transform_between_points(game_state.hands_list[1].position,event_owner.position)
         result_vector=Point(vector2.x+vector1.x,vector2.y+vector1.y)
-        result_vector=get_vector_with_direction_and_length(result_vector,settings.safe_margin/2)
+        result_vector=get_vector_with_direction_and_length(result_vector,move_distance_in_dodge)
         target_position=Point(event_owner.position.x+result_vector.x,event_owner.position.y+result_vector.y)
 
 
@@ -91,11 +92,11 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
 
         direction=get_direction_according_to_wall(event_owner.position,settings,direction)
 
-        target_position=get_target_point_according_to_direction(direction,event_owner,settings)
+        target_position=get_target_point_according_to_direction(direction,event_owner,settings,move_distance_in_dodge)
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
         is_point_safe=check_if_point_safe_attack_dodge(game_state,target_position,settings,event_owner)
         if not is_point_safe:
-            target_position=get_target_point_according_to_direction((-1)*direction,event_owner,settings)
+            target_position=get_target_point_according_to_direction((-1)*direction,event_owner,settings,move_distance_in_dodge)
 
 
 
@@ -126,9 +127,9 @@ def plan_attck_dodge_move(current_time, event_owner:Uav,tk_master,game_state:Gam
         is_point_safe=True
         direction=closest_hand.position.y-event_owner.position.y
         if direction>0:
-            target_position.y=target_position.y-(settings.uav_size+settings.hand_size)
+            target_position.y=target_position.y-move_distance_in_dodge
         else:
-            target_position.y=target_position.y+(settings.uav_size+settings.hand_size)
+            target_position.y=target_position.y+move_distance_in_dodge
         put_point_in_range_of_map(target_position,settings.map_size_x,settings.map_size_y)
 
         is_point_safe=check_if_point_safe_attack_dodge(game_state,target_position,settings,event_owner)

@@ -185,10 +185,10 @@ class GameMap():
         index=self.get_point_on_map_index(position.x,position.y)
         try:
             cell=self.fluid_map[index.y][index.x]
-
             return cell
         except Exception:
-            print("yyyyy")
+            print("test")
+
 
     # def get_avaiable_neighbours(self, parrent_cell:FluidCell,uav,game_state:GameState,settings:Settings,first_cell):
     #
