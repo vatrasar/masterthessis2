@@ -269,7 +269,11 @@ def check_if_point_safe_attack_dodge1(game_state,target_position,settings,event_
         #             is_point_safe=False
         #     else:
         #         is_point_safe=False
-
+        if hand.status==HandStatus.JUMP:#dynamic targets
+            uav_time=get_travel_time_to_point(event_owner.position,target_position,settings.v_of_uav)
+            hand_future_position=get_point_based_on_time(hand.position, uav_time, hand.target_position, settings.velocity_hand*settings.jump_ratio)
+            if get_2d_distance(target_position,hand_future_position)<(settings.uav_size+settings.hand_size)*2:
+                return False
 
     for secound_uav in game_state.uav_list:#checking for safety
         if secound_uav!=event_owner and get_2d_distance(secound_uav.position,target_position)<settings.uav_size*2:
@@ -286,6 +290,12 @@ def check_if_point_safe_attack_dodge2(game_state,target_position,settings,event_
         # safe_space=(settings.uav_size+settings.hand_size)*2.0/settings.v_of_uav
         # if safe_space+uav_time>hand_time:
         #     is_point_safe=False
+        if hand.status==HandStatus.JUMP:#dynamic targets
+            uav_time=get_travel_time_to_point(event_owner.position,target_position,settings.v_of_uav)
+            hand_future_position=get_point_based_on_time(hand.position, uav_time, hand.target_position, settings.velocity_hand*settings.jump_ratio)
+            if get_2d_distance(target_position,hand_future_position)<(settings.uav_size+settings.hand_size)*2:
+                return False
+
         if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
             if get_2d_distance(hand.position,event_owner.position)<(settings.uav_size+settings.hand_size)*2:
                 if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*1.1:
