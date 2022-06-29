@@ -183,8 +183,12 @@ class GameMap():
 
     def get_floading_point(self, position)->FluidCell:
         index=self.get_point_on_map_index(position.x,position.y)
-        cell=self.fluid_map[index.y][index.x]
-        return cell
+        try:
+            cell=self.fluid_map[index.y][index.x]
+
+            return cell
+        except Exception:
+            print("yyyyy")
 
     # def get_avaiable_neighbours(self, parrent_cell:FluidCell,uav,game_state:GameState,settings:Settings,first_cell):
     #

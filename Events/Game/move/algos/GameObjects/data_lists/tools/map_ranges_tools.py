@@ -8,13 +8,13 @@ def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y)
     if point.x<2:
         point.x=3
 
-    if point.x>max_range_of_map_x:
+    if point.x>max_range_of_map_x-1:
         point.x=max_range_of_map_x-2
 
     if point.y<0:
         point.y=1
 
-    if point.y>max_range_of_map_y:
+    if point.y>max_range_of_map_y-1:
         point.y=max_range_of_map_y-2
 
 
