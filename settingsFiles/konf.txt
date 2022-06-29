@@ -27,6 +27,9 @@ prob_of_return_to_T2=0.1
 #Prawdopodobieństwo  powrotu na tier2; wartośc od 0 do 1 (dotyczy wszystkich trybów)
 delay_between_attacks=10 
 # opóźnienie pomiędzy atakami dronów
+searching_max_range=30
+#ograniczenie dla stożka wyszukiwania w algorytmie fluid. Wyszukiwane będą tylko te punkty z nagrodami, które
+#w poziomie (wzdłuż osi x) są oddalone od drona nie dalej niż wartość tego parametru; wartości powyżej zera
 #
 #
 #EXPLOITATION PARAMETERS
@@ -96,7 +99,7 @@ safe_distance_ratio=2
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
@@ -165,7 +168,7 @@ show_safe_space=0
 seed_clock=0 
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=234
+seed=237
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

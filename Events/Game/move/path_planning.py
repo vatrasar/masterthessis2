@@ -156,6 +156,7 @@ def create_path(best_cell:FluidCell):
     return path
 
 
+
 def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings,hands_list):
 
 
@@ -164,6 +165,8 @@ def search_attack_patch(uav, game_map:GameMap,uav_velocity,settings,hands_list):
     #     map_to_use=game_map.simple_map
 
     cells_with_points=floading_algo(map_to_use, uav, uav_velocity,UavStatus.ON_ATTACK,settings,hands_list,Point(-1,-1),Point(1,-1))
+    # cells_with_points=list(filter(lambda cell: abs(cell.position.x-uav.position.x)<settings.searching_max_range,cells_with_points))
+
     if(len(cells_with_points)>0):
         best_cell=cells_with_points[0]
 

@@ -145,5 +145,8 @@ history/
 test
 gnuplot/*.txt
 results/*
+*.rar
 !results/goals_of_attack.*
 !results/*.plt
+
+gnuplot/

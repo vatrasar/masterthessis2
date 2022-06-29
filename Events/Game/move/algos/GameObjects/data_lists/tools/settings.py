@@ -168,6 +168,8 @@ class Settings():
             self.intruder_energy_cost_jump=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="intruder_energy_cost_chasing"):
             self.intruder_energy_cost_chasing=self.check_float(property_value, property_name, 0, 3, True)
+        elif (property_name=="searching_max_range"):
+            self.searching_max_range=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="intruder_energy_cost_of_reaction"):
             self.intruder_energy_cost_of_reaction=self.check_float(property_value, property_name, 0, 3, True)
         elif (property_name=="energy_simulation_end_condition"):
