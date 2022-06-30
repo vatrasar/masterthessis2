@@ -3,9 +3,9 @@ import typing
 
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.distance import get_2d_distance
+from Events.Game.move.zones import get_zone_index
 
-
-
+import math
 class Result_record():
     def __init__(self,postion1,postion2,points,tier1,tier2,zone1,zone2,reward1,reward2):
 
@@ -31,40 +31,35 @@ class Result_list():
         self.list_limit = list_limit
         self.zone_width = zone_width
         self.result_list:typing.List[Result_record]=[]
+        self.result_map={}
+        zones_number=math.floor(self.settings.map_size_x/float(self.settings.naive_algo_list_limit))
+        for i in range(0,zones_number):
+            self.result_map[i]=None
+
 
 
     def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2):
-        record_to_update=self.get_record_with_postions(postion1,postion2)
+        zone_index=get_zone_index(self.settings,postion1.x)
 
-        if record_to_update!=None:
-            # record_to_update.number_of_hits=record_to_update.number_of_hits+1
-            # record_to_update.points=(record_to_update.points+points)/float(record_to_update.number_of_hits)
-            return
-
-
-        if self.is_limit_reached():
-            worse_record=self.get_worse_on_list()
-            if worse_record.points<points:
-
-
-                self.result_list.remove(worse_record)
-                zone1="-"
-                zone2="-"
-                if postion1!=None:
-                    zone1=str(int(postion1.x / self.zone_width))
-                if postion2!=None:
-                    zone2=str(int(postion2.x / self.zone_width))
-
-                self.result_list.append(Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2))
-        else:
+        # record_to_update=self.get_record_with_postions(postion1,postion2)
+        #
+        # if record_to_update!=None:
+        #     # record_to_update.number_of_hits=record_to_update.number_of_hits+1
+        #     # record_to_update.points=(record_to_update.points+points)/float(record_to_update.number_of_hits)
+        #     return
+        if self.result_map[zone_index]==None or self.result_map[zone_index].points<points:
+            if self.result_map[zone_index]!=None:
+                self.result_list.remove(self.result_map[zone_index])
             zone1="-"
             zone2="-"
             if postion1!=None:
                 zone1=str(int(postion1.x / self.zone_width))
             if postion2!=None:
                 zone2=str(int(postion2.x / self.zone_width))
+            new_record=Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2)
+            self.result_list.append(new_record)
+            self.result_map[zone_index]=new_record
 
-            self.result_list.append(Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2))
 
     def save_to_file(self,memory_list):
 
