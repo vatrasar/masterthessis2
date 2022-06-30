@@ -12,10 +12,10 @@ def put_point_in_range_of_map(point:Point,max_range_of_map_x,max_range_of_map_y,
         point.x=max_range_of_map_x-2
 
     if point.y<intruder_size+1:
-        point.y=intruder_size+1
+        point.y=intruder_size+10
 
     if point.y>max_range_of_map_y-1:
-        point.y=max_range_of_map_y-2
+        point.y=max_range_of_map_y-3
 
 
 def get_max_x_in_range(hand_side:Sides,settings:Settings,x):
