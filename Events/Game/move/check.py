@@ -257,7 +257,7 @@ def check_if_point_safe_attack_dodge_space_wide(game_state,target_position,setti
 
     safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
     time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
-    my_save_distance=settings.velocity_hand*time_of_uav_to_take_distance
+    my_save_distance=settings.jump_ratio*settings.velocity_hand*time_of_uav_to_take_distance
 
     is_point_safe=True
 
@@ -344,7 +344,7 @@ def check_if_point_safe_attack_dodge_short_sapce(game_state,target_position,sett
             if get_2d_distance(target_position,hand_future_position)<(settings.uav_size+settings.hand_size)*2:
                 return False
 
-        if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size):
+        if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*2:
             # if get_2d_distance(hand.position,event_owner.position)<(settings.uav_size+settings.hand_size)*2:
             #     if get_2d_distance(hand.position,target_position)<(settings.uav_size+settings.hand_size)*1.1:
             #         is_point_safe=False

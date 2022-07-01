@@ -168,7 +168,7 @@ show_safe_space=0
 seed_clock=0 
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=267
+seed=270
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
