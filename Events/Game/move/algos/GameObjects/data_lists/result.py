@@ -22,7 +22,11 @@ class Result_file_record():
         self.tier2=tier2
         self.number_of_hits=1
 
+def sort_list1(x):
+    return x.position1
 
+def sort_list2(x):
+    return x.position2
 class Result_file():
     def __init__(self,settings:Settings):
         self.settings = settings
@@ -36,13 +40,15 @@ class Result_file():
         self.result_lists.append(self.current_run)
         self.current_run=[]
 
-    def save_to_file(self,settings:Settings):
-        file_name="results"
+    def save_to_file2(self, settings:Settings):
+        file_name="res2"
+
         if settings.is_multirun:
-            file_name="m_results"
+            file_name="m_res2"
         file=open("./results/%s.csv"%(file_name),"w")
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_lists):
+            run.sort(key=sort_list2)
             file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
             file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
             for i,record in enumerate(run):
@@ -62,3 +68,33 @@ class Result_file():
                 file.write(str)
             file.write("\n")
         file.close()
+
+    def save_to_file1(self,settings:Settings):
+
+        file_name="res1"
+        if settings.is_multirun:
+            file_name="m_res1"
+        file=open("./results/%s.csv"%(file_name),"w")
+        settings.add_settings_to_csv(file)
+        for i,run in enumerate(self.result_lists):
+            run.sort(key=sort_list1)
+            file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
+            file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
+            for i,record in enumerate(run):
+
+                str="%.2f, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                file.write(str)
+        file.close()
+
+        file=open("./results/%s.txt"%(file_name),"w")
+        settings.add_settings_to_data_file(file)
+        for i,run in enumerate(self.result_lists):
+            file.write("#time #att pos dr1 #tier #att pos dr2 #tier #ps1 #ener spend dr1 #ener sum spen dr1 #pts dr2 #ener spend dr2 #ener sum spen dr2 #pts sum #intr ener spend #intr ener sum spend\n")
+            file.write("#1 2 3 4 5 6 7 8 9 10 11 12 13 14\n")
+            for i,record in enumerate(run):
+
+                str="%.2f %.2f %d %.2f %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                file.write(str)
+            file.write("\n")
+        file.close()
+

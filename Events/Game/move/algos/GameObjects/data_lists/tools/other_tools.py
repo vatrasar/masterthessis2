@@ -22,6 +22,8 @@ import os, shutil
 def clear_folder(path):
     folder = path
     for filename in os.listdir(folder):
+        if filename[-3:]=="plt" or filename[0:3]=="goals":
+            continue
         file_path = os.path.join(folder, filename)
         try:
             if os.path.isfile(file_path) or os.path.islink(file_path):
