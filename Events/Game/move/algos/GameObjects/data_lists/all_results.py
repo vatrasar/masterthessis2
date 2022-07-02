@@ -1,6 +1,7 @@
 import typing
 
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Learning_algos, Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import print_line
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 def sort_uav1_pos(u):
@@ -73,7 +74,8 @@ class Result_tr_list():
 
             file.write("#run %d\n"%(i+1))
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
-                file.write("#iter #att pos dr1 #tier1 #att pos dr2 #tier2 #pts1 #pts2 #pts sum #curr sol1 #curr sol2 #acc prob #x   #acc/rej #temp\n")
+                header_list=["#iter", "#att pos dr1", "#tier1", "#att pos dr2", "#tier2", "#pts1", "#pts2", "#pts sum", "#curr sol1", "#curr sol2", "#acc prob", "#x","#acc/rej", "#temp"]
+                print_line(file,header_list)
                 file.write("#1 2 3 4 5 6 7 8 9 10 11 12 13 14\n")
                 for i,record in enumerate(run):
                     str="%d %.2f %d %.2f %d %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
@@ -99,6 +101,7 @@ class Result_tr_list():
             file.write("run %d\n"%(i+1))
             run.sort(key=sort_uav2_pos)
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
+
                 file.write("#iter, #att pos dr1, #tier1, #att pos dr2, #tier2, #pts1, #pts2, #pts sum, #curr sol1, #curr sol2, #acc prob, #x,   #acc/rej, #temp\n")
                 file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
                 for i,record in enumerate(run):

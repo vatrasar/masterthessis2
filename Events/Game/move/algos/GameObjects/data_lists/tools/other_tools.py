@@ -43,3 +43,7 @@ def get_uav1_and2(uav_list):
         else:
             uav2=uav
     return (uav1,uav2)
+def print_line(file,list):
+    for element in list:
+        file.write("%13s\t"%(element))
+    file.write("\n")
