@@ -90,10 +90,11 @@ class Result_list():
         file=open("./results/goals_of_attack.txt","w")
 
 
-        file.write("#position1 #position2 #zone1 #zone2 #reward1 #reward2 #reward sum #tier uav1 #tier uav2\n")
+        file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+        file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s}\n')
         for result in self.result_list:
 
-            file.write("%s %s %s %s %.2f %.2f %.2f %s %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
+            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
         file.close()
     def flirt_none_values(self,value):
         if value==None:

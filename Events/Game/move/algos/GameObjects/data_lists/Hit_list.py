@@ -73,7 +73,7 @@ class Hit_list():
                 number_of_all_hits=number_of_all_hits+zone.number_of_hits
 
 
-            file.write("run, %d\n"%(i))
+            file.write("#run, %d\n"%(i))
 
             file.write(f'{"#zone_id":<9s} {"freq":<9s} {"average_rew":<9s}\n')
 

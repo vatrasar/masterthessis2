@@ -399,9 +399,11 @@ class Naive_Algo():
     def load_memory(self):
         file=open("results/goals_of_attack.txt","r")
         lines=file.readlines()
-        for line in lines[1:]:
+        for line in lines[2:]:
 
             line_elements=line.split(" ")
+            # if line_elements
+            line_elements=list(filter(lambda x:x!="",line_elements))
             position1=Point(float(line_elements[0]),self.settings.tier1_distance_from_intruder)
             position2=Point(float(line_elements[1]),self.settings.tier1_distance_from_intruder)
             # zone1=int(line_elements[2])
