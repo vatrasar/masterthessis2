@@ -47,11 +47,14 @@ class Hit_list():
         for i,hit_list in enumerate(hits_list):
             file.write("run, %d, reason to stop, %s\n"%(i,reasons_to_stop_simulation[i].value))
             file.write("#hits number, #best attack position, #best attack points,  #mean points\n")
-            file_hits_counter.write("#zone #hits number\n")
-            file_hits_counter.write("#zone #sum reward\n")
+
+            file_hits_counter.write(f'{"#zone":<9s} {"hits number":>12s}\n')
+
+            file_sum_reward.write(f'{"#zone":<9s} {"sum reward":>11s}\n')
             for i, zone in enumerate(hit_list.hit_list):
-                file_hits_counter.write("%d %d\n"%(i+1,zone.number_of_hits))
-                file_sum_reward.write("%d %.2f\n"%(i+1,zone.points_sum))
+                f'{i+1:<9d} {zone.points_sum:<9.2f}'
+                file_hits_counter.write(f'{i+1:<10d} {zone.number_of_hits:<9d}\n')
+                file_sum_reward.write(f'{i+1:<10d} {zone.points_sum:<11.2f}\n')
                 if zone.best_attack_postion==None:
                     file.write("0, -, -, -\n")
                 else:
@@ -72,13 +75,15 @@ class Hit_list():
 
             file.write("run, %d\n"%(i))
 
-            file.write("#zone_id freq average_rew\n")
-            file.write("#1 2 3\n")
+            file.write(f'{"#zone_id":<9s} {"freq":<9s} {"average_rew":<9s}\n')
+
+
+            file.write(f'{"#1":<9s} {"2":<9s} {"3":<9s}\n')
             for zone_number,zone in enumerate(hit_list.hit_list):
                 if zone.best_attack_postion==None:
-                    file.write("%d 0 0\n"%(zone_number+1))
+                    file.write(f'{zone_number+1:<9d} {"0":<9s} {"0":<9s}\n')
                 else:
-                    file.write("%d %.2f %.2f\n"%(zone_number+1,zone.number_of_hits/float(number_of_all_hits),zone.points_mean))
+                    file.write(f'{zone_number+1:<9d} {zone.number_of_hits/float(number_of_all_hits):<9.2f} {zone.points_mean:<9.2f}\n')
         file.close()
 
 
