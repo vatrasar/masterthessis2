@@ -49,7 +49,7 @@ class Result_file():
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_lists):
             run.sort(key=sort_list2)
-            file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
+            file.write("#time, #att pos dr1, #tier, #att pos dr2, #tier, #pts dr1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n")
             file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
             for i,record in enumerate(run):
 
@@ -60,7 +60,7 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
             file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<17s}\n')
             for i,record in enumerate(run):
 
@@ -79,7 +79,7 @@ class Result_file():
         for i,run in enumerate(self.result_lists):
             run.sort(key=sort_list1)
 
-            file.write('#time, #att pos dr1, #tier, #att pos dr2, #tier, #ps1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n')
+            file.write('#time, #att pos dr1, #tier, #att pos dr2, #tier, #pts dr1, #ener spend dr1, #ener sum spen dr1, #pts dr2, #ener spend dr2, #ener sum spen dr2, #pts sum, #intr ener spend, #intr ener sum spend\n')
             file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
             for i,record in enumerate(run):
 
@@ -90,7 +90,7 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
             file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<17s}\n')
 
             for i,record in enumerate(run):
