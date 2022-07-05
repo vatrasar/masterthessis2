@@ -8,6 +8,7 @@ class Intruder(MovableObject):
     def __init__(self, x, y, status, object_size, velocity, last_postion_update_time, next_status, target_position,energy):
         super().__init__(x, y, status, object_size, velocity, last_postion_update_time, next_status, target_position)
         self.energy=energy
+        self.last_updated_energy=0
 
 
 

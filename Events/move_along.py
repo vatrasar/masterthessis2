@@ -133,7 +133,7 @@ class Move_along(Event):
                 return
             else:#no attack
 
-                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder.energy,self.time_of_event)
+                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder,self.time_of_event)
                 # path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
         else:
             if check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
@@ -141,7 +141,7 @@ class Move_along(Event):
                 points2=0
                 points1, points2 = self.get_points1_and_points2()
                 self.game_state.naive_algo.tiers_uav[self.event_owner.index]=self.event_owner.attack_started_from_tier2
-                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder.energy,self.time_of_event)
+                self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder,self.time_of_event)
         #choose target
         # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
         #     self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)

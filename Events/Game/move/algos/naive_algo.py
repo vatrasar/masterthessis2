@@ -84,12 +84,12 @@ class Naive_Algo():
                 after=True
         return after and not_after
 
-    def cancel_attack(self,uav_id,start_position,points,rand:Random,settings:Settings,uav_list,intruder_energy,time):
+    def cancel_attack(self,uav_id,start_position,points,rand:Random,settings:Settings,uav_list,intruder,time):
         uav_energy=0
         for uav in uav_list:
             if uav.index==uav_id:
                uav_energy=uav.energy
-        self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False,"intruder energy before attack":intruder_energy,"uav_energy":uav_energy}
+        self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False,"intruder energy before attack":intruder.energy,"uav_energy":uav_energy}
         self.current_attacks[uav_id]["attack_stop_energy"]=uav_energy
 
         self.after_attack[uav_id]=True
@@ -100,7 +100,7 @@ class Naive_Algo():
 
         self.targert_attacks[uav_id]=None
         if self.is_after_attack(uav_list):
-            self.un_register_attack(uav_id,settings,uav_list,time,intruder_energy)
+            self.un_register_attack(uav_id,settings,uav_list,time,intruder)
 
 
     def remove_target(self,uav_index):
@@ -125,7 +125,7 @@ class Naive_Algo():
         self.hit_list.add_hit(position,point)
 
 
-    def un_register_attack(self, uav_id,settings:Settings,uav_list:typing.List[Uav],time,intruder_energy):
+    def un_register_attack(self, uav_id,settings:Settings,uav_list:typing.List[Uav],time,intruder):
 
 
         self.current_attacks[uav_id]["active"]=False
@@ -184,14 +184,16 @@ class Naive_Algo():
             uav1,uav2=get_uav1_and2(uav_list)
             uav1:Uav=uav1
             intruder_start_energy=min(self.current_attacks[0]["intruder energy before attack"],self.current_attacks[1]["intruder energy before attack"])
-            intruder_energy_spending=intruder_energy-intruder_start_energy
+            intruder_energy_spending=intruder.energy-intruder.last_updated_energy
+            intruder.last_updated_energy=intruder.energy
             # uav1_energy_spending=self.current_attacks[0]["attack_stop_energy"]-self.current_attacks[0]["uav_energy"]
             # uav2_energy_spending=self.current_attacks[1]["attack_stop_energy"]-self.current_attacks[1]["uav_energy"]
             uav1_energy_spending=uav1.energy-uav1.last_updated_energy
             uav1.last_updated_energy=uav1.energy
             uav2_energy_spending=uav2.energy-uav2.last_updated_energy
             uav2.last_updated_energy=uav2.energy
-            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder_energy)
+
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):

@@ -99,7 +99,7 @@ safe_distance_ratio=2
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
