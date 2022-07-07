@@ -37,7 +37,7 @@ class Uav(MovableObject):
             ratio=settings.uav_energy_energy_cost_attack
         elif self.energy_consumptiont_type==UavStatus.TIER_1:
             ratio=settings.uav_energy_energy_cost_tier1
-        elif self.energy_consumptiont_type==UavStatus.TIER_1:
+        elif self.energy_consumptiont_type==UavStatus.TIER_2:
             ratio=settings.uav_energy_energy_cost_tier2
         energy_consumption=ratio*time_delta
 
