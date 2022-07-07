@@ -1,3 +1,4 @@
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 import typing
 
@@ -32,13 +33,16 @@ class Result_list():
         self.zone_width = zone_width
         self.result_list:typing.List[Result_record]=[]
         self.result_map={}
-        zones_number=math.floor(self.settings.map_size_x/float(self.settings.naive_algo_list_limit))
+        zones_number=self.settings.naive_algo_list_limit
+        self.explatation=settings.mode
         for i in range(0,zones_number):
             self.result_map[i]=None
 
 
 
-    def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2):
+    def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load):
+        if self.explatation==Modes.EXPLOITATION and not load:
+            return
         zone_index=get_zone_index(self.settings,postion1.x)
 
         # record_to_update=self.get_record_with_postions(postion1,postion2)

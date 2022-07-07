@@ -165,7 +165,7 @@ class Naive_Algo():
 
             is_candidate_accpeted=True
             if points_sum!=0:
-                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2)
+                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
@@ -419,7 +419,7 @@ class Naive_Algo():
 
 
 
-            self.results_list.add_result_point(position1,position2,reward1,reward2,points,tier1,tier2)
+            self.results_list.add_result_point(position1,position2,points,tier1,tier2,reward1,reward2,True)
 
         self.results_list.sort_list()
     def get_uav_with_index(self, index):
