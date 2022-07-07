@@ -7,16 +7,16 @@ operation_mode=10
 #                                                     11: debug A0 (drony nie unikają kolizji),
 #                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
-learning=0
+learning=1
 #możliwe wartości: 0 - tryb uczenia nieaktywny, 1 - tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
-exploitation=1
+exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
 learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=epsilon-LA
+exploitation_type=best
 #rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,
@@ -109,7 +109,7 @@ r_of_LR=300
 #Maksymalny zasięg ręki; wartość całkowite, powyżej 0. r_of_LR musi być większe niż suma intuder_size i uav_size
 time_to_wait_after_jump=20 
 #jak długo ręka musi czekać po wykonaniu skoku; wartości całkowite, powyżej zera
-jump_ratio=2 
+jump_ratio=1.5
 # ile razy ręka przyspiesza(ilu krotnie ręka zwiększa swoją prędkość) podczas skoku; wartości powyżej 1
 hand_max_deviation=20 
 #maksymalny błąd występujący przy wykonywaniu skoku przez ręke; wartości powyżej 0, jeśli bład=0 ręka będzie celowała idealnie w pozycje drona
@@ -135,9 +135,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=2000
+T=30000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=132
+iterations_for_learning=20000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia w algorytmie normalnego wykonania (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
@@ -155,20 +155,20 @@ visualization=1
 #                                  2 - jest wizualizacja i zapis do pliku
 visualization_update_interval=0.5
 #co ile jednostek czasu ma być aktualizowana wizualizacja symulacji. Wartość powyżej 0
-visualisation_speed=1 
+visualisation_speed=1
 #im wyższa wartość tym wolniej symulacja działa (wygodna do obserwacji wartośc to ponad 30)
 #
-show_safe_space=0
+show_safe_space=1
 #Czy ma być pokazywana strefa bezpieczenstwa wokół drona; możliwe wartości:
 #                                                           1 - strefy są pokazywane
 #                                                           0 - strefy nie są pokazywane
 #
 #SEED
 #
-seed_clock=0 
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=270
+seed=1657219352
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

@@ -39,7 +39,7 @@ class Visualisation_event(Event):
 
 
             self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
-            if self.time_of_event%1==0 and settings.visualisation==2 and self.time_of_event>9600:
+            if self.time_of_event%1==0 and settings.visualisation==2 and self.time_of_event>130:
                 self.save_to_file(self.time_of_event)
 
         # self.canvas.update()
@@ -70,7 +70,7 @@ class Visualisation_event(Event):
         for uav in self.game_state.uav_list:#uavs
             if uav.status!=UavStatus.DEAD and uav.status!=UavStatus.TIER_2:
                 if settings.show_safe_space:
-                    create_circle(uav.position.x, uav.position.y,save_distance,self.canvas,"black")
+                    create_circle(uav.position.x, uav.position.y,save_distance*1.5,self.canvas,"black")
                 if uav.index==0:
                     create_circle(uav.position.x, uav.position.y,uav_size,self.canvas,"yellow")
                 if uav.index==1:

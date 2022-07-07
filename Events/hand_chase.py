@@ -72,8 +72,10 @@ class Hand_chase(Event):
 
         else:
             if (self.event_owner.target_uav.status in [UavStatus.WAIT,UavStatus.ON_BACK,UavStatus.ON_ATTACK,UavStatus.ATTACK_DODGE_MOVE]) and check_if_uav_is_in_range(self.event_owner.target_uav,self.event_owner,settings):
-                if self.event_owner.target_uav.status!=UavStatus.WAIT:
+                if self.event_owner.target_uav.status not in [UavStatus.WAIT,UavStatus.ATTACK_DODGE_MOVE]:
                     init_jump(self.event_owner.target_uav.next_event.old_path,self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list,rand)
+                elif self.event_owner.target_uav.status==UavStatus.ATTACK_DODGE_MOVE:
+                    init_jump([],self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list,rand,future_target=self.event_owner.target_uav.target_position)
                 else:
                     init_jump([],self.event_owner.target_uav.position,settings.v_of_uav,self.event_owner,settings.velocity_hand*settings.jump_ratio,settings,self.time_of_event,self.tk_master,self.game_state,event_list,rand)
             else:

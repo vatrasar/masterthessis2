@@ -19,11 +19,14 @@ from Events.events_list import Event_list
 from Events.hand_back import plan_hand_back_event
 
 
-def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state:GameState, event_list,rand:Random):
+def init_jump(path:typing.List[FluidCell], uav_position, uav_velocity, hand, hand_jump_velocity, settings, current_time, tk_master, game_state:GameState, event_list,rand:Random,future_target=None):
 
     target_point=None
     if len(path)==0:
-        target_point=Point(uav_position.x,uav_position.y)
+        if future_target==None:
+            target_point=Point(uav_position.x,uav_position.y)
+        else:
+            target_point=Point(future_target.x,future_target.y)
     else:
         cell=find_target_for_jump(path, uav_position, hand.position, uav_velocity, hand_jump_velocity,settings,hand)
         if cell!=None:
