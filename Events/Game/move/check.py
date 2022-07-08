@@ -125,7 +125,7 @@ def check_is_horizontal_distance_form_hands_safe(hands_list:typing.List[Hand], u
     #
     #         return False
 
-    safe_distance_to_take=(settings.uav_size+settings.hand_size)*(settings.safe_distance_ratio)*2
+    safe_distance_to_take=(settings.uav_size+settings.hand_size*2)*(settings.safe_distance_ratio)
     time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
     save_distance=jump_velocity*time_of_uav_to_take_distance+settings.hand_size
     for hand in hands_list:
@@ -410,3 +410,20 @@ def check_if_point_is_reached(object_velocity,minimal_time_of_travel,object_posi
         return True
     else:
         return False
+
+
+def check_is_point_on_map(point:Point,max_range_of_map_x,max_range_of_map_y,intruder_size):
+
+    if point.x<2:
+        return False
+
+    if point.x>max_range_of_map_x-1:
+        return False
+
+    if point.y<intruder_size+1:
+        return False
+
+    if point.y>max_range_of_map_y-1:
+        return False
+
+    return True

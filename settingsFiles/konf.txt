@@ -94,7 +94,7 @@ drone_energy_destroy_condition=0
 #czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
 #                                                                          0 - warunek nie będzie brany pod uwagę
 #
-safe_distance_ratio=2
+safe_distance_ratio=2.0
 #współczynnik określający bezpieczny dystans między dronem a ręką. Wartość używana
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
@@ -165,10 +165,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1657219352
+seed=1657277567
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
