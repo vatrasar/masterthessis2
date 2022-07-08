@@ -296,7 +296,7 @@ class Attack(Event):
                     if path!=None:
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
                         return
-                    elif abs(self.event_owner.position.y-settings.tier1_distance_from_intruder)<10:
+                    elif abs(self.event_owner.position.y-settings.tier1_distance_from_intruder)<30:
                         self.event_owner.consume_energy(settings,self.time_of_event)
                         self.update_algos_results(rand, settings)
                         self.start_to_move_on_tier1(event_list, rand, settings)
