@@ -39,7 +39,7 @@ def evaluate(uav_pos:Point,new_pos:Point,settings:Settings,safe_ratio,game_state
 
         actual_pos=Point(actual_pos.x+move_vector.x,actual_pos.y+move_vector.y)
 
-    reward=0.5
+    reward=0.01
     save_distance=(settings.uav_size+settings.hand_size)*2
     while get_2d_distance(actual_pos,uav_pos)<orginal_save_distance*2:
         if not check_is_point_on_map(actual_pos,settings.map_size_x,settings.tier1_distance_from_intruder,settings.intuder_size):
@@ -49,12 +49,12 @@ def evaluate(uav_pos:Point,new_pos:Point,settings:Settings,safe_ratio,game_state
             result=result+reward
         else:
             if get_2d_distance(actual_pos,uav_pos)<orginal_save_distance*2:
-                if not is_minimal_safe:
-                    reward=0.01
-                    is_minimal_safe=True
-                    save_distance=(settings.uav_size+settings.hand_size)*1.1
-                else:
-                    break
+                # if not is_minimal_safe:
+                #     reward=0.01
+                #     is_minimal_safe=True
+                #     save_distance=(settings.uav_size+settings.hand_size)*1.1
+                # else:
+                break
 
         actual_pos=Point(actual_pos.x+move_vector.x,actual_pos.y+move_vector.y)
 
