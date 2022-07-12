@@ -18,7 +18,7 @@ class Intruder(MovableObject):
         if settings.mode==Modes.LEARNING:
             ratio=0
         elif energy_consumptiont_type==HandStatus.JUMP:
-            ratio=settings.jump_ratio
+            ratio=settings.intruder_energy_cost_jump
         elif energy_consumptiont_type==HandStatus.CHASING:
             ratio=settings.intruder_energy_cost_chasing
         elif energy_consumptiont_type==HandStatus.WAIT:
