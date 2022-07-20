@@ -278,6 +278,11 @@ class Attack(Event):
                         attack_path_found=True
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.game_state,event_list,self.event_owner.status,self.safe_margin,settings)
                     else:
+
+                        attack_path_found=False
+
+                if attack_path_found==False or self.event_owner.status==UavStatus.ON_BACK:
+                    if  attack_path_found==False and self.event_owner.status==UavStatus.ON_ATTACK:
                         #give part of points
                         distance_from_tier1=self.event_owner.target_with_points.position.y
                         distance_from_uav=get_2d_distance(self.event_owner.target_with_points.position,self.event_owner.position)
@@ -286,10 +291,6 @@ class Attack(Event):
 
                             points=(distance_from_uav/float(distance_from_tier1))*self.event_owner.target_with_points.points
                             self.event_owner.asign_points(points)
-                        attack_path_found=False
-
-                if attack_path_found==False or self.event_owner.status==UavStatus.ON_BACK:
-
                     path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder,settings,self.game_state.hands_list)
                     if path!=None:
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
