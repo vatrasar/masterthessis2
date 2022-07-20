@@ -62,11 +62,11 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
-            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<17s}\n')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
+            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<21s} {"15":<20s} {"16":<16s} \n')
             for i,record in enumerate(run):
 
-                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<17.2f}\n'
+                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f}\n'
                 file.write(str)
             file.write("\n")
         file.close()
@@ -92,12 +92,12 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
-            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<17s}\n')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
+            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<21s} {"15":<20s} {"16":<16s}\n')
 
             for i,record in enumerate(run):
 
-                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<17.2f}\n'
+                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f}\n'
                 file.write(str)
             file.write("\n")
         file.close()
@@ -107,12 +107,12 @@ class Result_file():
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
             run.sort(key=sort_list_time)
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<17s}\n')
-            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<17s}\n')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
+            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<21s} {"15":<20s} {"16":<16s}\n')
 
             for i,record in enumerate(run):
 
-                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<17.2f}\n'
+                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f}\n'
                 file.write(str)
             file.write("\n")
         file.close()
