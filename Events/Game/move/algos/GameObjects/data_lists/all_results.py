@@ -9,6 +9,9 @@ def sort_uav1_pos(u):
 def sort_uav2_pos(u):
     return u.position2.x
 
+def sort_iterations(u):
+    return u.iter
+
 class Result_tr_record():
     def __init__(self,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, current_solution1,current_solution2,accept_prob,x,decision,temperature):
 
@@ -28,6 +31,7 @@ class Result_tr_record():
         self.tier1=tier1
         self.tier2=tier2
         self.number_of_hits=1
+        self.iter=0
 
 
 class Result_tr_list():
@@ -47,6 +51,15 @@ class Result_tr_list():
 
     def save_to_file(self,settings):
 
+
+
+
+
+        for i,run in enumerate(self.result_tr_list):
+
+            for i,record in enumerate(run):
+                record.iter=i+1
+
         file=open("./results/res1_tr.csv","w")
         settings.add_settings_to_csv(file)
         for i,run in enumerate(self.result_tr_list):
@@ -56,14 +69,14 @@ class Result_tr_list():
                 file.write("#iter, #att pos dr1, #tier1, #att pos dr2, #tier2, #pts1, #pts2, #pts sum, #curr sol1, #curr sol2, #acc prob, #x,   #acc/rej, #temp\n")
                 file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
                 for i,record in enumerate(run):
-                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(record.iter,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
                     file.write(str)
             else:
                 file.write("#iter, #att pos dr1, #tier1, #att pos dr2, #tier2, #pts1, #pts2, #pts sum\n")
                 file.write("1, 2, 3, 4, 5, 6, 7, 8\n")
                 for i,record in enumerate(run):
 
-                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(record.iter,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
                     file.write(str)
         file.close()
 
@@ -78,14 +91,39 @@ class Result_tr_list():
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<10s} {"10":<10s} {"11":<10s} {"12":<6s} {"13":<9s} {"14":<9s}\n')
                 for i,record in enumerate(run):
 
-                    str=f'{i:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     file.write(str)
             else:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s}\n')
                 for i,record in enumerate(run):
 
-                    str=f'{i:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
+                    file.write(str)
+            file.write("\n")
+        file.close()
+
+
+        file=open("./results/results.txt","w")
+        settings.add_settings_to_data_file(file)
+
+        for i,run in enumerate(self.result_tr_list):
+            run.sort(key=sort_iterations)
+            file.write("#run %d\n"%(i+1))
+            if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
+
+                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#curr sol1":<10s} {"#curr sol2":<10s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
+                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<10s} {"10":<10s} {"11":<10s} {"12":<6s} {"13":<9s} {"14":<9s}\n')
+                for i,record in enumerate(run):
+
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                    file.write(str)
+            else:
+                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
+                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s}\n')
+                for i,record in enumerate(run):
+
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
                     file.write(str)
             file.write("\n")
         file.close()
@@ -105,14 +143,14 @@ class Result_tr_list():
                 file.write("#iter, #att pos dr1, #tier1, #att pos dr2, #tier2, #pts1, #pts2, #pts sum, #curr sol1, #curr sol2, #acc prob, #x,   #acc/rej, #temp\n")
                 file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
                 for i,record in enumerate(run):
-                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %s, %.2f\n"%(record.iter,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points,record.current_solution1.x,record.current_solution2.x,record.accept_prob,record.x,record.decision,record.temperature)
                     file.write(str)
             else:
                 file.write("#iter, #att pos dr1, #tier1, #att pos dr2, #tier2, #pts1, #pts2, #pts sum\n")
                 file.write("1, 2, 3, 4, 5, 6, 7, 8\n")
                 for i,record in enumerate(run):
 
-                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(i,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
+                    str="%d, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f\n"%(record.iter,record.position1.x,record.tier1,record.position2.x,record.tier2,record.points1,record.points2,record.sum_points)
                     file.write(str)
         file.close()
 
@@ -124,14 +162,14 @@ class Result_tr_list():
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#curr sol1":<10s} {"#curr sol2":<10s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<10s} {"10":<10s} {"11":<10s} {"12":<6s} {"13":<9s} {"14":<9s}\n')
                 for i,record in enumerate(run):
-                    str=f'{i:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     file.write(str)
             else:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s}\n')
                 for i,record in enumerate(run):
 
-                    str=f'{i:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
                     file.write(str)
             file.write("\n")
         file.close()
