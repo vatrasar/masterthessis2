@@ -39,7 +39,7 @@ class Visualisation_event(Event):
 
 
             self.draw_all_elements(settings.uav_size,settings.map_size_x,settings.hand_size,settings.r_of_LR,settings.intuder_size,settings.minimal_hand_range,settings)
-            if self.time_of_event%1==0 and settings.visualisation==2 and self.time_of_event>80:
+            if self.time_of_event%1==0 and settings.visualisation==2 and self.time_of_event>500:
                 self.save_to_file(self.time_of_event)
 
         # self.canvas.update()
@@ -51,7 +51,7 @@ class Visualisation_event(Event):
     def draw_all_elements(self,uav_size,map_size_x,hand_size,hand_range,intruder_size,minimal_hand_range,settings:Settings):
         safe_distance_to_take=(settings.uav_size+settings.hand_size)*settings.safe_distance_ratio
         time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
-        save_distance=settings.jump_ratio*settings.velocity_hand*time_of_uav_to_take_distance
+        save_distance=max(settings.jump_ratio*settings.velocity_hand*time_of_uav_to_take_distance,safe_distance_to_take)
         for point in settings.lif_of_invisible:
 
             create_circle(point.x,point.y,point.r,self.canvas,"grey")

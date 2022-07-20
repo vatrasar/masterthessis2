@@ -14,8 +14,10 @@ def evaluate(uav_pos:Point,new_pos:Point,settings:Settings,safe_ratio,game_state
     safe_distance_to_take=(settings.uav_size+settings.hand_size)*(settings.safe_distance_ratio)
     time_of_uav_to_take_distance=safe_distance_to_take/settings.v_of_uav
     save_distance=settings.velocity_hand*settings.jump_ratio*time_of_uav_to_take_distance+settings.hand_size
+    save_distance=max(save_distance,safe_distance_to_take)
     orginal_save_distance=save_distance
     save_distance=max((settings.uav_size+settings.hand_size),save_distance*safe_ratio)
+
     move_vector=Point(new_pos.x-uav_pos.x,new_pos.y-uav_pos.y)
     result=0
     actual_pos=Point(new_pos.x,new_pos.y)

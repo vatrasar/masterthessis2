@@ -8,9 +8,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.geometry import get_tra
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
-from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe, \
-    check_if_point_safe_attack_dodge_space_wide, check_if_point_safe_attack_dodge_time, \
-    check_if_point_safe_attack_dodge_short_sapce, check_if_point_safe_attack_dodge_time_not_safe
+from Events.Game.move.check import check_if_path_save, check_is_horizontal_distance_form_hands_safe
 from Events.Game.move.distance import get_2d_distance, get_vector_with_direction_and_length
 from Events.Game.move.evaluation import evaluate
 from Events.Game.move.get_position import get_random_position_on_tier1
