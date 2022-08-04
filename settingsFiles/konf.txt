@@ -99,7 +99,7 @@ safe_distance_ratio=2.0
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
@@ -135,9 +135,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=12000
+T=2000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=12000
+iterations_for_learning=150
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:

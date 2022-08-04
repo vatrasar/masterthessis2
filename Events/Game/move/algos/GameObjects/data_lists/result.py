@@ -109,7 +109,7 @@ class Result_file():
         for i,run in enumerate(self.result_lists):
             run.sort(key=sort_list_time)
             file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#pts sum dr1":<13s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#pts sum dr2":<13s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
-            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<13s} {"8":<16s} {"9":<18s} {"10":<9s} {"11":<13s} {"11":<15s} {"12":<18s} {"13":<9s} {"14":<17s} {"15":<21s} {"16":<20s} {"17":<16s}\n')
+            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<13s} {"8":<16s} {"9":<18s} {"10":<9s} {"11":<13s} {"12":<15s} {"13":<18s} {"14":<9s} {"15":<17s} {"16":<21s} {"17":<20s} {"18":<16s}\n')
 
             for i,record in enumerate(run):
 
