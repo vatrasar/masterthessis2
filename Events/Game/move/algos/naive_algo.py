@@ -89,6 +89,7 @@ class Naive_Algo():
         for uav in uav_list:
             if uav.index==uav_id:
                uav_energy=uav.energy
+        uav_list[uav_id].cancel_attack(settings)
         self.current_attacks[uav_id]={"start postion":start_position,"points before attack":points,"active":False,"intruder energy before attack":intruder.energy,"uav_energy":uav_energy}
         self.current_attacks[uav_id]["attack_stop_energy"]=uav_energy
 
@@ -193,7 +194,7 @@ class Naive_Algo():
             uav2_energy_spending=uav2.energy-uav2.last_updated_energy
             uav2.last_updated_energy=uav2.energy
 
-            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points)
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):

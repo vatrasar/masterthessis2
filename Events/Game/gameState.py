@@ -38,7 +38,7 @@ class GameState():
 
 
         for i in range(0, uav_number):
-            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,0,0))
+            self.uav_list.append(Uav(0,0,UavStatus.TIER_2,0,v_of_uav,i,0,UavStatus.TIER_2,None,0,0,0,0))
         self.naive_algo=Naive_Algo(settings.naive_algo_list_limit,settings.naive_algo_curiosity_ratio,settings.iterations_for_learning,settings,self.hit_list,self.uav_list,rand,self.result_tr_list,self.result_file)
         #init hands
         self.hands_list:typing.List[Hand] = []

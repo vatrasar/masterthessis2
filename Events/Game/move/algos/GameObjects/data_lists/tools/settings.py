@@ -331,6 +331,9 @@ class Settings():
         elif (property_name=="seed_clock"):
 
             self.seed_clock=self.check_binary(property_value,property_name)
+        elif (property_name=="reward_threshold"):
+
+            self.reward_threshold=self.check_float(property_value,property_name,0,1,True)
 
         elif (property_name=="blind_angle"):
 

@@ -5,7 +5,7 @@ from Events.Game.move.algos.GameObjects.movableObject import MovableObject
 
 
 class Uav(MovableObject):
-    def __init__(self,x,y,status, points,velocity,index,last_postion_update_time,next_status,target_postion,energy,last_points):
+    def __init__(self,x,y,status, points,velocity,index,last_postion_update_time,next_status,target_postion,energy,last_points,points_without_transhold,points_without_transhold_sum):
         super(Uav, self).__init__(x,y,status,40,velocity,last_postion_update_time,next_status,target_postion)
 
 
@@ -22,6 +22,9 @@ class Uav(MovableObject):
         self.target_with_points=None
         self.best_points=last_points
         self.last_updated_energy=0
+        self.points_without_transhold=points_without_transhold
+        self.points_without_transhold_sum=points_without_transhold_sum
+
 
     def beggin_energy_time(self,time,type):
         self.start_energy_time=time
@@ -43,9 +46,25 @@ class Uav(MovableObject):
 
         self.energy=self.energy+energy_consumption
 
-    def asign_points(self, points):
-        self.points=self.points+points
-        if points==0:
-            print("i")
-        if self.best_points<points:
-            self.best_points=points
+    def cancel_attack(self,settings):
+        if settings.mode==Modes.EXPLOITATION:
+            self.points_without_transhold=0
+            self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum
+    def asign_points(self, points,settings):
+        if settings.mode==Modes.EXPLOITATION:
+            self.points_without_transhold=points
+            self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum
+            if points<settings.reward_threshold:
+                points=0
+
+
+
+            self.points=self.points+points
+            if self.best_points<points:
+                self.best_points=points
+
+        else:
+            self.points=self.points+points
+
+            if self.best_points<points:
+                self.best_points=points

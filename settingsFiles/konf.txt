@@ -7,9 +7,9 @@ operation_mode=10
 #                                                     11: debug A0 (drony nie unikają kolizji),
 #                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
-learning=1
+learning=0
 #możliwe wartości: 0 - tryb uczenia nieaktywny, 1 - tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
-exploitation=0
+exploitation=1
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
@@ -36,6 +36,9 @@ searching_max_range=30
 #
 epsilon=0.05 
 #parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
+reward_threshold=4
+#próg dla akcpetacji nagrody. Jesli otrzymana nagroda jest mniejsza niż próg dron otrzymuje nagrodę o wartości równej 0.
+#Parametr działa wyłącznie w trybie eksploatacji
 l_lr=5
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
 fake_targets_number=3
@@ -135,7 +138,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=2000
+T=500
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=150
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -165,10 +168,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1657277589
+seed=1659827911
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
