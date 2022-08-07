@@ -13,7 +13,7 @@ exploitation=1
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=SA
+learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=best
@@ -138,9 +138,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=500
+T=22000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=150
+iterations_for_learning=100
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
@@ -168,10 +168,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=0
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1659827911
+seed=1659875068
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
