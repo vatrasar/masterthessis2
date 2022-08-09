@@ -107,8 +107,10 @@ class Result_file():
             file.write("\n")
         file.close()
 
-
-        file=open("./results/results.txt","w")
+        file_name="results"
+        if settings.is_multirun:
+            file_name="m_results"
+        file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
             run.sort(key=sort_list_time)

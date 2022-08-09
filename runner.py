@@ -77,18 +77,20 @@ class Runner():
             self.hit_list=Hit_list(self.settings)
             self.current_time=0
 
-        export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
+        # export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
+
         self.statistics.save()
-        # clear_folder("./results")
+        clear_folder("./results")
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
-        self.game_state.naive_algo.results_list.save_to_file2(self.memory_list)
+        self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         if self.settings.mode==Modes.LEARNING:
             self.result_tr_list.save_to_file(self.settings)
             self.result_tr_list.save_to_file_uav1(self.settings)
         else:
             self.result_file.save_to_file2(self.settings)
-        self.debug_file.save_to_file(self.settings)
+            self.result_file.save_to_file1(self.settings)
 
+        self.debug_file.save_to_file(self.settings)
 
 
 
@@ -240,6 +242,11 @@ class Runner():
 
         if self.settings.number_of_points_to_win<sum_of_points:
             self.reason_to_stop_simulation.append(Reason_to_stop.POINTS_LIMIT)
+            return True
+
+        if self.game_state.naive_algo.iteration_number>self.game_state.naive_algo.iterations_for_learning:
+            self.game_state.naive_algo.reason_why_learning_stoped=Reason_to_stop.ITERATIONS
+            self.reason_to_stop_simulation.append(self.game_state.naive_algo.reason_why_learning_stoped)
             return True
         if self.settings.mode==Modes.EXPLOITATION:
             if self.settings.energy_simulation_end_condition==True:
