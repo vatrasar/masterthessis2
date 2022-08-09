@@ -1,3 +1,4 @@
+from Events.Game.move.algos.GameObjects.data_lists.tools.multirun_tools import get_mean, get_std
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 import typing
 
@@ -123,4 +124,25 @@ class Result_file():
                 file.write(str)
             file.write("\n")
         file.close()
+
+
+        if settings.is_multirun:
+            file=open("./results/std_results.txt","w")
+
+            settings.add_settings_to_data_file(file)
+            file.write(f'{"#iter":<9s} {"best_avg":<9s} {"best_std":<9s}\n')
+            file.write(f'{"#1":<9s} {"2":<9s} {"3":<9s} \n')
+            for i,record in enumerate(self.result_lists[0]):
+                values=[]
+                for _,run in enumerate(self.result_lists):
+                    values.append(run[i].points1+run[i].points2)
+                mean_value=get_mean(values)
+                std_value=get_std(values)
+                str=f'{i+1:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'
+                file.write(str)
+
+
+
+                # file.write("\n")
+            file.close()
 

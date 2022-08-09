@@ -80,8 +80,8 @@ class Settings():
                 self.check_property(property_name,property_value)
 
 
-        if self.is_multirun and self.mode==Modes.LEARNING:
-            raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
+        # if self.is_multirun and self.mode==Modes.LEARNING:
+        #     raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
         self.map_size_y=520
         self.map_size_x=1040
 

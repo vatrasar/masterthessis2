@@ -1,6 +1,7 @@
 import typing
 
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Learning_algos, Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.multirun_tools import get_mean, get_std
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 def sort_uav1_pos(u):
@@ -111,8 +112,10 @@ class Result_tr_list():
             file.write("\n")
         file.close()
 
-
-        file=open("./results/results.txt","w")
+        file_name="results"
+        if settings.is_multirun:
+            file_name="m_results"
+        file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
 
         for i,run in enumerate(self.result_tr_list):
@@ -135,6 +138,25 @@ class Result_tr_list():
                     file.write(str)
             file.write("\n")
         file.close()
+        if settings.is_multirun:
+            file=open("./results/std_results.txt","w")
+
+            settings.add_settings_to_data_file(file)
+            file.write(f'{"#iter":<9s} {"best_avg":<9s} {"best_std":<9s}\n')
+            file.write(f'{"#1":<9s} {"2":<9s} {"3":<9s} \n')
+            for i,record in enumerate(self.result_tr_list[0]):
+                values=[]
+                for _,run in enumerate(self.result_tr_list):
+                    values.append(run[i].points1+run[i].points2)
+                mean_value=get_mean(values)
+                std_value=get_std(values)
+                str=f'{record.iter:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'
+                file.write(str)
+
+
+
+                # file.write("\n")
+            file.close()
 
 
     def save_to_file_uav1(self,settings):
