@@ -13,7 +13,7 @@ def sort_iterations(u):
     return u.iter
 
 class Result_tr_record():
-    def __init__(self,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points):
+    def __init__(self,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,current_best_result):
 
         self.dr1_points = dr1_points
         self.dr2_points = dr2_points
@@ -34,6 +34,7 @@ class Result_tr_record():
         self.tier2=tier2
         self.number_of_hits=1
         self.iter=0
+        self.current_best_result=current_best_result
 
 
 class Result_tr_list():
@@ -41,6 +42,7 @@ class Result_tr_list():
         self.settings = settings
         self.result_tr_list:typing.List[typing.List[Result_tr_record]]=[]
         self.current_run=[]
+        self.current_best_result=0
 
 
 
@@ -48,7 +50,11 @@ class Result_tr_list():
         self.result_tr_list.append(self.current_run)
         self.current_run=[]
     def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None):
-        self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points))
+
+        current_mean_result=(points1+points2)/2.0
+        if current_mean_result>self.current_best_result:
+            self.current_best_result=current_mean_result
+        self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result))
 
 
     def save_to_file(self,settings):
@@ -121,11 +127,11 @@ class Result_tr_list():
                     str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<20.2f} {record.dr1_points+record.dr2_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     file.write(str)
             else:
-                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
-                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s}\n')
+                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"best result":<12s}\n')
+                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<12s}\n')
                 for i,record in enumerate(run):
 
-                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
+                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_best_result:<12.2f}\n'
                     file.write(str)
             file.write("\n")
         file.close()
