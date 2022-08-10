@@ -147,7 +147,10 @@ class Result_tr_list():
             for i,record in enumerate(self.result_tr_list[0]):
                 values=[]
                 for _,run in enumerate(self.result_tr_list):
-                    values.append(run[i].points1+run[i].points2)
+                    try:
+                        values.append(run[i].points1+run[i].points2)
+                    except IndexError:
+                        pass
                 mean_value=get_mean(values)
                 std_value=get_std(values)
                 str=f'{record.iter:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'

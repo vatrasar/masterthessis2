@@ -244,10 +244,10 @@ class Runner():
             self.reason_to_stop_simulation.append(Reason_to_stop.POINTS_LIMIT)
             return True
 
-        if self.game_state.naive_algo.iteration_number>self.game_state.naive_algo.iterations_for_learning:
-            self.game_state.naive_algo.reason_why_learning_stoped=Reason_to_stop.ITERATIONS
-            self.reason_to_stop_simulation.append(self.game_state.naive_algo.reason_why_learning_stoped)
-            return True
+        # if self.game_state.naive_algo.iteration_number>self.game_state.naive_algo.iterations_for_learning:
+        #     self.game_state.naive_algo.reason_why_learning_stoped=Reason_to_stop.ITERATIONS
+        #     self.reason_to_stop_simulation.append(self.game_state.naive_algo.reason_why_learning_stoped)
+        #     return True
         if self.settings.mode==Modes.EXPLOITATION:
             if self.settings.energy_simulation_end_condition==True:
                 for uav in self.game_state.uav_list:

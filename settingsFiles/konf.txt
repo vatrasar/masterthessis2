@@ -16,7 +16,7 @@ debug=0
 learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=random
+exploitation_type=best
 #rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,
@@ -138,9 +138,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=5000
+T=1000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=20
+iterations_for_learning=10
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:

@@ -135,7 +135,10 @@ class Result_file():
             for i,record in enumerate(self.result_lists[0]):
                 values=[]
                 for _,run in enumerate(self.result_lists):
-                    values.append(run[i].points1+run[i].points2)
+                    try:
+                        values.append(run[i].points1+run[i].points2)
+                    except IndexError:
+                        pass
                 mean_value=get_mean(values)
                 std_value=get_std(values)
                 str=f'{i+1:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'
