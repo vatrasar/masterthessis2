@@ -1,4 +1,5 @@
+import os
 import random
 import time
 
-print(int(time.time()))
+print(os.listdir('./test'))

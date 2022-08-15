@@ -7,9 +7,9 @@ operation_mode=10
 #                                                     11: debug A0 (drony nie unikają kolizji),
 #                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
-learning=0
+learning=1
 #możliwe wartości: 0 - tryb uczenia nieaktywny, 1 - tryb uczenia aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tej samej wartości
-exploitation=1
+exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
@@ -36,7 +36,7 @@ searching_max_range=30
 #
 epsilon=0.05 
 #parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
-reward_threshold=0
+reward_threshold=4
 #próg dla akcpetacji nagrody. Jesli otrzymana nagroda jest mniejsza niż próg dron otrzymuje nagrodę o wartości równej 0.
 #Parametr działa wyłącznie w trybie eksploatacji
 l_lr=5
@@ -76,7 +76,7 @@ map_resolution=10
 #
 ###UAVs PARAMETERS
 #
-v_of_uav=15
+v_of_uav=100
 #Prędkośći drona; wartosci powyżej 0
 wait_time=0.3 
 #Czas oczekiwania dla zdarzenia wait; wartośc powyżej 0
@@ -138,9 +138,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=1000
+T=8000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=10
+iterations_for_learning=50
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
@@ -185,5 +185,5 @@ zone_width=50
 is_multirun=1
 #czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)
 #                                                      1 - multirun
-number_of_runs=3
+number_of_runs=5
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera

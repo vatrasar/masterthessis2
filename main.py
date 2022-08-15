@@ -30,7 +30,11 @@ def main():
         return
 
     #init state
-
+    # if settings.is_directory:
+    #
+    #
+    #
+    # else:
     rand = random.Random(settings.seed)  # 800
     settings.acutal_seed=int(time.time())
     if settings.seed_clock:

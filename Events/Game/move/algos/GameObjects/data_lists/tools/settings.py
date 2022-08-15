@@ -70,6 +70,7 @@ class Settings():
         logging.basicConfig(level=logging.NOTSET)
 
         setting_dict={}
+        self.is_directory=False
         for record in file_with_properties.readlines():
             if(len(record)!=0):
                 if record[0]=="#":
@@ -214,6 +215,8 @@ class Settings():
             self.hand_max_deviation=self.check_int(property_value, property_name, 0, 1, True)
         elif (property_name=="T"):
             self.T=self.check_float(property_value,property_name,0,1,True)
+        elif (property_name=="target_directory"):
+            self.target_directory=property_value
         elif (property_name=="visualisation_speed"):
             self.visualisation_speed=self.check_int(property_value,property_name,0,1,True)
         elif (property_name=="jump_ratio"):
@@ -304,6 +307,9 @@ class Settings():
         elif (property_name=="l_lr"):
 
             self.l_lr=self.check_int(property_value,property_name,1,1,True)
+        elif (property_name=="is_directory"):
+
+            self.is_directory=self.check_binary(property_value,property_name)
 
         elif (property_name=="r_of_LR"):
 
