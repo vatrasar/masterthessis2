@@ -187,5 +187,5 @@ is_multirun=0
 #                                                      1 - multirun
 number_of_runs=5
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera
-is_directory=0
+is_directory=1
 target_directory=/home/vatrasar/Dokumenty/test

@@ -1,6 +1,7 @@
 import random
 
 from Events.Game.Statistics import Statistics
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_stop_reasons import Reason_to_stop
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 from runner import Runner
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -54,7 +55,7 @@ def main():
             settings_for_run:Settings=Settings()
             if settings.seed_clock:
                 settings_for_run.acutal_seed=rand.randint(0,100000000)
-                random_for_experyment=random.Random(rand)
+                random_for_experyment=random.Random(settings_for_run.acutal_seed)
             else:
                 settings_for_run.acutal_seed=settings_for_run.seed
             settings_for_run.get_properties(file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible)
@@ -66,9 +67,32 @@ def main():
                 runner.run_multirun()
             else:
                 runner.run_normal()
+                while runner.reason_to_stop_simulation[0]==Reason_to_stop.ONE_UAV_KILLED:
+                    random_for_experyment=random.Random(settings.seed)
+                    file_with_rewards.close()
+                    file_with_boxes.close()
+                    file_with_invisible.close()
+                    file_with_rewards=open("settingsFiles/"+rewardsFileName)
+                    file_with_boxes=open("settingsFiles/"+"boxes.txt")
+                    file_with_invisible=open("settingsFiles/"+"invisible_boxes.txt")
+
+
+                    file_with_properties=open(settings.target_directory+"/"+file_name)
+                    settings_for_run:Settings=Settings()
+                    if settings.seed_clock:
+                        settings_for_run.acutal_seed=rand.randint(0,100000000)
+                        random_for_experyment=random.Random(settings_for_run.acutal_seed)
+                    else:
+                        settings_for_run.acutal_seed=settings_for_run.seed
+                    settings_for_run.get_properties(file_with_properties,file_with_rewards,file_with_boxes,file_with_invisible)
+                    statistics=Statistics(settings_for_run)
+
+                    runner=Runner(settings_for_run,random_for_experyment, statistics)
+                    runner.run_normal()
+
 
             shutil.copytree("./results",settings_for_run.target_directory+"/results")
-            shutil.copy(settings.target_directory+"/"+file_name,settings_for_run.target_directory)
+            shutil.copy(settings.target_directory+"/"+file_name,settings_for_run.target_directory+"/konf.txt")
 
 
 
