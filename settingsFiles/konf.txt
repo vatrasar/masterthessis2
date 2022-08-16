@@ -76,7 +76,7 @@ map_resolution=10
 #
 ###UAVs PARAMETERS
 #
-v_of_uav=100
+v_of_uav=15
 #Prędkośći drona; wartosci powyżej 0
 wait_time=0.3 
 #Czas oczekiwania dla zdarzenia wait; wartośc powyżej 0
@@ -138,7 +138,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=8000
+T=500
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=50
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -182,8 +182,10 @@ zone_width=50
 #szerokość strefy (strefy są używane w pamięci algorytmu normalnego wykonania); wartości całkowite, powyżej zera
 #
 #RUNS
-is_multirun=1
+is_multirun=0
 #czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)
 #                                                      1 - multirun
 number_of_runs=5
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera
+is_directory=0
+target_directory=/home/vatrasar/Dokumenty/test

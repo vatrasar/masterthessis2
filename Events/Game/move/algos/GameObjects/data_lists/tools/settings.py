@@ -216,6 +216,7 @@ class Settings():
         elif (property_name=="T"):
             self.T=self.check_float(property_value,property_name,0,1,True)
         elif (property_name=="target_directory"):
+            property_value=property_value.replace("\n","")
             self.target_directory=property_value
         elif (property_name=="visualisation_speed"):
             self.visualisation_speed=self.check_int(property_value,property_name,0,1,True)
