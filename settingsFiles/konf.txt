@@ -13,7 +13,7 @@ exploitation=0
 #możliwe wartości: 0 - tryb eksploatacji nieaktywny, 1 - tryb eksploatacji aktywny. Uwaga: parametry learning i exploitation nie mogą mieć tesj samej wartości
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=RS
+learning_algo_type=SA
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=best
@@ -53,11 +53,11 @@ temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
 temperature_reduction=0.9 
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=1000
-#liczba iteracji w algorytmie wyżarzania; wartości całkowite, większe od 0
-annealing_range=100
+annealing_number_of_iterations=30
+#liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
+annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
-temeprature_to_stop=1
+temeprature_to_stop=0.1
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
 #MEMORY
@@ -138,9 +138,9 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=500
+T=5000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
-iterations_for_learning=50
+iterations_for_learning=100
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
@@ -185,7 +185,7 @@ zone_width=50
 is_multirun=0
 #czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)
 #                                                      1 - multirun
-number_of_runs=5
+number_of_runs=2
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera
-is_directory=1
+is_directory=0
 target_directory=/home/vatrasar/Dokumenty/test

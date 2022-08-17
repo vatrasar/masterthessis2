@@ -66,6 +66,7 @@ class Annealing_Algo():
 
 
 
+
     def get_new_targets(self,settings,rand:Random):
 
             
