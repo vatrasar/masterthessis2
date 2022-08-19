@@ -23,6 +23,7 @@ class Annealing_Algo():
         self.randm_np=None
         init_start1_x=None
         init_start2_x=None
+        self.not_accepted_counter=0
         self.rand=None
         if rand!=None:
             self.randm_np=np.random.RandomState()
@@ -41,9 +42,10 @@ class Annealing_Algo():
 
 
         self.iterations_form_last_temperature_update=self.iterations_form_last_temperature_update+1
-        if self.iterations_form_last_temperature_update>self.annealing_number_of_iterations:
+        if self.iterations_form_last_temperature_update>=self.annealing_number_of_iterations:
             self.iterations_form_last_temperature_update=0
             self.temperature=self.temperature*self.temperature_reduction
+            self.not_accepted_counter=0
 
 
 
@@ -60,6 +62,8 @@ class Annealing_Algo():
             self.last_decison=1
 
             self.current_result={"position":candidate_positions,"points":candidate_points}
+        else:
+            self.not_accepted_counter=self.not_accepted_counter+1
 
 
 

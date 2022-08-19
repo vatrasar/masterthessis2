@@ -10,5 +10,6 @@ class Reason_to_stop(Enum):
     ITERATIONS="iterations"
     MINIMUM_TEMPERATURE="minimum temperature"
     NO_PROGRESS="no progress"
+    NOT_ACCEPT_TRESH="not_accept_tresh"
 
 

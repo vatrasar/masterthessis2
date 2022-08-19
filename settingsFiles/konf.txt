@@ -140,6 +140,8 @@ itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 T=5000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
+not_accept_tresh=10
+#Liczba iteracji, przez które nie dokonano akcpetacji nowego rozwiązania, po której symulacja ulega zakończeniu. Dotyczy tylko algorytmu uczenia SA; Wartości całkowite, większe od 0
 iterations_for_learning=100
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0

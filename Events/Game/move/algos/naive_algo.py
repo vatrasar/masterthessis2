@@ -51,6 +51,7 @@ class Naive_Algo():
         self.reason_why_learning_stoped=None
 
 
+
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
 
@@ -181,7 +182,7 @@ class Naive_Algo():
                     self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
-                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress)
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress,self.anneling_algorithm.not_accepted_counter)
             else:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points)
             uav1,uav2=get_uav1_and2(uav_list)
@@ -397,6 +398,9 @@ class Naive_Algo():
             return True
         elif self.settings.mode==Modes.EXPLOITATION:
             self.reason_why_learning_stoped=Reason_to_stop.EXPLOITATION
+            return True
+        elif self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.not_accepted_counter>=self.settings.not_accept_tresh:
+            self.reason_why_learning_stoped=Reason_to_stop.NOT_ACCEPT_TRESH
             return True
         else:
             return False

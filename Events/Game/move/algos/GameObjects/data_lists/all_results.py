@@ -14,7 +14,8 @@ def sort_iterations(u):
     return u.iter
 
 class Result_tr_record():
-    def __init__(self,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,current_best_result,av_pts=0,number_of_no_progress=0):
+    def __init__(self,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,current_best_result,av_pts=0,number_of_no_progress=0,not_accept_counter=0):
+
 
         self.dr1_points = dr1_points
         self.dr2_points = dr2_points
@@ -37,9 +38,10 @@ class Result_tr_record():
         self.iter=0
         self.current_best_result=current_best_result
         self.c_best=-1
-        self.not_accept_counter=0
+        self.not_accept_counter=not_accept_counter
         self.av_pts=av_pts
         self.number_of_no_progress=number_of_no_progress
+
 
     def copy_iteration(self,iteration_to_copy):
         self.dr1_points = iteration_to_copy.dr1_points
@@ -75,13 +77,13 @@ class Result_tr_list():
         self.result_tr_list.append(self.current_run)
         self.current_run=[]
         self.current_best_result=0
-    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points,av_pts=None, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None,number_of_no_progress=None):
+    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points,av_pts=None, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None,number_of_no_progress=None,not_accept_counter=None):
 
         current_mean_result=(points1+points2)/2.0
         if current_mean_result>self.current_best_result:
             self.current_best_result=current_mean_result
         if self.settings.learning_algo_type==Learning_algos.SA:
-            self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result,av_pts,number_of_no_progress))
+            self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result,av_pts,number_of_no_progress,not_accept_counter))
         else:
             self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result))
 
@@ -152,7 +154,7 @@ class Result_tr_list():
         settings.add_settings_to_data_file(file)
 
         for i,run in enumerate(self.result_tr_list):
-            counter_refues=0
+
             run.sort(key=sort_iterations)
             file.write("#run %d\n"%(i+1))
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
@@ -170,11 +172,12 @@ class Result_tr_list():
 
                     if counter+1<len(run):
                         iteration.c_best=run[counter+1].av_pts
-                        if (counter+1)%settings.annealing_number_of_iterations==0:
-                            counter_refues=0
-                        if run[counter+1].decision==0:
-                            counter_refues=counter_refues+1
-                        iteration.not_accept_counter=counter_refues
+                        # if (counter+1)%settings.annealing_number_of_iterations==0:
+                        #     counter_refues=0
+                        # if run[counter+1].decision==0:
+                        #     counter_refues=counter_refues+1
+                        # iteration.not_accept_counter=counter_refues
+                        iteration.not_accept_counter=run[counter+1].not_accept_counter
                         iteration.number_of_no_progress=run[counter+1].number_of_no_progress
 
                     else:
