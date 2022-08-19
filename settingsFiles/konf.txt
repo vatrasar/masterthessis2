@@ -51,9 +51,9 @@ naive algo list limit=15
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
-temperature_reduction=0.9 
+temperature_reduction=0.1
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=30
+annealing_number_of_iterations=10
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
 annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
@@ -102,7 +102,7 @@ safe_distance_ratio=2.0
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
@@ -168,10 +168,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1659875068
+seed=1660853363
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

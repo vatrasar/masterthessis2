@@ -173,9 +173,12 @@ class Runner():
         return self.perform_singel_iteration(self.rand)
 
     def perform_singel_iteration(self, rand):
+
         closest_event: Event = self.events_list.get_closest_event()
         update_stac_step = 1
         self.current_time = closest_event.time_of_event
+        if self.current_time>2000:
+            print("test")
         self.game_state.t_curr = self.current_time
         # if self.current_time>550.5:
         #      print("ok")

@@ -47,7 +47,9 @@ class Naive_Algo():
         self.is_synchronization_needed=False
         self.is_secound_synchorniaztion_needed=False
         self.tiers_uav={0:None,1:None}
+        self.number_of_no_progress=0
         self.reason_why_learning_stoped=None
+
 
         if settings.learning_algo_type==Learning_algos.SA:
             self.anneling_algorithm=Annealing_Algo(settings,rand)
@@ -179,7 +181,7 @@ class Naive_Algo():
                     self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
-                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature)
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress)
             else:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points)
             uav1,uav2=get_uav1_and2(uav_list)
@@ -462,12 +464,36 @@ class Naive_Algo():
             self.targert_attacks[0]=record.position2
 
     def is_no_progess(self):
+
+        if len(self.last_iterations_points)>1:
+            self.last_iterations_points.reverse()
+            counter=0
+            counter_best=0
+            best=self.last_iterations_points[0]
+            for iter_points in self.last_iterations_points[1:]:
+                counter=counter+1
+                if best<iter_points:
+
+                    counter_best=counter
+                    best=iter_points
+            self.number_of_no_progress=counter_best
+            if counter==len(self.last_iterations_points):
+                self.number_of_no_progress=0
+            self.last_iterations_points.reverse()
         if len(self.last_iterations_points)<self.settings.itertions_without_progress_to_stop:
+
             return False
+        for iter_points in self.last_iterations_points:
+            if self.last_iterations_points[0]<iter_points:
+
+                return False
 
         for iter_points in self.last_iterations_points:
             if self.last_iterations_points[0]<iter_points:
                 return False
+
+
+
         return True
 
     def add_points_to_last_hits_list(self, points_sum):
@@ -475,5 +501,6 @@ class Naive_Algo():
             self.last_iterations_points.append(points_sum)
         else:
             self.last_iterations_points.remove(self.last_iterations_points[0])
+            self.last_iterations_points.append(points_sum)
 
 
