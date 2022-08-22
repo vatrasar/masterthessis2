@@ -3,7 +3,7 @@
 #
 operation_mode=10
 #tryb operation_mode w jakim działa program; możliwe wartości:
-#                                                     10: full operation (tryb normalny),
+#                                                     10: full operation  (tryb normalny-ucznie się/normalne funkcjonowanie: rece i drony aktywne; ),
 #                                                     11: debug A0 (drony nie unikają kolizji),
 #                                                     12: debug A1 (drony zostają ustawione w losowych pozycjach w zasięgu rąk i się nie poruszają),
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają

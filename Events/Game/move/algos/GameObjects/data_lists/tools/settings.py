@@ -144,7 +144,7 @@ class Settings():
                 self.hands_number=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może być 0,1,2 "%(property_name))
-        elif (property_name=="operation_mode"):
+        elif (property_name=="operation_mode_cases"):
             property_value = property_value.strip()
 
             if (property_value in ["10", "11","12","13"]):
