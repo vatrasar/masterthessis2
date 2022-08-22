@@ -51,7 +51,7 @@ naive algo list limit=15
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
-temperature_reduction=0.1
+temperature_reduction=0.9
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
 annealing_number_of_iterations=10
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
@@ -97,7 +97,7 @@ drone_energy_destroy_condition=0
 #czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
 #                                                                          0 - warunek nie będzie brany pod uwagę
 #
-safe_distance_ratio=2.0
+safe_distance_ratio=2.1
 #współczynnik określający bezpieczny dystans między dronem a ręką. Wartość używana
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
@@ -138,11 +138,11 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=100000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=5000
+T=20000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 not_accept_tresh=10
 #Liczba iteracji, przez które nie dokonano akcpetacji nowego rozwiązania, po której symulacja ulega zakończeniu. Dotyczy tylko algorytmu uczenia SA; Wartości całkowite, większe od 0
-iterations_for_learning=100
+iterations_for_learning=300
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
 energy_simulation_end_condition=0
 #czy symulacja zakonczy sie gdy energia intruza lub uav wyniesie 0(działa tylko w trybie eksploatacji); możliwe wartości:
@@ -170,7 +170,7 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=0
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=1660853363
@@ -189,5 +189,3 @@ is_multirun=0
 #                                                      1 - multirun
 number_of_runs=2
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera
-is_directory=0
-target_directory=/home/vatrasar/Dokumenty/test

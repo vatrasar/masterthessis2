@@ -476,7 +476,7 @@ class Naive_Algo():
             best=self.last_iterations_points[0]
             for iter_points in self.last_iterations_points[1:]:
                 counter=counter+1
-                if best<iter_points:
+                if best<=iter_points:
 
                     counter_best=counter
                     best=iter_points
