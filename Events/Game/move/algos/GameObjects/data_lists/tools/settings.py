@@ -151,6 +151,20 @@ class Settings():
                 self.mode_debug=property_value
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: 10, 11, 12, 13"%(property_name))
+        elif (property_name=="operation_mode"):
+            property_value = property_value.strip()
+
+            if (property_value in ["00", "11"]):
+                self.mode_debug=property_value
+            else:
+                raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: 10, 11, 12, 13"%(property_name))
+
+            if property_value=="00":
+                self.learning=True
+                self.mode="learning"
+            else:
+                self.mode="exploitation"
+
 
         elif (property_name=="visualization"):
             self.visualisation=self.check_int(property_value, property_name, 0, 3, False)
