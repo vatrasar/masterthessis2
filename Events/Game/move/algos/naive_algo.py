@@ -408,9 +408,9 @@ class Naive_Algo():
         elif self.settings.mode==Modes.EXPLOITATION:
             self.reason_why_learning_stoped=Reason_to_stop.EXPLOITATION
             return True
-        elif self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.not_accepted_counter>=self.settings.not_accept_tresh:
-            self.reason_why_learning_stoped=Reason_to_stop.NOT_ACCEPT_TRESH
-            return True
+        # elif self.settings.learning_algo_type==Learning_algos.SA and self.anneling_algorithm.not_accepted_counter>=self.settings.not_accept_tresh:
+        #     self.reason_why_learning_stoped=Reason_to_stop.NOT_ACCEPT_TRESH
+        #     return True
         else:
             return False
 
