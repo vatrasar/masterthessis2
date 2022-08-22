@@ -88,7 +88,7 @@ class Result_tr_list():
             self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result))
 
 
-    def save_to_file(self,settings):
+    def save_to_file(self,settings,reasons_to_stop_simulation):
 
 
 
@@ -153,10 +153,10 @@ class Result_tr_list():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
 
-        for i,run in enumerate(self.result_tr_list):
+        for run_i,run in enumerate(self.result_tr_list):
 
             run.sort(key=sort_iterations)
-            file.write("#run %d\n"%(i+1))
+            file.write("#run %d\n"%(run_i+1))
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
             #
             #     file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum iteration":<20s} {"#pts sum":<9s} {"#curr sol1":<10s} {"#curr sol2":<10s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
@@ -204,7 +204,9 @@ class Result_tr_list():
 
                     str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_best_result:<12.2f}\n'
                     file.write(str)
+            file.write("reason to stop: %s\n"%(reasons_to_stop_simulation[run_i].value))
             file.write("\n")
+
         file.close()
         if settings.is_multirun:
             file=open("./results/std_results.txt","w")
