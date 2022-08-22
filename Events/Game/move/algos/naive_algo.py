@@ -49,6 +49,7 @@ class Naive_Algo():
         self.tiers_uav={0:None,1:None}
         self.number_of_no_progress=0
         self.reason_why_learning_stoped=None
+        self.best_points=0
 
 
 
@@ -168,6 +169,14 @@ class Naive_Algo():
             #     return
 
             is_candidate_accpeted=True
+            if points_sum>self.best_points:
+                self.best_points=points_sum
+                self.number_of_no_progress=0
+
+            else:
+                self.number_of_no_progress=self.number_of_no_progress+1
+
+
             if points_sum!=0:
                 self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
             if settings.learning_algo_type==Learning_algos.SA:
@@ -469,36 +478,25 @@ class Naive_Algo():
 
     def is_no_progess(self):
 
-        if len(self.last_iterations_points)>1:
-            self.last_iterations_points.reverse()
-            counter=0
-            counter_best=0
-            best=self.last_iterations_points[0]
-            for iter_points in self.last_iterations_points[1:]:
-                counter=counter+1
-                if best<=iter_points:
 
-                    counter_best=counter
-                    best=iter_points
-            self.number_of_no_progress=counter_best
-            if counter==len(self.last_iterations_points):
-                self.number_of_no_progress=0
-            self.last_iterations_points.reverse()
-        if len(self.last_iterations_points)<self.settings.itertions_without_progress_to_stop:
+        if self.number_of_no_progress<self.settings.itertions_without_progress_to_stop:
 
             return False
-        for iter_points in self.last_iterations_points:
-            if self.last_iterations_points[0]<iter_points:
+        else:
+            return True
 
-                return False
+        # for iter_points in self.last_iterations_points:
+        #     if self.last_iterations_points[0]<iter_points:
+        #
+        #         return False
+        #
+        # for iter_points in self.last_iterations_points:
+        #     if self.last_iterations_points[0]<iter_points:
+        #         return False
 
-        for iter_points in self.last_iterations_points:
-            if self.last_iterations_points[0]<iter_points:
-                return False
 
 
 
-        return True
 
     def add_points_to_last_hits_list(self, points_sum):
         if len(self.last_iterations_points)<self.settings.itertions_without_progress_to_stop:
