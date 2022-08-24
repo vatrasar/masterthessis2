@@ -29,8 +29,8 @@ class Naive_Algo():
         self.settings=settings
         self.list_limit=list_limit
         self.current_attacks={}
-        self.current_attacks[0]={"start postion":None,"points":0,"active":False}
-        self.current_attacks[1]={"start postion":None,"points":0,"active":False}
+        self.current_attacks[0]={"start postion":Point(0,0),"points":0,"active":False,"points before attack":0,"intruder energy before attack":0,"uav_energy":0}
+        self.current_attacks[1]={"start postion":Point(0,0),"points":0,"active":False,"points before attack":0,"intruder energy before attack":0,"uav_energy":0}
         self.targert_attacks={0:None,1:None}
         self.after_attack={0:True,1:True}
         self.type_of_algo_choose={0:Target_choose.RANDOM_ATTACK,1:Target_choose.RANDOM_ATTACK}

@@ -33,7 +33,7 @@ class GameState():
         from Events.Game.move.Game_Map import GameMap
         simple_map=Simple_map(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,simple_map)
-
+        self.rand=rand
 
 
 
@@ -82,7 +82,7 @@ class GameState():
                     else:
                         distance=delta_time*hand_velocity
                     hand.set_new_position(get_point_base_on_distance(hand.position, distance, hand.target_position), current_time)
-        self.check_collisions(settings,event_list)
+        self.check_collisions(settings,event_list,current_time)
         if settings.drone_energy_destroy_condition:
             self.check_energy(event_list)
 
@@ -95,7 +95,7 @@ class GameState():
         for uav_to_delete in uav_list_to_delete:
             self.remove_drone(event_list, uav_to_delete)
 
-    def check_collisions(self,settings,event_list):
+    def check_collisions(self,settings,event_list,time):
         uav_list_to_delete=[]
         for uav in self.uav_list:
             if uav.position!=None:
@@ -107,7 +107,12 @@ class GameState():
         for uav_to_delete in uav_list_to_delete:
             print("colision!")
 
-            self.remove_drone(event_list, uav_to_delete)
+            # self.remove_drone(event_list, uav_to_delete)
+            event=uav_to_delete.next_event
+            event_list.delete_event(uav_to_delete.next_event)
+            event.back_on_tier_after_collision(settings,self.rand,event_list,time)
+
+
 
     def remove_drone(self, event_list, uav_to_delete):
         event_list.delete_event(uav_to_delete.next_event)

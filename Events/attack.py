@@ -213,6 +213,14 @@ class Attack(Event):
                 else:
                     self.start_to_move_on_tier1(event_list, rand, settings)
 
+
+    def back_on_tier_after_collision(self,settings:Settings,rand:Random,event_list,time):
+        self.event_owner.consume_energy(settings,time)
+        self.update_algos_results(rand, settings)
+
+        from Events.move_along import plan_enter_from_tier2
+        plan_enter_from_tier2(event_list,settings,time,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)
+        self.event_owner.set_new_position(Point(0,0),0)
     def update_algos_results(self, rand, settings):
 
         points1=0

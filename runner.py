@@ -215,6 +215,7 @@ class Runner():
         for uav in self.game_state.uav_list:
 
             uav.delete_current_event(self.events_list)
+
             for hand in self.game_state.hands_list:
                 if hand.target_uav==None:
                     hand.start_chasing(uav)

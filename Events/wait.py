@@ -2,6 +2,7 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enumStatus import UavStatus
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.get_position import get_random_position_on_tier1
 from Events.Game.move.path_planning import search_back_path
@@ -48,3 +49,25 @@ class Wait(Event):
                 plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin,rand)
             else:
                 plan_attck_dodge_move(self.time_of_event,self.event_owner,self.tk_master,self.game_state,settings,event_list)
+
+
+    def back_on_tier_after_collision(self,settings:Settings,rand:Random,event_list,time):
+        self.event_owner.consume_energy(settings,time)
+        self.update_algos_results(rand, settings)
+
+        from Events.move_along import plan_enter_from_tier2
+        plan_enter_from_tier2(event_list,settings,time,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)
+        self.event_owner.set_new_position(Point(0,0),0)
+
+    def update_algos_results(self, rand, settings):
+
+        points1=0
+        points2=0
+        for uav in self.game_state.uav_list:
+            if uav.index==0:
+                points1=uav.points
+            else:
+                points2=uav.points
+        self.game_state.naive_algo.un_register_attack(self.event_owner.index, settings,self.game_state.uav_list,self.game_state.t_curr,self.game_state.intruder)
+
+
