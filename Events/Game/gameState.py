@@ -6,6 +6,7 @@ from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
 from Events.Game.move.algos.GameObjects.data_lists.result import Result_file
+from Events.Game.move.algos.GameObjects.data_lists.sos import Sos_list
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
 from Events.Game.move.algos.naive_algo import Naive_Algo
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -30,6 +31,7 @@ class GameState():
         self.hit_list=hit_list
         self.result_tr_list=result_tr_list
         self.result_file=result_file
+        self.sos_list=Sos_list(settings)
         from Events.Game.move.Game_Map import GameMap
         simple_map=Simple_map(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings)
         self.game_map=GameMap(map_size_x,map_size_y,map_resolution,uav_size,hand_size,list_of_cells_with_points,settings,simple_map)
@@ -108,6 +110,7 @@ class GameState():
             print("colision!")
 
             # self.remove_drone(event_list, uav_to_delete)
+            self.sos_list.add_record(time,self.uav_list[0].position,self.uav_list[1].position)
             event=uav_to_delete.next_event
             event_list.delete_event(uav_to_delete.next_event)
             event.back_on_tier_after_collision(settings,self.rand,event_list,time)

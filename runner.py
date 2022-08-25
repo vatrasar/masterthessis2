@@ -72,6 +72,7 @@ class Runner():
 
                 continue
             self.result_tr_list.end_run()
+            self.game_state.sos_list.end_run()
             self.result_file.end_run()
             self.memory_list.append(self.game_state.naive_algo.results_list)
             self.hit_list=Hit_list(self.settings)
@@ -82,7 +83,8 @@ class Runner():
         self.statistics.save()
         clear_folder("./results")
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
-        self.game_state.naive_algo.results_list.save_to_file(self.memory_list,self.reason_to_stop_simulation)
+        self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
+        self.game_state.sos_list.save()
         if self.settings.mode==Modes.LEARNING:
             self.result_tr_list.save_to_file(self.settings,self.reason_to_stop_simulation)
             self.result_tr_list.save_to_file_uav1(self.settings)
@@ -135,6 +137,7 @@ class Runner():
                 while self.perform_singel_iteration(self.rand):
                     continue
             self.result_tr_list.end_run()
+            self.game_state.sos_list.end_run()
             self.result_file.end_run()
             self.memory_list.append(self.game_state.naive_algo.results_list)
             self.hit_list=Hit_list(self.settings)
@@ -142,6 +145,7 @@ class Runner():
             # self.statistics.save()
             clear_folder("./results")
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
+            self.game_state.sos_list.save()
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
             if self.settings.mode==Modes.LEARNING:
                 self.result_tr_list.save_to_file(self.settings,self.reason_to_stop_simulation)

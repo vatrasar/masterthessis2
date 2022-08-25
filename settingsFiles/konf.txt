@@ -6,7 +6,7 @@ operation_mode=00
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
 #
-operation_mode_cases=12
+operation_mode_cases=10
 #tryb operation_mode w jakim działa program; możliwe wartości:
 #                                                     10: full operation  (tryb normalny-ucznie się/normalne funkcjonowanie: rece i drony aktywne; ),
 #                                                     11: debug A0 (drony nie unikają kolizji),
@@ -139,7 +139,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=50
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=5000
+T=1000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=300
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
