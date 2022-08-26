@@ -139,7 +139,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=50
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=1000
+T=5000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=300
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -169,10 +169,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1661184468
+seed=1661514540
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #
