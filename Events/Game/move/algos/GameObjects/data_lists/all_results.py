@@ -193,9 +193,9 @@ class Result_tr_list():
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<9s} {"10":<9s} {"11":<21s} {"12":<21s} {"13":<10s} {"14":<6s} {"15":<9s} {"16":<9s}\n')
                 for i,record in enumerate(run):
                     if len(run)>i+1:
-                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.dr1_points+record.dr2_points:<9.2f} {record.av_pts:<9.2f} {record.c_best:<9.2f} {record.not_accept_counter:<21.2f} {record.number_of_no_progress:<21.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.points1+record.points2:<9.2f} {record.av_pts/2.0:<9.2f} {record.c_best:<9.2f} {record.not_accept_counter:<21.2f} {record.number_of_no_progress:<21.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     else:
-                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.dr1_points+record.dr2_points:<9.2f} {record.av_pts:<9.2f} {record.c_best:<9s} {record.not_accept_counter:<21s} {record.number_of_no_progress:<21s} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.points1+record.points2:<9.2f} {record.av_pts/2.0:<9.2f} {record.c_best:<9s} {record.not_accept_counter:<21s} {record.number_of_no_progress:<21s} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     file.write(str)
             else:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"best result":<12s}\n')
