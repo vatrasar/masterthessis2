@@ -37,6 +37,8 @@ def main():
     settings.acutal_seed=int(time.time())
     if settings.seed_clock:
         rand =random.Random(settings.acutal_seed) #
+    else:
+        settings.acutal_seed=settings.seed
     #init state
     if settings.is_directory:
         list_of_files=os.listdir(settings.target_directory)
