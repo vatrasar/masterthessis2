@@ -25,6 +25,8 @@ class Annealing_Algo():
         init_start2_x=None
         self.not_accepted_counter=0
         self.rand=None
+        self.av_pts_new=0
+        self.diff=0
         if rand!=None:
             self.randm_np=np.random.RandomState()
             self.randm_np.seed(rand.randint(0,200000))
@@ -49,9 +51,10 @@ class Annealing_Algo():
 
 
 
+        self.av_pts_new=candidate_points/2.0
 
         value_delta=self.current_result["points"]/2.0-candidate_points/2.0
-
+        self.diff=candidate_points/2.0-self.current_result["points"]/2.0
         metropolis=math.exp(-value_delta / self.temperature)
         x=self.rand.random()
         self.last_decison=0
