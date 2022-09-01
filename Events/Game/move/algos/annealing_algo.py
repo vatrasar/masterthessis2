@@ -22,6 +22,7 @@ class Annealing_Algo():
         self.last_decison=1
         self.randm_np=None
         init_start1_x=None
+        self.settings=settings
         init_start2_x=None
         self.not_accepted_counter=0
         self.rand=None
@@ -101,12 +102,13 @@ class Annealing_Algo():
 
 
     def get_candidate(self, rand):
-        sign=1
-        if rand.randint(0,1)==0:
-            sign=-1
+        # sign=1
+        # if rand.randint(0,1)==0:
+        #     sign=-1
+        #
+        # candidate=self.step*rand.random()*sign
 
-        candidate=self.step*rand.random()*sign
-
+        candidate=(self.settings.map_size_y)*rand.random()
         return candidate
 
 
