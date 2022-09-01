@@ -176,11 +176,15 @@ class Naive_Algo():
             else:
                 self.number_of_no_progress=self.number_of_no_progress+1
 
-
-            if points_sum!=0:
-                self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
+
+            if points_sum!=0:
+                if settings.learning_algo_type!=Learning_algos.SA:
+                    self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
+                elif self.anneling_algorithm.last_decison:
+                    self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
+
 
             if settings.learning_algo_type!=Learning_algos.SA or settings.mode==Modes.EXPLOITATION or self.anneling_algorithm.last_decison==1:
                 for uav in uav_list:

@@ -50,7 +50,7 @@ fake_targets_number=3
 #
 naive algo list limit=15
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
-temperature=100
+temperature=20
 #temperatura z algorytmu wyżarzania; wartości większe od 0
 temperature_reduction=0.9
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
