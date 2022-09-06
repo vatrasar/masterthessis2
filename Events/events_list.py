@@ -26,3 +26,8 @@ class Event_list:
         self.event_list.append(new_event)
         new_event.event_owner.set_status(current_owner_status)
         new_event.event_owner.set_next_event(new_event)
+
+    def reset_time(self,time):
+        for event in self.event_list:
+            event.time_of_event=event.time_of_event-time
+

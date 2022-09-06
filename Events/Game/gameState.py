@@ -29,6 +29,7 @@ class GameState():
         self.uav_list:typing.List[Uav] = []
         self.list_of_dead_uavs=[]
         self.hit_list=hit_list
+        self.is_training=False
         self.result_tr_list=result_tr_list
         self.result_file=result_file
         self.sos_list=Sos_list(settings)

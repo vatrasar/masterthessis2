@@ -163,6 +163,7 @@ class Settings():
                 self.learning=True
                 self.mode="learning"
             else:
+                self.learning=False
                 self.mode="exploitation"
 
 

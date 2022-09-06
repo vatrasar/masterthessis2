@@ -79,6 +79,10 @@ class Result_tr_list():
         self.result_tr_list.append(self.current_run)
         self.current_run=[]
         self.current_best_result=0
+
+    def reset_run(self):
+        self.current_run=[]
+        self.current_best_result=0
     def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points,av_pts=None, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None,number_of_no_progress=None,not_accept_counter=None,av_pts_new=None, diff=None):
 
         current_mean_result=(points1+points2)/2.0

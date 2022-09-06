@@ -2,6 +2,7 @@ from random import Random
 
 import typing
 
+
 from Events.Game.move.algos.GameObjects.data_lists.Hit_list import Hit_list
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list, Result_record
 from Events.Game.move.algos.GameObjects.data_lists.all_results import Result_tr_list
@@ -15,6 +16,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.algos.annealing_algo import Annealing_Algo
+from Events.Game.move.algos.esplion_automata import Epslion_automata
 from Events.Game.move.algos.list_algo import list_algo_new_targets
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
@@ -26,6 +28,7 @@ class Naive_Algo():
         self.result_tr = result_tr
         self.curiosty_ratio = curiosty_ratio
         self.results_list=Result_list(settings.zone_width,settings.naive_algo_list_limit,settings)
+
         self.settings=settings
         self.list_limit=list_limit
         self.current_attacks={}
@@ -50,6 +53,8 @@ class Naive_Algo():
         self.number_of_no_progress=0
         self.reason_why_learning_stoped=None
         self.best_points=0
+        self.epslion_automata=Epslion_automata(settings)
+        self.current_epslion_target=None
 
 
 
@@ -181,6 +186,7 @@ class Naive_Algo():
 
             if points_sum!=0:
                 if settings.learning_algo_type!=Learning_algos.SA:
+
                     self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
                 elif self.anneling_algorithm.last_decison:
                     self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
@@ -193,6 +199,8 @@ class Naive_Algo():
                     else:
                         points=points2
                     self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
+                if self.epslion_automata.is_trainning:
+                        self.epslion_automata.append_new_record(points_sum)
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress,self.anneling_algorithm.not_accepted_counter,self.anneling_algorithm.av_pts_new,self.anneling_algorithm.diff)
@@ -219,7 +227,8 @@ class Naive_Algo():
             number_of_fake_targets=min(len(self.results_list.result_list)-1,settings.fake_targets_number)
 
             self.results_list.sort_list()
-            self.fake_targets_list.extend(self.results_list.result_list[1:number_of_fake_targets+1])
+            if not self.epslion_automata.is_trainning:
+                self.fake_targets_list.extend(self.results_list.result_list[1:number_of_fake_targets+1])
 
             self.random_move[0]=False
             self.random_move[1]=False
@@ -274,6 +283,8 @@ class Naive_Algo():
             self.choose_best(rand, settings)
 
         elif settings.exploitation_type==Exploitation_types.WHEEL:
+
+
             points_sum=0
             for result in self.results_list.result_list:
                 points_sum=points_sum+result.points
@@ -300,15 +311,23 @@ class Naive_Algo():
             self.update_tragets_using_result_record(current_result)
             return
         elif settings.exploitation_type==Exploitation_types.EPSLION:
-
-            x=rand.random()
-            if 1-self.settings.epslion>x:
-                self.choose_best(rand, settings)
-            else:#choose random from list
-                self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
-                result=self.lr_memory[rand.randint(0,len(self.lr_memory)-1)]
-                self.update_tragets_using_result_record(result)
-                return
+            if self.epslion_automata.is_trainning:
+               result=self.epslion_automata.get_random_action_for_training(rand)
+               self.update_tragets_using_result_record(result)
+               self.current_epslion_target=result
+               return
+            else:
+                x=rand.random()
+                if 1-self.settings.epslion>x:
+                    best=self.epslion_automata.choose_best()
+                    self.type_of_algo_choose[0] = Target_choose.BEST_FROM_LIST
+                    self.type_of_algo_choose[1] = Target_choose.BEST_FROM_LIST
+                    self.update_tragets_using_result_record(best)
+                else:#choose random from list
+                    self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
+                    result=self.lr_memory[rand.randint(0,len(self.lr_memory)-1)]
+                    self.update_tragets_using_result_record(result)
+                    return
 
 
 
@@ -421,6 +440,7 @@ class Naive_Algo():
     def load_memory(self):
         file=open("results/goals_of_attack.txt","r")
         lines=file.readlines()
+        counter=1
         for line in lines[2:]:
 
             line_elements=line.split(" ")
@@ -439,9 +459,11 @@ class Naive_Algo():
 
 
 
-            self.results_list.add_result_point(position1,position2,points,tier1,tier2,reward1,reward2,True)
-
+            self.results_list.add_result_point(position1,position2,points,tier1,tier2,reward1,reward2,True,counter)
+            counter=1+counter
         self.results_list.sort_list()
+        self.epslion_automata.set_source_for_lr(self.results_list.result_list)
+        self.epslion_automata.load_data_from_files()
     def get_uav_with_index(self, index):
 
         for uav in self.uav_list:

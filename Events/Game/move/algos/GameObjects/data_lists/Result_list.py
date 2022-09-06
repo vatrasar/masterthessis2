@@ -8,7 +8,7 @@ from Events.Game.move.zones import get_zone_index
 
 import math
 class Result_record():
-    def __init__(self,postion1,postion2,points,tier1,tier2,zone1,zone2,reward1,reward2):
+    def __init__(self,postion1,postion2,points,tier1,tier2,zone1,zone2,reward1,reward2,action_number=0):
 
         self.points = points
         self.reward1=reward1
@@ -20,7 +20,10 @@ class Result_record():
         self.tier1=tier1
         self.tier2=tier2
         self.number_of_hits=1
-
+        self.action_number=action_number
+    def copy(self):
+        new_record=Result_record(self.position1,self.position2,self.points,self.tier1,self.tier2,self.zone1,self.zone2,self.reward1,self.reward2,self.action_number)
+        return new_record
 
 def sort_results(e:Result_record):
     return e.points
@@ -31,7 +34,10 @@ class Result_list():
         self.settings = settings
         self.list_limit = list_limit
         self.zone_width = zone_width
+
         self.result_list:typing.List[Result_record]=[]
+        self.lr_memory1:typing.List[Result_record]=[]
+        self.lr_memory2:typing.List[Result_record]=[]
         self.result_map={}
         zones_number=self.settings.naive_algo_list_limit
         self.explatation=settings.mode
@@ -40,7 +46,7 @@ class Result_list():
 
 
 
-    def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load):
+    def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load,counter=0):
         if self.explatation==Modes.EXPLOITATION and not load:
             return
         zone_index=get_zone_index(self.settings,postion1.x)
@@ -60,7 +66,7 @@ class Result_list():
                 zone1=str(int(postion1.x / self.zone_width))
             if postion2!=None:
                 zone2=str(int(postion2.x / self.zone_width))
-            new_record=Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2)
+            new_record=Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2,counter)
             self.result_list.append(new_record)
             self.result_map[zone_index]=new_record
 

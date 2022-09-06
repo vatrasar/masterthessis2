@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=00
+operation_mode=11
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -17,7 +17,7 @@ debug=0
 learning_algo_type=SA
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=best
+exploitation_type=epsilon-LA
 #rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,
@@ -40,7 +40,7 @@ epsilon=0.05
 reward_threshold=4
 #próg dla akcpetacji nagrody. Jesli otrzymana nagroda jest mniejsza niż próg dron otrzymuje nagrodę o wartości równej 0.
 #Parametr działa wyłącznie w trybie eksploatacji
-l_lr=5
+l_lr=10
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
 fake_targets_number=3
 #liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; wartości całkowite, większe od 0
@@ -50,7 +50,7 @@ fake_targets_number=3
 #
 naive algo list limit=15
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
-temperature=20
+temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
 temperature_reduction=0.9
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
@@ -139,7 +139,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=50
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=70000
+T=3000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

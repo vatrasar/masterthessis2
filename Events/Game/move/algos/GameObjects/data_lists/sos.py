@@ -21,7 +21,8 @@ class Sos_list():
     def end_run(self):
         self.sos_list.append(self.current_sos_list)
         self.current_sos_list=[]
-
+    def reset_run(self):
+        self.current_sos_list=[]
     def save(self):
         file=open("./results/sos.txt","w")
         self.settings.add_settings_to_csv(file)

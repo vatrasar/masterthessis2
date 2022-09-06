@@ -48,6 +48,8 @@ class Result_file():
         self.result_lists.append(self.current_run)
         self.current_run=[]
 
+    def reset_run(self):
+        self.current_run=[]
     def save_to_file2(self, settings:Settings):
         file_name="res2"
 

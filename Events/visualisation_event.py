@@ -11,9 +11,10 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.gui_tools import create
 
 from PIL import Image
 class Visualisation_event(Event):
-    def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state:GameState,visualisation_delay):
+    def __init__(self, time_of_event, event_owner, tk_master:Tk,canvas:Canvas,game_state:GameState,visualisation_delay,is_training=False):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
 
+        self.is_training = is_training
         self.canvas=canvas
         self.visualisation_delay=visualisation_delay
         # if time_of_event>4500:
@@ -33,7 +34,7 @@ class Visualisation_event(Event):
         event_time=self.time_of_event+settings.visualzation_update_interval
         visualisation_event=Visualisation_event(event_time, self.event_owner, self.tk_master, self.canvas, self.game_state,settings.visualisation_speed)
         event_list.append_event(visualisation_event,UavStatus.VISUALISE)
-        if not settings.is_multirun and settings.visualisation!=0:
+        if not settings.is_multirun and settings.visualisation!=0 and not self.game_state.is_training:
 
             self.canvas.delete("all")
 
