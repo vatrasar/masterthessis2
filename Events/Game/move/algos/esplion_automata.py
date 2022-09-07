@@ -17,6 +17,10 @@ class Epslion_automata():
         self.last_action=None
         self.all_goals_list=None
         self.leader=0
+        self.action_counter=[]
+        self.is_active_epslion_attack=False
+        for i in range(0,10):
+            self.action_counter.append(0)
 
 
 
@@ -41,6 +45,7 @@ class Epslion_automata():
         self.lr_memory[self.leader].remove(self.lr_memory[self.leader][0])
         new_record.points=points
         self.lr_memory[self.leader].append(new_record)
+        self.is_active_epslion_attack=False
 
     def append_new_record(self,points_sum):
         if self.last_action!=None:
@@ -91,6 +96,7 @@ class Epslion_automata():
 
     def choose_best(self):
         self.switch_leader()
+        self.is_active_epslion_attack=True
         best=None
         for i in self.lr_memory[self.leader]:
             if best==None:
@@ -98,6 +104,11 @@ class Epslion_automata():
             elif best.points<i.points:
                 best=i
         self.last_action=best
+
+        self.action_counter[self.last_action.action_number]=self.action_counter[self.last_action.action_number]+1
         return best
+
+    def update_action_counter(self, action_number):
+        self.action_counter[action_number]=self.action_counter[action_number]+1
 
 

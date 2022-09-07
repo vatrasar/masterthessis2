@@ -222,6 +222,8 @@ class Settings():
             self.iterations_for_learning=self.check_int(property_value,property_name,1,0,True)
         elif(property_name=="temperature_reduction"):
             self.temperature_reduction=self.check_float(property_value,property_name,0,1,False)
+        elif(property_name=="prob_of_fake_attack"):
+            self.prob_of_fake_attack=self.check_float(property_value,property_name,0,1,False)
         elif(property_name=="annealing_number_of_iterations"):
             self.annealing_number_of_iterations=self.check_int(property_value,property_name,1,0,True)
         elif (property_name=="naive algo list limit"):

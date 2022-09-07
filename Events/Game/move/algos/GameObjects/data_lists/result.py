@@ -1,9 +1,10 @@
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Exploitation_types
 from Events.Game.move.algos.GameObjects.data_lists.tools.multirun_tools import get_mean, get_std
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 import typing
 
 class Result_file_record():
-    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum):
+    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,actions_counter):
 
         self.sum_intruder_energy_spending = sum_intruder_energy_spending
         self.intruder_energy_spending = intruder_energy_spending
@@ -27,6 +28,8 @@ class Result_file_record():
         self.old_points2=old_points2
         self.old_points1_sum=old_points1_sum
         self.old_points2_sum=old_points2_sum
+        self.actions_counter=actions_counter
+
 
 def sort_list1(x):
     return x.position1
@@ -41,8 +44,8 @@ class Result_file():
         self.result_lists:typing.List[typing.List[Result_file_record]]=[]
         self.current_run=[]
 
-    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum):
-        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum))
+    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter):
+        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter))
 
     def end_run(self):
         self.result_lists.append(self.current_run)
@@ -79,6 +82,10 @@ class Result_file():
             file.write("\n")
         file.close()
 
+
+
+
+
     def save_to_file1(self,settings:Settings,reasons_to_stop_simulation):
 
         file_name="res1"
@@ -93,8 +100,8 @@ class Result_file():
             file.write("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14\n")
             for i,record in enumerate(run):
 
-                str="%.2f, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
-                file.write(str)
+                my_str="%.2f, %.2f, %d, %.2f, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n"%(record.time,record.position1,record.tier1,record.position2,record.tier2,record.points1,record.energy_spending1,record.energy1_spending_sum,record.points2,record.energy_spending2,record.energy2_spending_sum,record.sum_points,record.intruder_energy_spending,record.sum_intruder_energy_spending)
+                file.write(my_str)
         file.close()
 
         file=open("./results/%s.txt"%(file_name),"w")
@@ -105,25 +112,49 @@ class Result_file():
 
             for i,record in enumerate(run):
 
-                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f}\n'
-                file.write(str)
+                my_str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.points1:<9.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.points2:<9.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.sum_points:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f}\n'
+                file.write(my_str)
             file.write("\n")
         file.close()
 
         file_name="results"
+        if settings.learning==False and settings.exploitation_type==Exploitation_types.EPSLION:
+            file_name="results_LA"
         if settings.is_multirun:
-            file_name="m_results"
+            file_name="m_"+file_name
+
+
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for run_i,run in enumerate(self.result_lists):
             run.sort(key=sort_list_time)
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#pts sum dr1":<13s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#pts sum dr2":<13s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum in iteration":<23s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s} {"rew_thr_dr1":<16s} {"rew_thr_dr2":<16s} {"rew_sum_thr_dr1_dr2":<20s} {"reward_sum_total":<18s}\n')
-            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<13s} {"8":<16s} {"9":<18s} {"10":<9s} {"11":<13s} {"12":<15s} {"13":<18s} {"14":<23s} {"15":<9s} {"16":<17s} {"17":<21s} {"18":<20s} {"19":<16s} {"20":<16s} {"21":<16s} {"22":<20s} {"23":<18s}\n')
 
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#pts sum dr1":<13s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#pts sum dr2":<13s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum in iteration":<23s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s} {"rew_thr_dr1":<16s} {"rew_thr_dr2":<16s} {"rew_sum_thr_dr1_dr2":<20s} {"reward_sum_total":<18s} ')
+            if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
+
+                for i in range(0,10):
+                    value_str=str(i+1)
+                    file.write(f'{value_str+"a":<4s} ')
+            file.write("\n")
+
+            file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<13s} {"8":<16s} {"9":<18s} {"10":<9s} {"11":<13s} {"12":<15s} {"13":<18s} {"14":<23s} {"15":<9s} {"16":<17s} {"17":<21s} {"18":<20s} {"19":<16s} {"20":<16s} {"21":<16s} {"22":<20s} {"23":<18s} ')
+            if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
+
+                for i in range(0,10):
+                    file.write(f'{i+24:<4d} ')
+            file.write("\n")
             for i,record in enumerate(run):
 
-                str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.old_points1:<9.2f} {record.old_points1_sum:<13.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.old_points2:<9.2f} {record.old_points2_sum:<13.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.old_points1+record.old_points2:<23.2f} {record.old_points1_sum+record.old_points2_sum:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f} {record.points1:<16.2f} {record.points2:<16.2f} {record.points1+record.points2:<20.2f} {record.points_sum1+record.points_sum2:<18.2f}\n'
-                file.write(str)
+                my_str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.old_points1:<9.2f} {record.old_points1_sum:<13.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.old_points2:<9.2f} {record.old_points2_sum:<13.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.old_points1+record.old_points2:<23.2f} {record.old_points1_sum+record.old_points2_sum:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f} {record.points1:<16.2f} {record.points2:<16.2f} {record.points1+record.points2:<20.2f} {record.points_sum1+record.points_sum2:<18.2f} '
+                file.write(my_str)
+                for i in range(0,10):
+                    if len(record.actions_counter)>i:
+                        file.write(f'{record.actions_counter[i]:<4d} ')
+                    else:
+                        file.write(f'{"-":<4s} ')
+                file.write("\n")
+
+
             file.write("reason to stop: %s\n"%(reasons_to_stop_simulation[run_i].value))
             file.write("\n")
         file.close()
@@ -144,8 +175,8 @@ class Result_file():
                         pass
                 mean_value=get_mean(values)
                 std_value=get_std(values)
-                str=f'{i+1:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'
-                file.write(str)
+                my_str=f'{i+1:<9d} {mean_value:<9.2f} {std_value:<9.2f}\n'
+                file.write(my_str)
 
 
 

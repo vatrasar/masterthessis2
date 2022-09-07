@@ -181,6 +181,10 @@ class Naive_Algo():
             else:
                 self.number_of_no_progress=self.number_of_no_progress+1
 
+            if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
+                if self.epslion_automata.is_active_epslion_attack:
+                    self.epslion_automata.un_register_attack(points_sum)
+
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
@@ -218,7 +222,10 @@ class Naive_Algo():
             uav2_energy_spending=uav2.energy-uav2.last_updated_energy
             uav2.last_updated_energy=uav2.energy
 
-            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum)
+            action_counter_copy=[]
+            for i in self.epslion_automata.action_counter:
+                action_counter_copy.append(i)
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum,action_counter_copy)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
@@ -227,8 +234,10 @@ class Naive_Algo():
             number_of_fake_targets=min(len(self.results_list.result_list)-1,settings.fake_targets_number)
 
             self.results_list.sort_list()
-            if not self.epslion_automata.is_trainning:
-                self.fake_targets_list.extend(self.results_list.result_list[1:number_of_fake_targets+1])
+            x=rand.random()
+            if not self.epslion_automata.is_trainning and  x<self.settings.prob_of_fake_attack:
+                fake_target_index=rand.randint(0,len(self.results_list.result_list)-1)
+                self.fake_targets_list.extend([self.results_list.result_list[fake_target_index]])
 
             self.random_move[0]=False
             self.random_move[1]=False
@@ -324,9 +333,10 @@ class Naive_Algo():
                     self.type_of_algo_choose[1] = Target_choose.BEST_FROM_LIST
                     self.update_tragets_using_result_record(best)
                 else:#choose random from list
-                    self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
-                    result=self.lr_memory[rand.randint(0,len(self.lr_memory)-1)]
+                    # self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
+                    result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
                     self.update_tragets_using_result_record(result)
+                    self.epslion_automata.update_action_counter(result.action_number)
                     return
 
 
@@ -440,7 +450,7 @@ class Naive_Algo():
     def load_memory(self):
         file=open("results/goals_of_attack.txt","r")
         lines=file.readlines()
-        counter=1
+        counter=0
         for line in lines[2:]:
 
             line_elements=line.split(" ")
