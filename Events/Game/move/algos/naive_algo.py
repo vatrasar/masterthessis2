@@ -471,7 +471,9 @@ class Naive_Algo():
 
             self.results_list.add_result_point(position1,position2,points,tier1,tier2,reward1,reward2,True,counter)
             counter=1+counter
+
         self.results_list.sort_list()
+
         self.epslion_automata.set_source_for_lr(self.results_list.result_list)
         self.epslion_automata.load_data_from_files()
     def get_uav_with_index(self, index):

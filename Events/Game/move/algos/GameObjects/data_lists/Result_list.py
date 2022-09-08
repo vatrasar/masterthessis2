@@ -106,6 +106,21 @@ class Result_list():
 
             file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
         file.close()
+
+    def save_to_file_with_action(self):
+
+
+        self.sort_list()
+
+        file=open("./results/LA_goals.txt","w")
+
+
+        file.write(f'{"#action id":<12s} {"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+        file.write(f'{"#1":<12s} {"#2":<9s} {"3":<9s} {"4":<5s} {"5":<5s} {"6":<9s} {"7":<9s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
+        for result in self.result_list:
+
+            file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+        file.close()
     def flirt_none_values(self,value):
         if value==None:
             return "-"

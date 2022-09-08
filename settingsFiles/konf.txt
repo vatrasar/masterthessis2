@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=00
+operation_mode=11
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -141,7 +141,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=700
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=70000
+T=10000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -171,7 +171,7 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=0
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=1662645698
