@@ -1,5 +1,5 @@
 #set style data lines
-set xrange [0:400]
+set xrange [0:1200]
 set yrange [0:10]
 set xlabel "x"
 set ylabel "subs not acc cr"

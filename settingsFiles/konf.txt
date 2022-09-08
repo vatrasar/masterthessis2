@@ -54,9 +54,9 @@ naive algo list limit=10
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
-temperature_reduction=0.9
+temperature_reduction=0.95
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=10
+annealing_number_of_iterations=20
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
 annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
@@ -139,9 +139,9 @@ intruder_energy_cost_of_reaction=5
 #
 ###CONDITIONS TO FINISH SIMULATION
 #
-itertions_without_progress_to_stop=200
+itertions_without_progress_to_stop=700
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=3000
+T=70000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

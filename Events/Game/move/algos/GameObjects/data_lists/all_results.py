@@ -198,7 +198,7 @@ class Result_tr_list():
                         previous_iteration=run[counter-1]
                         iteration.copy_iteration(previous_iteration)
 
-                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#av_pts":<9s} {"#c_best":<9s} {"av_pts_new":<11s} {"del":<9s} {"#not accept counter":<21s} {"#not_improve_conter":<21s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
+                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#av_pts":<9s} {"#c_best":<9s} {"av_pts_new":<11s} {"del":<9s} {"#not accept counter":<21s} {"not_improve_counter":<21s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<9s} {"10":<9s} {"11":<11s} {"12":<9s} {"13":<21s} {"14":<21s} {"15":<10s} {"16":<6s} {"17":<9s} {"18":<9s}\n')
                 for i,record in enumerate(run):
                     if len(run)>i+1:
