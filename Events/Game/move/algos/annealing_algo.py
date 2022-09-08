@@ -16,7 +16,7 @@ class Annealing_Algo():
         self.temperature=settings.temperature
         self.temperature_reduction=settings.temperature_reduction
 
-        self.iterations_form_last_temperature_update=0
+        self.iterations_form_last_temperature_update=-1
         self.last_metropolis=0
         self.last_x=0
         self.last_decison=1
