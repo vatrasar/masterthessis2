@@ -94,7 +94,7 @@ uav_energy_energy_cost_tier1=0.3
 #zużycie energii uav na jednostkę czasu podczas poruszania się na tier1; wartości powyżej zera
 uav_energy_energy_cost_tier2=0.1
 #zużycie energii uav na jednostkę czasu podczas poruszania się na tier2; wartości powyżej zera
-uav_energy=7000
+uav_energy=25000
 #początkowa energia uav; wartości całkowite, powyżej zera
 drone_energy_destroy_condition=0 
 #czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
@@ -139,9 +139,9 @@ intruder_energy_cost_of_reaction=5
 #
 ###CONDITIONS TO FINISH SIMULATION
 #
-itertions_without_progress_to_stop=700
+itertions_without_progress_to_stop=200
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=10000
+T=20000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

@@ -180,7 +180,7 @@ class Attack(Event):
 
 
                             points=(distance_from_uav/float(distance_from_tier1))*self.event_owner.target_with_points.points
-                            self.event_owner.asign_points(points,settings)
+                            self.event_owner.asign_points(points,settings,self.game_state.naive_algo.epslion_automata.is_trainning)
                     path=search_back_path(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings.tier1_distance_from_intruder,settings,self.game_state.hands_list)
                     if path!=None:
                         plan_attack(self.time_of_event,self.event_owner,self.tk_master,path,settings.v_of_uav,self.state,event_list,UavStatus.ON_BACK,settings.safe_margin,settings)
@@ -199,7 +199,7 @@ class Attack(Event):
             if self.event_owner.status==UavStatus.ON_ATTACK:
                 #asign points
                 uav:Uav=self.event_owner
-                uav.asign_points(self.old_path[0].points,settings)
+                uav.asign_points(self.old_path[0].points,settings,self.game_state.naive_algo.epslion_automata.is_trainning)
 
                 self.start_backing(event_list, settings,rand)
             elif self.event_owner.status==UavStatus.ATTACK_DODGE_MOVE:

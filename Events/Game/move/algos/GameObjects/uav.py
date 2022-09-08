@@ -50,11 +50,11 @@ class Uav(MovableObject):
         if settings.mode==Modes.EXPLOITATION:
             self.points_without_transhold=0
             self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum
-    def asign_points(self, points,settings):
+    def asign_points(self, points,settings,is_training):
         if settings.mode==Modes.EXPLOITATION:
             self.points_without_transhold=points
             self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum
-            if points<settings.reward_threshold:
+            if points<settings.reward_threshold and  not is_training:
                 points=0
 
 
