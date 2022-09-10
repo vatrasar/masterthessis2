@@ -55,7 +55,7 @@ class Naive_Algo():
         self.best_points=0
         self.epslion_automata=Epslion_automata(settings)
         self.current_epslion_target=None
-
+        self.is_real_fake_attack=False
 
 
         if settings.learning_algo_type==Learning_algos.SA:
@@ -151,7 +151,8 @@ class Naive_Algo():
 
 
         if self.is_after_attack(uav_list):
-
+            if not self.is_fake_attack[uav_id]:
+                self.random_move[uav_id]=True
 
 
             points=[]
@@ -225,19 +226,20 @@ class Naive_Algo():
             action_counter_copy=[]
             for i in self.epslion_automata.action_counter:
                 action_counter_copy.append(i)
-            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum,action_counter_copy)
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum,action_counter_copy,self.is_real_fake_attack)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
         #waitnig for secound drone
-        if self.random_move[uav_index] and self.is_after_attack(uav_list):
+        if self.is_after_attack(uav_list):
             number_of_fake_targets=min(len(self.results_list.result_list)-1,settings.fake_targets_number)
 
             self.results_list.sort_list()
             x=rand.random()
-            if not self.epslion_automata.is_trainning and  x<self.settings.prob_of_fake_attack:
+            if (self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) and  x<self.settings.prob_of_fake_attack and not self.is_real_fake_attack:
                 fake_target_index=rand.randint(0,len(self.results_list.result_list)-1)
                 self.fake_targets_list.extend([self.results_list.result_list[fake_target_index]])
+                self.is_real_fake_attack=True
 
             self.random_move[0]=False
             self.random_move[1]=False
@@ -283,7 +285,7 @@ class Naive_Algo():
     def choose_true_traget(self, rand, settings:Settings):
 
 
-
+        self.is_real_fake_attack=False
         if len(self.results_list.result_list)==0 or settings.exploitation_type==Exploitation_types.RANDOM:
             self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
             self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)

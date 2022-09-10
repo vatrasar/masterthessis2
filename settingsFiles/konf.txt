@@ -22,7 +22,7 @@ exploitation_type=epsilon-LA
 #                                       epsilon-LA,
 #                                       best,
 #                                       random
-prob_of_attack=0.7 
+prob_of_attack=0.7
 #Prawdopodobieństwo wykonania ataku w trybie losowym (dotyczy trybu exploitation1); wartości od 0 do 1
 prob_of_return_to_T2=0.1 
 #Prawdopodobieństwo  powrotu na tier2; wartośc od 0 do 1 (dotyczy wszystkich trybów)
@@ -42,11 +42,8 @@ reward_threshold=4
 #Parametr działa wyłącznie w trybie eksploatacji
 l_lr=10
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
-prob_of_fake_attack=0.5
+prob_of_fake_attack=0.99999
 #prawdopodobieństwo przeprowadzenia mylącego ataku;wartości z przedziału (0,1)
-fake_targets_number=3
-#liczba celów z listy które będą zaatakowane po wykonaniu ataku na najlepszy cel z listy w algorytmie normalnego wykonania; wartości całkowite, większe od 0
-#
 #
 #LEARNING PARAMETERS
 #
@@ -60,7 +57,7 @@ annealing_number_of_iterations=20
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
 annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
-temeprature_to_stop=1
+temeprature_to_stop=0.5
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
 #MEMORY
@@ -139,9 +136,9 @@ intruder_energy_cost_of_reaction=5
 #
 ###CONDITIONS TO FINISH SIMULATION
 #
-itertions_without_progress_to_stop=200
+itertions_without_progress_to_stop=2000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=20000
+T=3000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -171,10 +168,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1662645698
+seed=1662819961
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

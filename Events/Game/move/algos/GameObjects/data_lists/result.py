@@ -4,7 +4,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Setting
 import typing
 
 class Result_file_record():
-    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,actions_counter):
+    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,actions_counter,is_true_fake_attack):
 
         self.sum_intruder_energy_spending = sum_intruder_energy_spending
         self.intruder_energy_spending = intruder_energy_spending
@@ -29,6 +29,7 @@ class Result_file_record():
         self.old_points1_sum=old_points1_sum
         self.old_points2_sum=old_points2_sum
         self.actions_counter=actions_counter
+        self.is_true_fake_attack=is_true_fake_attack
 
 
 def sort_list1(x):
@@ -44,8 +45,8 @@ class Result_file():
         self.result_lists:typing.List[typing.List[Result_file_record]]=[]
         self.current_run=[]
 
-    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter):
-        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter))
+    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack):
+        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack))
 
     def end_run(self):
         self.result_lists.append(self.current_run)
@@ -144,8 +145,17 @@ class Result_file():
                     file.write(f'{i+24:<4d} ')
             file.write("\n")
             for i,record in enumerate(run):
+                sum_to_print_new=record.points1+record.points2
+                sum_to_print_old=record.old_points1+record.old_points2
+                if record.is_true_fake_attack:
+                    # record.points1=-1
+                    # record.points2=-1
+                    record.old_points1=-1
+                    record.old_points2=-1
+                    # sum_to_print_new=-1
+                    # sum_to_print_old=-1
 
-                my_str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.old_points1:<9.2f} {record.old_points1_sum:<13.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.old_points2:<9.2f} {record.old_points2_sum:<13.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {record.old_points1+record.old_points2:<23.2f} {record.old_points1_sum+record.old_points2_sum:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f} {record.points1:<16.2f} {record.points2:<16.2f} {record.points1+record.points2:<20.2f} {record.points_sum1+record.points_sum2:<18.2f} '
+                my_str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.old_points1:<9.2f} {record.old_points1_sum:<13.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.old_points2:<9.2f} {record.old_points2_sum:<13.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {sum_to_print_old:<23.2f} {record.old_points1_sum+record.old_points2_sum:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f} {record.points1:<16.2f} {record.points2:<16.2f} {sum_to_print_new:<20.2f} {record.points_sum1+record.points_sum2:<18.2f} '
                 file.write(my_str)
                 for i in range(0,10):
                     if len(record.actions_counter)>i:

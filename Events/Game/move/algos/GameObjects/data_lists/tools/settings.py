@@ -109,7 +109,7 @@ class Settings():
         self.tier1_distance_from_intruder=400
         self.uav_wait_time=3.0
         self.uav_number=2
-
+        self.fake_targets_number=1
 
 
 
