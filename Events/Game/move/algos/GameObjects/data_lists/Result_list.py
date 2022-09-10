@@ -74,6 +74,7 @@ class Result_list():
     def save_to_file(self,memory_list):
 
         file=open("./results/goals_of_attack.csv","w")
+
         self.sort_list()
         for i,run in enumerate(memory_list):
             file.write("run:%d\n"%(i))
@@ -98,14 +99,26 @@ class Result_list():
                 file.write("%s, %s, %s, %s,%.2f,%.2f, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
         file.close()
         file=open("./results/goals_of_attack.txt","w")
-
+        file2=open("./results/goals_of_attack_all_results.txt","w")
 
         file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
         file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s}\n')
+        counter=0
+        for result in self.result_list:
+            if counter>=10:
+                break
+            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+            counter=counter+1
+        file.close()
+
+
+
+        file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+        file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s}\n')
         for result in self.result_list:
 
-            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
-        file.close()
+            file2.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+        file2.close()
 
     def save_to_file_with_action(self):
 
@@ -117,10 +130,15 @@ class Result_list():
 
         file.write(f'{"#action id":<12s} {"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
         file.write(f'{"#1":<12s} {"#2":<9s} {"3":<9s} {"4":<5s} {"5":<5s} {"6":<9s} {"7":<9s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
+        counter=0
         for result in self.result_list:
-
+            if counter>=10:
+                break
+            result.action_number=counter
             file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+            counter=counter+1
         file.close()
+
     def flirt_none_values(self,value):
         if value==None:
             return "-"

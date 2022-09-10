@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=11
+operation_mode=00
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -42,12 +42,12 @@ reward_threshold=4
 #Parametr działa wyłącznie w trybie eksploatacji
 l_lr=10
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
-prob_of_fake_attack=0.99999
+prob_of_fake_attack=0.5
 #prawdopodobieństwo przeprowadzenia mylącego ataku;wartości z przedziału (0,1)
 #
 #LEARNING PARAMETERS
 #
-naive algo list limit=10
+naive algo list limit=20
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
@@ -138,7 +138,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=2000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=3000
+T=10000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=5000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
