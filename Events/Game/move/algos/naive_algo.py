@@ -237,7 +237,7 @@ class Naive_Algo():
 
             self.results_list.sort_list()
             x=rand.random()
-            if (self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) and  x<self.settings.prob_of_fake_attack and not self.is_real_fake_attack:
+            if (self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) and  x<self.settings.prob_of_fake_attack:
                 # fake_target_index=rand.randint(0,len(self.results_list.result_list)-1)
                 target1,target2=list_algo_new_targets(settings,rand)
                 fake_target=Result_record(target1,target2,0,1,2,1,1,0,0,0)
@@ -280,7 +280,7 @@ class Naive_Algo():
 
         self.is_fake_attack[uav_index]=False
 
-
+        self.is_synchronization_needed=True
 
 
         self.choose_true_traget(rand, settings)

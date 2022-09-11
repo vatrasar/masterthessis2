@@ -42,7 +42,7 @@ reward_threshold=4
 #Parametr działa wyłącznie w trybie eksploatacji
 l_lr=10
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
-prob_of_fake_attack=0.5
+prob_of_fake_attack=0.3
 #prawdopodobieństwo przeprowadzenia mylącego ataku;wartości z przedziału (0,1)
 #
 #LEARNING PARAMETERS
