@@ -114,7 +114,8 @@ class Runner():
 
         self.statistics.save()
         clear_folder("./results")
-        self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
+        if self.settings.exploitation_type==Exploitation_types.EPSLION and not self.settings.learning:
+            self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         if self.settings.exploitation_type == Exploitation_types.EPSLION and self.settings.learning!=True:
@@ -233,7 +234,8 @@ class Runner():
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
             # self.statistics.save()
             clear_folder("./results")
-            self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
+            if self.settings.exploitation_type==Exploitation_types.EPSLION and not self.settings.learning:
+                self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.sos_list.save()
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)

@@ -125,13 +125,13 @@ class Epslion_automata():
         file1=open("./results/automata_memory1.txt","w")
         file2=open("./results/automata_memory2.txt", "w")
 
-        file1.write(f'{"#action id":<10s} {"points":<10s}\n')
+        file1.write(f'{"#action id":<10s} {"av pts":<10s}\n')
         for record in self.epslion_automata_old[0]:
-            file1.write(f'{record.action_number:<10d} {record.points:<10.2f}\n')
+            file1.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
         file1.close()
 
-        file2.write(f'{"#action id":<10s} {"points":<10s}\n')
+        file2.write(f'{"#action id":<10s} {"av pts":<10s}\n')
         for record in self.epslion_automata_old[1]:
-            file2.write(f'{record.action_number:<10d} {record.points:<10.2f}\n')
+            file2.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
         file2.close()
 

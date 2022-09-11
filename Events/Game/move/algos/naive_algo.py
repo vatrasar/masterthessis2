@@ -52,7 +52,7 @@ class Naive_Algo():
         self.tiers_uav={0:None,1:None}
         self.number_of_no_progress=0
         self.reason_why_learning_stoped=None
-        self.best_points=0
+        self.best_points=-1
         self.epslion_automata=Epslion_automata(settings)
         self.current_epslion_target=None
         self.is_real_fake_attack=False
