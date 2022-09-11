@@ -117,8 +117,9 @@ class Epslion_automata():
         self.action_counter[self.last_action.action_number]=self.action_counter[self.last_action.action_number]+1
         return best
 
-    def update_action_counter(self, action_number):
+    def update_action_counter(self, action_number,action):
         self.action_counter[action_number]=self.action_counter[action_number]+1
+        self.last_action=action
 
 
     def save_old_lr_memory(self):

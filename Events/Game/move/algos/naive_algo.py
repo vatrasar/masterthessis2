@@ -341,7 +341,8 @@ class Naive_Algo():
                     # self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
                     result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
                     self.update_tragets_using_result_record(result)
-                    self.epslion_automata.update_action_counter(result.action_number)
+                    self.epslion_automata.update_action_counter(result.action_number,result)
+
                     return
 
 
