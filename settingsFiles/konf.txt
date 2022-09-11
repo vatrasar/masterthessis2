@@ -168,7 +168,7 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=0
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=1662819961

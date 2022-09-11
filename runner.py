@@ -80,12 +80,14 @@ class Runner():
                      continue
 
                 #restart
+                epslion_automata=self.game_state.naive_algo.epslion_automata
+                self.game_state.naive_algo.epslion_automata.save_old_memory()
                 self.result_tr_list.reset_run()
                 self.result_file.reset_run()
                 self.current_time=0
                 rand_for_run=Random(seed_for_run)
                 self.game_state=GameState(self.settings.uav_number,self.settings.v_of_uav,self.settings.velocity_hand,self.settings.map_size_x,self.settings.map_size_y,self.settings.hands_number,self.settings.map_resolution,self.settings.uav_size,self.settings.hand_size,self.settings.list_of_cell_points,self.settings,self.settings,rand_for_run,self.hit_list,self.result_tr_list,self.result_file)
-
+                self.game_state.naive_algo.epslion_automata=epslion_automata
                 self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
                 self.events_list=Event_list()
                 for uav in self.game_state.uav_list:
@@ -97,7 +99,7 @@ class Runner():
 
 
 
-            while self.perform_singel_iteration(rand_for_run):
+            while self.perform_singel_iteration(rand_for_run):#mainsimulation loop
                 continue
 
 
@@ -112,6 +114,7 @@ class Runner():
 
         self.statistics.save()
         clear_folder("./results")
+        self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
         if self.settings.exploitation_type == Exploitation_types.EPSLION and self.settings.learning!=True:
@@ -177,7 +180,9 @@ class Runner():
                     continue
 
                 #reset
+
                 epslion_automata=self.game_state.naive_algo.epslion_automata
+                self.game_state.naive_algo.epslion_automata.save_old_memory()
                 self.result_tr_list.reset_run()
                 self.result_file.reset_run()
                 self.current_time=0
@@ -228,6 +233,7 @@ class Runner():
             export_to_gnuplot(self.run_stac_list,self.run_hits,self.settings)
             # self.statistics.save()
             clear_folder("./results")
+            self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.sos_list.save()
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)

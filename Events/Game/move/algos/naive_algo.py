@@ -190,6 +190,7 @@ class Naive_Algo():
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
             if points_sum!=0:
+
                 if settings.learning_algo_type!=Learning_algos.SA:
 
                     self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)

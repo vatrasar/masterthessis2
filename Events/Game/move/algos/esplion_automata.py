@@ -19,6 +19,7 @@ class Epslion_automata():
         self.leader=0
         self.action_counter=[]
         self.is_active_epslion_attack=False
+        self.epslion_automata_old=[[],[]]
         for i in range(0,10):
             self.action_counter.append(0)
 
@@ -28,7 +29,13 @@ class Epslion_automata():
         self.lr_memory:typing.List[typing.List[Result_record]]=[]
         self.is_trainning=True
         self.is_reset=False
+    def save_old_memory(self):
 
+
+       for record in self.lr_memory[0]:
+            self.epslion_automata_old[0].append(record)
+       for record in self.lr_memory[1]:
+            self.epslion_automata_old[1].append(record)
     def get_random_action_for_training(self,random:Random):
         action=self.candidates_for_lr[self.leader][random.randint(0,len(self.candidates_for_lr[self.leader])-1)]
         self.switch_leader()
@@ -113,4 +120,18 @@ class Epslion_automata():
     def update_action_counter(self, action_number):
         self.action_counter[action_number]=self.action_counter[action_number]+1
 
+
+    def save_old_lr_memory(self):
+        file1=open("./results/automata_memory1.txt","w")
+        file2=open("./results/automata_memory2.txt", "w")
+
+        file1.write(f'{"#action id":<10s} {"points":<10s}\n')
+        for record in self.epslion_automata_old[0]:
+            file1.write(f'{record.action_number:<10d} {record.points:<10.2f}\n')
+        file1.close()
+
+        file2.write(f'{"#action id":<10s} {"points":<10s}\n')
+        for record in self.epslion_automata_old[1]:
+            file2.write(f'{record.action_number:<10d} {record.points:<10.2f}\n')
+        file2.close()
 
