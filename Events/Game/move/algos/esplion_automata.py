@@ -50,7 +50,7 @@ class Epslion_automata():
     def append_new_record(self,points_sum):
         if self.last_action!=None:
             if points_sum==0:
-                return 
+                return
             new_record:Result_record=self.last_action.copy()
             new_record.points=points_sum
             self.lr_memory[self.leader].append(new_record)

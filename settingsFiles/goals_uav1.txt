@@ -1,5 +1,5 @@
 #action number
 1
-2
-4
-6
+1
+1
+1
