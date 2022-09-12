@@ -2,6 +2,7 @@ from random import Random
 
 from Events.Game.gameState import GameState
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Exploitation_types
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.uav import Uav
 from Events.Game.move.check import check_distance_between_uav, check_if_same_move_direction, check_if_in_safe_distance, \
     check_if_algo_target_reached
@@ -180,3 +181,24 @@ class Move_along(Event):
             else:
                 points2 = uav.points
         return points1, points2
+
+
+    def back_on_tier_after_collision(self,settings:Settings,rand:Random,event_list,time):
+        self.event_owner.consume_energy(settings,time)
+        self.update_algos_results(rand, settings)
+
+
+        plan_enter_from_tier2(event_list,settings,time,self.event_owner,rand,self.tk_master,self.game_state,settings.safe_margin)
+        self.event_owner.set_new_position(Point(0,0),0)
+
+
+    def update_algos_results(self, rand, settings):
+
+        points1=0
+        points2=0
+        for uav in self.game_state.uav_list:
+            if uav.index==0:
+                points1=uav.points
+            else:
+                points2=uav.points
+

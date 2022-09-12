@@ -89,14 +89,15 @@ class Annealing_Algo():
         #     return
         # else:
         #     self.choose_random=True
-
-        candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
-        while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
-            candidate1=self.get_candidate(rand)
-
-        candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
-        while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
-            candidate2=self.get_candidate(rand)
+        candidate1=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+        candidate2=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+        # candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
+        # while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+        #     candidate1=self.get_candidate(rand)
+        #
+        # candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
+        # while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+        #     candidate2=self.get_candidate(rand)
 
         return (Point(candidate1,settings.tier1_distance_from_intruder),Point(candidate2,settings.tier1_distance_from_intruder))
 
