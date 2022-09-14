@@ -51,13 +51,13 @@ naive algo list limit=20
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
-temperature_reduction=0.97
+temperature_reduction=0.95
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=20
+annealing_number_of_iterations=50
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
 annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
-temeprature_to_stop=0.5
+temeprature_to_stop=0.7
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
 #MEMORY
