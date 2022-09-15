@@ -10,6 +10,7 @@ class MovableObject():
         self.last_postion_update_time=last_postion_update_time
         self.next_status=next_status
         self.target_position=target_position
+        self.next_event=None
 
 
 

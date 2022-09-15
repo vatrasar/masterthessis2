@@ -35,6 +35,10 @@ def plan_enter_from_tier2(event_list,settings,current_time,event_owner:Uav,rand,
         target_position=state.naive_algo.get_target_postion(event_owner.index,rand,settings,state.uav_list)
     event=Move_along(time_of_next_event, event_owner, master_tk, target_position, UavStatus.TIER_1, state,safe_margin)
     event_list.append_event(event,UavStatus.TIER_2)
+    #synchronization
+    if state.naive_algo.is_synchronization_needed:
+        first_synchro(current_time, event_list, event_owner, time_of_next_event, state, rand, safe_margin, settings,
+                      master_tk)
 
 
 
@@ -56,24 +60,26 @@ def plan_move_along(event_list, event_owner, target_postion, current_time, game_
 
     #synchronization
     if game_state.naive_algo.is_synchronization_needed:
-        target_uav=None
-        for uav in game_state.uav_list:
-            if uav.index!=event_owner.index:
-                target_uav=uav
+        first_synchro(current_time, event_list, event_owner, first_event_time, game_state, rand, safe_margin, settings,
+                      tk_master)
 
 
-        if target_uav.status!=UavStatus.TIER_1:
-            return
+def first_synchro(current_time, event_list, event_owner, first_event_time, game_state, rand, safe_margin, settings,
+                  tk_master):
+    target_uav = None
+    for uav in game_state.uav_list:
+        if uav.index != event_owner.index:
+            target_uav = uav
+    # if target_uav.status!=UavStatus.TIER_1:
+    #     return
+    game_state.naive_algo.is_synchronization_needed = False
+    game_state.naive_algo.is_secound_synchorniaztion_needed = True
+    game_state.naive_algo.choose_random[target_uav.index] = True
+    target_uav.consume_energy(settings, current_time)
 
-        game_state.naive_algo.is_synchronization_needed=False
-        game_state.naive_algo.is_secound_synchorniaztion_needed=True
-        game_state.naive_algo.choose_random[target_uav.index]=True
-
-        target_uav.consume_energy(settings,current_time)
-        target_uav.delete_current_event(event_list)
-
-        plan_enter_from_tier2(event_list,settings,current_time,target_uav,rand,tk_master,game_state,safe_margin,first_event_time+1)
-
+    target_uav.delete_current_event(event_list)
+    plan_enter_from_tier2(event_list, settings, current_time, target_uav, rand, tk_master, game_state, safe_margin,
+                          first_event_time + 1)
 
 
 class Move_along(Event):
@@ -107,19 +113,7 @@ class Move_along(Event):
                 self.game_state.naive_algo.is_synchronization_needed=False
                 self.game_state.naive_algo.is_secound_synchorniaztion_needed=True
             if self.game_state.naive_algo.is_secound_synchorniaztion_needed==True:
-                self.game_state.naive_algo.is_secound_synchorniaztion_needed=False
-
-                target_uav=None
-                for uav in self.game_state.uav_list:
-                    if uav.index!=self.event_owner.index:
-                        target_uav=uav
-                target_uav.consume_energy(settings,self.time_of_event)
-                target_uav.delete_current_event(event_list)
-
-                target=self.game_state.naive_algo.get_target_postion(target_uav.index,rand,settings,self.game_state.uav_list)
-
-                plan_enter_from_tier2(event_list,settings,self.time_of_event,target_uav,rand,self.tk_master,self.game_state,settings.safe_margin,self.time_of_event+settings.delay_between_attacks)
-
+                self.secound_synchronization(event_list, rand, settings)
 
             #attack
             path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
@@ -137,12 +131,15 @@ class Move_along(Event):
                 self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder,self.time_of_event)
                 # path=search_attack_patch(self.event_owner,self.game_state.game_map,settings.v_of_uav,settings,self.game_state.hands_list)
         else:
-            if check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)):
+            if check_if_algo_target_reached(self.event_owner.position,self.game_state.naive_algo.get_target_postion(self.event_owner.index,rand,settings,self.game_state.uav_list),settings) and (not check_if_in_safe_distance(self.event_owner,self.state.hands_list,self.safe_margin)) and self.game_state.naive_algo.choose_random[self.event_owner.index]==True:
                 points1=0
                 points2=0
                 points1, points2 = self.get_points1_and_points2()
                 self.game_state.naive_algo.tiers_uav[self.event_owner.index]=self.event_owner.attack_started_from_tier2
                 self.game_state.naive_algo.cancel_attack(self.event_owner.index,self.event_owner.position,self.event_owner.points,rand,settings,self.game_state.uav_list,self.game_state.intruder,self.time_of_event)
+                if self.game_state.naive_algo.is_secound_synchorniaztion_needed==True:
+                    self.secound_synchronization(event_list, rand, settings)
+
         #choose target
         # if settings.mode=="list" and self.event_owner.naive_algo.is_limit_reached() and self.event_owner.naive_algo.targert_attacks[self.event_owner.index]==None:
         #     self.event_owner.naive_algo.choose_new_target(settings,rand,self.event_owner.index)
@@ -171,6 +168,20 @@ class Move_along(Event):
                     break
 
             plan_move_along(event_list,self.event_owner,target_postion,self.time_of_event,self.game_state,settings,self.tk_master,self.safe_margin,rand)
+
+    def secound_synchronization(self, event_list, rand, settings):
+        self.game_state.naive_algo.is_secound_synchorniaztion_needed = False
+        target_uav = None
+        for uav in self.game_state.uav_list:
+            if uav.index != self.event_owner.index:
+                target_uav = uav
+        target_uav.consume_energy(settings, self.time_of_event)
+        target_uav.delete_current_event(event_list)
+        self.game_state.naive_algo.choose_random[target_uav.index] = True
+        self.game_state.naive_algo.reset_random_walk(target_uav.index)
+        plan_enter_from_tier2(event_list, settings, self.time_of_event, target_uav, rand, self.tk_master,
+                              self.game_state, settings.safe_margin,
+                              self.time_of_event + settings.delay_between_attacks)
 
     def get_points1_and_points2(self):
         points1=0

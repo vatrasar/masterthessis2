@@ -51,9 +51,9 @@ naive algo list limit=20
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 0
-temperature_reduction=0.95
+temperature_reduction=0.97
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
-annealing_number_of_iterations=50
+annealing_number_of_iterations=30
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
 annealing_range=1040
 #krok w algorytmie wyżarzania; wartości całkowite, większe od 0
@@ -168,10 +168,10 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=1
+seed_clock=0
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1662819961
+seed=1663078040
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

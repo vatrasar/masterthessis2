@@ -24,6 +24,7 @@ class Uav(MovableObject):
         self.last_updated_energy=0
         self.points_without_transhold=points_without_transhold
         self.points_without_transhold_sum=points_without_transhold_sum
+        self.last_points_got=0
 
 
     def beggin_energy_time(self,time,type):
@@ -50,7 +51,9 @@ class Uav(MovableObject):
         if settings.mode==Modes.EXPLOITATION:
             self.points_without_transhold=0
             self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum
+
     def asign_points(self, points,settings,is_training):
+        self.last_points_got=points
         if settings.mode==Modes.EXPLOITATION:
             self.points_without_transhold=points
             self.points_without_transhold_sum=self.points_without_transhold+self.points_without_transhold_sum

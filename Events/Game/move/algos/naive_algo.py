@@ -68,6 +68,7 @@ class Naive_Algo():
     def register_attack(self, start_position:Point,uav_id,points_before_attack, intruder_energy,uav_list):
         if self.current_attacks[uav_id]["active"]==False:
             self.current_attacks[uav_id]["active"]=True
+            self.uav_list[uav_id].last_points_got=0
             points_before_attack=points_before_attack
             uav_energy=0
             for uav in uav_list:
@@ -163,8 +164,13 @@ class Naive_Algo():
                 points=uav.points-self.current_attacks[uav.index]["points before attack"]
                 if uav.index==0:
                     points1=points
+                    if abs(uav.last_points_got-points1)>0.1:
+                        print("alarm")
                 else:
                     points2=points
+                    if abs(uav.last_points_got-points2)>0.1:
+                        print("alarm")
+                uav.last_points_got=0
                 points_sum=points_sum+points
                 # self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])
 
@@ -362,6 +368,10 @@ class Naive_Algo():
                                                                    settings.tier1_distance_from_intruder)
         else:
             self.update_tragets_using_result_record(best_result)
+
+    def reset_random_walk(self,index):
+        self.choose_random[index]=True
+        self.is_fake_attack[index]=False
 
     def learning(self,settings,rand:Random,uav_index,uav_list):
 

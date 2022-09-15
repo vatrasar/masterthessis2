@@ -61,7 +61,8 @@ class Runner():
             self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
             self.events_list=Event_list()
             for uav in self.game_state.uav_list:
-                plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
+                if uav.next_event==None:
+                    plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
 
 
             event_time=self.settings.visualzation_update_interval
@@ -91,7 +92,8 @@ class Runner():
                 self.game_state.game_map.update_map(self.game_state.uav_list,self.game_state.hands_list,None)
                 self.events_list=Event_list()
                 for uav in self.game_state.uav_list:
-                    plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
+                    if uav.next_event==None:
+                        plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,rand_for_run,self.master,self.game_state,self.settings.safe_margin)
                 visualisation_event = Visualisation_event(event_time, self.game_state.visualisation_owner, self.master, None,
                                               self.game_state,self.settings.visualisation_speed)
                 self.events_list.append_event(visualisation_event, UavStatus.VISUALISE)
@@ -164,7 +166,8 @@ class Runner():
 
             #init uavs events
             for uav in self.game_state.uav_list:
-                plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
+                if uav.next_event==None:
+                    plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
             if self.settings.mode_debug=="12":
                 self.setup_debug2(self.events_list)
@@ -208,7 +211,8 @@ class Runner():
 
                 #init uavs events
                 for uav in self.game_state.uav_list:
-                    plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
+                    if uav.next_event!=None:
+                        plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
                 if self.settings.mode_debug=="12":
                     self.setup_debug2(self.events_list)
@@ -277,7 +281,8 @@ class Runner():
         closest_event: Event = self.events_list.get_closest_event()
         update_stac_step = 1
         self.current_time = closest_event.time_of_event
-
+        if self.game_state.naive_algo.iteration_number>=491:
+             print("ok")
         # if self.current_time>1000 and not self.one:
         #     self.one=True
         #     self.game_state.naive_algo.epslion_automata.is_reset=True
@@ -297,8 +302,7 @@ class Runner():
         # if self.game_state.naive_algo.iteration_number==10:
         #     print("test")
         self.game_state.t_curr = self.current_time
-        # if self.current_time>550.5:
-        #      print("ok")
+
         # # if len(self.events_list.event_list)>5:
         # #      print("ok")
         # if len(self.events_list.event_list)<6:
