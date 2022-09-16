@@ -164,12 +164,10 @@ class Naive_Algo():
                 points=uav.points-self.current_attacks[uav.index]["points before attack"]
                 if uav.index==0:
                     points1=points
-                    if abs(uav.last_points_got-points1)>0.1:
-                        print("alarm")
+
                 else:
                     points2=points
-                    if abs(uav.last_points_got-points2)>0.1:
-                        print("alarm")
+
                 uav.last_points_got=0
                 points_sum=points_sum+points
                 # self.adnotate_hit(points,self.current_attacks[uav.index]["start postion"])

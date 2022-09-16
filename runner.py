@@ -281,8 +281,8 @@ class Runner():
         closest_event: Event = self.events_list.get_closest_event()
         update_stac_step = 1
         self.current_time = closest_event.time_of_event
-        if self.game_state.naive_algo.iteration_number>=491:
-             print("ok")
+        # if self.game_state.naive_algo.iteration_number>=491:
+        #      print("ok")
         # if self.current_time>1000 and not self.one:
         #     self.one=True
         #     self.game_state.naive_algo.epslion_automata.is_reset=True

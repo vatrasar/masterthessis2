@@ -179,7 +179,7 @@ class Attack(Event):
                         if distance_from_tier1-distance_from_uav>0:
 
 
-                            points=(distance_from_uav/float(distance_from_tier1))*self.event_owner.target_with_points.points
+                            points=(1-distance_from_uav/float(distance_from_tier1))*self.event_owner.target_with_points.points
                             self.event_owner.asign_points(points,settings,self.game_state.naive_algo.epslion_automata.is_trainning)
                         else:
                             self.event_owner.last_points_got=0

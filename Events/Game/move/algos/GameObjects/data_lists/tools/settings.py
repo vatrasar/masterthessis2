@@ -281,6 +281,10 @@ class Settings():
             property_value=property_value.strip()
             if (property_value in ["RS", "SA"]):
                 self.learning_algo_type=property_value
+                self.is_sa_b=False
+            elif property_value=="SA-B":
+                self.learning_algo_type="SA"
+                self.is_sa_b=True
             else:
                 raise Exception("Błąd pliku konfiguracyjnego. %s może przyjmować wartości: RS, SA"%(property_name))
         elif (property_name=="exploitation_type"):

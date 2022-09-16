@@ -36,7 +36,7 @@ class Annealing_Algo():
             init_start1_x=rand.random()*settings.map_size_x
             init_start2_x=rand.random()*settings.map_size_x
         self.current_result={"position":[Point(init_start1_x,settings.tier1_distance_from_intruder),Point(init_start2_x,settings.tier1_distance_from_intruder)], "points":0}
-        self.step=settings.map_size_x
+        self.step=self.settings.annealing_step
 
 
         self.annealing_number_of_iterations=settings.annealing_number_of_iterations
@@ -49,7 +49,7 @@ class Annealing_Algo():
         if self.iterations_form_last_temperature_update>=self.annealing_number_of_iterations:
             self.iterations_form_last_temperature_update=0
             self.temperature=self.temperature*self.temperature_reduction
-            self.step=self.step*self.temperature_reduction
+            # self.step=self.step*self.temperature_reduction
             self.not_accepted_counter=0
 
 
@@ -65,7 +65,7 @@ class Annealing_Algo():
         self.last_metropolis=metropolis
         if value_delta>0:
             self.last_metropolis=1
-        if (value_delta>0 or x<metropolis):#if true than accept
+        if (value_delta>0 or (x<metropolis and not self.is_rand_choose)):#if true than accept
             self.last_decison=1
 
             self.current_result={"position":candidate_positions,"points":candidate_points}
@@ -92,20 +92,25 @@ class Annealing_Algo():
         #     return
         # else:
         #     self.choose_random=True
-        # if self.settings.is_anneling_step_active and self.is_rand_choose:
-        #     candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
-        #     while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
-        #         candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
-        #
-        #     candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
-        #     while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
-        #         candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
-        #
-        #     self.is_rand_choose=False
-        # else:
-        #     self.is_rand_choose=True
-        candidate1=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
-        candidate2=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+        if settings.is_sa_b:
+            if self.is_rand_choose:
+                candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
+                while(not check_if_cell_is_on_map(Point(candidate1,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+                    candidate1=self.current_result["position"][0].x+self.get_candidate(rand)
+
+                candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
+                while(not check_if_cell_is_on_map(Point(candidate2,settings.tier1_distance_from_intruder),settings.map_size_x,settings.map_size_y)):
+                    candidate2=self.current_result["position"][1].x+self.get_candidate(rand)
+
+                self.is_rand_choose=False
+            else:
+                candidate1=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+                candidate2=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+                self.is_rand_choose=True
+
+        else:
+            candidate1=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
+            candidate2=get_random_position_on_tier1(rand,settings.map_size_x,settings.tier1_distance_from_intruder).x
 
 
         return (Point(candidate1,settings.tier1_distance_from_intruder),Point(candidate2,settings.tier1_distance_from_intruder))

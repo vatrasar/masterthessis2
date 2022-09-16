@@ -22,7 +22,7 @@ exploitation_type=epsilon-LA
 #                                       epsilon-LA,
 #                                       best,
 #                                       random
-prob_of_attack=0.7
+prob_of_attack=0.5
 #Prawdopodobieństwo wykonania ataku w trybie losowym (dotyczy trybu exploitation1); wartości od 0 do 1
 prob_of_return_to_T2=0.1 
 #Prawdopodobieństwo  powrotu na tier2; wartośc od 0 do 1 (dotyczy wszystkich trybów)
@@ -168,7 +168,7 @@ show_safe_space=1
 #
 #SEED
 #
-seed_clock=0
+seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
 seed=1663078040
