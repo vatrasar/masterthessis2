@@ -211,7 +211,8 @@ class Runner():
 
                 #init uavs events
                 for uav in self.game_state.uav_list:
-                    if uav.next_event!=None:
+
+                    if uav.next_event==None:
                         plan_enter_from_tier2(self.events_list,self.settings,self.current_time,uav,self.rand,self.master,self.game_state,self.settings.safe_margin)
 
                 if self.settings.mode_debug=="12":

@@ -130,7 +130,7 @@ class Result_file():
         for run_i,run in enumerate(self.result_lists):
             run.sort(key=sort_list_time)
 
-            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#pts sum dr1":<13s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#pts sum dr2":<13s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum in iteration":<23s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s} {"rew_thr_dr1":<16s} {"rew_thr_dr2":<16s} {"rew_sum_thr_dr1_dr2":<20s} {"reward_sum_total":<18s} ')
+            file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#ps1":<9s} {"#pts sum dr1":<13s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#ps2":<9s} {"#pts sum dr2":<13s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum in iteration":<23s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s} {"rew_thr_dr1":<16s} {"rew_thr_dr2":<16s} {"rew_sum_thr_dr1_dr2":<20s} {"reward_sum_total":<18s} ')
             if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
 
                 for i in range(0,10):
