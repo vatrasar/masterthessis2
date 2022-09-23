@@ -14,7 +14,7 @@ operation_mode_cases=10
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=SA
+learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=epsilon-LA

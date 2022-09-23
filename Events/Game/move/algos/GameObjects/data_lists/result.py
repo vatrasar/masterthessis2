@@ -134,7 +134,7 @@ class Result_file():
             if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
 
                 for i in range(0,10):
-                    value_str=str(i+1)
+                    value_str=str(i)
                     file.write(f'{value_str+"a":<4s} ')
             file.write("\n")
 

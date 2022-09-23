@@ -193,7 +193,7 @@ class Naive_Algo():
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
-            if points_sum!=0:
+            if points_sum!=0 and settings.learning:
 
                 if settings.learning_algo_type!=Learning_algos.SA:
 
@@ -244,7 +244,7 @@ class Naive_Algo():
             if (self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) and  x<self.settings.prob_of_fake_attack:
                 # fake_target_index=rand.randint(0,len(self.results_list.result_list)-1)
                 target1,target2=list_algo_new_targets(settings,rand)
-                fake_target=Result_record(target1,target2,0,1,2,1,1,0,0,0)
+                fake_target=Result_record(target1,target2,0,1,2,1,1,0,0,0,0)
                 self.fake_targets_list.extend([fake_target])
                 self.is_real_fake_attack=True
 
@@ -476,20 +476,21 @@ class Naive_Algo():
             # zone2=int(line_elements[3])
             reward1=float(line_elements[4])
             reward2=float(line_elements[5])
-            points=float(line_elements[6])
+            points=float(line_elements[7])
+            poits_best=float(line_elements[6])
+            tier1=int(line_elements[8])
+            tier2=int(line_elements[9])
 
-            tier1=bool(line_elements[7])
-            tier2=bool(line_elements[8])
 
 
+            self.results_list.load_point(position1,position2,poits_best,tier1,tier2,reward1,reward2,points,counter)
 
-            self.results_list.add_result_point(position1,position2,points,tier1,tier2,reward1,reward2,True,counter)
             counter=1+counter
 
         self.results_list.sort_list()
-
-        self.epslion_automata.set_source_for_lr(self.results_list.result_list)
-        self.epslion_automata.load_data_from_files()
+        if self.settings.exploitation_type==Exploitation_types.EPSLION:
+            self.epslion_automata.set_source_for_lr(self.results_list.result_list)
+            self.epslion_automata.load_data_from_files()
     def get_uav_with_index(self, index):
 
         for uav in self.uav_list:

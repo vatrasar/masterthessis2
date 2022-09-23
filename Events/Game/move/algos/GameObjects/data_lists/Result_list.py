@@ -8,9 +8,10 @@ from Events.Game.move.zones import get_zone_index
 
 import math
 class Result_record():
-    def __init__(self,postion1,postion2,points,tier1,tier2,zone1,zone2,reward1,reward2,action_number=0):
+    def __init__(self,postion1,postion2,points,tier1,tier2,zone1,zone2,reward1,reward2,previous_number_of_hits,best_points,action_number=0):
 
         self.points = points
+        self.best_points=best_points
         self.reward1=reward1
         self.reward2=reward2
         self.position1 =postion1
@@ -20,9 +21,10 @@ class Result_record():
         self.tier1=tier1
         self.tier2=tier2
         self.number_of_hits=1
+        self.number_of_hits2=previous_number_of_hits+1
         self.action_number=action_number
     def copy(self):
-        new_record=Result_record(self.position1,self.position2,self.points,self.tier1,self.tier2,self.zone1,self.zone2,self.reward1,self.reward2,self.action_number)
+        new_record=Result_record(self.position1,self.position2,self.points,self.tier1,self.tier2,self.zone1,self.zone2,self.reward1,self.reward2,self.number_of_hits2-1,self.best_points,self.action_number)
         return new_record
 
 def sort_results(e:Result_record):
@@ -45,7 +47,26 @@ class Result_list():
             self.result_map[i]=None
 
 
+    def load_point(self, postion1,postion2, points_best,tier1,tier2,points1,points2,points_av,counter=0):
+        old_points=0
+        zone_index=get_zone_index(self.settings,postion1.x)
+        old_number_of_hits=0
+        if self.result_map[zone_index]!=None:
+            old_points=self.result_map[zone_index].points
+            old_number_of_hits=self.result_map[zone_index].number_of_hits2
+            self.result_list.remove(self.result_map[zone_index])
 
+        zone1="-"
+        zone2="-"
+        if postion1!=None:
+            zone1=str(int(postion1.x / self.zone_width))
+        if postion2!=None:
+            zone2=str(int(postion2.x / self.zone_width))
+
+
+        new_record=Result_record(postion1,postion2,points_av,tier1,tier2,zone1,zone2,points1,points2,old_number_of_hits,points_best,counter)
+        self.result_list.append(new_record)
+        self.result_map[zone_index]=new_record
     def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load,counter=0):
         if self.explatation==Modes.EXPLOITATION and not load:
             return
@@ -57,18 +78,41 @@ class Result_list():
         #     # record_to_update.number_of_hits=record_to_update.number_of_hits+1
         #     # record_to_update.points=(record_to_update.points+points)/float(record_to_update.number_of_hits)
         #     return
-        if self.result_map[zone_index]==None or self.result_map[zone_index].points<points:
+
+
+
+
+        if self.result_map[zone_index]==None or self.result_map[zone_index].best_points<points:
+            old_points=0
+            old_number_of_hits=0
             if self.result_map[zone_index]!=None:
+                old_points=self.result_map[zone_index].points
+                old_number_of_hits=self.result_map[zone_index].number_of_hits2
                 self.result_list.remove(self.result_map[zone_index])
+
             zone1="-"
             zone2="-"
             if postion1!=None:
                 zone1=str(int(postion1.x / self.zone_width))
             if postion2!=None:
                 zone2=str(int(postion2.x / self.zone_width))
-            new_record=Result_record(postion1,postion2,points,tier1,tier2,zone1,zone2,points1,points2,counter)
+            points_av=(old_points*old_number_of_hits+points)/float(old_number_of_hits+1)
+
+            new_record=Result_record(postion1,postion2,points_av,tier1,tier2,zone1,zone2,points1,points2,old_number_of_hits,points,counter)
             self.result_list.append(new_record)
             self.result_map[zone_index]=new_record
+        else:
+            old_points=0
+            old_number_of_hits=0
+            if self.result_map[zone_index]!=None:
+                old_points=self.result_map[zone_index].points
+                old_number_of_hits=self.result_map[zone_index].number_of_hits2
+
+            self.result_map[zone_index].points=(old_points*old_number_of_hits+points)/float(old_number_of_hits+1)
+            self.result_map[zone_index].number_of_hits2=old_number_of_hits+1
+
+
+
 
 
     def save_to_file(self,memory_list):
@@ -99,26 +143,28 @@ class Result_list():
                 file.write("%s, %s, %s, %s,%.2f,%.2f, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
         file.close()
         file=open("./results/goals_of_attack.txt","w")
-        file2=open("./results/goals_of_attack_all_results.txt","w")
 
-        file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
-        file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s}\n')
+
+
+        file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"rew avg":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+        file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
         counter=0
         for result in self.result_list:
             if counter>=10:
                 break
-            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
             counter=counter+1
         file.close()
 
 
+        if self.settings.learning:
+            file2=open("./results/goals_of_attack_all_results.txt","w")
+            file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"rew avg":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+            file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
+            for result in self.result_list:
 
-        file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
-        file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s}\n')
-        for result in self.result_list:
-
-            file2.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
-        file2.close()
+                file2.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+            file2.close()
 
     def save_to_file_with_action(self):
 
@@ -128,14 +174,14 @@ class Result_list():
         file=open("./results/LA_goals.txt","w")
 
 
-        file.write(f'{"#action id":<12s} {"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
-        file.write(f'{"#1":<12s} {"#2":<9s} {"3":<9s} {"4":<5s} {"5":<5s} {"6":<9s} {"7":<9s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
+        file.write(f'{"#action id":<12s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"rew avg":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
+        file.write(f'{"#1":<12s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
         counter=0
         for result in self.result_list:
             if counter>=10:
                 break
             result.action_number=counter
-            file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
+            file.write(f'{result.action_number:<12d} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')
             counter=counter+1
         file.close()
 
