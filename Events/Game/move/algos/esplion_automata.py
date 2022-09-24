@@ -19,7 +19,8 @@ class Epslion_automata():
         self.leader=0
         self.action_counter=[]
         self.is_active_epslion_attack=False
-        self.epslion_automata_old=[[],[]]
+        self.epslion_automata_old=[]
+
         for i in range(0,10):
             self.action_counter.append(0)
 
@@ -30,12 +31,12 @@ class Epslion_automata():
         self.is_trainning=True
         self.is_reset=False
     def save_old_memory(self):
-
-
+       memmory_to_save=[[],[]]
        for record in self.lr_memory[0]:
-            self.epslion_automata_old[0].append(record)
+            memmory_to_save[0].append(record)
        for record in self.lr_memory[1]:
-            self.epslion_automata_old[1].append(record)
+            memmory_to_save[1].append(record)
+       self.epslion_automata_old.append(memmory_to_save)
     def get_random_action_for_training(self,random:Random):
         action=self.candidates_for_lr[self.leader][random.randint(0,len(self.candidates_for_lr[self.leader])-1)]
         self.switch_leader()
@@ -53,6 +54,7 @@ class Epslion_automata():
         new_record.points=points
         self.lr_memory[self.leader].append(new_record)
         self.is_active_epslion_attack=False
+        self.save_old_memory()
 
     def append_new_record(self,points_sum):
         if self.last_action!=None:
@@ -60,7 +62,8 @@ class Epslion_automata():
                 return
             new_record:Result_record=self.last_action.copy()
             new_record.points=points_sum
-            self.lr_memory[self.leader].append(new_record)
+            if self.settings.l_lr>len(self.lr_memory[self.leader]):
+                self.lr_memory[self.leader].append(new_record)
             self.last_action=None
 
             if self.settings.l_lr<=len(self.lr_memory[0]) and self.settings.l_lr<=len(self.lr_memory[1]):
@@ -125,14 +128,26 @@ class Epslion_automata():
     def save_old_lr_memory(self):
         file1=open("./results/automata_memory1.txt","w")
         file2=open("./results/automata_memory2.txt", "w")
+        iteration_counter=0
+        for memory in self.epslion_automata_old:
 
-        file1.write(f'{"#action id":<10s} {"av pts":<10s}\n')
-        for record in self.epslion_automata_old[0]:
-            file1.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
+            if iteration_counter==0:
+                file1.write("start\n")
+            else:
+                file1.write("iteration %d\n"%(iteration_counter))
+
+            file1.write(f'{"#action id":<10s} {"av pts":<10s}\n')
+            for record in memory[0]:
+                file1.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
+
+            if iteration_counter==0:
+                file2.write("start\n")
+            else:
+                file2.write("iteration %d\n"%(iteration_counter))
+            file2.write(f'{"#action id":<10s} {"av pts":<10s}\n')
+            for record in memory[1]:
+                file2.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
+
+            iteration_counter=iteration_counter+1
         file1.close()
-
-        file2.write(f'{"#action id":<10s} {"av pts":<10s}\n')
-        for record in self.epslion_automata_old[1]:
-            file2.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
         file2.close()
-
