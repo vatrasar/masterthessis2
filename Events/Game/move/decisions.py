@@ -16,26 +16,26 @@ def decide_whether_uav_attack(mode,prob_of_attack,rand:Random,uav:Uav,settings:S
     :param rand:
     :return true if attack false if not
     """
-    if(settings.exploitation_type=="random" and settings.mode==Modes.EXPLOITATION):
-        x=rand.random()
-        if x<prob_of_attack:
-            return True
-        else:
-            return False
-    else:
+    # if(settings.exploitation_type=="random" and settings.mode==Modes.EXPLOITATION):
+    #     x=rand.random()
+    #     if x<prob_of_attack:
+    #         return True
+    #     else:
+    #         return False
+    # else:
 
-        if naive_alog.get_target_postion(uav.index,rand,settings,uav_list)==None:
+    if naive_alog.get_target_postion(uav.index,rand,settings,uav_list)==None:
+        naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
+
+
+    if check_if_algo_target_reached(uav.position,naive_alog.get_target_postion(uav.index,rand,settings,uav_list),settings):
+        if naive_alog.choose_random[uav.index]==False:
             naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
-
-
-        if check_if_algo_target_reached(uav.position,naive_alog.get_target_postion(uav.index,rand,settings,uav_list),settings):
-            if naive_alog.choose_random[uav.index]==False:
-                naive_alog.choose_new_target(settings,rand,uav.index,uav_list)
-                return False
-            # check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings)
-            return True
-        else:
             return False
+        # check_if_algo_target_reached(uav.position,uav.naive_algo.get_target_postion(uav.index,rand,settings),settings)
+        return True
+    else:
+        return False
 
 
 def decide_whether_uav_back_on_tier2(prob_of_return_to_T2,rand:Random,uav_list:typing.List[Uav],dodge_radius,settings:Settings,uav:Uav):

@@ -17,7 +17,7 @@ debug=0
 learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=best
+exploitation_type=random
 #rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,

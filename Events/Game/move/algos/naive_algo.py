@@ -294,9 +294,10 @@ class Naive_Algo():
 
         self.is_real_fake_attack=False
         if len(self.results_list.result_list)==0 or settings.exploitation_type==Exploitation_types.RANDOM:
-            self.targert_attacks[0]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
-            self.targert_attacks[1]=get_random_position_on_tier1(rand,settings.map_size_x-2,settings.tier1_distance_from_intruder)
+            result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
+            self.update_tragets_using_result_record(result)
             return
+
         elif settings.exploitation_type==Exploitation_types.BEST:
             self.choose_best(rand, settings)
 
