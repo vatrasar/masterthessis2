@@ -161,15 +161,16 @@ class Result_file():
 
                 my_str=f'{record.time:<9.2f} {record.position1:<13.2f} {record.tier1:<6d} {record.position2:<13.2f} {record.tier2:<6d} {record.old_points1:<9.2f} {record.old_points1_sum:<13.2f} {record.energy_spending1:<16.2f} {record.energy1_spending_sum:<18.2f} {record.old_points2:<9.2f} {record.old_points2_sum:<13.2f} {record.energy_spending2:<15.2f} {record.energy2_spending_sum:<18.2f} {sum_to_print_old:<23.2f} {record.old_points1_sum+record.old_points2_sum:<9.2f} {record.intruder_energy_spending:<18.2f}{record.sum_intruder_energy_spending:<21.2f} {settings.intruder_max_energy:<20.2f} {settings.uav_energy:<16.2f} {record.points1:<16.2f} {record.points2:<16.2f} {sum_to_print_new:<20.2f} {record.points_sum1+record.points_sum2:<18.2f} '
                 file.write(my_str)
-                for i in range(0,10):
-                    if len(record.actions_counter)>i:
-                        file.write(f'{record.actions_counter[i]:<4d} ')
+                if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
+                    for i in range(0,10):
+                        if len(record.actions_counter)>i:
+                            file.write(f'{record.actions_counter[i]:<4d} ')
+                        else:
+                            file.write(f'{"-":<4s} ')
+                    if record.is_true_fake_attack:
+                        file.write(f'{record.is_true_fake_attack:<10d} {"-":<10s} {"-":<10s}')
                     else:
-                        file.write(f'{"-":<4s} ')
-                if record.is_true_fake_attack:
-                    file.write(f'{record.is_true_fake_attack:<10d} {"-":<10s} {"-":<10s}')
-                else:
-                    file.write(f'{record.is_true_fake_attack:<10d} {record.leader:<10d} {record.is_epslion_attack:<10d}')
+                        file.write(f'{record.is_true_fake_attack:<10d} {record.leader:<10d} {record.is_epslion_attack:<10d}')
                 file.write("\n")
 
 

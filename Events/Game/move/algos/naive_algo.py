@@ -241,7 +241,7 @@ class Naive_Algo():
 
             self.results_list.sort_list()
             x=rand.random()
-            if (self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) and  x<self.settings.prob_of_fake_attack:
+            if ((self.settings.exploitation_type==Exploitation_types.EPSLION and not self.epslion_automata.is_trainning) or self.settings.exploitation_type!=Exploitation_types.EPSLION) and  x<self.settings.prob_of_fake_attack:
                 # fake_target_index=rand.randint(0,len(self.results_list.result_list)-1)
                 target1,target2=list_algo_new_targets(settings,rand)
                 fake_target=Result_record(target1,target2,0,1,2,1,1,0,0,0,0)
