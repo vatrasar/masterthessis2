@@ -314,6 +314,9 @@ class Settings():
         elif (property_name=="intuder_size"):
 
             self.intuder_size=self.check_float(property_value,property_name,0,1,True)
+        elif (property_name=="delta_x"):
+
+            self.delta_x=self.check_float(property_value,property_name,0,1,True)
 
         elif (property_name=="uav_size"):
 

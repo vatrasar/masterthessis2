@@ -37,6 +37,8 @@ searching_max_range=30
 #
 epsilon=0.05
 #parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
+delta_x=27
+#maksymalna wartość szumu jaka może wystąpić dla rozwiązań wykorzystywanych w algorytmie epsilon-LA; wartości większe od 0
 reward_threshold=4
 #próg dla akcpetacji nagrody. Jesli otrzymana nagroda jest mniejsza niż próg dron otrzymuje nagrodę o wartości równej 0.
 #Parametr działa wyłącznie w trybie eksploatacji
@@ -138,7 +140,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=10000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=10000
+T=3000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=10000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

@@ -2,6 +2,8 @@ import typing
 from random import Random
 
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_record
+from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import is_in_bondaries
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 
 
@@ -38,12 +40,29 @@ class Epslion_automata():
        for record in self.lr_memory[1]:
             memmory_to_save[1].append(record)
        self.epslion_automata_old.append(memmory_to_save)
+
+    def add_noise_to_position(self, position,rand:Random):
+        new_position=Point(0,position.y)
+        x=rand.random()
+        value=self.settings.delta_x*rand.random()
+        if x>0.5:
+            new_position.x=position.x+value
+        else:
+            new_position.x=position.x-value
+        if not is_in_bondaries(10,self.settings.map_size_x-10,new_position.x):
+            if x<=0.5:
+                new_position.x=position.x+value
+            else:
+                new_position.x=position.x-value
+        return new_position
     def get_random_action_for_training(self,random:Random):
 
         self.switch_leader()
         action=self.candidates_for_lr[self.leader][random.randint(0,len(self.candidates_for_lr[self.leader])-1)]
 
-        self.last_action=action
+        self.last_action=action.copy()
+        action.position1=self.add_noise_to_position(action.position1,random)
+        action.position2=self.add_noise_to_position(action.position2,random)
         return action
 
     def switch_leader(self):
@@ -109,7 +128,7 @@ class Epslion_automata():
     def set_source_for_lr(self, result_list):
         self.all_goals_list=result_list
 
-    def choose_best(self):
+    def choose_best(self,random):
         self.switch_leader()
         self.is_active_epslion_attack=True
         best=None
@@ -118,7 +137,10 @@ class Epslion_automata():
                 best=i
             elif best.points<i.points:
                 best=i
-        self.last_action=best
+
+        self.last_action=best.copy()
+        best.position1=self.add_noise_to_position(best.position1,random)
+        best.position2=self.add_noise_to_position(best.position2,random)
 
         self.action_counter[self.last_action.action_number]=self.action_counter[self.last_action.action_number]+1
         return best

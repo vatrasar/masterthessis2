@@ -337,7 +337,7 @@ class Naive_Algo():
             else:
                 x=rand.random()
                 if 1-self.settings.epslion>x:
-                    best=self.epslion_automata.choose_best()
+                    best=self.epslion_automata.choose_best(rand)
                     self.type_of_algo_choose[0] = Target_choose.BEST_FROM_LIST
                     self.type_of_algo_choose[1] = Target_choose.BEST_FROM_LIST
                     self.update_tragets_using_result_record(best)
