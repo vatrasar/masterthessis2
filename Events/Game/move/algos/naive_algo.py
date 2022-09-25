@@ -345,7 +345,8 @@ class Naive_Algo():
 
                 else:#choose random from list
                     # self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
-                    result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
+                    # result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
+                    result=self.epslion_automata.get_random_action_for_training(rand)
                     self.update_tragets_using_result_record(result)
                     self.epslion_automata.update_action_counter(result.action_number,result)
                     self.epslion_automata.was_last_epsilion=True

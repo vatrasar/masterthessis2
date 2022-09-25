@@ -39,8 +39,10 @@ class Epslion_automata():
             memmory_to_save[1].append(record)
        self.epslion_automata_old.append(memmory_to_save)
     def get_random_action_for_training(self,random:Random):
-        action=self.candidates_for_lr[self.leader][random.randint(0,len(self.candidates_for_lr[self.leader])-1)]
+
         self.switch_leader()
+        action=self.candidates_for_lr[self.leader][random.randint(0,len(self.candidates_for_lr[self.leader])-1)]
+
         self.last_action=action
         return action
 
