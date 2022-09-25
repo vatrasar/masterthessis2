@@ -4,7 +4,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Setting
 import typing
 
 class Result_file_record():
-    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,actions_counter,is_true_fake_attack):
+    def __init__(self,time,postion1,postion2,tier1,tier2,points1,points2,sum_of_points, energy_spending1, energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,actions_counter,is_true_fake_attack,leader,epslion):
 
         self.sum_intruder_energy_spending = sum_intruder_energy_spending
         self.intruder_energy_spending = intruder_energy_spending
@@ -30,6 +30,8 @@ class Result_file_record():
         self.old_points2_sum=old_points2_sum
         self.actions_counter=actions_counter
         self.is_true_fake_attack=is_true_fake_attack
+        self.leader=leader
+        self.is_epslion_attack=epslion
 
 
 def sort_list1(x):
@@ -45,8 +47,8 @@ class Result_file():
         self.result_lists:typing.List[typing.List[Result_file_record]]=[]
         self.current_run=[]
 
-    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack):
-        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack))
+    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points, time,energy_spending2,energy2_spending_sum,energy_spending1,energy1_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack,is_epslion_attack,leader):
+        self.current_run.append(Result_file_record(time,postion1.x,position2.x,tier1,tier2,points1,points2,sum_of_points,energy_spending1,energy1_spending_sum,energy_spending2,energy2_spending_sum,intruder_energy_spending,sum_intruder_energy_spending,points_sum1,points_sum2,old_points1,old_points2,old_points1_sum,old_points2_sum,action_counter,is_true_fake_attack,leader,is_epslion_attack))
 
     def end_run(self):
         self.result_lists.append(self.current_run)
@@ -136,6 +138,7 @@ class Result_file():
                 for i in range(0,10):
                     value_str=str(i)
                     file.write(f'{value_str+"a":<4s} ')
+                file.write(f'{"fake":<10s} {"leader":<10s} {"eps_attack":<10s}')
             file.write("\n")
 
             file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<13s} {"8":<16s} {"9":<18s} {"10":<9s} {"11":<13s} {"12":<15s} {"13":<18s} {"14":<23s} {"15":<9s} {"16":<17s} {"17":<21s} {"18":<20s} {"19":<16s} {"20":<16s} {"21":<16s} {"22":<20s} {"23":<18s} ')
@@ -143,6 +146,7 @@ class Result_file():
 
                 for i in range(0,10):
                     file.write(f'{i+24:<4d} ')
+                file.write(f'{35:<10d} {36:<10d} {37:<10d}')
             file.write("\n")
             for i,record in enumerate(run):
                 sum_to_print_new=record.points1+record.points2
@@ -162,6 +166,10 @@ class Result_file():
                         file.write(f'{record.actions_counter[i]:<4d} ')
                     else:
                         file.write(f'{"-":<4s} ')
+                if record.is_true_fake_attack:
+                    file.write(f'{record.is_true_fake_attack:<10d} {"-":<10s} {"-":<10s}')
+                else:
+                    file.write(f'{record.is_true_fake_attack:<10d} {record.leader:<10d} {record.is_epslion_attack:<10d}')
                 file.write("\n")
 
 

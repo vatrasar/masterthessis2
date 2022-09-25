@@ -20,6 +20,7 @@ class Epslion_automata():
         self.action_counter=[]
         self.is_active_epslion_attack=False
         self.epslion_automata_old=[]
+        self.was_last_epsilion=False
 
         for i in range(0,10):
             self.action_counter.append(0)

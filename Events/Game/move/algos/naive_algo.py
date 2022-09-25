@@ -231,7 +231,7 @@ class Naive_Algo():
             action_counter_copy=[]
             for i in self.epslion_automata.action_counter:
                 action_counter_copy.append(i)
-            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum,action_counter_copy,self.is_real_fake_attack)
+            self.result_file.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,time,uav2_energy_spending,uav2.energy,uav1_energy_spending,uav1.energy,intruder_energy_spending,intruder.energy,uav1.points,uav2.points,uav1.points_without_transhold,uav2.points_without_transhold,uav1.points_without_transhold_sum,uav2.points_without_transhold_sum,action_counter_copy,self.is_real_fake_attack,self.epslion_automata.was_last_epsilion,self.epslion_automata.leader)
 
 
     def exploitation(self,settings,rand:Random,uav_index,uav_list):
@@ -341,11 +341,14 @@ class Naive_Algo():
                     self.type_of_algo_choose[0] = Target_choose.BEST_FROM_LIST
                     self.type_of_algo_choose[1] = Target_choose.BEST_FROM_LIST
                     self.update_tragets_using_result_record(best)
+                    self.epslion_automata.was_last_epsilion=False
+
                 else:#choose random from list
                     # self.lr_memory=self.results_list.result_list[0:min(settings.l_lr,len(self.results_list.result_list))]
                     result=self.results_list.result_list[rand.randint(0,len(self.results_list.result_list)-1)]
                     self.update_tragets_using_result_record(result)
                     self.epslion_automata.update_action_counter(result.action_number,result)
+                    self.epslion_automata.was_last_epsilion=True
 
                     return
 
