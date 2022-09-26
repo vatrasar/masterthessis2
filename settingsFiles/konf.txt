@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=00
+operation_mode=11
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -173,7 +173,7 @@ show_safe_space=1
 seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1664119296
+seed=1664198185
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

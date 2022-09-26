@@ -139,16 +139,17 @@ class Epslion_automata():
                 best=i
 
         self.last_action=best.copy()
+        self.update_action_counter(best.action_number,best)
         best.position1=self.add_noise_to_position(best.position1,random)
         best.position2=self.add_noise_to_position(best.position2,random)
 
-        self.action_counter[self.last_action.action_number]=self.action_counter[self.last_action.action_number]+1
+
         return best
 
     def update_action_counter(self, action_number,action):
         action_number=action_number-1
         self.action_counter[action_number]=self.action_counter[action_number]+1
-        self.last_action=action
+        self.last_action=action.copy()
 
 
     def save_old_lr_memory(self):
