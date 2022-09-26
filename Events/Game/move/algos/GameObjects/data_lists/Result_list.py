@@ -29,7 +29,10 @@ class Result_record():
 
 def sort_results(e:Result_record):
     return e.points
-
+class Avg_zone_info():
+    def __init__(self):
+        self.points=0
+        self.number_of_hit=0
 class Result_list():
 
     def __init__(self,zone_width,list_limit,settings:Settings):
@@ -43,9 +46,10 @@ class Result_list():
         self.result_map={}
         zones_number=self.settings.naive_algo_list_limit
         self.explatation=settings.mode
+        self.avg_rewards_zones={}
         for i in range(0,zones_number):
             self.result_map[i]=None
-
+            self.avg_rewards_zones[i]=Avg_zone_info()
 
     def load_point(self, postion1,postion2, points_best,tier1,tier2,points1,points2,points_av,counter=0):
         old_points=0
@@ -67,11 +71,21 @@ class Result_list():
         new_record=Result_record(postion1,postion2,points_av,tier1,tier2,zone1,zone2,points1,points2,old_number_of_hits,points_best,counter)
         self.result_list.append(new_record)
         self.result_map[zone_index]=new_record
+
+    def update_avg_of_zone(self,zone_index1,points):
+        old_points=self.avg_rewards_zones[zone_index1].points
+        old_counter=self.avg_rewards_zones[zone_index1].number_of_hit
+        new_points=(old_points*old_counter+points)/float(old_counter+1)
+        self.avg_rewards_zones[zone_index1].number_of_hit=old_counter+1
+        self.avg_rewards_zones[zone_index1].points=new_points
     def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load,counter=0):
         if self.explatation==Modes.EXPLOITATION and not load:
             return
         zone_index=get_zone_index(self.settings,postion1.x)
-
+        zone_index1=get_zone_index(self.settings,postion1.x)
+        zone_index2=get_zone_index(self.settings,postion2.x)
+        self.update_avg_of_zone(zone_index1,points1)
+        self.update_avg_of_zone(zone_index2,points2)
         # record_to_update=self.get_record_with_postions(postion1,postion2)
         #
         # if record_to_update!=None:
@@ -108,7 +122,7 @@ class Result_list():
                 old_points=self.result_map[zone_index].points
                 old_number_of_hits=self.result_map[zone_index].number_of_hits2
 
-            self.result_map[zone_index].points=(old_points*old_number_of_hits+points)/float(old_number_of_hits+1)
+            self.result_map[zone_index].points=self.avg_rewards_zones[zone_index1].points+self.avg_rewards_zones[zone_index2].points
             self.result_map[zone_index].number_of_hits2=old_number_of_hits+1
 
 
@@ -176,9 +190,9 @@ class Result_list():
 
         file.write(f'{"#action id":<12s} {"pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"rew avg":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
         file.write(f'{"#1":<12s} {"2":<9s} {"3":<9s} {"4":<5s} {"5":<5s} {"6":<9s} {"7":<9s} {"8":<11s} {"9":<11s} {"10":<11s} {"11":<11s}\n')
-        counter=0
+        counter=1
         for result in self.result_list:
-            if counter>=10:
+            if counter>=11:
                 break
             result.action_number=counter
             file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {result.points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d}\n')

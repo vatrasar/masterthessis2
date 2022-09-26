@@ -469,7 +469,7 @@ class Naive_Algo():
     def load_memory(self):
         file=open("results/goals_of_attack.txt","r")
         lines=file.readlines()
-        counter=0
+        counter=1
         for line in lines[2:]:
 
             line_elements=line.split(" ")

@@ -146,6 +146,7 @@ class Epslion_automata():
         return best
 
     def update_action_counter(self, action_number,action):
+        action_number=action_number-1
         self.action_counter[action_number]=self.action_counter[action_number]+1
         self.last_action=action
 
