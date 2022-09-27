@@ -14,10 +14,10 @@ operation_mode_cases=10
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=RS
+learning_algo_type=SA
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=best
+exploitation_type=epsilon-LA
 #rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
 #                                       epsilon-LA,
 #                                       best,
@@ -57,8 +57,6 @@ temperature_reduction=0.97
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
 annealing_number_of_iterations=30
 #liczba iteracji w algorytmie wyżarzania przy danej temperaturze; wartości całkowite, większe od 0
-annealing_range=1040
-#krok w algorytmie wyżarzania; wartości całkowite, większe od 0
 temeprature_to_stop=0.7
 #jeśli temperatura w algorytmie wyżarzania spadnie poniżej pewnej wartości to wtedy stop; wartości większe od 0
 #
@@ -180,12 +178,12 @@ seed=1664198185
 ######OTHERS
 #STATISTICS
 #
-zone_width=50 
+zone_width=50
 #szerokość strefy (strefy są używane w pamięci algorytmu normalnego wykonania); wartości całkowite, powyżej zera
 #
 #RUNS
 is_multirun=0
 #czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)
 #                                                      1 - multirun
-number_of_runs=2
+number_of_runs=1
 #gdy multirun aktywny określa liczbę wykonań algorytmu; wartości całkowite, powyżej zera

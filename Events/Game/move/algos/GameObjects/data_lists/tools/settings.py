@@ -110,6 +110,7 @@ class Settings():
         self.uav_wait_time=3.0
         self.uav_number=2
         self.fake_targets_number=1
+        self.annealing_step=1040
 
 
 
