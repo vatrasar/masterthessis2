@@ -76,6 +76,7 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
+            run.sort(key=sort_list2)
             file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
             file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<21s} {"15":<20s} {"16":<16s} \n')
             for i,record in enumerate(run):
@@ -110,6 +111,7 @@ class Result_file():
         file=open("./results/%s.txt"%(file_name),"w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_lists):
+            run.sort(key=sort_list1)
             file.write(f'{"#time":<9s} {"#att pos dr1":<13s} {"#tier":<6s} {"#att pos dr2":<13s} {"#tier":<6s} {"#pts dr1":<9s} {"#ener spend dr1":<16s} {"#ener sum spen dr1":<18s} {"#pts dr2":<9s} {"#ener spend dr2":<15s} {"#ener sum spen dr2":<18s} {"#pts sum":<9s} {"#intr ener spend":<17s} {"#intr ener sum spend":<21s} {"#max intruder energy":<20s} {"#max uav energy":<16s}\n')
             file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<16s} {"8":<18s} {"9":<9s} {"10":<15s} {"11":<18s} {"12":<9s} {"13":<17s} {"14":<21s} {"15":<20s} {"16":<16s}\n')
 

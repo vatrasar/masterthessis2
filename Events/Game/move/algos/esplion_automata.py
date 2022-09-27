@@ -2,6 +2,7 @@ import typing
 from random import Random
 
 from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_record
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Exploitation_types
 from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import is_in_bondaries
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -11,8 +12,10 @@ class Epslion_automata():
 
     def __init__(self,settings:Settings):
         self.lr_memory:typing.List[typing.List[Result_record]]=[[],[]]
-
-        self.is_trainning=True
+        if settings.exploitation_type==Exploitation_types.EPSLION:
+            self.is_trainning=True
+        else:
+            self.is_trainning=False
         self.is_reset=False
         self.settings=settings
         self.candidates_for_lr:typing.List[typing.List[int]]=[[],[]]

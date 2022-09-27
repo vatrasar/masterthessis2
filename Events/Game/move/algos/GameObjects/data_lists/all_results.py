@@ -131,7 +131,7 @@ class Result_tr_list():
 
 
 
-
+            run.sort(key=sort_uav1_pos)
             file.write("#run %d\n"%(i+1))
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
 
@@ -151,7 +151,7 @@ class Result_tr_list():
             file.write("\n")
         file.close()
 
-        file_name="results"
+        file_name="results_tr"
         if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
             file_name="sa_results"
         if settings.is_multirun:
@@ -269,6 +269,7 @@ class Result_tr_list():
         file=open("./results/res2_tr.txt","w")
         settings.add_settings_to_data_file(file)
         for i,run in enumerate(self.result_tr_list):
+            run.sort(key=sort_uav2_pos)
             file.write("#run %d\n"%(i+1))
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#curr sol1":<10s} {"#curr sol2":<10s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
