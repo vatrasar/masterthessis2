@@ -131,12 +131,19 @@ class Result_list():
 
     def save_to_file(self,memory_list):
 
-        file=open("./results/goals_of_attack.csv","w")
+        # file=open("./results/goals_of_attack.csv","w")
+        #
+        # self.sort_list()
+        # for i,run in enumerate(memory_list):
+        #     file.write("run:%d\n"%(i))
+        #     file.write("#position1, #position2, #zone1, #zone2,reward1,reward2, #reward sum, #tier uav1, #tier uav2\n")
+        #
+        #
+        #         file.write("%s, %s, %s, %s,%.2f,%.2f, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
+        # file.close()
+        file=open("./results/goals_of_attack.txt","w")
 
-        self.sort_list()
         for i,run in enumerate(memory_list):
-            file.write("run:%d\n"%(i))
-            file.write("#position1, #position2, #zone1, #zone2,reward1,reward2, #reward sum, #tier uav1, #tier uav2\n")
             for result in run.result_list:
 
                 if result.position1!=None:
@@ -153,13 +160,6 @@ class Result_list():
                     result.position2="-"
                     result.tier2="-"
                     result.zone2="-"
-
-                file.write("%s, %s, %s, %s,%.2f,%.2f, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
-        file.close()
-        file=open("./results/goals_of_attack.txt","w")
-
-
-
         file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"rew avg":<11s} {"tier uav1":<11s} {"tier uav2":<11s}\n')
         file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
         counter=0

@@ -88,25 +88,25 @@ class Hit_list():
 
 
 
-        file=open("./results/freq_of_hits.csv","w")
-        for i,hit_list in enumerate(hits_list):
-
-            #counting number of hits
-            number_of_all_hits=0
-            for zone in hit_list.hit_list:
-                number_of_all_hits=number_of_all_hits+zone.number_of_hits
-
-
-            file.write("run, %d\n"%(i))
-
-            file.write("zone_id, freq, average_rew\n")
-
-            for zone_number,zone in enumerate(hit_list.hit_list):
-                if zone.best_attack_postion==None:
-                    file.write("%d, 0, 0\n"%(zone_number+1))
-                else:
-                    file.write("%d, %.2f, %.2f\n"%(zone_number+1,zone.number_of_hits/float(number_of_all_hits),zone.points_mean))
-        file.close()
+        # file=open("./results/freq_of_hits.csv","w")
+        # for i,hit_list in enumerate(hits_list):
+        #
+        #     #counting number of hits
+        #     number_of_all_hits=0
+        #     for zone in hit_list.hit_list:
+        #         number_of_all_hits=number_of_all_hits+zone.number_of_hits
+        #
+        #
+        #     file.write("run, %d\n"%(i))
+        #
+        #     file.write("zone_id, freq, average_rew\n")
+        #
+        #     for zone_number,zone in enumerate(hit_list.hit_list):
+        #         if zone.best_attack_postion==None:
+        #             file.write("%d, 0, 0\n"%(zone_number+1))
+        #         else:
+        #             file.write("%d, %.2f, %.2f\n"%(zone_number+1,zone.number_of_hits/float(number_of_all_hits),zone.points_mean))
+        # file.close()
 
 
 
