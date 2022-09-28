@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=11
+operation_mode=00
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -14,7 +14,7 @@ operation_mode_cases=10
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=SA
+learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
 exploitation_type=epsilon-LA
@@ -138,7 +138,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=10000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=3000
+T=50000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=10000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

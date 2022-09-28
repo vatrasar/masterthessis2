@@ -208,7 +208,7 @@ class Settings():
         elif(property_name=="is_multirun"):
             self.is_multirun=self.check_binary(property_value,property_name)
         elif (property_name=="number_of_runs"):
-            self.number_of_runs=self.check_int(property_value,property_name,1,0,True)
+            self.number_of_runs=self.check_int(property_value,property_name,0,0,True)
 
         elif (property_name=="annealing_range"):
             self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
