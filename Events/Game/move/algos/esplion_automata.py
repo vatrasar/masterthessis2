@@ -43,7 +43,10 @@ class Epslion_automata():
        for record in self.lr_memory[1]:
             memmory_to_save[1].append(record)
        self.epslion_automata_old.append(memmory_to_save)
+    def add_noise_to_result(self,result,rand):
 
+        result.position1=self.add_noise_to_position(result.position1,rand)
+        result.position2=self.add_noise_to_position(result.position2,rand)
     def add_noise_to_position(self, position,rand:Random):
         new_position=Point(0,position.y)
         x=rand.random()
