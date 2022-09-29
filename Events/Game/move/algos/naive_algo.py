@@ -488,10 +488,11 @@ class Naive_Algo():
             # zone2=int(line_elements[3])
             reward1=float(line_elements[4])
             reward2=float(line_elements[5])
-            points=float(line_elements[7])
+
             poits_best=float(line_elements[6])
-            tier1=int(line_elements[8])
-            tier2=int(line_elements[9])
+            tier1=int(line_elements[7])
+            tier2=int(line_elements[8])
+            points=float(line_elements[9])
 
 
 

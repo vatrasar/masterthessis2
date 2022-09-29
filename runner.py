@@ -120,8 +120,8 @@ class Runner():
             self.game_state.naive_algo.epslion_automata.save_old_lr_memory()
         self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
         self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
-        if self.settings.exploitation_type == Exploitation_types.EPSLION and self.settings.learning!=True:
-            self.game_state.naive_algo.results_list.save_to_file_with_action()
+
+        self.game_state.naive_algo.results_list.save_to_file_with_action()
         self.game_state.sos_list.save()
         if self.settings.mode==Modes.LEARNING:
             self.result_tr_list.save_to_file(self.settings,self.reason_to_stop_simulation)
@@ -244,16 +244,18 @@ class Runner():
             self.hit_list.save_to_file(self.run_hits,self.reason_to_stop_simulation)
             self.game_state.sos_list.save()
             self.game_state.naive_algo.results_list.save_to_file(self.memory_list)
+            self.game_state.naive_algo.results_list.save_to_file_with_action()
             if self.settings.mode==Modes.LEARNING:
                 self.result_tr_list.save_to_file(self.settings,self.reason_to_stop_simulation)
                 self.result_tr_list.save_to_file_uav1(self.settings)
 
-                self.game_state.naive_algo.results_list.save_to_file_with_action()
+
             else:
                 self.result_file.save_to_file2(self.settings)
+
                 self.result_file.save_to_file1(self.settings,self.reason_to_stop_simulation)
-                if self.settings.exploitation_type == Exploitation_types.EPSLION and self.settings.learning!=True:
-                    self.game_state.naive_algo.results_list.save_to_file_with_action()
+
+                self.game_state.naive_algo.results_list.save_to_file_with_action()
 
             self.debug_file.save_to_file(self.settings)
 
