@@ -1,7 +1,7 @@
 ##########ALGORITHM PARAMETERS
 #MAIN ALGOS PARAMETERS
 #
-operation_mode=11
+operation_mode=00
 #wybór tybu pracy prgoramu; możliwe wartości:
 #                                           00: tryb uczenia, w którym drony wypracowują optymalną strategię postępowania
 #                                           11: tryb normalnego funkcjonowania, w której drony wykorzystują wypracowaną wcześniej strategię.
@@ -177,11 +177,6 @@ seed=1664198185
 #
 #
 ######OTHERS
-#STATISTICS
-#
-zone_width=50
-#szerokość strefy (strefy są używane w pamięci algorytmu normalnego wykonania); wartości całkowite, powyżej zera
-#
 #RUNS
 is_multirun=0
 #czy ma zostać uruchomiony multirun; możliwe wartości: 0 - normalne uruchomienie algorytmu (bez multiruna)

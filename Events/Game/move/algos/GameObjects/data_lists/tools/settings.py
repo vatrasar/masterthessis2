@@ -71,6 +71,8 @@ class Settings():
 
         setting_dict={}
         self.is_directory=False
+        self.map_size_y=520
+        self.map_size_x=1040
         for record in file_with_properties.readlines():
             if(len(record)!=0):
                 if record[0]=="#":
@@ -83,8 +85,7 @@ class Settings():
 
         # if self.is_multirun and self.mode==Modes.LEARNING:
         #     raise Exception("Błąd pliku konfiguracyjnego. Tryb multirun działa tylko w trybie eksplotacji")
-        self.map_size_y=520
-        self.map_size_x=1040
+
 
 
         self.list_of_cell_points:typing.List[PointsCell]=self.get_list_of_points(file_with_rewards)
@@ -111,6 +112,8 @@ class Settings():
         self.uav_number=2
         self.fake_targets_number=1
         self.annealing_step=1040
+
+
 
 
 
@@ -229,6 +232,7 @@ class Settings():
             self.annealing_number_of_iterations=self.check_int(property_value,property_name,1,0,True)
         elif (property_name=="naive algo list limit"):
             self.naive_algo_list_limit=self.check_int(property_value,property_name,1,0,True)
+            self.zone_width=float(self.map_size_x)/self.naive_algo_list_limit
         elif (property_name=="hand_max_deviation"):
             self.hand_max_deviation=self.check_int(property_value, property_name, 0, 1, True)
         elif (property_name=="T"):

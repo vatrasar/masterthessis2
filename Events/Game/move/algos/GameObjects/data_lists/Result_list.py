@@ -160,7 +160,7 @@ class Result_list():
                     result.position2="-"
                     result.tier2="-"
                     result.zone2="-"
-        file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg":<11s}\n')
+        file.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg multiple hits":<11s}\n')
         file.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
         counter=0
         for result in self.result_list:
@@ -173,7 +173,7 @@ class Result_list():
 
         if self.settings.learning:
             file2=open("./results/goals_of_attack_all_results.txt","w")
-            file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg":<11s}\n')
+            file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg multiple hits":<11s}\n')
             file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
             for result in self.result_list:
 
@@ -188,7 +188,7 @@ class Result_list():
         file=open("./results/LA_goals.txt","w")
 
 
-        file.write(f'{"#action id":<12s} {"pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg":<11s} \n')
+        file.write(f'{"#action id":<12s} {"pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg multiple hits":<11s} \n')
         file.write(f'{"#1":<12s} {"2":<9s} {"3":<9s} {"4":<5s} {"5":<5s} {"6":<9s} {"7":<9s} {"8":<11s} {"9":<11s} {"10":<11s} {"11":<11s}\n')
         counter=1
         for result in self.result_list:
