@@ -141,6 +141,15 @@ class Result_list():
         #
         #         file.write("%s, %s, %s, %s,%.2f,%.2f, %.2f, %s, %s\n"%(result.position1,result.position2,result.zone1,result.zone2,result.reward1,result.reward2,result.points,result.tier1,result.tier2))
         # file.close()
+
+
+        file=open("./results/zones_attacks.txt","w")
+        file.write(f'{"#zone index":<14s} {"av_pts":<14s} {"number of hits":<14s} \n')
+        file.write(f'{"#1":<14s} {"2":<14s} {"3":<14s}\n')
+        for key in self.avg_rewards_zones.keys():
+            file.write(f'{key+1:<14d} {self.avg_rewards_zones[key].points:<14.2f} {self.avg_rewards_zones[key].number_of_hit:<14.2f}\n')
+        file.close()
+
         file=open("./results/goals_of_attack.txt","w")
 
         for i,run in enumerate(memory_list):

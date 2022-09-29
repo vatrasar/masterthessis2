@@ -193,7 +193,7 @@ class Naive_Algo():
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
 
-            if points_sum!=0 and settings.learning:
+            if settings.learning:
 
                 if settings.learning_algo_type!=Learning_algos.SA:
 
