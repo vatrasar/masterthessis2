@@ -36,13 +36,13 @@ class Epslion_automata():
         self.lr_memory:typing.List[typing.List[Result_record]]=[]
         self.is_trainning=True
         self.is_reset=False
-    def save_old_memory(self):
+    def save_old_memory(self,is_fake,is_eps):
        memmory_to_save=[[],[]]
        for record in self.lr_memory[0]:
             memmory_to_save[0].append(record)
        for record in self.lr_memory[1]:
             memmory_to_save[1].append(record)
-       self.epslion_automata_old.append(memmory_to_save)
+       self.epslion_automata_old.append((memmory_to_save,is_fake,is_eps))
     def add_noise_to_result(self,result,rand):
 
         result.position1=self.add_noise_to_position(result.position1,rand)
@@ -76,13 +76,17 @@ class Epslion_automata():
             self.leader = 1
         else:
             self.leader = 0
-    def un_register_attack(self, points):
-        new_record:Result_record=self.last_action.copy()
-        self.lr_memory[self.leader].remove(self.lr_memory[self.leader][0])
-        new_record.points=points
-        self.lr_memory[self.leader].append(new_record)
-        self.is_active_epslion_attack=False
-        self.save_old_memory()
+    def un_register_attack(self, points,is_fake):
+        if self.is_active_epslion_attack:
+            new_record:Result_record=self.last_action.copy()
+            self.lr_memory[self.leader].remove(self.lr_memory[self.leader][0])
+            new_record.points=points
+            self.lr_memory[self.leader].append(new_record)
+            self.is_active_epslion_attack=False
+        if not self.is_trainning:
+            self.save_old_memory(is_fake,self.was_last_epsilion)
+
+
 
     def append_new_record(self,points_sum):
         if self.last_action!=None:
@@ -163,22 +167,24 @@ class Epslion_automata():
         file2=open("./results/automata_memory2.txt", "w")
         iteration_counter=0
         for memory in self.epslion_automata_old:
-
+            is_reg_attack=1
+            if memory[1] or memory[2]:
+                is_reg_attack=0
             if iteration_counter==0:
                 file1.write("start\n")
             else:
-                file1.write("iteration %d\n"%(iteration_counter))
+                file1.write("iteration %d {reg attack: %d, fake: %d, eps: %d}\n"%(iteration_counter,is_reg_attack,memory[1],memory[2]))
 
             file1.write(f'{"#action id":<10s} {"av pts":<10s}\n')
-            for record in memory[0]:
+            for record in memory[0][0]:
                 file1.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
 
             if iteration_counter==0:
                 file2.write("start\n")
             else:
-                file2.write("iteration %d\n"%(iteration_counter))
+                file2.write("iteration %d {reg attack: %d, fake: %d, eps: %d}\n"%(iteration_counter,is_reg_attack,memory[1],memory[2]))
             file2.write(f'{"#action id":<10s} {"av pts":<10s}\n')
-            for record in memory[1]:
+            for record in memory[0][1]:
                 file2.write(f'{record.action_number:<10d} {record.points/2.0:<10.2f}\n')
 
             iteration_counter=iteration_counter+1

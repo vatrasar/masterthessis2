@@ -82,7 +82,7 @@ class Runner():
 
                 #restart
                 epslion_automata=self.game_state.naive_algo.epslion_automata
-                self.game_state.naive_algo.epslion_automata.save_old_memory()
+                self.game_state.naive_algo.epslion_automata.save_old_memory(False,False)
                 self.result_tr_list.reset_run()
                 self.result_file.reset_run()
                 self.current_time=0
@@ -186,7 +186,7 @@ class Runner():
                 #reset
 
                 epslion_automata=self.game_state.naive_algo.epslion_automata
-                self.game_state.naive_algo.epslion_automata.save_old_memory()
+                self.game_state.naive_algo.epslion_automata.save_old_memory(False,False)
                 self.result_tr_list.reset_run()
                 self.result_file.reset_run()
                 self.current_time=0

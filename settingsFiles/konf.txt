@@ -17,9 +17,8 @@ debug=0
 learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=best
-#rodzaj eksploatacji;  możliwe wartości: wheel_roulette,
-#                                       epsilon-LA,
+exploitation_type=epsilon-LA
+#rodzaj eksploatacji;  możliwe wartości: epsilon-LA,
 #                                       wheel_roulette,
 #                                       best,
 #                                       random
@@ -36,7 +35,7 @@ searching_max_range=30
 #
 #EXPLOITATION PARAMETERS
 #
-epsilon=0.06
+epsilon=0.2
 #parametr dla eksploatacji typu epsilon-LA; wartości większe od 0
 delta_x=27
 #maksymalna wartość szumu jaka może wystąpić dla rozwiązań wykorzystywanych w algorytmie epsilon-LA; wartości większe od 0
@@ -45,7 +44,7 @@ reward_threshold=4
 #Parametr działa wyłącznie w trybie eksploatacji
 l_lr=10
 #pojemość pamięci w algorytmie epsilon-LA; wartości całkowite, większe od 0
-prob_of_fake_attack=0.02
+prob_of_fake_attack=0.3
 #prawdopodobieństwo przeprowadzenia mylącego ataku;wartości z przedziału (0,1)
 #
 #LEARNING PARAMETERS
@@ -94,7 +93,7 @@ uav_energy_energy_cost_tier2=0.1
 #zużycie energii uav na jednostkę czasu podczas poruszania się na tier2; wartości powyżej zera
 uav_energy=25000
 #początkowa energia uav; wartości całkowite, powyżej zera
-drone_energy_destroy_condition=0 
+drone_energy_destroy_condition=1
 #czy drony będą niszczone gdy wyczerpie się ich energia; możliwe wartości: 1 - warunek będzie brany pod uwagę,
 #                                                                          0 - warunek nie będzie brany pod uwagę
 #
@@ -126,7 +125,7 @@ blind_angle=20
 # wyrażony w stopniach maksymalny kąt pomiędzy uav, przy którym intruz jest zdolny do jednoczesnej reakcji na działania obydwu uav; wartości z przedziału (0,180)
 intruder_time_of_reaction=5 
 # czas co jaki intruz aktualizuje swoją strategię; wartości całkowite, powyżej 0
-intruder_max_energy=13000
+intruder_max_energy=30000
 #początkowa energia intruza; wartości całkowite, powyżej 0
 intruder_energy_cost_jump=1
 # zużycie energii intruza na jednostkę czasu podczas skoku; wartości powyżej 0
@@ -139,7 +138,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=10000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=3000
+T=30000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=10000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0

@@ -187,8 +187,8 @@ class Naive_Algo():
                 self.number_of_no_progress=self.number_of_no_progress+1
 
             if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
-                if self.epslion_automata.is_active_epslion_attack:
-                    self.epslion_automata.un_register_attack(points_sum)
+
+                self.epslion_automata.un_register_attack(points_sum,self.is_real_fake_attack)
 
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
