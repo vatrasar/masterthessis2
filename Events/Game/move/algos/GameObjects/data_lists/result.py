@@ -191,7 +191,35 @@ class Result_file():
             file.write("\n")
         file.close()
 
+        if self.settings.exploitation_type==Exploitation_types.EPSLION:
+            file=open("./results/la_actions_freq.txt","w")
+            for run_i,run in enumerate(self.result_lists):
+                file.write(f'{"#iter":<9s} ')
+                for i in range(0,10):
+                    value_str=str(i+1)
+                    file.write(f'{value_str+"a":<9s} ')
+                file.write("\n")
+                file.write(f'{"#1":<9s} ')
+                for i in range(0,10):
+                    file.write(f'{i+2:<9d} ')
+                file.write("\n")
+                for i,record in enumerate(run):
+                    file.write(f'{record.iter:<9d} ')
+                    sum=0
+                    #make sum
+                    for i in range(0,10):
+                        sum=sum+record.actions_counter[i]
+                    if sum==0:
+                        sum=1
 
+                    for i in range(0,10):
+                        if len(record.actions_counter)>i:
+                            file.write(f'{record.actions_counter[i]/float(sum):<9.2f} ')
+                        else:
+                            file.write(f'{"-":<4s} ')
+
+                    file.write("\n")
+                file.close()
         if settings.is_multirun:
             file=open("./results/std_results.txt","w")
 
