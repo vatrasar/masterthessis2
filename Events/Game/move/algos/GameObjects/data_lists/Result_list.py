@@ -23,6 +23,8 @@ class Result_record():
         self.number_of_hits=1
         self.number_of_hits2=previous_number_of_hits+1
         self.action_number=action_number
+        self.number_of_hits3=0
+
     def copy(self):
         new_record=Result_record(self.position1,self.position2,self.points,self.tier1,self.tier2,self.zone1,self.zone2,self.reward1,self.reward2,self.number_of_hits2-1,self.best_points,self.action_number)
         return new_record
@@ -47,6 +49,14 @@ class Result_list():
         zones_number=self.settings.naive_algo_list_limit
         self.explatation=settings.mode
         self.avg_rewards_zones={}
+        self.full_map_of_goals:typing.List[typing.List[Result_record]]=[]
+
+        for i in range(zones_number):
+            new_row=[]
+            for i in range(zones_number):
+                new_cell=Result_record(-1,-1,0,1,1,"-1","-1",0,0,0,0,0)
+                new_row.append(new_cell)
+            self.full_map_of_goals.append(new_row)
         for i in range(0,zones_number):
             self.result_map[i]=None
             self.avg_rewards_zones[i]=Avg_zone_info()
@@ -78,6 +88,24 @@ class Result_list():
         new_points=(old_points*old_counter+points)/float(old_counter+1)
         self.avg_rewards_zones[zone_index1].number_of_hit=old_counter+1
         self.avg_rewards_zones[zone_index1].points=new_points
+
+    def update_full_map(self,zone1,zone2, points1,points2,postion1,postion2,tier1,tier2):
+        old_points=self.full_map_of_goals[zone1][zone2].points
+        old_counter=self.full_map_of_goals[zone1][zone2].number_of_hits3
+        av_pts=(points1+points2)/2.0
+        new_points=(old_points*old_counter+av_pts)/float(old_counter+1)
+        self.full_map_of_goals[zone1][zone2].number_of_hits3=old_counter+1
+        self.full_map_of_goals[zone1][zone2].points=new_points
+        if self.full_map_of_goals[zone1][zone2].best_points<av_pts or self.full_map_of_goals[zone1][zone2].number_of_hits3==1:
+            self.full_map_of_goals[zone1][zone2].position1=postion1
+            self.full_map_of_goals[zone1][zone2].position2=postion2
+            self.full_map_of_goals[zone1][zone2].tier1=tier1
+            self.full_map_of_goals[zone1][zone2].tier2=tier2
+            self.full_map_of_goals[zone1][zone2].best_points=av_pts
+            self.full_map_of_goals[zone1][zone2].zone1=str(zone1)
+            self.full_map_of_goals[zone1][zone2].zone2=str(zone2)
+            self.full_map_of_goals[zone1][zone2].reward1=points1
+            self.full_map_of_goals[zone1][zone2].reward2=points2
     def add_result_point(self, postion1,postion2, points,tier1,tier2,points1,points2,load,counter=0):
         if self.explatation==Modes.EXPLOITATION and not load:
             return
@@ -86,6 +114,7 @@ class Result_list():
         zone_index2=get_zone_index(self.settings,postion2.x)
         self.update_avg_of_zone(zone_index1,points1)
         self.update_avg_of_zone(zone_index2,points2)
+        self.update_full_map(zone_index1,zone_index2,points1,points2,postion1,postion2,tier1,tier2)
         # record_to_update=self.get_record_with_postions(postion1,postion2)
         #
         # if record_to_update!=None:
@@ -128,11 +157,36 @@ class Result_list():
 
 
 
+    def get_list_of_best(self):
+        list_of_best=[]
+        for row in self.full_map_of_goals:
 
+            for cell in row:
+                to_delete=None
+                to_add=None
+                # if len(list_of_best)!=10:
+                if cell.number_of_hits3!=0:
+                    list_of_best.append(cell)
+                # else:
+                #     for cell_best in list_of_best:
+                #         if cell.points>cell_best.points:
+                #             to_delete=cell_best
+                #             to_add=cell
+                #             break
+                #     if to_delete!=None:
+                #
+                #         list_of_best.remove(to_delete)
+                #         list_of_best.append(to_add)
+        for cell in list_of_best:
+            cell.best_points=cell.best_points*2
+        return list_of_best
     def save_to_file(self,memory_list):
+
+
 
         # file=open("./results/goals_of_attack.csv","w")
         #
+        self.result_list=self.get_list_of_best()
         self.sort_list()
         # for i,run in enumerate(memory_list):
         #     file.write("run:%d\n"%(i))
@@ -188,6 +242,35 @@ class Result_list():
 
                 file2.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
             file2.close()
+
+
+            file3=open("./results/max_av_reward.txt","w")
+            file3.write(f'{"#zone id":<9s}')
+            for i in range(len(self.full_map_of_goals)):
+                file3.write(f'{i:<9d}')
+            file3.write("\n")
+            for i in range(len(self.full_map_of_goals)):
+                file3.write(f'{i:<9d}')
+                for p in range(len(self.full_map_of_goals)):
+
+                    file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
+                file3.write("\n")
+
+            file3.close()
+
+
+            file3=open("./results/zones_hits.txt","w")
+            file3.write(f'{"#zone id":<9s}')
+            for i in range(len(self.full_map_of_goals)):
+                file3.write(f'{i:<9d}')
+            file3.write("\n")
+            for i in range(len(self.full_map_of_goals)):
+                file3.write(f'{i:<9d}')
+                for p in range(len(self.full_map_of_goals)):
+                    file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9.2f}')
+                file3.write("\n")
+
+            file3.close()
 
     def save_to_file_with_action(self):
 
