@@ -127,6 +127,14 @@ class GameState():
         uav_to_delete.set_status(UavStatus.DEAD)
         self.uav_list.remove(uav_to_delete)
 
+    def are_drones_not_on_attack(self):
+        uav1=self.uav_list[0]
+        uav2=self.uav_list[1]
+        if uav1.status in [UavStatus.TIER_2,UavStatus.TIER_1] and uav2.status in [UavStatus.TIER_2,UavStatus.TIER_1]:
+            return True
+        else:
+            return False
+
 
 
 

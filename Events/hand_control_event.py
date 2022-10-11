@@ -17,9 +17,36 @@ class Hand_control_event(Event):
     def __init__(self, time_of_event, event_owner:Intruder, tk_master,game_state:GameState):
         super().__init__(time_of_event, event_owner, tk_master,game_state)
         self.event_owner=event_owner
+        self.time_of_last_target_sweatch=0
     def handle_event(self, event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
         list_of_uav=[]
+        if self.time_of_event-self.time_of_last_target_sweatch and self.game_state.are_drones_not_on_attack():
+            traget_hand1=self.game_state.hands_list[0].target_uav
+            traget_hand2=self.game_state.hands_list[1].target_uav
+            if rand.random()>0.5:
+                traget_hand1=self.game_state.uav_list[0]
+                traget_hand2=self.game_state.uav_list[1]
+            else:
+                traget_hand1=self.game_state.uav_list[1]
+                traget_hand2=self.game_state.uav_list[0]
+            self.game_state.hands_list[0].delete_current_event(event_list)
+            self.game_state.hands_list[1].delete_current_event(event_list)
+            if self.game_state.hands_list[0].target_uav!=None:
+                self.game_state.hands_list[0].stop_chasing()
+                self.game_state.hands_list[0].start_chasing(traget_hand2)
+                plan_chase_event(self.game_state.hands_list[0],settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+            if self.game_state.hands_list[1].target_uav!=None:
+                self.game_state.hands_list[1].stop_chasing()
+                self.game_state.hands_list[1].start_chasing(traget_hand1)
+                plan_chase_event(self.game_state.hands_list[1],settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+
+
+            # self.game_state.hands_list[0].start_chasing(traget_hand2)
+            # self.game_state.hands_list[1].start_chasing(traget_hand1)
+            # plan_chase_event(self.game_state.hands_list[0],settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+            # plan_chase_event(self.game_state.hands_list[1],settings,event_list,self.time_of_event,self.tk_master,self.game_state)
+
         if len(self.game_state.uav_list)>1 and get_angle_between_points(self.game_state.uav_list[0].position,self.game_state.uav_list[1].position,Point(settings.map_size_x/2,0))>settings.blind_angle:
             uav_to_check=self.game_state.uav_list[rand.randint(0,1)]
             list_of_uav.append(uav_to_check)
