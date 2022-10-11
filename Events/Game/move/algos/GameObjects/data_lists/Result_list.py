@@ -70,10 +70,10 @@ class Result_list():
         old_points=0
         zone_index=get_zone_index(self.settings,postion1.x)
         old_number_of_hits=0
-        if self.result_map[zone_index]!=None:
-            old_points=self.result_map[zone_index].points
-            old_number_of_hits=self.result_map[zone_index].number_of_hits2
-            self.result_list.remove(self.result_map[zone_index])
+        # if self.result_map[zone_index]!=None:
+        #     old_points=self.result_map[zone_index].points
+        #     old_number_of_hits=self.result_map[zone_index].number_of_hits2
+        #     self.result_list.remove(self.result_map[zone_index])
 
         zone1="-"
         zone2="-"
@@ -213,7 +213,8 @@ class Result_list():
 
         # file=open("./results/goals_of_attack.csv","w")
         #
-        self.result_list=self.get_list_of_best()
+        if self.settings.learning:
+            self.result_list=self.get_list_of_best()
         self.sort_list()
         # for i,run in enumerate(memory_list):
         #     file.write("run:%d\n"%(i))
