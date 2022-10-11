@@ -24,6 +24,11 @@ class Result_record():
         self.number_of_hits2=previous_number_of_hits+1
         self.action_number=action_number
         self.number_of_hits3=0
+        self.number_hits_iter1=0
+        self.number_hits_iter2=0
+        self.avg_iter2=0
+        self.avg_iter1=0
+
 
     def copy(self):
         new_record=Result_record(self.position1,self.position2,self.points,self.tier1,self.tier2,self.zone1,self.zone2,self.reward1,self.reward2,self.number_of_hits2-1,self.best_points,self.action_number)
@@ -88,6 +93,19 @@ class Result_list():
         new_points=(old_points*old_counter+points)/float(old_counter+1)
         self.avg_rewards_zones[zone_index1].number_of_hit=old_counter+1
         self.avg_rewards_zones[zone_index1].points=new_points
+    def update_tier_avg(self,cell:Result_record,av_pts,tier1,tier2):
+       if tier1==1 or tier2==1:
+            old_points=cell.avg_iter1
+            old_counter=cell.number_hits_iter1
+            new_points=(old_points*old_counter+av_pts)/float(old_counter+1)
+            cell.number_hits_iter1=cell.number_hits_iter1+1
+            cell.avg_iter1=new_points
+       else:
+            old_points=cell.avg_iter2
+            old_counter=cell.number_hits_iter2
+            new_points=(old_points*old_counter+av_pts)/float(old_counter+1)
+            cell.number_hits_iter2=cell.number_hits_iter2+1
+            cell.avg_iter2=new_points
 
     def update_full_map(self,zone1,zone2, points1,points2,postion1,postion2,tier1,tier2):
         old_points=self.full_map_of_goals[zone1][zone2].points
@@ -96,6 +114,11 @@ class Result_list():
         new_points=(old_points*old_counter+av_pts)/float(old_counter+1)
         self.full_map_of_goals[zone1][zone2].number_of_hits3=old_counter+1
         self.full_map_of_goals[zone1][zone2].points=new_points
+        self.update_tier_avg(self.full_map_of_goals[zone1][zone2],av_pts,tier1,tier2)
+
+
+
+
         if self.full_map_of_goals[zone1][zone2].best_points<av_pts or self.full_map_of_goals[zone1][zone2].number_of_hits3==1:
             self.full_map_of_goals[zone1][zone2].position1=postion1
             self.full_map_of_goals[zone1][zone2].position2=postion2
@@ -258,6 +281,24 @@ class Result_list():
 
             file3.close()
 
+            file4=open("./results/best_tier_id","w")
+            file4.write(f'{"#zone id":<9s}')
+            for i in range(len(self.full_map_of_goals)):
+                file4.write(f'{i:<9d}')
+            file4.write("\n")
+            for i in range(len(self.full_map_of_goals)):
+                file4.write(f'{i:<9d}')
+                for p in range(len(self.full_map_of_goals)):
+                    if self.full_map_of_goals[i][p].number_of_hits3==0:
+                        file4.write(f'{"-":<9s}')
+                    else:
+                        if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
+                            file4.write(f'{"1":<9s}')
+                        else:
+                            file4.write(f'{"2":<9s}')
+                file4.write("\n")
+
+            file4.close()
 
             file3=open("./results/zones_hits.txt","w")
             file3.write(f'{"#zone id":<9s}')
