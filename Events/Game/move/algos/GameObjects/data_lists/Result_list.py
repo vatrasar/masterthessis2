@@ -108,6 +108,10 @@ class Result_list():
             cell.avg_iter2=new_points
 
     def update_full_map(self,zone1,zone2, points1,points2,postion1,postion2,tier1,tier2):
+        if zone1<zone2:
+            zone_temp=zone1
+            zone1=zone2
+            zone2=zone_temp
         old_points=self.full_map_of_goals[zone1][zone2].points
         old_counter=self.full_map_of_goals[zone1][zone2].number_of_hits3
         av_pts=(points1+points2)/2.0
@@ -275,8 +279,10 @@ class Result_list():
             for i in range(len(self.full_map_of_goals)):
                 file3.write(f'{i:<9d}')
                 for p in range(len(self.full_map_of_goals)):
-
-                    file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
+                    if p<=i:
+                        file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
+                    else:
+                        file3.write(f'{"-":<9s}')
                 file3.write("\n")
 
             file3.close()
@@ -289,7 +295,7 @@ class Result_list():
             for i in range(len(self.full_map_of_goals)):
                 file4.write(f'{i:<9d}')
                 for p in range(len(self.full_map_of_goals)):
-                    if self.full_map_of_goals[i][p].number_of_hits3==0:
+                    if self.full_map_of_goals[i][p].number_of_hits3==0 or p>i:
                         file4.write(f'{"-":<9s}')
                     else:
                         if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
@@ -308,7 +314,11 @@ class Result_list():
             for i in range(len(self.full_map_of_goals)):
                 file3.write(f'{i:<9d}')
                 for p in range(len(self.full_map_of_goals)):
-                    file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9.2f}')
+                    if p<=i:
+                        file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9.2f}')
+                    else:
+                        file3.write(f'{"-":<9s}')
+
                 file3.write("\n")
 
             file3.close()
