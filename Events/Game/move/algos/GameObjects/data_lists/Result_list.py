@@ -2,6 +2,7 @@ from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings impo
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 import typing
 
+from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.zones import get_zone_index
@@ -59,7 +60,8 @@ class Result_list():
         for i in range(zones_number):
             new_row=[]
             for i in range(zones_number):
-                new_cell=Result_record(-1,-1,0,1,1,"-1","-1",0,0,0,0,0)
+
+                new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+i),0),0,1,1,"-1","-1",0,0,0,0,0)
                 new_row.append(new_cell)
             self.full_map_of_goals.append(new_row)
         for i in range(0,zones_number):
@@ -288,7 +290,7 @@ class Result_list():
 
             file3.close()
 
-            file4=open("./results/best_tier_id","w")
+            file4=open("./results/best_tier_id.txt","w")
             file4.write(f'{"#zone id":<9s}')
             for i in range(len(self.full_map_of_goals)):
                 file4.write(f'{i:<9d}')
@@ -316,7 +318,7 @@ class Result_list():
                 file3.write(f'{i:<9d}')
                 for p in range(len(self.full_map_of_goals)):
                     if p<=i:
-                        file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9.2f}')
+                        file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}')
                     else:
                         file3.write(f'{"-":<9s}')
 

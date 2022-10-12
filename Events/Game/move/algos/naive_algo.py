@@ -503,6 +503,29 @@ class Naive_Algo():
         if self.settings.exploitation_type==Exploitation_types.EPSLION:
             self.epslion_automata.set_source_for_lr(self.results_list.result_list)
             self.epslion_automata.load_data_from_files()
+
+
+        # load max av reward
+        file=open("results/max_av_reward.txt","r")
+        file2=open("results/zones_hits.txt","r")
+        lines=file.readlines()
+        lines2=file2.readlines()[1:]
+        full_map_avg=self.results_list.full_map_of_goals
+        for i,line in enumerate(lines[1:]):
+            line_elements=line.split(" ")
+            line_elements=list(filter(lambda x:x not in ["",",","\n"],line_elements))
+            line2_elemets=lines2[i].split()
+            line_elements2=list(filter(lambda x:x not in ["",",", "\n"],line2_elemets))
+            for p,element in enumerate(line_elements[1:]):
+                if element=="-":
+                    continue
+                else:
+                    value=float(element)
+                    hits=int(line_elements2[p+1])
+                    full_map_avg[i][p].points=value
+                    full_map_avg[i][p].number_of_hits3=hits
+
+
     def get_uav_with_index(self, index):
 
         for uav in self.uav_list:
