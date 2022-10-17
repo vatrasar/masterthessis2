@@ -61,7 +61,7 @@ class Result_list():
             new_row=[]
             for p in range(zones_number):
 
-                new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+p),0),0,1,1,"-1","-1",0,0,0,0,0)
+                new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+p),0),0,1,1,"-1","-1",0,0,-1,0,0)
                 new_row.append(new_cell)
             self.full_map_of_goals.append(new_row)
         for i in range(0,zones_number):
@@ -259,7 +259,7 @@ class Result_list():
         for result in self.result_list:
             if counter>=10:
                 break
-            file.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
+            file.write(f'{result.position1:<9s} {result.position2:<9s} {int(result.zone1)+1:<5d} {int(result.zone2)+1:<5d} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
             counter=counter+1
         file.close()
 
@@ -270,17 +270,17 @@ class Result_list():
             file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
             for result in self.result_list:
 
-                file2.write(f'{result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
+                file2.write(f'{result.position1:<9s} {result.position2:<9s} {int(result.zone1)+1:<5d} {int(result.zone2)+1:<5d} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
             file2.close()
 
 
             file3=open("./results/max_av_reward.txt","w")
             file3.write(f'{"#zone id":<9s}')
             for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i:<9d}')
+                file3.write(f'{i+1:<9d}')
             file3.write("\n")
             for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i:<9d}')
+                file3.write(f'{i+1:<9d}')
                 for p in range(len(self.full_map_of_goals)):
                     if p<=i:
                         file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
@@ -293,10 +293,10 @@ class Result_list():
             file4=open("./results/best_tier_id.txt","w")
             file4.write(f'{"#zone id":<9s}')
             for i in range(len(self.full_map_of_goals)):
-                file4.write(f'{i:<9d}')
+                file4.write(f'{i+1:<9d}')
             file4.write("\n")
             for i in range(len(self.full_map_of_goals)):
-                file4.write(f'{i:<9d}')
+                file4.write(f'{i+1:<9d}')
                 for p in range(len(self.full_map_of_goals)):
                     if (self.full_map_of_goals[i][p].number_of_hits3==0 and self.full_map_of_goals[p][i].number_of_hits3==0):
                         file4.write(f'{"-":<9s}')
@@ -318,10 +318,10 @@ class Result_list():
             file3=open("./results/zones_hits.txt","w")
             file3.write(f'{"#zone id":<9s}')
             for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i:<9d}')
+                file3.write(f'{i+1:<9d}')
             file3.write("\n")
             for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i:<9d}')
+                file3.write(f'{i+1:<9d}')
                 for p in range(len(self.full_map_of_goals)):
                     if p<=i:
                         file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}')
@@ -347,7 +347,7 @@ class Result_list():
             if counter>=11:
                 break
             result.action_number=counter
-            file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {result.zone1:<5s} {result.zone2:<5s} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d} {result.points:<11.2f}\n')
+            file.write(f'{result.action_number:<12d} {result.position1:<9s} {result.position2:<9s} {int(result.zone1)+1:<5d} {int(result.zone2)+1:<5d} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2):<11d} {result.points:<11.2f}\n')
             counter=counter+1
         file.close()
 
