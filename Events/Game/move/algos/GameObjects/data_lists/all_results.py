@@ -146,8 +146,8 @@ class Result_tr_list():
                     str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     file.write(str)
             else:
-                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#av pts":<9s}\n')
-                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<9s}\n')
+                file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
+                file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s}\n')
                 for i,record in enumerate(run):
 
                     str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f}\n'
