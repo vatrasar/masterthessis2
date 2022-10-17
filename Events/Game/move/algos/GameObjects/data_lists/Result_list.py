@@ -59,9 +59,9 @@ class Result_list():
 
         for i in range(zones_number):
             new_row=[]
-            for i in range(zones_number):
+            for p in range(zones_number):
 
-                new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+i),0),0,1,1,"-1","-1",0,0,0,0,0)
+                new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+p),0),0,1,1,"-1","-1",0,0,0,0,0)
                 new_row.append(new_cell)
             self.full_map_of_goals.append(new_row)
         for i in range(0,zones_number):
@@ -285,7 +285,7 @@ class Result_list():
                     if p<=i:
                         file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
                     else:
-                        file3.write(f'{"-":<9s}')
+                        file3.write(f'{self.full_map_of_goals[p][i].points:<9.2f}')
                 file3.write("\n")
 
             file3.close()
@@ -298,13 +298,19 @@ class Result_list():
             for i in range(len(self.full_map_of_goals)):
                 file4.write(f'{i:<9d}')
                 for p in range(len(self.full_map_of_goals)):
-                    if self.full_map_of_goals[i][p].number_of_hits3==0 or p>i:
+                    if (self.full_map_of_goals[i][p].number_of_hits3==0 and self.full_map_of_goals[p][i].number_of_hits3==0):
                         file4.write(f'{"-":<9s}')
                     else:
-                        if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
-                            file4.write(f'{"1":<9s}')
+                        if not p>i:
+                            if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
+                                file4.write(f'{"1":<9s}')
+                            else:
+                                file4.write(f'{"2":<9s}')
                         else:
-                            file4.write(f'{"2":<9s}')
+                            if self.full_map_of_goals[p][i].avg_iter1>self.full_map_of_goals[p][i].avg_iter2:
+                                file4.write(f'{"1":<9s}')
+                            else:
+                                file4.write(f'{"2":<9s}')
                 file4.write("\n")
 
             file4.close()
@@ -320,7 +326,7 @@ class Result_list():
                     if p<=i:
                         file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}')
                     else:
-                        file3.write(f'{"-":<9s}')
+                        file3.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}')
 
                 file3.write("\n")
 

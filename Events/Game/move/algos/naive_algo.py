@@ -524,6 +524,8 @@ class Naive_Algo():
                     hits=int(line_elements2[p+1])
                     full_map_avg[i][p].points=value
                     full_map_avg[i][p].number_of_hits3=hits
+                    full_map_avg[i][p].zone1="%d"%(i)
+                    full_map_avg[i][p].zone2="%d"%(p)
 
 
     def get_uav_with_index(self, index):
