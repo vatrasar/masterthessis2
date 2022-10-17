@@ -21,7 +21,8 @@ from Events.Game.move.algos.list_algo import list_algo_new_targets
 from Events.Game.move.distance import get_2d_distance
 from Events.Game.move.get_position import get_random_position_on_tier1
 
-
+def sort_results(e:Result_record):
+    return e.points
 class Naive_Algo():
     def __init__(self,list_limit,curiosty_ratio,iterations_for_learning,settings:Settings,hit_list,uav_list,rand:Random,result_tr:Result_tr_list,result_file:Result_file):
         self.result_file = result_file
@@ -214,7 +215,10 @@ class Naive_Algo():
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress,self.anneling_algorithm.not_accepted_counter,self.anneling_algorithm.av_pts_new,self.anneling_algorithm.diff)
             else:
-                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points)
+                besst_list=self.results_list.get_list_of_best()
+                besst_list.sort(key=sort_results)
+                besst_list.reverse()
+                self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,best_list=besst_list)
             uav1,uav2=get_uav1_and2(uav_list)
             uav1:Uav=uav1
             intruder_start_energy=min(self.current_attacks[0]["intruder energy before attack"],self.current_attacks[1]["intruder energy before attack"])

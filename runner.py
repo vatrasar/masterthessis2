@@ -356,6 +356,8 @@ class Runner():
             plan_chase_event(uav.chasing_hand,self.settings,event_list,0,self.master,self.game_state)
 
     def is_simulation_finished(self):
+        if self.settings.mode==Modes.EXPLOITATION and self.game_state.naive_algo.epslion_automata.is_trainning:
+            return False
         if len(self.game_state.uav_list)<2:
             self.reason_to_stop_simulation.append(Reason_to_stop.ONE_UAV_KILLED)
             return True

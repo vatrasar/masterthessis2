@@ -1,5 +1,6 @@
 import typing
 
+from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_record
 from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Learning_algos, Modes
 from Events.Game.move.algos.GameObjects.data_lists.tools.multirun_tools import get_mean, get_std
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -65,7 +66,8 @@ class Result_tr_record():
         self.tier2=iteration_to_copy.tier2
 
 
-
+def sort_results(e:Result_record):
+    return e.points
 class Result_tr_list():
     def __init__(self,settings:Settings):
         self.settings = settings
@@ -83,15 +85,17 @@ class Result_tr_list():
     def reset_run(self):
         self.current_run=[]
         self.current_best_result=0
-    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points,av_pts=None, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None,number_of_no_progress=None,not_accept_counter=None,av_pts_new=None, diff=None):
+    def add_record(self, postion1,position2,tier1,tier2, points1,points2,sum_of_points,dr1_points,dr2_points,av_pts=None, current_solution1=None,current_solution2=None,accept_prob=None,x=None,decision=None,temperature=None,number_of_no_progress=None,not_accept_counter=None,av_pts_new=None, diff=None,best_list=None):
 
         current_mean_result=(points1+points2)/2.0
         if current_mean_result>self.current_best_result:
             self.current_best_result=current_mean_result
+
+
         if self.settings.learning_algo_type==Learning_algos.SA:
             self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result,av_pts,number_of_no_progress,not_accept_counter,diff,av_pts_new))
         else:
-            self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,self.current_best_result))
+            self.current_run.append(Result_tr_record(postion1,position2,tier1,tier2,points1,points2,sum_of_points,current_solution1,current_solution2,accept_prob,x,decision,temperature,dr1_points,dr2_points,best_list[0].points))
 
 
     def save_to_file(self,settings,reasons_to_stop_simulation):
