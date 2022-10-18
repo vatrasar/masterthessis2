@@ -332,6 +332,23 @@ class Result_list():
 
             file3.close()
 
+            file4=open("./results/zones_hits3D.txt","w")
+            file4.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}')
+            for i in range(len(self.full_map_of_goals)):
+                file4.write(f'{i+1:<9d}')
+            for i in range(len(self.full_map_of_goals)):
+
+                for p in range(len(self.full_map_of_goals)):
+                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    if p<=i:
+                        file4.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    else:
+                        file4.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
+                file4.write('\n')
+
+
+            file4.close()
+
     def save_to_file_with_action(self):
 
 

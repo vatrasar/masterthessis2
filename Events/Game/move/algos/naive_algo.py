@@ -510,26 +510,27 @@ class Naive_Algo():
 
 
         # load max av reward
-        file=open("results/max_av_reward.txt","r")
-        file2=open("results/zones_hits.txt","r")
-        lines=file.readlines()
-        lines2=file2.readlines()[1:]
-        full_map_avg=self.results_list.full_map_of_goals
-        for i,line in enumerate(lines[1:]):
-            line_elements=line.split(" ")
-            line_elements=list(filter(lambda x:x not in ["",",","\n"],line_elements))
-            line2_elemets=lines2[i].split()
-            line_elements2=list(filter(lambda x:x not in ["",",", "\n"],line2_elemets))
-            for p,element in enumerate(line_elements[1:]):
-                if element=="-":
-                    continue
-                else:
-                    value=float(element)
-                    hits=int(line_elements2[p+1])
-                    full_map_avg[i][p].points=value
-                    full_map_avg[i][p].number_of_hits3=hits
-                    full_map_avg[i][p].zone1="%d"%(i)
-                    full_map_avg[i][p].zone2="%d"%(p)
+        if self.settings.load_memory:
+            file=open("results/max_av_reward.txt","r")
+            file2=open("results/zones_hits.txt","r")
+            lines=file.readlines()
+            lines2=file2.readlines()[1:]
+            full_map_avg=self.results_list.full_map_of_goals
+            for i,line in enumerate(lines[1:]):
+                line_elements=line.split(" ")
+                line_elements=list(filter(lambda x:x not in ["",",","\n"],line_elements))
+                line2_elemets=lines2[i].split()
+                line_elements2=list(filter(lambda x:x not in ["",",", "\n"],line2_elemets))
+                for p,element in enumerate(line_elements[1:]):
+                    if element=="-":
+                        continue
+                    else:
+                        value=float(element)
+                        hits=int(line_elements2[p+1])
+                        full_map_avg[i][p].points=value
+                        full_map_avg[i][p].number_of_hits3=hits
+                        full_map_avg[i][p].zone1="%d"%(i)
+                        full_map_avg[i][p].zone2="%d"%(p)
 
 
     def get_uav_with_index(self, index):
