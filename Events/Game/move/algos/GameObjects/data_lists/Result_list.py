@@ -332,19 +332,71 @@ class Result_list():
 
             file3.close()
 
-            file4=open("./results/zones_hits3D.txt","w")
-            file4.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}')
-            for i in range(len(self.full_map_of_goals)):
-                file4.write(f'{i+1:<9d}')
+            # file4=open("./results/best_tier_id3D.txt","w")
+            # file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+            # file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+            #
+            # for i in range(len(self.full_map_of_goals)):
+            #
+            #     for p in range(len(self.full_map_of_goals)):
+            #         # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+            #         file4.write(f'{i+1:<9d} {p+1:<9d} ')
+            #         if p<=i:
+            #             file4.write(f'{self.full_map_of_goals[i][p].points:<9d}\n')
+            #         else:
+            #             file4.write(f'{self.full_map_of_goals[p][i].points:<9d}\n')
+            #
+            #
+            #
+            #
+            #             if not p>i:
+            #                 if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
+            #                     file4.write(f'{"1":<9s}')
+            #                 else:
+            #                     file4.write(f'{"2":<9s}')
+            #             else:
+            #                 if self.full_map_of_goals[p][i].avg_iter1>self.full_map_of_goals[p][i].avg_iter2:
+            #                     file4.write(f'{"1":<9s}')
+            #                 else:
+            #                     file4.write(f'{"2":<9s}')
+            #     file4.write('\n')
+            #
+            #
+            # file4.close()
+
+
+            file6=open("./results/max_av_reward3D.txt","w")
+            file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+            file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
             for i in range(len(self.full_map_of_goals)):
 
                 for p in range(len(self.full_map_of_goals)):
                     # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    file6.write(f'{i+1:<9d} {p+1:<9d} ')
                     if p<=i:
-                        file4.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                        file6.write(f'{self.full_map_of_goals[i][p].points:<9.2f}\n')
                     else:
-                        file4.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
-                file4.write('\n')
+                        file6.write(f'{self.full_map_of_goals[p][i].points:<9.2f}\n')
+                file6.write('\n')
+
+
+            file6.close()
+
+            file5=open("./results/zones_hits3D.txt","w")
+            file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
+            file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+            for i in range(len(self.full_map_of_goals)):
+
+                for p in range(len(self.full_map_of_goals)):
+                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    file5.write(f'{i+1:<9d} {p+1:<9d} ')
+                    if p<=i:
+                        file5.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    else:
+                        file5.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
+                file5.write('\n')
 
 
             file4.close()
@@ -423,3 +475,16 @@ class Result_list():
     def add_to_list_if_not_none(self, list, postion1):
         if postion1!=None:
             list.append(postion1)
+
+    def get_candidate_points_full_map(self, points_sum, pos1, pos2):
+        zone1=get_zone_index(self.settings,pos1.x)
+        zone2=get_zone_index(self.settings,pos2.x)
+        hits=0
+        old_points=self.full_map_of_goals[zone1][zone2].points
+        hits=self.full_map_of_goals[zone1][zone2].number_of_hits3
+        if zone1<zone2:
+            old_points=self.full_map_of_goals[zone2][zone1].points
+            hits=self.full_map_of_goals[zone2][zone1].number_of_hits3
+
+        return (old_points*hits +points_sum/2.0)/(hits+1.0)
+

@@ -188,8 +188,8 @@ class Naive_Algo():
                 self.number_of_no_progress=self.number_of_no_progress+1
 
             if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
-
-                self.epslion_automata.un_register_attack(points_sum,self.is_real_fake_attack)
+                candidate_points=self.results_list.get_candidate_points_full_map(points_sum,self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"])
+                self.epslion_automata.un_register_attack(candidate_points*2,self.is_real_fake_attack)
 
             if settings.learning_algo_type==Learning_algos.SA:
                 self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
@@ -197,6 +197,7 @@ class Naive_Algo():
             if settings.learning:
 
                 if settings.learning_algo_type!=Learning_algos.SA:
+
                     self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
                 elif self.anneling_algorithm.last_decison:
                     self.results_list.add_result_point(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],points_sum,self.tiers_uav[0],self.tiers_uav[1],points1,points2,True)
