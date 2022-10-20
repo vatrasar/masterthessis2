@@ -1,6 +1,8 @@
 import math
 from random import Random
 import numpy as np
+
+from Events.Game.move.algos.GameObjects.data_lists.Result_list import Result_list
 from Events.Game.move.algos.GameObjects.data_lists.tools.map_ranges_tools import is_in_bondaries
 from Events.Game.move.algos.GameObjects.data_lists.tools.point import Point
 from Events.Game.move.algos.GameObjects.data_lists.tools.settings import Settings
@@ -42,9 +44,11 @@ class Annealing_Algo():
         self.annealing_number_of_iterations=settings.annealing_number_of_iterations
         self.can_terget_be_changed=True
 
-    def un_register_attack(self, candidate_points,candidate_positions:typing.List[Point],settings:Settings):
 
+    def un_register_attack(self, candidate_points,candidate_positions:typing.List[Point],settings:Settings,result_list:Result_list):
 
+        current_points=result_list.get_current_points_from_full_map(candidate_positions[0],candidate_positions[1])
+        self.current_result["points"]=current_points
         self.iterations_form_last_temperature_update=self.iterations_form_last_temperature_update+1
         if self.iterations_form_last_temperature_update>=self.annealing_number_of_iterations:
             self.iterations_form_last_temperature_update=0

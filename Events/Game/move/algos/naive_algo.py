@@ -189,10 +189,11 @@ class Naive_Algo():
 
             if self.settings.learning==False and self.settings.exploitation_type==Exploitation_types.EPSLION:
                 candidate_points=self.results_list.get_candidate_points_full_map(points_sum,self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"])
+
                 self.epslion_automata.un_register_attack(candidate_points*2,self.is_real_fake_attack)
 
             if settings.learning_algo_type==Learning_algos.SA:
-                self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings)
+                self.anneling_algorithm.un_register_attack(points_sum,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings,self.results_list)
 
             if settings.learning:
 
