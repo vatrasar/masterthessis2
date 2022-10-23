@@ -47,7 +47,7 @@ class Annealing_Algo():
 
     def un_register_attack(self, candidate_points,candidate_positions:typing.List[Point],settings:Settings,result_list:Result_list):
 
-        current_points=result_list.get_current_points_from_full_map(candidate_positions[0],candidate_positions[1])
+        current_points=result_list.get_current_points_from_full_map(self.current_result["position"][0],self.current_result["position"][1])
         self.current_result["points"]=current_points
         self.iterations_form_last_temperature_update=self.iterations_form_last_temperature_update+1
         if self.iterations_form_last_temperature_update>=self.annealing_number_of_iterations:
@@ -58,10 +58,10 @@ class Annealing_Algo():
 
 
 
-        self.av_pts_new=candidate_points/2.0
+        self.av_pts_new=candidate_points
 
-        value_delta=candidate_points/2.0-self.current_result["points"]/2.0
-        self.diff=candidate_points/2.0-self.current_result["points"]/2.0
+        value_delta=candidate_points-self.current_result["points"]
+        self.diff=candidate_points-self.current_result["points"]
         metropolis=math.exp(-abs(value_delta) / self.temperature)
         x=self.rand.random()
         self.last_decison=0
