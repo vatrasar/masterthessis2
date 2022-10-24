@@ -126,6 +126,7 @@ class Result_list():
 
 
         if self.full_map_of_goals[zone1][zone2].best_points<av_pts or self.full_map_of_goals[zone1][zone2].number_of_hits3==1:
+
             self.full_map_of_goals[zone1][zone2].position1=postion1
             self.full_map_of_goals[zone1][zone2].position2=postion2
             self.full_map_of_goals[zone1][zone2].tier1=tier1
@@ -186,7 +187,7 @@ class Result_list():
 
 
 
-    def get_list_of_best(self):
+    def get_list_of_best(self,is_save=True):
         list_of_best=[]
         for row in self.full_map_of_goals:
 
@@ -207,7 +208,9 @@ class Result_list():
                 #         list_of_best.remove(to_delete)
                 #         list_of_best.append(to_add)
         for cell in list_of_best:
-            cell.best_points=cell.best_points*2
+            if is_save:
+                cell.best_points=cell.best_points*2
+
         return list_of_best
     def save_to_file(self,memory_list):
 
