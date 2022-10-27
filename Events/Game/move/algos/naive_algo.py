@@ -217,7 +217,7 @@ class Naive_Algo():
             #file result_tr
             if settings.learning_algo_type==Learning_algos.SA and settings.mode==Modes.LEARNING:
                 self.result_tr.add_record(self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"],self.tiers_uav[0],self.tiers_uav[1],points1,points2,points_sum,uav_list[0].points,uav_list[1].points,self.anneling_algorithm.current_result["points"],self.anneling_algorithm.current_result["position"][0],self.anneling_algorithm.current_result["position"][1],self.anneling_algorithm.last_metropolis,self.anneling_algorithm.last_x,self.anneling_algorithm.last_decison,self.anneling_algorithm.temperature,self.number_of_no_progress,self.anneling_algorithm.not_accepted_counter,self.anneling_algorithm.av_pts_new,self.anneling_algorithm.diff)
-            else:
+            elif settings.mode==Modes.LEARNING:
                 besst_list=self.results_list.get_list_of_best(is_save=False)
                 besst_list.sort(key=sort_results)
                 besst_list.reverse()
