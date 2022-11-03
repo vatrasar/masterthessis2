@@ -212,9 +212,10 @@ class Settings():
             self.is_multirun=self.check_binary(property_value,property_name)
         elif (property_name=="number_of_runs"):
             self.number_of_runs=self.check_int(property_value,property_name,0,0,True)
-
-        elif (property_name=="annealing_range"):
-            self.annealing_step=self.check_float(property_value,property_name,0.1,0,True)
+        elif (property_name=="number_of_runs"):
+            self.number_of_runs=self.check_int(property_value,property_name,0,0,True)
+        elif (property_name=="winner_temperature"):
+            self.winner_temperature=self.check_float(property_value,property_name,0,0,True)
 
         elif (property_name=="epsilon"):
             self.epslion=self.check_float(property_value,property_name,0.001,0,True)

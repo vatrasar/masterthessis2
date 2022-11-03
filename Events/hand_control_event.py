@@ -21,7 +21,7 @@ class Hand_control_event(Event):
     def handle_event(self, event_list, settings: Settings, rand: Random, iteration_function):
         super().handle_event(event_list, settings, rand, iteration_function)
         list_of_uav=[]
-        if self.time_of_event-self.time_of_last_target_sweatch and self.game_state.are_drones_not_on_attack():
+        if self.time_of_event-self.time_of_last_target_sweatch and self.game_state.are_drones_not_on_attack() and settings.hands_number>1:
             traget_hand1=self.game_state.hands_list[0].target_uav
             traget_hand2=self.game_state.hands_list[1].target_uav
             if rand.random()>0.5:

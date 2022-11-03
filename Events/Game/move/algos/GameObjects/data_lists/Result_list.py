@@ -1,4 +1,4 @@
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 import typing
 
@@ -37,6 +37,9 @@ class Result_record():
 
 def sort_results(e:Result_record):
     return e.points
+
+def sort_acording_to_temp(e:Result_record):
+    return e[2]
 class Avg_zone_info():
     def __init__(self):
         self.points=0
@@ -56,14 +59,18 @@ class Result_list():
         self.explatation=settings.mode
         self.avg_rewards_zones={}
         self.full_map_of_goals:typing.List[typing.List[Result_record]]=[]
-
+        self.winner_map_of_goals:typing.List[typing.List[Result_record]]=[]
         for i in range(zones_number):
             new_row=[]
+            new_row_2=[]
             for p in range(zones_number):
 
                 new_cell=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+p),0),0,1,1,"-1","-1",0,0,-1,0,0)
+                new_cell2=Result_record(Point(self.zone_width*(0.5+i),0),Point(self.zone_width*(0.5+p),0),0,1,1,"-1","-1",0,0,-1,0,0)
+                new_row_2.append(new_cell2)
                 new_row.append(new_cell)
             self.full_map_of_goals.append(new_row)
+            self.winner_map_of_goals.append(new_row_2)
         for i in range(0,zones_number):
             self.result_map[i]=None
             self.avg_rewards_zones[i]=Avg_zone_info()
@@ -218,9 +225,16 @@ class Result_list():
 
         # file=open("./results/goals_of_attack.csv","w")
         #
+
         if self.settings.learning:
             self.result_list=self.get_list_of_best()
+            if self.settings.learning_algo_type==Learning_algos.SA:
+                self.result_list=self.get_winners_for_SA()
         self.sort_list()
+
+        for record in self.result_list[0:10]:
+            self.winner_map_of_goals[int(record.zone1)][int(record.zone2)]=self.full_map_of_goals[int(record.zone1)][int(record.zone2)]
+            self.winner_map_of_goals[int(record.zone2)][int(record.zone1)]=self.full_map_of_goals[int(record.zone1)][int(record.zone2)]
         # for i,run in enumerate(memory_list):
         #     file.write("run:%d\n"%(i))
         #     file.write("#position1, #position2, #zone1, #zone2,reward1,reward2, #reward sum, #tier uav1, #tier uav2\n")
@@ -362,6 +376,46 @@ class Result_list():
             file4.close()
 
 
+
+
+
+            file4=open("./results/winner_best_tier_id3D.dat","w")
+            file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+            file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+            for i in range(len(self.winner_map_of_goals)):
+
+                for p in range(len(self.winner_map_of_goals)):
+                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    file4.write(f'{i+1:<9d} {p+1:<9d} ')
+
+                    if not p>i:
+                        if self.winner_map_of_goals[i][p].number_of_hits3==0:
+                            file4.write(f'{"0":<9s}')
+                        elif self.winner_map_of_goals[i][p].avg_iter1>self.winner_map_of_goals[i][p].avg_iter2:
+                            file4.write(f'{"1":<9s}')
+                        else:
+                            file4.write(f'{"2":<9s}')
+                    else:
+                        if self.winner_map_of_goals[i][p].number_of_hits3==0:
+                            file4.write(f'{"0":<9s}')
+                        elif self.winner_map_of_goals[p][i].avg_iter1>self.winner_map_of_goals[p][i].avg_iter2:
+                            file4.write(f'{"1":<9s}')
+                        else:
+                            file4.write(f'{"2":<9s}')
+                    file4.write('\n')
+                file4.write('\n')
+
+
+            file4.close()
+
+
+
+
+
+
+
+
             file6=open("./results/max_av_reward3D.dat","w")
             file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
             file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
@@ -380,6 +434,34 @@ class Result_list():
 
             file6.close()
 
+
+
+
+
+            file6=open("./results/winner_max_av_reward3D.dat","w")
+            file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+            file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+            for i in range(len(self.winner_map_of_goals)):
+
+                for p in range(len(self.winner_map_of_goals)):
+                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    file6.write(f'{i+1:<9d} {p+1:<9d} ')
+                    if p<=i:
+                        file6.write(f'{self.winner_map_of_goals[i][p].points:<9.2f}\n')
+                    else:
+                        file6.write(f'{self.winner_map_of_goals[p][i].points:<9.2f}\n')
+                file6.write('\n')
+
+
+            file6.close()
+
+
+
+
+
+
+
             file5=open("./results/zones_hits3D.dat","w")
             file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
             file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
@@ -393,6 +475,30 @@ class Result_list():
                         file5.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
                     else:
                         file5.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
+                file5.write('\n')
+
+
+            file4.close()
+
+
+
+
+
+
+
+            file5=open("./results/winner_zones_hits3D.dat","w")
+            file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
+            file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+            for i in range(len(self.winner_map_of_goals)):
+
+                for p in range(len(self.winner_map_of_goals)):
+                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    file5.write(f'{i+1:<9d} {p+1:<9d} ')
+                    if p<=i:
+                        file5.write(f'{self.winner_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                    else:
+                        file5.write(f'{self.winner_map_of_goals[p][i].number_of_hits3:<9d}\n')
                 file5.write('\n')
 
 
@@ -495,4 +601,34 @@ class Result_list():
             hits=self.full_map_of_goals[zone2][zone1].number_of_hits3
 
         return (old_points*hits +points_sum/2.0)/(hits+1.0)
+
+    def update_all_accepted(self, all_accepted_results):
+        self.all_accepted_results=all_accepted_results
+
+    def get_winners_for_SA(self):
+        list_of_accepted_with_temperature=list(filter(lambda x:x[2]<self.settings.winner_temperature,self.all_accepted_results))
+        set_accepted_with_temperature={}
+        list_of_accepted_with_temperature.sort(key=sort_acording_to_temp)
+        for record in list_of_accepted_with_temperature:
+            zones=(record[0],record[1])
+            set_accepted_with_temperature.update({zones:6})
+
+        list_of_accepted_above_temperature=list(filter(lambda x:x[2]>=self.settings.winner_temperature,self.all_accepted_results))
+        list_of_accepted_above_temperature.sort(key=sort_acording_to_temp)
+
+        while len(set_accepted_with_temperature.keys())<10:
+            new_record=list_of_accepted_above_temperature[0]
+            zones=(new_record[0],new_record[1])
+            set_accepted_with_temperature.update({zones:6})
+            list_of_accepted_above_temperature.remove(new_record)
+
+        list_of_zones=set_accepted_with_temperature.keys()
+        results_list=[]
+        for zones in list_of_zones:
+            results_list.append(self.full_map_of_goals[zones[0]][zones[1]])
+
+        results_list.sort(key=sort_results)
+        return results_list
+
+
 

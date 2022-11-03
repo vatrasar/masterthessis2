@@ -191,12 +191,21 @@ class Result_tr_list():
                         iteration.number_of_no_progress=run[counter+1].number_of_no_progress
                         iteration.diff=run[counter+1].diff
                         iteration.av_pts_new=run[counter+1].av_pts_new
+                        iteration.x=run[counter+1].x
+                        iteration.accept_prob=run[counter+1].accept_prob
+                        iteration.decision=run[counter+1].decision
+                        iteration.temperature=run[counter+1].temperature
+
                     else:
                         iteration.c_best="-"
                         iteration.not_accept_counter="-"
                         iteration.number_of_no_progress="-"
                         iteration.diff="-"
                         iteration.av_pts_new="-"
+                        iteration.x="-"
+                        iteration.accept_prob="-"
+                        iteration.decision="-"
+                        iteration.temperature="-"
 
                     if iteration.decision==0:
                         previous_iteration=run[counter-1]
@@ -208,7 +217,7 @@ class Result_tr_list():
                     if len(run)>i+1:
                         str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.points1+record.points2:<9.2f} {record.av_pts:<9.2f} {record.c_best:<9.2f} {record.av_pts_new:<11.2f} {record.diff:<9.2f} {record.not_accept_counter:<21.2f} {record.number_of_no_progress:<21.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
                     else:
-                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.points1+record.points2:<9.2f} {record.av_pts:<9.2f} {record.c_best:<9s} {record.av_pts_new:<11.2s} {record.diff:<9.2s} {record.not_accept_counter:<21s} {record.number_of_no_progress:<21s} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.points1+record.points2:<9.2f} {record.av_pts:<9.2f} {record.c_best:<9s} {record.av_pts_new:<11.2s} {record.diff:<9.2s} {record.not_accept_counter:<21s} {record.number_of_no_progress:<21s} {record.accept_prob:<10s} {record.x:<6s} {record.decision:<9s} {record.temperature:<9s}\n'
                     file.write(str)
             else:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"best result":<12s}\n')
@@ -279,7 +288,11 @@ class Result_tr_list():
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s} {"#curr sol1":<10s} {"#curr sol2":<10s} {"#acc prob":<10s} {"#x":<6s} {"#acc/rej":<9s} {"#temp":<9s}\n')
                 file.write(f'{"#1":<9s} {"2":<13s} {"3":<6s} {"4":<13s} {"5":<6s} {"6":<9s} {"7":<9s} {"8":<9s} {"9":<10s} {"10":<10s} {"11":<10s} {"12":<6s} {"13":<9s} {"14":<9s}\n')
                 for i,record in enumerate(run):
-                    str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                    str=None
+                    if record.temperature!="-":
+                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10.2f} {record.x:<6.2f} {record.decision:<9d} {record.temperature:<9.2f}\n'
+                    else:
+                        str=f'{record.iter:<9d} {record.position1.x:<13.2f} {record.tier1:<6d} {record.position2.x:<13.2f} {record.tier2:<6.2f} {record.points1:<9.2f} {record.points2:<9.2f} {record.sum_points:<9.2f} {record.current_solution1.x:<10.2f} {record.current_solution2.x:<10.2f} {record.accept_prob:<10s} {record.x:<6s} {record.decision:<9s} {record.temperature:<9s}\n'
                     file.write(str)
             else:
                 file.write(f'{"#iter":<9s} {"#att pos dr1":<13s} {"#tier1":<6s} {"#att pos dr2":<13s} {"#tier2":<6s} {"#pts1":<9s} {"#pts2":<9s} {"#pts sum":<9s}\n')
