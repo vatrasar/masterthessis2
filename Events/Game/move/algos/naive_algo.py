@@ -195,7 +195,7 @@ class Naive_Algo():
             if settings.learning_algo_type==Learning_algos.SA:
                 candidate_points=self.results_list.get_candidate_points_full_map(points_sum,self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"])
                 self.anneling_algorithm.un_register_attack(candidate_points,[self.current_attacks[0]["start postion"],self.current_attacks[1]["start postion"]],settings,self.results_list)
-
+                self.results_list.update_all_accepted(self.anneling_algorithm.all_accepted_results)
             if settings.learning:
 
                 if settings.learning_algo_type!=Learning_algos.SA:

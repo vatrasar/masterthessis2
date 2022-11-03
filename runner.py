@@ -126,6 +126,7 @@ class Runner():
         if self.settings.mode==Modes.LEARNING:
             self.result_tr_list.save_to_file(self.settings,self.reason_to_stop_simulation)
             self.result_tr_list.save_to_file_uav1(self.settings)
+
         else:
             self.result_file.save_to_file2(self.settings)
             self.result_file.save_to_file1(self.settings,self.reason_to_stop_simulation)

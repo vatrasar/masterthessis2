@@ -1,4 +1,4 @@
-from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes
+from Events.Game.move.algos.GameObjects.data_lists.tools.enum.enum_settings import Modes, Learning_algos
 from Events.Game.move.algos.GameObjects.data_lists.tools.other_tools import clear_folder
 import typing
 
@@ -37,6 +37,9 @@ class Result_record():
 
 def sort_results(e:Result_record):
     return e.points
+
+def sort_acording_to_temp(e:Result_record):
+    return e[2]
 class Avg_zone_info():
     def __init__(self):
         self.points=0
@@ -222,8 +225,11 @@ class Result_list():
 
         # file=open("./results/goals_of_attack.csv","w")
         #
+
         if self.settings.learning:
             self.result_list=self.get_list_of_best()
+            if self.settings.learning_algo_type==Learning_algos.SA:
+                self.result_list=self.get_winners_for_SA()
         self.sort_list()
 
         for record in self.result_list[0:10]:
@@ -595,4 +601,34 @@ class Result_list():
             hits=self.full_map_of_goals[zone2][zone1].number_of_hits3
 
         return (old_points*hits +points_sum/2.0)/(hits+1.0)
+
+    def update_all_accepted(self, all_accepted_results):
+        self.all_accepted_results=all_accepted_results
+
+    def get_winners_for_SA(self):
+        list_of_accepted_with_temperature=list(filter(lambda x:x[2]<self.settings.winner_temperature,self.all_accepted_results))
+        set_accepted_with_temperature={}
+        list_of_accepted_with_temperature.sort(key=sort_acording_to_temp)
+        for record in list_of_accepted_with_temperature:
+            zones=(record[0],record[1])
+            set_accepted_with_temperature.update({zones:6})
+
+        list_of_accepted_above_temperature=list(filter(lambda x:x[2]>=self.settings.winner_temperature,self.all_accepted_results))
+        list_of_accepted_above_temperature.sort(key=sort_acording_to_temp)
+
+        while len(set_accepted_with_temperature.keys())<10:
+            new_record=list_of_accepted_above_temperature[0]
+            zones=(new_record[0],new_record[1])
+            set_accepted_with_temperature.update({zones:6})
+            list_of_accepted_above_temperature.remove(new_record)
+
+        list_of_zones=set_accepted_with_temperature.keys()
+        results_list=[]
+        for zones in list_of_zones:
+            results_list.append(self.full_map_of_goals[zones[0]][zones[1]])
+
+        results_list.sort(key=sort_results)
+        return results_list
+
+
 

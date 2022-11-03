@@ -11,6 +11,9 @@ from Events.Game.move.check import check_if_cell_is_on_map
 from Events.Game.move.get_position import get_random_position_on_tier1
 import typing
 
+from Events.Game.move.zones import get_zone_index
+
+
 class Annealing_Algo():
     def __init__(self,settings:Settings,rand:Random):
 
@@ -31,6 +34,7 @@ class Annealing_Algo():
         self.av_pts_new=0
         self.diff=0
         self.is_rand_choose=False
+        self.all_accepted_results=[]
         if rand!=None:
             self.randm_np=np.random.RandomState()
             self.randm_np.seed(rand.randint(0,200000))
@@ -73,8 +77,13 @@ class Annealing_Algo():
             self.last_decison=1
 
             self.current_result={"position":candidate_positions,"points":candidate_points}
+            z1=get_zone_index(settings,candidate_positions[0].x)
+            z2=get_zone_index(settings,candidate_positions[1].x)
+            self.all_accepted_results.append((z1,z2,self.temperature))
         else:
             self.not_accepted_counter=self.not_accepted_counter+1
+
+
 
 
 
