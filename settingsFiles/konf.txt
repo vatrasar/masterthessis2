@@ -14,10 +14,10 @@ operation_mode_cases=10
 #                                                     13: debug A2 (ręce pozostają na pozycjach startowych i się nie poruszają
 debug=0
 #możliwe wartości: 0 - plik debug.txt nie jest tworzony, 1 - plik debug.txt jest tworzony
-learning_algo_type=SA
+learning_algo_type=RS
 #typ algorytmu, który wykorzystujemy podczas uczenia; możliwe wartości: RS,
 #                                                                       SA
-exploitation_type=epsilon-LA
+exploitation_type=random
 #rodzaj eksploatacji;  możliwe wartości: epsilon-LA,
 #                                       wheel_roulette,
 #                                       best,
@@ -53,7 +53,7 @@ naive algo list limit=20
 #pojemność pamięci w algorytmie normal operating; wartości całkowite, większe od 0
 temperature=100
 #temperatura z algorytmu wyżarzania; wartości większe od 1
-winner_temperature=2
+winner_temperature=1.5
 #temperatura, po której osiągnięciu zaakceptowane rozwiązania sa brane pod uwagę przy wyborze akcji dla pliku goals of attack;wartości wieksze od 0
 temperature_reduction=0.97
 # alpha czyli współczynnik redukcji temperatury algorytmu wyżarzania; wartości z przedziału (0,1)
@@ -104,7 +104,7 @@ safe_distance_ratio=2.1
 #jest podczas unikania kolizji; Watości większe od 0
 ### HANDS PARAMETERS
 #
-hands_number=0
+hands_number=2
 #liczba rąk w symulacji; możliwe wartości to 0,1,2
 hand_size=20 
 #Rozmiar ręki; wartość całkowite, powyżej 0
@@ -127,7 +127,7 @@ blind_angle=20
 # wyrażony w stopniach maksymalny kąt pomiędzy uav, przy którym intruz jest zdolny do jednoczesnej reakcji na działania obydwu uav; wartości z przedziału (0,180)
 intruder_time_of_reaction=5 
 # czas co jaki intruz aktualizuje swoją strategię; wartości całkowite, powyżej 0
-intruder_max_energy=30000
+intruder_max_energy=50000
 #początkowa energia intruza; wartości całkowite, powyżej 0
 intruder_energy_cost_jump=1
 # zużycie energii intruza na jednostkę czasu podczas skoku; wartości powyżej 0
@@ -140,7 +140,7 @@ intruder_energy_cost_of_reaction=5
 #
 itertions_without_progress_to_stop=10000
 #jeśli przez podaną liczbę iteracji algorytm nie odnotuje żadnej poprawy to zakończy działanie (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
-T=500000
+T=50000
 #liczba jednostek czasu, do zakończenia symulacji(działa zarówno w trybie uczenia jak i eksploatacji); wartości powyżej 0
 iterations_for_learning=10000
 #liczba iteracji po której osiągnięciu kończy się proces uczenia (działa tylko w trybie uczenia); wartości całkowite, powyżej 0
@@ -173,7 +173,7 @@ show_safe_space=1
 seed_clock=1
 #możliwe wartości: 1 - seed jest wybierany z zegara,
 #                  0 - wartość seed jest ustawiana w pliku konf(we właściwość seed)
-seed=1666640008
+seed=1667512913
 #ziarno generatora liczb losowych; wartości całkowite, powyżej zera
 #
 #

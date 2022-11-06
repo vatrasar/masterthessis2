@@ -281,84 +281,43 @@ class Result_list():
         file.close()
 
 
-        if self.settings.learning:
-            file2=open("./results/goals_of_attack_all_results.txt","w")
-            file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg multiple hits":<11s}\n')
-            file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
-            for result in self.result_list:
 
-                file2.write(f'{result.position1:<9s} {result.position2:<9s} {int(result.zone1)+1:<5d} {int(result.zone2)+1:<5d} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
-            file2.close()
+        file2=open("./results/goals_of_attack_all_results.txt","w")
+        file2.write(f'{"#pos1":<9s} {"pos2":<9s} {"z1":<5s} {"z2":<5s} {"rew1":<9s} {"rew2":<9s} {"rew sum":<11s} {"tier uav1":<11s} {"tier uav2":<11s} {"rew avg multiple hits":<11s}\n')
+        file2.write(f'{"#1":<9s} {"2":<9s} {"3":<5s} {"4":<5s} {"5":<9s} {"6":<9s} {"7":<11s} {"8":<11s} {"9":<11s} {"10":<11s}\n')
+        for result in self.result_list:
+
+            file2.write(f'{result.position1:<9s} {result.position2:<9s} {int(result.zone1)+1:<5d} {int(result.zone2)+1:<5d} {result.reward1:<9.2f} {result.reward2:<9.2f} {result.best_points:<11.2f} {int(result.tier1):<11d} {int(result.tier2) :<11d} {result.points:<11.2f}\n')
+        file2.close()
 
 
-            file3=open("./results/max_av_reward.txt","w")
-            file3.write(f'{"#zone id":<9s}')
-            for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i+1:<9d}')
+        file3=open("./results/max_av_reward.txt","w")
+        file3.write(f'{"#zone id":<9s}')
+        for i in range(len(self.full_map_of_goals)):
+            file3.write(f'{i+1:<9d}')
+        file3.write("\n")
+        for i in range(len(self.full_map_of_goals)):
+            file3.write(f'{i+1:<9d}')
+            for p in range(len(self.full_map_of_goals)):
+                if p<=i:
+                    file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
+                else:
+                    file3.write(f'{self.full_map_of_goals[p][i].points:<9.2f}')
             file3.write("\n")
-            for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i+1:<9d}')
-                for p in range(len(self.full_map_of_goals)):
-                    if p<=i:
-                        file3.write(f'{self.full_map_of_goals[i][p].points:<9.2f}')
-                    else:
-                        file3.write(f'{self.full_map_of_goals[p][i].points:<9.2f}')
-                file3.write("\n")
 
-            file3.close()
+        file3.close()
 
-            file4=open("./results/best_tier_id.txt","w")
-            file4.write(f'{"#zone id":<9s}')
-            for i in range(len(self.full_map_of_goals)):
-                file4.write(f'{i+1:<9d}')
-            file4.write("\n")
-            for i in range(len(self.full_map_of_goals)):
-                file4.write(f'{i+1:<9d}')
-                for p in range(len(self.full_map_of_goals)):
-                    if (self.full_map_of_goals[i][p].number_of_hits3==0 and self.full_map_of_goals[p][i].number_of_hits3==0):
-                        file4.write(f'{"-":<9s}')
-                    else:
-                        if not p>i:
-                            if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
-                                file4.write(f'{"1":<9s}')
-                            else:
-                                file4.write(f'{"2":<9s}')
-                        else:
-                            if self.full_map_of_goals[p][i].avg_iter1>self.full_map_of_goals[p][i].avg_iter2:
-                                file4.write(f'{"1":<9s}')
-                            else:
-                                file4.write(f'{"2":<9s}')
-                file4.write("\n")
-
-            file4.close()
-
-            file3=open("./results/zones_hits.txt","w")
-            file3.write(f'{"#zone id":<9s}')
-            for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i+1:<9d}')
-            file3.write("\n")
-            for i in range(len(self.full_map_of_goals)):
-                file3.write(f'{i+1:<9d}')
-                for p in range(len(self.full_map_of_goals)):
-                    if p<=i:
-                        file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}')
-                    else:
-                        file3.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}')
-
-                file3.write("\n")
-
-            file3.close()
-
-            file4=open("./results/best_tier_id3D.dat","w")
-            file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
-            file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
-
-            for i in range(len(self.full_map_of_goals)):
-
-                for p in range(len(self.full_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file4.write(f'{i+1:<9d} {p+1:<9d} ')
-
+        file4=open("./results/best_tier_id.txt","w")
+        file4.write(f'{"#zone id":<9s}')
+        for i in range(len(self.full_map_of_goals)):
+            file4.write(f'{i+1:<9d}')
+        file4.write("\n")
+        for i in range(len(self.full_map_of_goals)):
+            file4.write(f'{i+1:<9d}')
+            for p in range(len(self.full_map_of_goals)):
+                if (self.full_map_of_goals[i][p].number_of_hits3==0 and self.full_map_of_goals[p][i].number_of_hits3==0):
+                    file4.write(f'{"-":<9s}')
+                else:
                     if not p>i:
                         if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
                             file4.write(f'{"1":<9s}')
@@ -369,92 +328,86 @@ class Result_list():
                             file4.write(f'{"1":<9s}')
                         else:
                             file4.write(f'{"2":<9s}')
-                    file4.write('\n')
+            file4.write("\n")
+
+        file4.close()
+
+        file3=open("./results/zones_hits.txt","w")
+        file3.write(f'{"#zone id":<9s}')
+        for i in range(len(self.full_map_of_goals)):
+            file3.write(f'{i+1:<9d}')
+        file3.write("\n")
+        for i in range(len(self.full_map_of_goals)):
+            file3.write(f'{i+1:<9d}')
+            for p in range(len(self.full_map_of_goals)):
+                if p<=i:
+                    file3.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}')
+                else:
+                    file3.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}')
+
+            file3.write("\n")
+
+        file3.close()
+
+        file4=open("./results/best_tier_id3D.dat","w")
+        file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+        file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+        for i in range(len(self.full_map_of_goals)):
+
+            for p in range(len(self.full_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file4.write(f'{i+1:<9d} {p+1:<9d} ')
+
+                if not p>i:
+                    if self.full_map_of_goals[i][p].avg_iter1>self.full_map_of_goals[i][p].avg_iter2:
+                        file4.write(f'{"1":<9s}')
+                    else:
+                        file4.write(f'{"2":<9s}')
+                else:
+                    if self.full_map_of_goals[p][i].avg_iter1>self.full_map_of_goals[p][i].avg_iter2:
+                        file4.write(f'{"1":<9s}')
+                    else:
+                        file4.write(f'{"2":<9s}')
                 file4.write('\n')
+            file4.write('\n')
 
 
-            file4.close()
+        file4.close()
 
 
 
 
 
-            file4=open("./results/winner_best_tier_id3D.dat","w")
-            file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
-            file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+        file4=open("./results/winner_best_tier_id3D.dat","w")
+        file4.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+        file4.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
 
-            for i in range(len(self.winner_map_of_goals)):
+        for i in range(len(self.winner_map_of_goals)):
 
-                for p in range(len(self.winner_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file4.write(f'{i+1:<9d} {p+1:<9d} ')
+            for p in range(len(self.winner_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file4.write(f'{i+1:<9d} {p+1:<9d} ')
 
-                    if not p>i:
-                        if self.winner_map_of_goals[i][p].number_of_hits3==0:
-                            file4.write(f'{"0":<9s}')
-                        elif self.winner_map_of_goals[i][p].avg_iter1>self.winner_map_of_goals[i][p].avg_iter2:
-                            file4.write(f'{"1":<9s}')
-                        else:
-                            file4.write(f'{"2":<9s}')
+                if not p>i:
+                    if self.winner_map_of_goals[i][p].number_of_hits3==0:
+                        file4.write(f'{"0":<9s}')
+                    elif self.winner_map_of_goals[i][p].avg_iter1>self.winner_map_of_goals[i][p].avg_iter2:
+                        file4.write(f'{"1":<9s}')
                     else:
-                        if self.winner_map_of_goals[i][p].number_of_hits3==0:
-                            file4.write(f'{"0":<9s}')
-                        elif self.winner_map_of_goals[p][i].avg_iter1>self.winner_map_of_goals[p][i].avg_iter2:
-                            file4.write(f'{"1":<9s}')
-                        else:
-                            file4.write(f'{"2":<9s}')
-                    file4.write('\n')
+                        file4.write(f'{"2":<9s}')
+                else:
+                    if self.winner_map_of_goals[i][p].number_of_hits3==0:
+                        file4.write(f'{"0":<9s}')
+                    elif self.winner_map_of_goals[p][i].avg_iter1>self.winner_map_of_goals[p][i].avg_iter2:
+                        file4.write(f'{"1":<9s}')
+                    else:
+                        file4.write(f'{"2":<9s}')
                 file4.write('\n')
+            file4.write('\n')
 
 
-            file4.close()
-
-
-
-
-
-
-
-
-            file6=open("./results/max_av_reward3D.dat","w")
-            file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
-            file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
-
-            for i in range(len(self.full_map_of_goals)):
-
-                for p in range(len(self.full_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file6.write(f'{i+1:<9d} {p+1:<9d} ')
-                    if p<=i:
-                        file6.write(f'{self.full_map_of_goals[i][p].points:<9.2f}\n')
-                    else:
-                        file6.write(f'{self.full_map_of_goals[p][i].points:<9.2f}\n')
-                file6.write('\n')
-
-
-            file6.close()
-
-
-
-
-
-            file6=open("./results/winner_max_av_reward3D.dat","w")
-            file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
-            file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
-
-            for i in range(len(self.winner_map_of_goals)):
-
-                for p in range(len(self.winner_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file6.write(f'{i+1:<9d} {p+1:<9d} ')
-                    if p<=i:
-                        file6.write(f'{self.winner_map_of_goals[i][p].points:<9.2f}\n')
-                    else:
-                        file6.write(f'{self.winner_map_of_goals[p][i].points:<9.2f}\n')
-                file6.write('\n')
-
-
-            file6.close()
+        file4.close()
 
 
 
@@ -462,47 +415,94 @@ class Result_list():
 
 
 
-            file5=open("./results/zones_hits3D.dat","w")
-            file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
-            file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
 
-            for i in range(len(self.full_map_of_goals)):
+        file6=open("./results/max_av_reward3D.dat","w")
+        file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+        file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
 
-                for p in range(len(self.full_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file5.write(f'{i+1:<9d} {p+1:<9d} ')
-                    if p<=i:
-                        file5.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    else:
-                        file5.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
-                file5.write('\n')
+        for i in range(len(self.full_map_of_goals)):
 
-
-            file4.close()
+            for p in range(len(self.full_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file6.write(f'{i+1:<9d} {p+1:<9d} ')
+                if p<=i:
+                    file6.write(f'{self.full_map_of_goals[i][p].points:<9.2f}\n')
+                else:
+                    file6.write(f'{self.full_map_of_goals[p][i].points:<9.2f}\n')
+            file6.write('\n')
 
 
-
+        file6.close()
 
 
 
 
-            file5=open("./results/winner_zones_hits3D.dat","w")
-            file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
-            file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
 
-            for i in range(len(self.winner_map_of_goals)):
+        file6=open("./results/winner_max_av_reward3D.dat","w")
+        file6.write(f'{"#z1":<9s} {"z2":<9s} {"av points":<9s}\n')
+        file6.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
 
-                for p in range(len(self.winner_map_of_goals)):
-                    # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    file5.write(f'{i+1:<9d} {p+1:<9d} ')
-                    if p<=i:
-                        file5.write(f'{self.winner_map_of_goals[i][p].number_of_hits3:<9d}\n')
-                    else:
-                        file5.write(f'{self.winner_map_of_goals[p][i].number_of_hits3:<9d}\n')
-                file5.write('\n')
+        for i in range(len(self.winner_map_of_goals)):
+
+            for p in range(len(self.winner_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file6.write(f'{i+1:<9d} {p+1:<9d} ')
+                if p<=i:
+                    file6.write(f'{self.winner_map_of_goals[i][p].points:<9.2f}\n')
+                else:
+                    file6.write(f'{self.winner_map_of_goals[p][i].points:<9.2f}\n')
+            file6.write('\n')
 
 
-            file4.close()
+        file6.close()
+
+
+
+
+
+
+
+        file5=open("./results/zones_hits3D.dat","w")
+        file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
+        file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+        for i in range(len(self.full_map_of_goals)):
+
+            for p in range(len(self.full_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file5.write(f'{i+1:<9d} {p+1:<9d} ')
+                if p<=i:
+                    file5.write(f'{self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                else:
+                    file5.write(f'{self.full_map_of_goals[p][i].number_of_hits3:<9d}\n')
+            file5.write('\n')
+
+
+        file4.close()
+
+
+
+
+
+
+
+        file5=open("./results/winner_zones_hits3D.dat","w")
+        file5.write(f'{"#z1":<9s} {"z2":<9s} {"hits":<9s}\n')
+        file5.write(f'{"#1":<9s} {2:<9d} {3:<9d}\n')
+
+        for i in range(len(self.winner_map_of_goals)):
+
+            for p in range(len(self.winner_map_of_goals)):
+                # file4.write(f'{i:<9d} {i:<9d} {self.full_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                file5.write(f'{i+1:<9d} {p+1:<9d} ')
+                if p<=i:
+                    file5.write(f'{self.winner_map_of_goals[i][p].number_of_hits3:<9d}\n')
+                else:
+                    file5.write(f'{self.winner_map_of_goals[p][i].number_of_hits3:<9d}\n')
+            file5.write('\n')
+
+
+        file4.close()
 
     def save_to_file_with_action(self):
 
@@ -625,7 +625,11 @@ class Result_list():
         list_of_zones=set_accepted_with_temperature.keys()
         results_list=[]
         for zones in list_of_zones:
-            results_list.append(self.full_map_of_goals[zones[0]][zones[1]])
+            if zones[0]<zones[1]:
+
+                results_list.append(self.full_map_of_goals[zones[1]][zones[0]])
+            else:
+                results_list.append(self.full_map_of_goals[zones[0]][zones[1]])
 
         results_list.sort(key=sort_results)
         return results_list

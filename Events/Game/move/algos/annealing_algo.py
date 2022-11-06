@@ -79,6 +79,10 @@ class Annealing_Algo():
             self.current_result={"position":candidate_positions,"points":candidate_points}
             z1=get_zone_index(settings,candidate_positions[0].x)
             z2=get_zone_index(settings,candidate_positions[1].x)
+            if z1<z2:
+                temp=z1
+                z1=z2
+                z2=temp
             self.all_accepted_results.append((z1,z2,self.temperature))
         else:
             self.not_accepted_counter=self.not_accepted_counter+1
